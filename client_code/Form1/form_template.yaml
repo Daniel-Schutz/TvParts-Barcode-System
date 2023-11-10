@@ -71,7 +71,7 @@ components:
     components: []
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: Chez Anvil, font_size: null, font: Satisfy, spacing_above: small, icon_align: left,
+    text: SnapQode, font_size: null, font: Times, spacing_above: small, icon_align: left,
     spacing_below: small, italic: false, background: '', bold: false, underline: false,
     icon: ''}
   name: label_1
