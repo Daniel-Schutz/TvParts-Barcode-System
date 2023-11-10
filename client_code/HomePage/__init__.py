@@ -5,13 +5,8 @@ import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-#from ..BookATime import BookATime
-#from ..ChooseRole import ChooseRole
 from ..EntryComponents.ChooseRole import ChooseRole
 from ..AdminSettings import AdminSettings
-# from ..MyBookings import MyBookings
-# from ..AllBookings import AllBookings
-from ..BookATime import BookATime
 
 
 class HomePage(HomePageTemplate):
@@ -40,15 +35,17 @@ class HomePage(HomePageTemplate):
     """This method is called when the link is clicked"""
     anvil.users.login_with_form()
     self.role_navigation()
-    open_form('HomePage')
+    #open_form('HomePage')
 
   def role_navigation(self):
     if anvil.users.get_user():
       user_role = anvil.server.call('get_user_role')
       if user_role is None:
         self.content_panel.add_component(ChooseRole(), full_width_row=True)
+        self.show_links()
       else:
         print("The Logged in user has the role:", user_role)
+        self.show_links()
       
 
   def settings_link_click(self, **event_args):

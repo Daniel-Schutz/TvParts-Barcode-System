@@ -100,4 +100,15 @@ db_schema:
     - name: day
       admin_ui: {width: 200}
       type: string
+  mocksuppliers:
+    client: none
+    server: full
+    columns:
+    - name: supplier_ID
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: supplier_name
+      admin_ui: {width: 200, order: 1}
+      type: string
+    title: MockSuppliers
 uplink_visible: true

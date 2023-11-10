@@ -5,10 +5,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
-#Module Imports
-from . import Usertable
-from . import MockTables
-
 # This is a server package. It runs on the Anvil server,
 # rather than in the user's browser.
 #
