@@ -6,10 +6,11 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 #from ..BookATime import BookATime
-from ..ChooseRole import ChooseRole
+#from ..ChooseRole import ChooseRole
+from ..EntryComponents.ChooseRole import ChooseRole
 from ..AdminSettings import AdminSettings
-from ..MyBookings import MyBookings
-from ..AllBookings import AllBookings
+# from ..MyBookings import MyBookings
+# from ..AllBookings import AllBookings
 from ..BookATime import BookATime
 
 
@@ -17,7 +18,7 @@ class HomePage(HomePageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.content_panel.add_component(ChooseRole(), full_width_row=True)
+    #self.content_panel.add_component(ChooseRole(), full_width_row=True)
     self.show_links()
   
   def show_links(self):
@@ -30,28 +31,25 @@ class HomePage(HomePageTemplate):
         self.settings_link.visible = True
 
 
-  def link_2_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    self.content_panel.clear()
-    self.content_panel.add_component(BookATime(), full_width_row=True)
-
   def sign_out_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     anvil.users.logout()
-    open_form('Form1')
+    open_form('HomePage')
 
   def sign_in_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     anvil.users.login_with_form()
-    open_form('Form1')
+    self.role_navigation()
+    open_form('HomePage')
 
-  def bookings_link_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    get_open_form().content_panel.clear()
-    if anvil.server.call('check_admin'):
-      get_open_form().content_panel.add_component(AllBookings())
-    else:
-      get_open_form().content_panel.add_component(MyBookings())
+  def role_navigation(self):
+    if anvil.users.get_user():
+      user_role = anvil.server.call('get_user_role')
+      if user_role is None:
+        self.content_panel.add_component(ChooseRole(), full_width_row=True)
+      else:
+        print("The Logged in user has the role:", user_role)
+      
 
   def settings_link_click(self, **event_args):
     """This method is called when the link is clicked"""
@@ -59,13 +57,23 @@ class HomePage(HomePageTemplate):
       get_open_form().content_panel.clear()
       get_open_form().content_panel.add_component(AdminSettings())
 
-  def make_booking_link_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    self.link_2_click()
 
 
 
 
+  # def link_2_click(self, **event_args):
+  #   """This method is called when the link is clicked"""
+  #   self.content_panel.clear()
+  #   self.content_panel.add_component(BookATime(), full_width_row=True)
 
+  # def bookings_link_click(self, **event_args):
+  #   """This method is called when the link is clicked"""
+  #   get_open_form().content_panel.clear()
+  #   if anvil.server.call('check_admin'):
+  #     get_open_form().content_panel.add_component(AllBookings())
+  #   else:
+  #     get_open_form().content_panel.add_component(MyBookings())
 
-
+  # def make_booking_link_click(self, **event_args):
+  #   """This method is called when the link is clicked"""
+  #   self.link_2_click()
