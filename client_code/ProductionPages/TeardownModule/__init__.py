@@ -13,4 +13,8 @@ class TeardownModule(TeardownModuleTemplate):
     self.init_components(**properties)
     self.selected_role = None
 
- 
+  def mock_get_suppliers(self):
+    pass
+
+  def get_suppliers(self):
+    pass
