@@ -1,23 +1,23 @@
-from ._anvil_designer import Form1Template
+from ._anvil_designer import HomePageTemplate
 from anvil import *
 import anvil.users
 import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ..BookATime import BookATime
+#from ..BookATime import BookATime
+from ..ChooseRole import ChooseRole
 from ..AdminSettings import AdminSettings
 from ..MyBookings import MyBookings
 from ..AllBookings import AllBookings
 from ..BookATime import BookATime
 
 
-class Form1(Form1Template):
-
+class HomePage(HomePageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.content_panel.add_component(BookATime(), full_width_row=True)
+    self.content_panel.add_component(ChooseRole(), full_width_row=True)
     self.show_links()
   
   def show_links(self):
