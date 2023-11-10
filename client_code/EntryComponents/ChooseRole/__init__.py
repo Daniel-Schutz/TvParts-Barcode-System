@@ -41,12 +41,10 @@ class ChooseRole(ChooseRoleTemplate):
     """This method is called when the button is clicked"""
     if self.selected_role:
       anvil.server.call('set_user_role', self.selected_role)
-      #Temporarily, to test role selection
-      open_form('HomePage')
+      self.remove_from_parent()
     else:
       anvil.alert('Please select a role.')
-
-
+    
 
 
 

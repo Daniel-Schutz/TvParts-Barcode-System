@@ -19,3 +19,5 @@ class TeardownModule(TeardownModuleTemplate):
     
   def get_suppliers(self):
     pass
+
+######### COMPONENT EVENTS ############################
