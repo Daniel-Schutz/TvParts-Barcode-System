@@ -1,0 +1,22 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"GRDAQL":50,"RIYFVT":10}'}
+components:
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: '', font_size: 16, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'QRTHVJ,GRDAQL'}
+  data_bindings:
+  - {property: text, code: 'self.item[''datetime''].strftime("%A %d %b %Y at %I:%M
+      %p")'}
+- type: Button
+  properties: {role: null, align: left, tooltip: '', border: '', enabled: true, foreground: '',
+    visible: true, text: '', font_size: 16, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: false, underline: false,
+    icon: 'fa:trash-o'}
+  name: delete_button
+  layout_properties: {grid_position: 'QRTHVJ,RIYFVT'}
+  event_bindings: {click: delete_button_click}
+is_package: true

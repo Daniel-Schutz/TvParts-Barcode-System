@@ -1,0 +1,114 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {role: card, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"ESLDFJ":15,"MUVBWR":45}',
+    spacing_below: small, background: 'theme:Gray 200'}
+  name: column_panel_1
+  layout_properties: {grid_position: 'VTGTKZ,FMPNSK'}
+  components:
+  - type: Label
+    properties: {role: headline, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Upcoming Bookings, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'IJNJZS,YGGPFI'}
+  - type: DropDown
+    properties:
+      role: null
+      align: full
+      tooltip: ''
+      placeholder: ''
+      border: ''
+      enabled: true
+      foreground: ''
+      items: ['']
+      visible: true
+      font_size: 14
+      font: ''
+      spacing_above: small
+      spacing_below: small
+      italic: false
+      background: ''
+      bold: false
+      underline: false
+      include_placeholder: false
+    name: sort_drop
+    layout_properties: {grid_position: 'DAROIG,ESLDFJ'}
+    event_bindings: {change: sort_drop_change}
+  - type: Spacer
+    properties: {height: 58}
+    name: spacer_1
+    layout_properties: {grid_position: 'DAROIG,MUVBWR'}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: NTQNMW, title: Name, data_key: '', $$hashKey: 'object:51258', expand: false,
+        width: ''}
+      - {id: QTEDLQ, title: Date, data_key: '', $$hashKey: 'object:51259'}
+      - {id: JNIADK, title: Contact, data_key: '', $$hashKey: 'object:51260'}
+      - {id: RNNJUJ, title: '', data_key: column_1, $$hashKey: 'object:78804', width: '40'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 20
+      visible: true
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_grid_1
+    layout_properties: {grid_position: 'RCZUXD,EEQTTL'}
+    components:
+    - type: RepeatingPanel
+      properties: {spacing_above: none, spacing_below: none, item_template: AllBookings.RowTemplate1}
+      name: repeating_panel_1
+      layout_properties: {}
+- type: Spacer
+  properties: {height: 44}
+  name: spacer_2
+  layout_properties: {grid_position: 'VZJCKD,ABQSOO'}
+- type: ColumnPanel
+  properties: {role: card, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: 'theme:Gray 200'}
+  name: card_1
+  layout_properties: {grid_position: 'QTBKNF,PVUGWP'}
+  components:
+  - type: Label
+    properties: {role: headline, align: left, tooltip: '', border: '', foreground: 'theme:Gray
+        600', visible: true, text: Past Bookings, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'GZOAAL,ZWIRDK'}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: PBAPEQ, title: Name, data_key: column_1, $$hashKey: 'object:125255'}
+      - {id: UDRHDK, title: Date, data_key: column_2, $$hashKey: 'object:125256'}
+      - {id: RIFOJL, title: Contact, data_key: column_3, $$hashKey: 'object:125257'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: theme:Gray 600
+      rows_per_page: 20
+      visible: true
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_grid_2
+    layout_properties: {grid_position: 'NVYOGW,TGLEZH'}
+    components:
+    - type: RepeatingPanel
+      properties: {spacing_above: none, spacing_below: none, item_template: AllBookings.RowTemplate2}
+      name: repeating_panel_2
+      layout_properties: {}
+is_package: true

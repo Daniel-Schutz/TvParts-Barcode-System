@@ -1,0 +1,65 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"ELGHTE":10,"TLNPFA":50,"PYGPVT":10,"LJHPLZ":50}'}
+components:
+- type: Label
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+    visible: true, text: 'Make a booking for:', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_2
+  layout_properties:
+    col_widths: {}
+    grid_position: AYYPUH,XQVQQU
+- type: Label
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+    visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: datetime_label
+  layout_properties:
+    col_widths: {}
+    grid_position: GCDDAZ,NYLXOV
+  data_bindings: []
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Customer Name:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: false, underline: false,
+    icon: ''}
+  name: label_3
+  layout_properties: {grid_position: 'JXOTLS,ELGHTE'}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: name_box
+  layout_properties: {slot: name box, width: 530, grid_position: 'JXOTLS,TLNPFA'}
+  data_bindings:
+  - {property: text, code: 'self.item[''name'']', writeback: true}
+- type: Label
+  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
+    text: 'Customer Email:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: false, underline: false,
+    icon: ''}
+  name: email_label
+  layout_properties: {grid_position: 'OJAQVO,PYGPVT'}
+- type: TextBox
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
+  name: email_box
+  layout_properties: {slot: email box, width: 530, grid_position: 'OJAQVO,LJHPLZ'}
+  data_bindings:
+  - {property: text, code: 'self.item[''email'']', writeback: true}
+- type: Label
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: red,
+    visible: true, text: '', font_size: null, font: '', spacing_above: small, icon_align: left,
+    spacing_below: small, italic: false, background: '', bold: true, underline: false,
+    icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'HSVDTL,ECWCGO'}
+  data_bindings:
+  - {property: text, code: 'self.item[''error'']'}
+is_package: true
