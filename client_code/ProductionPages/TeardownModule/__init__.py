@@ -11,10 +11,11 @@ class TeardownModule(TeardownModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.selected_role = None
+    suppliers = self.mock_get_suppliers()
+    self.supplier_dropdown.items = suppliers
 
   def mock_get_suppliers(self):
-    pass
-
+    supplier_tuples = anvil.server.call('get_supplier_dropdown')
+    
   def get_suppliers(self):
     pass

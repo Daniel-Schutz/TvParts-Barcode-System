@@ -38,6 +38,9 @@ class HomePage(HomePageTemplate):
     #open_form('HomePage')
 
   def role_navigation(self):
+    #Navigation Key maps role types to page loads
+    navigation_key = {"Teardown": "TeardownModule"}
+    
     if anvil.users.get_user():
       user_role = anvil.server.call('get_user_role')
       if user_role is None:
