@@ -21,9 +21,15 @@ name: SnapQode QR Code System
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
 metadata: {title: SnapQode, logo_img: 'asset:tvbot_square.png'}
 startup_form: null
-native_deps: {head_html: '<link rel="preconnect" href="https://fonts.gstatic.com">
-
-    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">'}
+native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\"\
+    >\n<link href=\"https://fonts.googleapis.com/css2?family=Satisfy&display=swap\"\
+    \ rel=\"stylesheet\">\n\n<script>\n  function printImage(url) {\n    var win =\
+    \ window.open('');\n    var img = new Image();\n    img.onload = function() {\n\
+    \      win.document.write('<html><head><title>Print</title></head><body><img src=\"\
+    ' + url + '\"></body></html>');\n      win.document.close();\n      win.focus();\n\
+    \      win.print();\n      win.close();\n    };\n    img.onerror = function()\
+    \ {\n      win.alert('Image failed to load.');\n      win.close();\n    };\n \
+    \   img.src = url;\n  }\n</script>"}
 db_schema:
   settings:
     title: Settings

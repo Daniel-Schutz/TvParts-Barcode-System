@@ -31,3 +31,4 @@ def generate_qr_code(wait_time=0, **kwargs):
     if wait_time > 3:
       raise Exception("Api Error at Generate QR Code.")
     generate_qr_code(item_info_json, wait_time=wait_time)
+

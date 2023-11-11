@@ -83,4 +83,5 @@ components:
     properties: {text: PRINT LABEL, role: primary-color, bold: true, font: '', font_size: 25}
     type: Button
     layout_properties: {grid_position: 'TEEDVJ,SYQUUP'}
+    event_bindings: {click: create_barcode_button_click}
 is_package: true
