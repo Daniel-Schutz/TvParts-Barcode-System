@@ -9,6 +9,7 @@ from anvil.tables import app_tables
 from ..EntryComponents.ChooseRole import ChooseRole
 from ..AdminSettings import AdminSettings
 from ..ProductionPages import TeardownModule
+from ..ProductionPages.Temp_ServerTest import Temp_ServerTest
 
 
 class HomePage(HomePageTemplate):
@@ -23,11 +24,23 @@ class HomePage(HomePageTemplate):
 
 ########## MAIN #############################
   def show_links(self):
-    if anvil.users.get_user():
+    print("show_links called")
+    user = anvil.users.get_user()
+    print(f"User logged in: {user is not None}")
+    if user:
       self.sign_out_link.visible = True
       self.sign_in_link.visible = False
+      self.test_area.visible = True
+      print(f"test_area visibility set to: {self.test_area.visible}")
       if anvil.server.call('check_admin'):
         self.settings_link.visible = True
+        
+        
+      # #This is for me (Issac) to get to my testing page
+      # user = anvil.users.get_user()
+      # user_email = user['email']
+      # if user_email == 'issac@getautonomi.com':
+        
 
   def role_navigation(self):
     user = anvil.users.get_user()
@@ -61,4 +74,9 @@ class HomePage(HomePageTemplate):
     """This method is called when the link is clicked"""
     anvil.users.login_with_form()
     self.role_navigation()
+    self.show_links()
     #open_form('HomePage')
+
+  def test_area_click(self, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(Temp_ServerTest(), full_width_row=True)

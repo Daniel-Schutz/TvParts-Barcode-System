@@ -27,9 +27,8 @@ native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.
     \ window.open('');\n    var img = new Image();\n    img.onload = function() {\n\
     \      win.document.write('<html><head><title>Print</title></head><body><img src=\"\
     ' + url + '\"></body></html>');\n      win.document.close();\n      win.focus();\n\
-    \      win.print();\n      win.close();\n    };\n    img.onerror = function()\
-    \ {\n      win.alert('Image failed to load.');\n      win.close();\n    };\n \
-    \   img.src = url;\n  }\n</script>"}
+    \      setTimeout(function() { win.print(); }, 500); // Delay to ensure the image\
+    \ is loaded\n    };\n    img.src = url;\n  }\n</script>"}
 db_schema:
   settings:
     title: Settings
