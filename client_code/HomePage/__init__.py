@@ -33,12 +33,9 @@ class HomePage(HomePageTemplate):
     user = anvil.users.get_user()
     if user is not None:
       self.route_to_role()
-      if user_role is None:
-        self.content_panel.add_component(ChooseRole(), full_width_row=True)
-      else:
-        print("The Logged in user has the role:", user_role)
-
-
+    else:
+      self.content_panel.add_component(ChooseRole(), full_width_row=True)
+    
   def role_router(self, user_role):
     if user_role == "Teardown":
       self.content_panel.add_component(TeardownModule(), full_width_row=True)
