@@ -5,8 +5,10 @@ import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+
 from ..EntryComponents.ChooseRole import ChooseRole
 from ..AdminSettings import AdminSettings
+from ..ProductionPages import TeardownModule
 
 
 class HomePage(HomePageTemplate):
@@ -14,6 +16,9 @@ class HomePage(HomePageTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.show_links()
+    if anvil.users.get_user():
+      self.route_to_role()
+      
 
 
 ########## MAIN #############################
@@ -27,17 +32,21 @@ class HomePage(HomePageTemplate):
   def role_navigation(self):
     user = anvil.users.get_user()
     if user is not None:
-      user_role = anvil.server.call('get_user_role')
+      self.route_to_role()
       if user_role is None:
         self.content_panel.add_component(ChooseRole(), full_width_row=True)
       else:
         print("The Logged in user has the role:", user_role)
 
 
-  def role_router(self, user_role, navigation_key):
+  def role_router(self, user_role):
     if user_role == "Teardown":
-      self.control_panel.add_component(TeardownModule(), full_width_row=True)
-    
+      self.content_panel.add_component(TeardownModule(), full_width_row=True)
+
+
+  def route_to_role(self):
+    user_role = anvil.server.call('get_user_role')
+    self.role_router(user_role)
 ######## HOME PAGE EVENTS ############################  
 
   def settings_link_click(self, **event_args):
