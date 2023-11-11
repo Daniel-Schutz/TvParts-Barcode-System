@@ -131,4 +131,62 @@ db_schema:
       admin_ui: {width: 200, order: 1}
       type: date
     title: MockTrucks
+  messages:
+    client: none
+    server: full
+    columns:
+    - name: message_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: user_from
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: role_from
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: role_to
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: message_body
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: associated_part
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: complete
+      admin_ui: {width: 200, order: 6}
+      type: bool
+    - name: resolution_notes
+      admin_ui: {width: 200, order: 7}
+      type: string
+    title: messages
+  mockproducts:
+    client: none
+    server: full
+    columns:
+    - name: product_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: product_name
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: bin_number
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: overstock_bin_number
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: product_price
+      admin_ui: {width: 200, order: 4}
+      type: number
+    - name: img_source_url
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: shopify_stock
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: barcode_stock
+      admin_ui: {width: 200, order: 7}
+      type: number
+    title: MockProducts
 uplink_visible: true
