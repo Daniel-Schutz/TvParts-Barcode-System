@@ -29,6 +29,11 @@ components:
     properties: {role: null}
     type: ColumnPanel
     layout_properties: {grid_position: 'KZOFAE,QYRJZO'}
+    components:
+    - name: add_supplier_button
+      properties: {text: 'ADD NEW SUPPLIER ', role: primary-color, align: center}
+      type: Button
+      layout_properties: {grid_position: 'BKVVCF,TVMDUS'}
   - name: column_panel_1
     properties: {}
     type: ColumnPanel
@@ -42,17 +47,22 @@ components:
       properties: {enabled: false, align: center}
       type: TextBox
       layout_properties: {grid_position: 'YEGCQE,WYMVLF'}
-    - name: generate_truck_id_button
-      properties: {text: GENERATE TRUCK ID, role: primary-color, align: left}
-      type: Button
-      layout_properties: {grid_position: 'YEGCQE,CQEPAS'}
-  - name: card_1
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'HCXIKT,XBVNIQ'}
-    components: []
+    - name: card_1
+      properties: {role: null}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'YEGCQE,JHXSZQ'}
+      components:
+      - name: generate_truck_id_button
+        properties: {text: cONTINUE TRUCK, role: primary-color, align: left}
+        type: Button
+        layout_properties: {grid_position: 'NCTLIW,PJTCRY'}
+      - name: create_new_truck
+        properties: {text: create Truck, role: primary-color}
+        type: Button
+        layout_properties: {grid_position: 'NCTLIW,HHQUFN'}
+        event_bindings: {click: create_new_truck_click}
   - name: create_barcode_button
-    properties: {text: PRINT LABEL, role: primary-color}
+    properties: {text: PRINT LABEL, role: primary-color, bold: true, font: '', font_size: 25}
     type: Button
     layout_properties: {grid_position: 'TEEDVJ,SYQUUP'}
 is_package: true

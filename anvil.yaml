@@ -110,5 +110,20 @@ db_schema:
     - name: supplier_name
       admin_ui: {width: 200, order: 1}
       type: string
+    - name: trucks
+      admin_ui: {width: 200, order: 2}
+      type: link_multiple
+      target: mocktrucks
     title: MockSuppliers
+  mocktrucks:
+    client: none
+    server: full
+    columns:
+    - name: truck_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: truck_created
+      admin_ui: {width: 200, order: 1}
+      type: date
+    title: MockTrucks
 uplink_visible: true

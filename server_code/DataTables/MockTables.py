@@ -9,3 +9,12 @@ import anvil.server
 def get_supplier_dropdown():
   results = app_tables.mocksuppliers.search()
   return [(row['supplier_ID'], row['supplier_name']) for row in results]
+
+@anvil.server.callable
+def get_unique_trucks():
+  results = results_tables.mocktrucks.search()
+  return list(set([row['truck_ID'] for row in results]))
+
+@anvil.server.callable
+def create_truck(truck_id, truck_created):
+  app_tables.mocktrucks.add_row(truck_id = truck_id, truck_created=truck_created)
