@@ -18,7 +18,7 @@ class HomePage(HomePageTemplate):
     self.init_components(**properties)
     self.show_links()
     if anvil.users.get_user():
-      self.route_to_role()
+      self.role_navigation()
       
 
 
@@ -44,7 +44,8 @@ class HomePage(HomePageTemplate):
 
   def role_navigation(self):
     user = anvil.users.get_user()
-    if user is not None:
+    user_role = anvil.server.call('get_user_role')
+    if user_role is not None:
       self.route_to_role()
     else:
       self.content_panel.add_component(ChooseRole(), full_width_row=True)

@@ -10,5 +10,8 @@ class SendMessages(SendMessagesTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.from_name_textbox.text = anvil.server.call('get_user_first_name')
+    self.from_role_textbox_name_textbox.text = anvil.server.call('get_user_role')
+    
 
     # Any code you write here will run before the form opens.

@@ -39,11 +39,22 @@ class ChooseRole(ChooseRoleTemplate):
 
   def submit_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    force_retry = False
     if self.selected_role:
-      anvil.server.call('set_user_role', self.selected_role)
-      self.remove_from_parent()
+      if self.first_name_entry.text:
+        if self.last_name_entry.text:
+          anvil.server.call('set_user_role', self.selected_role)
+          anvil.server.call('set_user_first_name', self.first_name_entry.text)
+          anvil.server.call('set_user_last_name', self.last_name_entry.text)
+          self.remove_from_parent()
+        else:
+          force_retry = True
+      else:
+        force_retry = True 
     else:
-      anvil.alert('Please select a role.')
+      force_retry = True
+    if force_retry:
+      anvil.alert("All values required.")
     
 
 

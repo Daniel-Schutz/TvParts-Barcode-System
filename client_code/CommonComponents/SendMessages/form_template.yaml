@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - name: card_1
-  properties: {role: card}
+  properties: {role: messages-background}
   type: ColumnPanel
   layout_properties: {grid_position: 'CHOEXH,YCKKRH'}
   components:
@@ -23,8 +23,8 @@ components:
       properties: {text: 'From Name:'}
       type: Label
       layout_properties: {}
-    - name: name_textbox
-      properties: {align: left}
+    - name: from_name_textbox
+      properties: {align: left, enabled: false}
       type: TextBox
       layout_properties: {}
   - name: flow_panel_2
@@ -37,7 +37,7 @@ components:
       type: Label
       layout_properties: {}
     - name: from_role_textbox
-      properties: {align: left}
+      properties: {align: left, visible: true, enabled: false}
       type: TextBox
       layout_properties: {}
   - name: card_3
