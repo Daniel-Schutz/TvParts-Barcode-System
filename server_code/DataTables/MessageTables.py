@@ -39,4 +39,10 @@ def get_role_recieved_msgs(role_to):
     complete=False,
     role_to=role_to
   )
+
+@anvil.server.callable
+def mark_message_complete(message_id):
+    message = app_tables.messages.get(message_id=message_id)
+    if message:
+        message['complete'] = True
 ##########################################################

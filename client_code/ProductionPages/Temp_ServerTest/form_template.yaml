@@ -26,6 +26,11 @@ components:
       type: Button
       layout_properties: {grid_position: 'TQHMLN,OHLOBY'}
       event_bindings: {click: modal_send_msg_btn_click}
+    - name: modal_receive_msg_btn
+      properties: {text: Modal Recieve MEssage, role: primary-color}
+      type: Button
+      layout_properties: {grid_position: 'TQHMLN,PYQSJF'}
+      event_bindings: {click: modal_recieve_msg_btn_click}
   - name: column_panel_1
     properties: {}
     type: ColumnPanel

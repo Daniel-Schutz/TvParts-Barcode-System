@@ -9,6 +9,7 @@ from anvil import js
 import anvil.media
 
 from ...CommonComponents.SendMessages import SendMessages
+from ...CommonComponents.RecieveMessages import RecieveMessages
 
 import uuid
 import datetime
@@ -37,3 +38,12 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
       large=True
     )
 
+  def modal_recieve_msg_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    recieve_msg_modal = RecieveMessages()
+    anvil.alert(
+      recieve_msg_modal, 
+      title="All Messages",
+      buttons=[],
+      large=True
+    )

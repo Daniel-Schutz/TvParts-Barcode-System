@@ -10,7 +10,7 @@ components:
     type: Label
     layout_properties: {grid_position: 'LMINTW,CHTOCV'}
   - name: received_msgs_panel
-    properties: {item_template: CommonComponents.RecieveMessages.ItemTemplate1}
+    properties: {item_template: CommonComponents.RecieveMsgTemplate}
     type: RepeatingPanel
     layout_properties: {grid_position: 'GLMUVS,QOZNHW'}
 is_package: true
