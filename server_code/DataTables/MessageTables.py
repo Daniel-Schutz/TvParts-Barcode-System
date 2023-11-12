@@ -6,9 +6,6 @@ from anvil.tables import app_tables
 import anvil.server
 import uuid
 
-from anvil.server import get_server_event
-message_update_event = get_server_event('message_update')
-
 @anvil.server.callable
 def get_quick_msg_dropdown():
   results = app_tables.quickmessages.search()
@@ -32,8 +29,6 @@ def create_message(user_from, role_from, role_to, message_body, associated_part)
     associated_part=associated_part,
     complete=False
   )
-  #Event Throw Signal
-  notify_message_update()
 ##########################################################
 
 
@@ -52,22 +47,16 @@ def mark_message_complete(message_id):
   if message:
     print("Message was marked")
     message['complete'] = True
-
-    #Event Update Throw Signal
-    notify_message_update()
 ##########################################################
 
 ######## Notification Event Listener System ##############
-@anvil.server.callable
-def notify_message_update():
-    # Trigger the event for all clients listening for 'message_update'
-    message_update_event.trigger()
 
 @anvil.server.callable
 def get_unread_messages_count(role_to):
   messages = get_role_recieved_msgs(role_to)
   try:
-    return messages.len()
+    length = len(messages)
+    return length
   except:
     return 0
 ##########################################################

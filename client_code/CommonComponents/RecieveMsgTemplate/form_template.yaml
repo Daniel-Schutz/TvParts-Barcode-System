@@ -50,9 +50,9 @@ components:
         type: Label
         layout_properties: {}
       - name: message_text
-        properties: {height: 48, enabled: false, text: ''}
+        properties: {height: 32, enabled: false, text: ''}
         type: TextArea
-        layout_properties: {width: 838}
+        layout_properties: {width: 463}
         data_bindings:
         - {property: text, code: 'self.item[''message_body'']', writeback: false}
     - name: flow_panel_1
@@ -67,9 +67,9 @@ components:
         - {property: visible, code: 'self.item[''associated_part''] is not None',
           writeback: false}
       - name: item_detail_text
-        properties: {height: 106, enabled: false, text: ''}
+        properties: {height: 32, enabled: false, text: ''}
         type: TextArea
-        layout_properties: {width: 413}
+        layout_properties: {width: 459}
         data_bindings:
         - {property: text, code: 'self.item[''associated_part'']', writeback: false}
         - {property: visible, code: 'self.item[''associated_part''] is not None',

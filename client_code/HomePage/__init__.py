@@ -19,10 +19,9 @@ class HomePage(HomePageTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # anvil.server.events.message_update += self.message_update_handler
-    self.update_message_notifier()
-    
     self.show_links()
     if anvil.users.get_user():
+      self.update_notifications()
       self.role_navigation()
       
 
@@ -38,6 +37,7 @@ class HomePage(HomePageTemplate):
       self.test_area.visible = True
       self.send_message_btn.visible = True
       self.role_home_btn.visible = True
+      self.recieved_msgs_btn.visible = True
       print(f"test_area visibility set to: {self.test_area.visible}")
       if anvil.server.call('check_admin'):
         self.settings_link.visible = True
@@ -87,9 +87,6 @@ class HomePage(HomePageTemplate):
     self.show_links()
     #open_form('HomePage')
 
-  def role_home_btn_click(self, **event_args):
-    self.content_panel.clear()
-    self.role_navigation()
 
   def send_message_click(self, **event_args):
     """This method is called when the link is clicked"""
@@ -100,6 +97,8 @@ class HomePage(HomePageTemplate):
       buttons=[],
       large=True
     )
+    self.update_notifications()
+    
   def test_area_click(self, **event_args):
     """This method is called when the link is clicked"""
     self.content_panel.clear()
@@ -113,6 +112,7 @@ class HomePage(HomePageTemplate):
       buttons=["CLOSE"],
       large=True
     )
+    self.update_notifications()
 #########################################################
 
 #### Notification System: Event Handlers ################
@@ -139,9 +139,16 @@ class HomePage(HomePageTemplate):
 
   def update_notifications(self):
     # Get the number of new messages
-    new_count = anvil.server.call('get_unread_messages_count')
+    user = anvil.users.get_user()
+    user_role = anvil.server.call('get_user_role')
+    new_count = anvil.server.call('get_unread_messages_count', user_role)
     # Update your notifications display based on new_count
     self.msg_notifier.text = str(new_count)
     # Show or hide the notifier based on the count
     self.msg_notifier.visible = new_count > 0
 #########################################################
+
+  def role_home_btn_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.content_panel.clear()
+    self.role_navigation()
