@@ -44,6 +44,6 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
     anvil.alert(
       recieve_msg_modal, 
       title="All Messages",
-      buttons=[],
+      buttons=["CLOSE"],
       large=True
     )

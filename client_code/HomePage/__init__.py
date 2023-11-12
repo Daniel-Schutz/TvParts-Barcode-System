@@ -9,6 +9,8 @@ from anvil.tables import app_tables
 from ..EntryComponents.ChooseRole import ChooseRole
 from ..AdminSettings import AdminSettings
 from ..ProductionPages import TeardownModule
+from ..CommonComponents.SendMessages import SendMessages
+from ..CommonComponents.RecieveMessages import RecieveMessages
 from ..ProductionPages.Temp_ServerTest import Temp_ServerTest
 
 
@@ -31,6 +33,8 @@ class HomePage(HomePageTemplate):
       self.sign_out_link.visible = True
       self.sign_in_link.visible = False
       self.test_area.visible = True
+      self.send_message_btn.visible = True
+      self.role_home_btn.visible = True
       print(f"test_area visibility set to: {self.test_area.visible}")
       if anvil.server.call('check_admin'):
         self.settings_link.visible = True
@@ -58,6 +62,7 @@ class HomePage(HomePageTemplate):
   def route_to_role(self):
     user_role = anvil.server.call('get_user_role')
     self.role_router(user_role)
+
 ######## HOME PAGE EVENTS ############################  
 
   def settings_link_click(self, **event_args):
@@ -69,6 +74,7 @@ class HomePage(HomePageTemplate):
   def sign_out_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     anvil.users.logout()
+    self.content_panel.clear()
     open_form('HomePage')
 
   def sign_in_link_click(self, **event_args):
@@ -78,6 +84,29 @@ class HomePage(HomePageTemplate):
     self.show_links()
     #open_form('HomePage')
 
+  def role_home_btn_click(self, **event_args):
+    self.content_panel.clear()
+    self.role_navigation()
+
+  def send_message_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    send_msg_modal = SendMessages()
+    anvil.alert(
+      send_msg_modal, 
+      title="Send New Message",
+      buttons=[],
+      large=True
+    )
   def test_area_click(self, **event_args):
+    """This method is called when the link is clicked"""
     self.content_panel.clear()
     self.content_panel.add_component(Temp_ServerTest(), full_width_row=True)
+
+  def mail_click(self, **event_args):
+    recieve_msg_modal = RecieveMessages()
+    anvil.alert(
+      recieve_msg_modal, 
+      title="All Messages",
+      buttons=["CLOSE"],
+      large=True
+    )
