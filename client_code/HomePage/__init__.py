@@ -18,6 +18,9 @@ class HomePage(HomePageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    # anvil.server.events.message_update += self.message_update_handler
+    self.update_message_notifier()
+    
     self.show_links()
     if anvil.users.get_user():
       self.role_navigation()
@@ -110,3 +113,35 @@ class HomePage(HomePageTemplate):
       buttons=["CLOSE"],
       large=True
     )
+#########################################################
+
+#### Notification System: Event Handlers ################
+  # def message_update_handler(self, **event_args):
+  #   # Update the message notifier when the server event is triggered
+  #   self.update_message_notifier()
+  
+  # def update_message_notifier(self):
+  #   # Get the number of unread messages for the logged-in user's role
+  #   role_to = anvil.users.get_user()['role']
+  #   unread_count = anvil.server.call('get_unread_messages_count', role_to)
+      
+  #     # Update the label text and visibility
+  #   self.msg_notifier.text = str(unread_count)
+  #   self.msg_notifier.visible = unread_count > 0
+
+  # def clean_up_on_hide(self, **event_args):
+  #   # Remove the event handler for the server event
+  #   anvil.server.events.message_update -= self.message_update_handler
+
+  def timer_tick(self, **event_args):
+  # This function is called at regular intervals
+    self.update_notifications()
+
+  def update_notifications(self):
+    # Get the number of new messages
+    new_count = anvil.server.call('get_unread_messages_count')
+    # Update your notifications display based on new_count
+    self.msg_notifier.text = str(new_count)
+    # Show or hide the notifier based on the count
+    self.msg_notifier.visible = new_count > 0
+#########################################################
