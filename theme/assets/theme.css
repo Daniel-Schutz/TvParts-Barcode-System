@@ -817,7 +817,16 @@ https://stackoverflow.com/questions/30533055/calculating-shadow-values-for-all-m
 }
 
 .anvil-role-messages-background {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.1)), url(_/theme/tvpartsbot.jpg);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.1)), url(_/theme/pexels-diana-light-4721999.jpg);
+  border-radius: 5px;
+  padding: 24px 28px;
+  background-size: cover;
+  /* 2dp */  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+
+.anvil-role-receive_msg-background {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.1)), url(_/theme/close_letter.jpg);
   border-radius: 5px;
   padding: 24px 28px;
   background-size: cover;

@@ -21,10 +21,11 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'KZOFAE,QYRJZO'}
     components:
-    - name: add_supplier_button
-      properties: {text: 'ADD NEW SUPPLIER ', role: primary-color, align: center}
+    - name: modal_send_msg_btn
+      properties: {text: Modal Send Message, role: primary-color}
       type: Button
-      layout_properties: {grid_position: 'BKVVCF,TVMDUS'}
+      layout_properties: {grid_position: 'TQHMLN,OHLOBY'}
+      event_bindings: {click: modal_send_msg_btn_click}
   - name: column_panel_1
     properties: {}
     type: ColumnPanel
@@ -34,23 +35,9 @@ components:
       properties: {role: null}
       type: ColumnPanel
       layout_properties: {grid_position: 'YEGCQE,JHXSZQ'}
-      components:
-      - name: generate_truck_id_button
-        properties: {text: cONTINUE TRUCK, role: primary-color, align: left}
-        type: Button
-        layout_properties: {grid_position: 'NCTLIW,PJTCRY'}
-      - name: create_new_truck
-        properties: {text: create Truck, role: primary-color}
-        type: Button
-        layout_properties: {grid_position: 'NCTLIW,HHQUFN'}
-        event_bindings: {click: create_new_truck_click}
+      components: []
     - name: spacer_1
       properties: {height: 32}
       type: Spacer
       layout_properties: {grid_position: 'DCXHTI,PKMEUO'}
-  - name: create_barcode_button
-    properties: {text: PRINT LABEL, role: primary-color, bold: true, font: '', font_size: 25}
-    type: Button
-    layout_properties: {grid_position: 'TEEDVJ,SYQUUP'}
-    event_bindings: {click: create_barcode_button_click}
 is_package: true

@@ -30,6 +30,29 @@ native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.
     \      setTimeout(function() { win.print(); }, 500); // Delay to ensure the image\
     \ is loaded\n    };\n    img.src = url;\n  }\n</script>"}
 db_schema:
+  mocksuppliers:
+    client: none
+    server: full
+    columns:
+    - name: supplier_ID
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: supplier_name
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: trucks
+      admin_ui: {width: 200, order: 2}
+      type: link_multiple
+      target: mocktrucks
+    title: MockSuppliers
+  roles:
+    client: none
+    server: full
+    columns:
+    - name: role
+      admin_ui: {width: 200, order: 0}
+      type: string
+    title: Roles
   settings:
     title: Settings
     client: search
@@ -41,14 +64,75 @@ db_schema:
     - name: value
       admin_ui: {width: 200}
       type: simpleObject
-  table_10:
+  messages:
     client: none
     server: full
     columns:
-    - name: role
+    - name: message_id
       admin_ui: {width: 200, order: 0}
       type: string
-    title: Table 10
+    - name: user_from
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: role_from
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: role_to
+      admin_ui: {order: 3, width: 95}
+      type: string
+    - name: message_body
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: associated_part
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: complete
+      admin_ui: {order: 6, width: 91}
+      type: bool
+    - name: resolution_notes
+      admin_ui: {width: 200, order: 7}
+      type: string
+    title: messages
+  mockproducts:
+    client: none
+    server: full
+    columns:
+    - name: product_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: product_name
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: bin_number
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: overstock_bin_number
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: product_price
+      admin_ui: {width: 200, order: 4}
+      type: number
+    - name: img_source_url
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: shopify_stock
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: barcode_stock
+      admin_ui: {width: 200, order: 7}
+      type: number
+    title: MockProducts
+  mocktrucks:
+    client: none
+    server: full
+    columns:
+    - name: truck_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: truck_created
+      admin_ui: {width: 200, order: 1}
+      type: date
+    title: MockTrucks
   users:
     title: Users
     client: none
@@ -87,125 +171,12 @@ db_schema:
     - name: last_name
       admin_ui: {width: 200, order: 10}
       type: string
-  open_hours:
-    title: Open Hours
-    client: search
-    server: full
-    columns:
-    - name: open_time
-      admin_ui: {width: 200}
-      type: number
-    - name: close_time
-      admin_ui: {width: 200}
-      type: number
-    - name: open
-      admin_ui: {width: 200}
-      type: bool
-    - name: day
-      admin_ui: {width: 200}
-      type: string
-  bookings:
-    title: Bookings
+  quickmessages:
     client: none
     server: full
     columns:
-    - name: name
-      admin_ui: {width: 200}
-      type: string
-    - name: user
-      admin_ui: {width: 234}
-      type: link_single
-      target: users
-    - name: datetime
-      admin_ui: {width: 200}
-      type: datetime
-  mockproducts:
-    client: none
-    server: full
-    columns:
-    - name: product_id
+    - name: quick_msg_text
       admin_ui: {width: 200, order: 0}
       type: string
-    - name: product_name
-      admin_ui: {width: 200, order: 1}
-      type: string
-    - name: bin_number
-      admin_ui: {width: 200, order: 2}
-      type: string
-    - name: overstock_bin_number
-      admin_ui: {width: 200, order: 3}
-      type: string
-    - name: product_price
-      admin_ui: {width: 200, order: 4}
-      type: number
-    - name: img_source_url
-      admin_ui: {width: 200, order: 5}
-      type: string
-    - name: shopify_stock
-      admin_ui: {width: 200, order: 6}
-      type: number
-    - name: barcode_stock
-      admin_ui: {width: 200, order: 7}
-      type: number
-    title: MockProducts
-  messages:
-    client: none
-    server: full
-    columns:
-    - name: message_id
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: user_from
-      admin_ui: {width: 200, order: 1}
-      type: string
-    - name: role_from
-      admin_ui: {width: 200, order: 2}
-      type: string
-    - name: role_to
-      admin_ui: {width: 200, order: 3}
-      type: string
-    - name: message_body
-      admin_ui: {width: 200, order: 4}
-      type: string
-    - name: associated_part
-      admin_ui: {width: 200, order: 5}
-      type: string
-    - name: complete
-      admin_ui: {width: 200, order: 6}
-      type: bool
-    - name: resolution_notes
-      admin_ui: {width: 200, order: 7}
-      type: string
-    title: messages
-  mocktrucks:
-    client: none
-    server: full
-    columns:
-    - name: truck_id
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: truck_created
-      admin_ui: {width: 200, order: 1}
-      type: date
-    title: MockTrucks
-  mocksuppliers:
-    client: none
-    server: full
-    columns:
-    - name: supplier_ID
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: supplier_name
-      admin_ui: {width: 200, order: 1}
-      type: string
-    - name: trucks
-      admin_ui: {width: 200, order: 2}
-      type: link_multiple
-      target: mocktrucks
-    title: MockSuppliers
-  roles:
-    client: none
-    server: full
-    columns: []
-    title: Roles
+    title: Quickmessages
 uplink_visible: true

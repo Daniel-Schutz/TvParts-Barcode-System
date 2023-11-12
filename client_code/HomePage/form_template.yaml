@@ -55,7 +55,7 @@ components:
     components: []
   - name: test_area
     properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Test Area, font_size: null, wrap_on: mobile, font: '',
+      visible: false, text: Test Area, font_size: null, wrap_on: mobile, font: '',
       col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: 'fa:desktop'}
