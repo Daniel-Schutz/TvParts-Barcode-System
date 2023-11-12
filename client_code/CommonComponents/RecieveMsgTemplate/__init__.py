@@ -17,5 +17,7 @@ class RecieveMsgTemplate(RecieveMsgTemplateTemplate):
     # Any code you write here will run before the form opens.
 
   def button_mark_complete_click(self, **event_args):
+    print("Inside mark Complete")
+    print(self.item['message_id'])
     anvil.server.call('mark_message_complete', self.item['message_id'])
     self.parent.raise_event('x-refresh-messages')

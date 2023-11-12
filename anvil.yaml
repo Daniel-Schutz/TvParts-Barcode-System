@@ -89,9 +89,6 @@ db_schema:
     - name: complete
       admin_ui: {order: 6, width: 91}
       type: bool
-    - name: resolution_notes
-      admin_ui: {width: 200, order: 7}
-      type: string
     title: messages
   mockproducts:
     client: none
