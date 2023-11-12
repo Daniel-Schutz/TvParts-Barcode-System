@@ -33,5 +33,10 @@ def create_message(user_from, role_from, role_to, message_body, associated_part)
 
 
 ########### Recieve Side Functions #######################
-
+@anvil.server.callable
+def get_role_recieved_msgs(role_to):
+  return app_tables.messages.search(
+    complete=False,
+    role_to=role_to
+  )
 ##########################################################

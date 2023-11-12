@@ -1,3 +1,16 @@
 container: {type: ColumnPanel}
-components: []
+components:
+- name: card_1
+  properties: {role: receive-msg-background}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'IFCGQN,OBPCXO'}
+  components:
+  - name: title
+    properties: {role: headline, align: center, text: Recieved Messages, font_size: 40}
+    type: Label
+    layout_properties: {grid_position: 'LMINTW,CHTOCV'}
+  - name: received_msgs_panel
+    properties: {item_template: CommonComponents.RecieveMessages.ItemTemplate1}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'GLMUVS,QOZNHW'}
 is_package: true

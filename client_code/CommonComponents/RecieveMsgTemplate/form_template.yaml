@@ -1,0 +1,59 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'EXPHFJ,AOZYMH'}
+  components:
+  - name: column_panel_1
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'QCTCFU,MNDVFN'}
+    components:
+    - name: flow_panel_1_copy_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'JQBQPM,EENFWK'}
+      components:
+      - name: msg_label_copy_2
+        properties: {text: 'From:'}
+        type: Label
+        layout_properties: {}
+      - name: from_name
+        properties: {}
+        type: Label
+    - name: flow_panel_1_copy_1_copy_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'GSWELH,RPQAGV'}
+      components:
+      - name: msg_label_copy_2_copy_1
+        properties: {text: 'Department:'}
+        type: Label
+        layout_properties: {}
+    - name: flow_panel_2
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'LXWTOY,FKRTOZ'}
+      components:
+      - name: msg_label_copy_1
+        properties: {text: 'Message:   '}
+        type: Label
+        layout_properties: {}
+      - name: text_area_1_copy_1
+        properties: {height: 106}
+        type: TextArea
+        layout_properties: {width: 838}
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: ''}
+      components:
+      - name: msg_label
+        properties: {text: 'Item Detail:'}
+        type: Label
+      - name: text_area_1
+        properties: {height: 106}
+        type: TextArea
+        layout_properties: {width: 833}
+is_package: true

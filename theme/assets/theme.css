@@ -825,7 +825,7 @@ https://stackoverflow.com/questions/30533055/calculating-shadow-values-for-all-m
 }
 
 
-.anvil-role-receive_msg-background {
+.anvil-role-receive-msg-background {
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.1)), url(_/theme/close_letter.jpg);
   border-radius: 5px;
   padding: 24px 28px;
