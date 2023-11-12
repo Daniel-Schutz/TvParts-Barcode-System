@@ -31,6 +31,9 @@ components:
         properties: {text: 'Department:'}
         type: Label
         layout_properties: {}
+      - name: from_role_box
+        properties: {}
+        type: Label
     - name: flow_panel_2
       properties: {}
       type: FlowPanel
@@ -59,8 +62,9 @@ components:
       - name: spacer_1
         properties: {height: 104}
         type: Spacer
-        layout_properties: {width: 122}
+        layout_properties: {width: 174}
       - name: complete_box
-        properties: {text: check_box_1}
+        properties: {text: Mark Complete, font_size: 24}
         type: CheckBox
+        layout_properties: {}
 is_package: true
