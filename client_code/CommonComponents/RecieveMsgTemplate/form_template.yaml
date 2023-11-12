@@ -41,7 +41,7 @@ components:
         type: Label
         layout_properties: {}
       - name: text_area_1_copy_1
-        properties: {height: 106}
+        properties: {height: 48}
         type: TextArea
         layout_properties: {width: 838}
     - name: flow_panel_1
@@ -55,5 +55,12 @@ components:
       - name: text_area_1
         properties: {height: 106}
         type: TextArea
-        layout_properties: {width: 833}
+        layout_properties: {width: 413}
+      - name: spacer_1
+        properties: {height: 104}
+        type: Spacer
+        layout_properties: {width: 122}
+      - name: complete_box
+        properties: {text: check_box_1}
+        type: CheckBox
 is_package: true
