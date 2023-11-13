@@ -9,6 +9,7 @@ import anvil.server
 from . import Usertable
 from . import MockTables
 from . import MessageTables
+from . import Common
 
 # This is a server package. It runs on the Anvil server,
 # rather than in the user's browser.
