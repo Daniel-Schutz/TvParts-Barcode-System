@@ -38,7 +38,31 @@ db_schema:
   products:
     client: none
     server: full
-    columns: []
+    columns:
+    - name: product_name
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: vendor
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: type
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: sku
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: product_id
+      admin_ui: {order: -1, width: 200}
+      type: string
+    - name: img_source_url
+      admin_ui: {width: 200, order: 4.5}
+      type: string
+    - name: shopify_qty
+      admin_ui: {order: 4, width: 200}
+      type: number
+    - name: price
+      admin_ui: {order: 3.5, width: 200}
+      type: number
     title: products
   quickmessages:
     client: none
