@@ -35,54 +35,66 @@ native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.
     \      setTimeout(function() { win.print(); }, 500); // Delay to ensure the image\
     \ is loaded\n    };\n    img.src = url;\n  }\n</script>"}
 db_schema:
-  products:
+  mocksuppliers:
     client: none
     server: full
     columns:
-    - name: product_name
+    - name: supplier_ID
       admin_ui: {width: 200, order: 0}
       type: string
-    - name: vendor
+    - name: supplier_name
       admin_ui: {width: 200, order: 1}
       type: string
-    - name: type
+    - name: trucks
       admin_ui: {width: 200, order: 2}
-      type: string
-    - name: sku
-      admin_ui: {width: 200, order: 3}
-      type: string
-    - name: product_id
-      admin_ui: {order: -1, width: 200}
-      type: string
-    - name: img_source_url
-      admin_ui: {width: 200, order: 4.5}
-      type: string
-    - name: shopify_qty
-      admin_ui: {order: 4, width: 200}
-      type: number
-    - name: price
-      admin_ui: {order: 3.5, width: 200}
-      type: number
-    title: products
-  quickmessages:
+      type: link_multiple
+      target: mocktrucks
+    title: MockSuppliers
+  roles:
     client: none
     server: full
     columns:
-    - name: quick_msg_text
+    - name: role
       admin_ui: {width: 200, order: 0}
       type: string
-    title: Quickmessages
-  settings:
-    title: Settings
-    client: search
+    title: Roles
+  messages:
+    client: none
     server: full
     columns:
-    - name: key
-      admin_ui: {width: 200}
+    - name: message_id
+      admin_ui: {width: 200, order: 0}
       type: string
-    - name: value
-      admin_ui: {width: 200}
-      type: simpleObject
+    - name: user_from
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: role_from
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: role_to
+      admin_ui: {order: 3, width: 95}
+      type: string
+    - name: message_body
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: associated_part
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: complete
+      admin_ui: {order: 6, width: 91}
+      type: bool
+    title: messages
+  mocktrucks:
+    client: none
+    server: full
+    columns:
+    - name: truck_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: truck_created
+      admin_ui: {width: 200, order: 1}
+      type: date
+    title: MockTrucks
   users:
     title: Users
     client: none
@@ -121,93 +133,41 @@ db_schema:
     - name: last_name
       admin_ui: {width: 200, order: 10}
       type: string
-  mockproducts:
+  quickmessages:
     client: none
     server: full
     columns:
-    - name: product_id
+    - name: quick_msg_text
       admin_ui: {width: 200, order: 0}
       type: string
+    title: Quickmessages
+  products:
+    client: none
+    server: full
+    columns:
     - name: product_name
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: vendor
       admin_ui: {width: 200, order: 1}
       type: string
-    - name: bin_number
+    - name: type
       admin_ui: {width: 200, order: 2}
       type: string
-    - name: overstock_bin_number
+    - name: sku
       admin_ui: {width: 200, order: 3}
       type: string
-    - name: product_price
-      admin_ui: {width: 200, order: 4}
-      type: number
+    - name: product_id
+      admin_ui: {order: -1, width: 200}
+      type: string
     - name: img_source_url
-      admin_ui: {width: 200, order: 5}
+      admin_ui: {width: 200, order: 4.5}
       type: string
-    - name: shopify_stock
-      admin_ui: {width: 200, order: 6}
+    - name: shopify_qty
+      admin_ui: {order: 4, width: 200}
       type: number
-    - name: barcode_stock
-      admin_ui: {width: 200, order: 7}
+    - name: price
+      admin_ui: {order: 3.5, width: 200}
       type: number
-    title: MockProducts
-  messages:
-    client: none
-    server: full
-    columns:
-    - name: message_id
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: user_from
-      admin_ui: {width: 200, order: 1}
-      type: string
-    - name: role_from
-      admin_ui: {width: 200, order: 2}
-      type: string
-    - name: role_to
-      admin_ui: {order: 3, width: 95}
-      type: string
-    - name: message_body
-      admin_ui: {width: 200, order: 4}
-      type: string
-    - name: associated_part
-      admin_ui: {width: 200, order: 5}
-      type: string
-    - name: complete
-      admin_ui: {order: 6, width: 91}
-      type: bool
-    title: messages
-  mocktrucks:
-    client: none
-    server: full
-    columns:
-    - name: truck_id
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: truck_created
-      admin_ui: {width: 200, order: 1}
-      type: date
-    title: MockTrucks
-  mocksuppliers:
-    client: none
-    server: full
-    columns:
-    - name: supplier_ID
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: supplier_name
-      admin_ui: {width: 200, order: 1}
-      type: string
-    - name: trucks
-      admin_ui: {width: 200, order: 2}
-      type: link_multiple
-      target: mocktrucks
-    title: MockSuppliers
-  roles:
-    client: none
-    server: full
-    columns:
-    - name: role
-      admin_ui: {width: 200, order: 0}
-      type: string
-    title: Roles
+    title: products
 uplink_visible: true
