@@ -9,4 +9,4 @@ from . import Common
 
 @anvil.server.callable
 def add_new_supplier(**kwargs):
-  Common.add_row_to_table('supplier', **kwargs)
+  Common.add_row_to_table('suppliers', **kwargs)

@@ -16,4 +16,5 @@ class single_input_modal(single_input_modalTemplate):
 ############# EVENTS ###########################
   def button_submit_click(self, **event_args):
     # This function is called when the button is clicked
-    self.raise_event('x-close', value=self.text_box.text)
+    self.raise_event('x-close-alert', value=self.text_box.text)
+

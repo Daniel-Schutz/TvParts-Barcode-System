@@ -20,4 +20,5 @@ components:
       properties: {text: Submit, role: primary-color, align: right}
       type: Button
       layout_properties: {}
+      event_bindings: {click: button_submit_click}
 is_package: true
