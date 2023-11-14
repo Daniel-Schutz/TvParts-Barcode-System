@@ -29,11 +29,17 @@ class TeardownModule(TeardownModuleTemplate):
     return supplier_tuples
 
   def create_new_supplier(self, supplier_name):
+    def update_dropdown(supplier_name):
+      suppliers = self.mock_get_suppliers()
+      self.supplier_dropdown.items = suppliers
+      self.supplier_dropdown.selected_value = (supplier_name, supplier_name)
     anvil.server.call('add_new_supplier',
-                     supplier_id = str(uuid.uuid4()),
+                    supplier_id = str(uuid.uuid4()),
                     supplier_name = supplier_name,
                     truck_count = 0,
                     created_date = datetime.date.today())
+    time.sleep(0.5)
+    update_dropdown(supplier_name)
     
     
 
