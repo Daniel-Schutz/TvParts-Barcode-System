@@ -169,5 +169,37 @@ db_schema:
     - name: price
       admin_ui: {order: 3.5, width: 200}
       type: number
+    - name: bin
+      admin_ui: {width: 200, order: 5.5}
+      type: string
     title: products
+  bins:
+    client: none
+    server: full
+    columns:
+    - name: bin
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: sku
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: part_type
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: product_id
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: location
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: bin_type
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: bin_status
+      admin_ui: {width: 200, order: 6}
+      type: string
+    - name: notes
+      admin_ui: {width: 200, order: 7}
+      type: string
+    title: bins
 uplink_visible: true

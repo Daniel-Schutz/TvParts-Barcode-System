@@ -6,6 +6,12 @@ from anvil.tables import app_tables
 import anvil.server
 
 @anvil.server.callable
+def import_full_table_to_anvil(table_name, records):
+    table = getattr(app_tables, table_name)
+    for record in records:
+        table.add_row(**record)
+
+@anvil.server.callable
 def search_rows(table_name, column_name, value):
     """
     Return rows where column_name equals value.
