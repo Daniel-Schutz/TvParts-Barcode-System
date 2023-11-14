@@ -1,0 +1,16 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'WCTUVO,YZRXZG'}
+  components:
+  - name: headline
+    properties: {role: headline, align: center, text: Previous Trucks}
+    type: Label
+    layout_properties: {grid_position: 'OSNPKA,LGZPBA'}
+  - name: repeating_panel_1
+    properties: {item_template: CommonComponents.SingleSelectRepeaterTemplate}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'IQYWEQ,KFJQUN'}
+is_package: true

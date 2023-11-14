@@ -10,6 +10,7 @@ import anvil.media
 import time
 
 from ...CommonComponents.single_input_modal import single_input_modal
+from ...CommonComponents.SingleSelect_modal import SingleSelect_modal
 
 import uuid
 import datetime
@@ -58,23 +59,45 @@ class TeardownModule(TeardownModuleTemplate):
 
   
   def create_truck_id(self):
-    supplier = self.supplier_dropdown.selected_value
-    current_truck_count = anvil.server.call('search_rows', 
-                                            table_name='suppliers',
-                                            column_name='supplier_name',
-                                            value=supplier)[0]['truck_count']
-    new_str = ''
-    supplier_words = supplier.split()
-    for word in supplier_words:
-      pre_text = (word.replace(")", "").replace("(", ""))[:3]
-      new_str = ''.join(new_str)
-    new_count = current_truck_count+1
-    return new_count, (new_str +f"_{current_truck_count+1}")
+      supplier = self.supplier_dropdown.selected_value
+      current_truck_count = anvil.server.call('search_rows', 
+                                              table_name='suppliers',
+                                              column_name='supplier_name',
+                                              value=supplier)[0]['truck_count']
+      new_str = ''
+      supplier_words = supplier.split()
+      for word in supplier_words:
+          # Remove parentheses and take the first 3 characters of each word
+          pre_text = word.replace(")", "").replace("(", "")[:3]
+          # Concatenate to new_str (no need to use join here)
+          new_str += pre_text.upper()  # assuming you want uppercase letters
+      new_count = current_truck_count + 1
+      # Format the new truck ID with the incremented count
+      truck_id = f"{new_str}_{new_count}"
+      return new_count, truck_id
       
-    
-    
+######### COMPONENT EVENTS ############################    
+  def continue_truck_btn_click(self, **event_args):
+    supplier = self.supplier_dropdown.selected_value
+    trucks = anvil.server.call('search_rows', 
+                               'trucks', 
+                               column_name='supplier_name', 
+                               value=supplier)
+    prev_trucks = SingleSelect_modal(trucks=trucks)
+    truck_id = anvil.alert(
+      prev_trucks, 
+      title=f"All Trucks from {supplier}",
+      buttons=[], 
+      large=True
+    )
+    self.truck_id.text = truck_id
+    img_source = anvil.server.call('search_rows', 
+                      'trucks', 
+                      column_name='truck_id', 
+                      value=truck_id)[0]['qr_img_source']
+    self.qr_image.source = img_source
   
-######### COMPONENT EVENTS ############################
+
 
   def create_new_truck_click(self, **event_args):
     """This method is called when the button is clicked"""

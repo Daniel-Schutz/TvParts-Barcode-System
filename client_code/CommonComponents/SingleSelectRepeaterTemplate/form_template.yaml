@@ -1,0 +1,19 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'MYUKEA,CPPOIT'}
+  components:
+  - name: label_1
+    properties: {text: ''}
+    type: Label
+    layout_properties: {grid_position: 'XIQGYP,SITJKO'}
+    data_bindings:
+    - {property: text, code: 'self.item[''truck_id'']', writeback: false}
+  - name: select_btn
+    properties: {text: SELECT, role: primary-color, align: right}
+    type: Button
+    layout_properties: {grid_position: 'XIQGYP,MGZGWQ'}
+    event_bindings: {click: select_btn_click}
+is_package: true
