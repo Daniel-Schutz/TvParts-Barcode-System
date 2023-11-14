@@ -53,6 +53,25 @@ class TeardownModule(TeardownModuleTemplate):
     #print(self.qr_image.source)
     #js.window.printImage(self.qr_image.source)
     anvil.media.print_media(self.qr_image.source)
+
+######## Create Truck Id helper functions ###############
+
+  
+  def create_truck_id(self):
+    supplier = self.supplier_dropdown.selected_value
+    current_truck_count = anvil.server.call('search_rows', 
+                                            table_name='suppliers',
+                                            column_name='supplier_name',
+                                            value=supplier)[0]['truck_count']
+    new_str = ''
+    supplier_words = supplier.split()
+    for word in supplier_words:
+      pre_text = (word.replace(")", "").replace("(", ""))[:3]
+      new_str = ''.join(new_str)
+    new_count = current_truck_count+1
+    return new_count, (new_str +f"_{current_truck_count+1}")
+      
+    
     
   
 ######### COMPONENT EVENTS ############################
@@ -60,20 +79,49 @@ class TeardownModule(TeardownModuleTemplate):
   def create_new_truck_click(self, **event_args):
     """This method is called when the button is clicked"""
     if anvil.confirm("Generate New Truck?"):
-      new_truck_id = str(uuid.uuid4()) #set new truck IDs here
+      new_truck_count, new_truck_id = self.create_truck_id()
       self.truck_id.text = new_truck_id
       created_date = datetime.date.today()
-      anvil.server.call('create_truck', new_truck_id, created_date)
+      
+      #Add row to truck table
+      anvil.server.call('add_row_to_table', 
+                        'trucks',
+                        truck_id=new_truck_id, 
+                        truck_created=datetime.date.today(),
+                        supplier_name=self.supplier_dropdown.selected_value, 
+                        item_system_count=0, 
+                        item_sold_count=0, 
+                        item_return_count=0, 
+                        item_defect_count=0, 
+                        qr_img_source='')
+      
+      #Update supplier truck count
+      anvil.server.call('update_rows', 
+                        table_name='suppliers', 
+                        search_column='supplier_name', 
+                        search_value=self.supplier_dropdown.selected_value, 
+                        target_column='truck_count', 
+                        new_value=new_truck_count)
       #anvil.confirm("New Truck has been generated.")
-      self.create_qr()
+      time.sleep(0.5)
+      self.create_qr(new_truck_id)
       
 
   #This is manually invoked, as it depends on UUID Generation
-  def create_qr(self, **event_args):
+  def create_qr(self, truck_id, **event_args):
     supplier = self.supplier_dropdown.selected_value
     truck = self.truck_id.text
-    self.qr_image.source = anvil.server.call('generate_qr_code', 
+    img_url = anvil.server.call('generate_qr_code', 
                                               supplier=supplier, truck=truck)
+    self.qr_image.source = img_url
+    #Update img source in table - TODO: Move to AWS image storage
+    anvil.server.call('update_rows', 
+                    table_name='trucks', 
+                    search_column='truck_id', 
+                    search_value=truck_id, 
+                    target_column='qr_img_source', 
+                    new_value=img_url)
+    
 
   def create_barcode_button_click(self, **event_args):
     """This method is called when the button is clicked"""

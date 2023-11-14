@@ -207,8 +207,23 @@ db_schema:
     - name: truck_created
       admin_ui: {width: 200, order: 1}
       type: date
-    - name: supplier_id
+    - name: supplier_name
       admin_ui: {width: 200, order: 2}
+      type: string
+    - name: item_system_count
+      admin_ui: {width: 200, order: 3}
+      type: number
+    - name: item_sold_count
+      admin_ui: {order: 4, width: 136}
+      type: number
+    - name: item_return_count
+      admin_ui: {order: 5, width: 148}
+      type: number
+    - name: item_defect_count
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: qr_img_source
+      admin_ui: {width: 200, order: 7}
       type: string
     title: trucks
 uplink_visible: true
