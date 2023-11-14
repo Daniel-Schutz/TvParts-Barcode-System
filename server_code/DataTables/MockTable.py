@@ -7,8 +7,8 @@ import anvil.server
 
 @anvil.server.callable
 def get_supplier_dropdown():
-  results = app_tables.mocksuppliers.search()
-  return [(row['supplier_ID'], row['supplier_name']) for row in results]
+  results = app_tables.suppliers.search()
+  return [(row['supplier_name']) for row in results]
 
 @anvil.server.callable
 def get_unique_trucks():

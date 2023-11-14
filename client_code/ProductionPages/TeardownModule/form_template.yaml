@@ -34,6 +34,7 @@ components:
       properties: {text: 'ADD NEW SUPPLIER ', role: primary-color, align: center}
       type: Button
       layout_properties: {grid_position: 'BKVVCF,TVMDUS'}
+      event_bindings: {click: add_supplier_button_click}
   - name: column_panel_1
     properties: {}
     type: ColumnPanel

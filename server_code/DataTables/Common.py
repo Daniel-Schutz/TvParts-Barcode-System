@@ -12,6 +12,11 @@ def import_full_table_to_anvil(table_name, records):
         table.add_row(**record)
 
 @anvil.server.callable
+def add_row_to_table(table_name, **kwargs):
+  table = getattr(app_tables, table_name)
+  table.add_row(**kwargs)
+
+@anvil.server.callable
 def search_rows(table_name, column_name, value):
     """
     Return rows where column_name equals value.

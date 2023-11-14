@@ -8,6 +8,8 @@ from anvil.tables import app_tables
 from anvil import js
 import anvil.media
 
+from ...CommonComponents.single_input_modal import single_input_modal
+
 import uuid
 import datetime
 import time
@@ -24,6 +26,15 @@ class TeardownModule(TeardownModuleTemplate):
   def mock_get_suppliers(self):
     supplier_tuples = anvil.server.call('get_supplier_dropdown')
     return supplier_tuples
+
+  def create_new_supplier(self, supplier_name):
+    anvil.server.call('add_new_supplier',
+                     supplier_id = str(uuid.uuid4()),
+                    supplier_name = supplier_name,
+                    truck_count = 0,
+                    created_date = datetime.date.today())
+    
+    
 
   def mock_get_trucks(self):
     return anvil.server.call('get_unique_trucks')
@@ -60,6 +71,21 @@ class TeardownModule(TeardownModuleTemplate):
   def create_barcode_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.print_barcode()
+
+  def add_supplier_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    def close_modal(returned_value):
+      if returned_value is not None:
+        supplier_name = returned_value
+        return returned_value
+
+    modal_form = single_input_modal(label_text="Enter new supplier name:")
+    new_supplier_name = anvil.alert(modal_form, title="New Supplier", buttons=[], 
+                                    large=True, dismissible=False, 
+                                    callback=close_modal)
+    self.create_new_supplier(new_supplier_name)
+    
+    
     
     
 
