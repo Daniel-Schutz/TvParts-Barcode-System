@@ -64,8 +64,8 @@ components:
           properties: {text: 'Type:'}
           type: Label
           layout_properties: {}
-        - name: name_output_bx_copy_1_copy_1
+        - name: type_output_bx
           properties: {enabled: false}
           type: TextBox
-          layout_properties: {width: 433.5}
+          layout_properties: {width: 221.5}
 is_package: true
