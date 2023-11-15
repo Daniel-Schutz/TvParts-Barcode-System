@@ -35,6 +35,7 @@ roles:
   components: [DatePicker]
 - {name: messages-background}
 - {name: receive-msg-background}
+- {name: product-explorer-background}
 color_scheme:
   preset_groups:
   - name: Primary Colour
