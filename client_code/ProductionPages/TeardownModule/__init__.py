@@ -91,6 +91,8 @@ class TeardownModule(TeardownModuleTemplate):
       large=True
     )
     self.truck_id.text = truck_id
+
+    
     img_source = anvil.server.call('search_rows', 
                       'trucks', 
                       column_name='truck_id', 
@@ -116,7 +118,7 @@ class TeardownModule(TeardownModuleTemplate):
                         item_sold_count=0, 
                         item_return_count=0, 
                         item_defect_count=0, 
-                        qr_img_source='')
+                        s3_object_key='')
       
       #Update supplier truck count
       anvil.server.call('update_rows', 
@@ -134,16 +136,18 @@ class TeardownModule(TeardownModuleTemplate):
   def create_qr(self, truck_id, **event_args):
     supplier = self.supplier_dropdown.selected_value
     truck = self.truck_id.text
-    img_url = anvil.server.call('generate_qr_code', 
+    qr_img_url = anvil.server.call('generate_qr_code', 
                                               supplier=supplier, truck=truck)
-    self.qr_image.source = img_url
+    s3_obj_key = anvil.server.call('store_qr_code', qr_img_url)
+    s3_img_url = anvil.server.call('get_s3_image_url', s3_obj_key)
+    self.qr_image.source = s3_img_url
     #Update img source in table - TODO: Move to AWS image storage
     anvil.server.call('update_rows', 
                     table_name='trucks', 
                     search_column='truck_id', 
                     search_value=truck_id, 
-                    target_column='qr_img_source', 
-                    new_value=img_url)
+                    target_column='s3_object_key', 
+                    new_value=s3_obj_key)
     
 
   def create_barcode_button_click(self, **event_args):
