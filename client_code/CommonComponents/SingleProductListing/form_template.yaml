@@ -67,5 +67,11 @@ components:
         - name: type_output_bx
           properties: {enabled: false}
           type: TextBox
-          layout_properties: {width: 221.5}
+          layout_properties: {width: 184.5}
+        - name: inventory_label
+          properties: {text: 'Type:'}
+          type: Label
+        - name: type_output_bx_copy_1
+          properties: {enabled: false}
+          type: TextBox
 is_package: true
