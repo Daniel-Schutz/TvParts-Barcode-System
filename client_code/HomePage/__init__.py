@@ -12,6 +12,7 @@ from ..ProductionPages import TeardownModule
 from ..CommonComponents.SendMessages import SendMessages
 from ..CommonComponents.RecieveMessages import RecieveMessages
 from ..ProductionPages.Temp_ServerTest import Temp_ServerTest
+from ..CommonComponents.ProductExplorer import ProductExplorer
 
 
 class HomePage(HomePageTemplate):
@@ -38,6 +39,7 @@ class HomePage(HomePageTemplate):
       self.send_message_btn.visible = True
       self.role_home_btn.visible = True
       self.recieved_msgs_btn.visible = True
+      self.product_explorer_btn.visible = True
       print(f"test_area visibility set to: {self.test_area.visible}")
       if anvil.server.call('check_admin'):
         self.settings_link.visible = True
@@ -103,6 +105,11 @@ class HomePage(HomePageTemplate):
     """This method is called when the link is clicked"""
     self.content_panel.clear()
     self.content_panel.add_component(Temp_ServerTest(), full_width_row=True)
+
+  def product_explorer_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    self.content_panel.clear()
+    self.content_panel.add_component(ProductExplorer(), full_width_row=True)
 
   def mail_click(self, **event_args):
     recieve_msg_modal = RecieveMessages()

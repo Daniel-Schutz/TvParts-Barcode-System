@@ -55,4 +55,16 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
     self.result_count.text = count
     end_time = time.time()
     print(f"Took {end_time-start_time} seconds")
-    
+
+  def radio_submit_click(self, **event_args):
+    if self.exact_radio.selected:
+      print(f"radio button changed, selected value: {self.exact_radio.value}")
+    elif self.contains_radio.selected:
+      print(f"radio button changed, selected value: {self.contains_radio.value}")
+
+  # def group_radio_changed(self, **event_args):
+  #   """This method is called when this radio button is selected"""
+  #   if self.exact_radio.selected:
+  #     selected_value = self.exact_radio.value
+  #   elif self.contains_radio.selected:
+  #     selected_value = self.contains_radio.value
