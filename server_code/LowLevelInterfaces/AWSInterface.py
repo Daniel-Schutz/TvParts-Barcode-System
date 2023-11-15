@@ -5,6 +5,12 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
-from . import GenerateQRCode
-from . import AWSInterface
+import os
+import json
+import pandas as pd
+import boto3
+import requests
+import time
+from decimal import Decimal
+
 

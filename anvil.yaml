@@ -35,40 +35,107 @@ native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.
     \      setTimeout(function() { win.print(); }, 500); // Delay to ensure the image\
     \ is loaded\n    };\n    img.src = url;\n  }\n</script>"}
 db_schema:
-  roles:
+  products:
     client: none
     server: full
     columns:
-    - name: role
+    - name: product_name
       admin_ui: {width: 200, order: 0}
       type: string
-    title: Roles
-  messages:
-    client: none
-    server: full
-    columns:
-    - name: message_id
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: user_from
+    - name: vendor
       admin_ui: {width: 200, order: 1}
       type: string
-    - name: role_from
+    - name: type
       admin_ui: {width: 200, order: 2}
       type: string
-    - name: role_to
-      admin_ui: {order: 3, width: 95}
+    - name: sku
+      admin_ui: {width: 200, order: 3}
       type: string
-    - name: message_body
-      admin_ui: {width: 200, order: 4}
+    - name: product_id
+      admin_ui: {order: -1, width: 200}
       type: string
-    - name: associated_part
-      admin_ui: {width: 200, order: 5}
+    - name: img_source_url
+      admin_ui: {width: 200, order: 4.5}
       type: string
-    - name: complete
-      admin_ui: {order: 6, width: 91}
-      type: bool
-    title: messages
+    - name: shopify_qty
+      admin_ui: {order: 4, width: 200}
+      type: number
+    - name: price
+      admin_ui: {order: 3.5, width: 200}
+      type: number
+    - name: bin
+      admin_ui: {width: 200, order: 5.5}
+      type: string
+    title: products
+  quickmessages:
+    client: none
+    server: full
+    columns:
+    - name: quick_msg_text
+      admin_ui: {width: 200, order: 0}
+      type: string
+    title: Quickmessages
+  crossref:
+    client: none
+    server: full
+    columns:
+    - name: sku
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: cross_ref
+      admin_ui: {width: 200, order: 1}
+      type: string
+    title: crossref
+  trucks:
+    client: none
+    server: full
+    columns:
+    - name: truck_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: truck_created
+      admin_ui: {width: 200, order: 1}
+      type: date
+    - name: supplier_name
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: item_system_count
+      admin_ui: {width: 200, order: 3}
+      type: number
+    - name: item_sold_count
+      admin_ui: {order: 4, width: 136}
+      type: number
+    - name: item_return_count
+      admin_ui: {order: 5, width: 148}
+      type: number
+    - name: item_defect_count
+      admin_ui: {width: 200, order: 6}
+      type: number
+    - name: qr_img_source
+      admin_ui: {width: 200, order: 7}
+      type: string
+    title: trucks
+  suppliers:
+    client: none
+    server: full
+    columns:
+    - name: supplier_name
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: trucks
+      admin_ui: {width: 200, order: 2}
+      type: link_multiple
+      target: trucks
+    - name: truck_count
+      admin_ui: {width: 200, order: 1.5}
+      type: number
+    - name: created_date
+      admin_ui: {order: 1.75, width: 200}
+      type: date
+    - name: supplier_id
+      admin_ui: {order: 0, width: 200}
+      type: string
+    title: suppliers
   users:
     title: Users
     client: none
@@ -107,46 +174,32 @@ db_schema:
     - name: last_name
       admin_ui: {width: 200, order: 10}
       type: string
-  quickmessages:
+  messages:
     client: none
     server: full
     columns:
-    - name: quick_msg_text
+    - name: message_id
       admin_ui: {width: 200, order: 0}
       type: string
-    title: Quickmessages
-  products:
-    client: none
-    server: full
-    columns:
-    - name: product_name
-      admin_ui: {width: 200, order: 0}
-      type: string
-    - name: vendor
+    - name: user_from
       admin_ui: {width: 200, order: 1}
       type: string
-    - name: type
+    - name: role_from
       admin_ui: {width: 200, order: 2}
       type: string
-    - name: sku
-      admin_ui: {width: 200, order: 3}
+    - name: role_to
+      admin_ui: {order: 3, width: 95}
       type: string
-    - name: product_id
-      admin_ui: {order: -1, width: 200}
+    - name: message_body
+      admin_ui: {width: 200, order: 4}
       type: string
-    - name: img_source_url
-      admin_ui: {width: 200, order: 4.5}
+    - name: associated_part
+      admin_ui: {width: 200, order: 5}
       type: string
-    - name: shopify_qty
-      admin_ui: {order: 4, width: 200}
-      type: number
-    - name: price
-      admin_ui: {order: 3.5, width: 200}
-      type: number
-    - name: bin
-      admin_ui: {width: 200, order: 5.5}
-      type: string
-    title: products
+    - name: complete
+      admin_ui: {order: 6, width: 91}
+      type: bool
+    title: messages
   bins:
     client: none
     server: full
@@ -176,54 +229,12 @@ db_schema:
       admin_ui: {width: 200, order: 7}
       type: string
     title: bins
-  suppliers:
+  roles:
     client: none
     server: full
     columns:
-    - name: supplier_name
-      admin_ui: {width: 200, order: 1}
-      type: string
-    - name: trucks
-      admin_ui: {width: 200, order: 2}
-      type: link_multiple
-      target: trucks
-    - name: truck_count
-      admin_ui: {width: 200, order: 1.5}
-      type: number
-    - name: created_date
-      admin_ui: {order: 1.75, width: 200}
-      type: date
-    - name: supplier_id
-      admin_ui: {order: 0, width: 200}
-      type: string
-    title: suppliers
-  trucks:
-    client: none
-    server: full
-    columns:
-    - name: truck_id
+    - name: role
       admin_ui: {width: 200, order: 0}
       type: string
-    - name: truck_created
-      admin_ui: {width: 200, order: 1}
-      type: date
-    - name: supplier_name
-      admin_ui: {width: 200, order: 2}
-      type: string
-    - name: item_system_count
-      admin_ui: {width: 200, order: 3}
-      type: number
-    - name: item_sold_count
-      admin_ui: {order: 4, width: 136}
-      type: number
-    - name: item_return_count
-      admin_ui: {order: 5, width: 148}
-      type: number
-    - name: item_defect_count
-      admin_ui: {width: 200, order: 6}
-      type: number
-    - name: qr_img_source
-      admin_ui: {width: 200, order: 7}
-      type: string
-    title: trucks
+    title: Roles
 uplink_visible: true
