@@ -47,3 +47,12 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
       buttons=["CLOSE"],
       large=True
     )
+
+
+  def db_test_click(self, **event_args):
+    start_time = time.time()
+    count = anvil.server.call('test_db_search')
+    self.result_count.text = count
+    end_time = time.time()
+    print(f"Took {end_time-start_time} seconds")
+    

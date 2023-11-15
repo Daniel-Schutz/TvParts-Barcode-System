@@ -4,4 +4,67 @@ components:
   properties: {role: product-explorer-background}
   type: ColumnPanel
   layout_properties: {grid_position: 'WEADOV,NTIFFW'}
+  components:
+  - name: headline
+    properties: {role: headline, align: center, text: Product Explorer}
+    type: Label
+    layout_properties: {grid_position: 'QREGDX,LNBLQL'}
+  - name: card_2
+    properties: {role: null}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'CPYGIQ,NXULNY'}
+    components:
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'DJYKGP,ABPYWA'}
+      components:
+      - name: name_label
+        properties: {text: 'Product Name:'}
+        type: Label
+      - name: product_name_txbx
+        properties: {}
+        type: TextBox
+        layout_properties: {width: 505.5}
+      - name: spacer_1
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 72}
+      - name: name_exact_radio
+        properties: {text: Equals, align: right}
+        type: RadioButton
+        layout_properties: {}
+      - name: name_contains_radio
+        properties: {text: Contains, align: right}
+        type: RadioButton
+        layout_properties: {}
+    - name: flow_panel_1_copy_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'PGYIDR,PMVFBS'}
+      components:
+      - name: sku_label
+        properties: {text: 'Product SKU:'}
+        type: Label
+        layout_properties: {}
+      - name: product_sku_txbx
+        properties: {}
+        type: TextBox
+        layout_properties: {width: 505.5}
+      - name: spacer_1_copy_1
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 81}
+      - name: name_exact_radio_copy_1
+        properties: {text: Equals, align: right}
+        type: RadioButton
+        layout_properties: {}
+      - name: name_contains_radio_copy_1
+        properties: {text: Contains, align: right}
+        type: RadioButton
+        layout_properties: {}
+    - name: card_3
+      properties: {role: card}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'MHSWKG,EFAAGE'}
 is_package: true

@@ -40,7 +40,7 @@ components:
       properties: {text: Database Search Test, role: primary-color}
       type: Button
       layout_properties: {grid_position: 'OTVAKT,BXUPOI'}
-      event_bindings: {click: modal_recieve_msg_btn_click}
+      event_bindings: {click: db_test_click}
     - name: result_count
       properties: {}
       type: TextBox

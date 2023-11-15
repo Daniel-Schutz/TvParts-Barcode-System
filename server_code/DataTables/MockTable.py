@@ -19,3 +19,8 @@ def get_unique_trucks():
 @anvil.server.callable
 def create_truck(truck_id, truck_created):
   app_tables.mocktrucks.add_row(truck_id = truck_id, truck_created=truck_created)
+
+@anvil.server.callable
+def test_db_search():
+  num_results = len(app_tables.products.search(sku=q.like("%18%")))
+  return num_results
