@@ -10,6 +10,8 @@ class ProductExplorer(ProductExplorerTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.type_dropdown.items = anvil.server.call('get_type_dropdown')
+    self.type_dropdown.selected_value = 'All Types'
 
     # Any code you write here will run before the form opens.
 
@@ -27,10 +29,6 @@ class ProductExplorer(ProductExplorerTemplate):
     elif self.sku_exact_radio.selected:
       sku_search_type = self.sku_exact_radio.value
 
-    if self.vendor_dropdown.selected_value:
-      vendor = self.vendor_dropdown.selected_value
-    else:
-      vendor = None
 
     if self.type_dropdown.selected_value:
       type = self.type_dropdown.selected_value
@@ -42,10 +40,15 @@ class ProductExplorer(ProductExplorerTemplate):
                                           product_name_search_type, 
                                           sku, 
                                           sku_search_type, 
-                                          vendor, 
                                           type)
     self.num_results_display.text = len(matching_products)
 
-  def reset_search(self):
-    new_form = self.__class__()
-    open_form(new_form)
+  def reset_search(self, **event_args):
+    self.name_contains_radio.selected = True
+    self.sku_contains_radio.selected = True
+    self.type_dropdown.selected_value = 'All Types'
+    self.product_name_txbx.text = None
+    self.product_sku_txbx.text = None
+    self.num_results_display.text = None
+
+

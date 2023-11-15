@@ -38,6 +38,14 @@ native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.
     \      setTimeout(function() { win.print(); }, 500); // Delay to ensure the image\
     \ is loaded\n    };\n    img.src = url;\n  }\n</script>"}
 db_schema:
+  product_type:
+    client: none
+    server: full
+    columns:
+    - name: type
+      admin_ui: {width: 200, order: 0}
+      type: string
+    title: product_type
   products:
     client: none
     server: full

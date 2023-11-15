@@ -20,7 +20,30 @@ def get_unique_trucks():
 def create_truck(truck_id, truck_created):
   app_tables.mocktrucks.add_row(truck_id = truck_id, truck_created=truck_created)
 
+# @anvil.server.callable
+# def test_db_search():
+#   searches = {}
+#   searches['sku'] = q.like("%18%"))
+#   searches.append(product_id=q.like("%8%"))
+#   num_results = app_tables.products.search(object_col={'sku', })
+#   # num_results = len(app_tables.products.search(searches))
+#   # combined_condition = q.like(lambda row: "%18%" in row['sku'] and "%8%" in row['product_id'])
+#   # num_results = len(app_tables.products.search(combined_condition))
+#   # num_results = len(app_tables.products.search(q.like('sku', "%18%") & q.like('product_id', "%8%")
+#   #                          ))
+#   return num_results
+
 @anvil.server.callable
 def test_db_search():
-  num_results = len(app_tables.products.search(sku=q.like("%18%")))
+  # Create individual query objects for each condition
+  # condition1 = q.like("%18%")
+  # condition2 = q.like('product_id', "%8%")
+
+  # # Combine the conditions using logical 'AND'
+  # combined_conditions = condition1 & condition2
+
+  # Execute the search with the combined conditions
+  num_results = len(app_tables.products.search(sku=q.like("%"),
+                                              product_name=q.like("%")))
+
   return num_results

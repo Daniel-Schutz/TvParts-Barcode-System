@@ -7,37 +7,48 @@ from anvil.tables import app_tables
 import anvil.server
 
 @anvil.server.callable
+def get_type_dropdown():
+  results = app_tables.product_type.search()
+  types = [(row['type'], row['type']) for row in results]
+  types.append(('All Types', 'All Types'))
+  types.sort()
+  return types
+
+@anvil.server.callable
 def run_product_explorer_query(product_name_t, 
                                product_name_search_type, 
                                sku_t, sku_search_type, 
-                               vendor, product_type):
+                               product_type_t):
   query_conditions = []
     
     # Add conditions based on input fields and search type
   if product_name_t:
     if product_name_search_type == 'Contains':
-      query_conditions.append(product_name = q.ilike(f"%{product_name_t}%"))
+      product_name_query = f"%{product_name_t}%"
     else:
-      query_conditions.append(q.ilike(f"{product_name}"))
+      product_name_query = product_name_t
+  else:
+    product_name_query = '%'
 
   if sku_t:
     if sku_search_type == 'Contains':
-      query_conditions.append(sku=q.ilike(f"%{sku_t}%))
+      sku_query = f"%{sku_t}%"
     else:
-      query_conditions.append(q.sku == sku)
+      sku_query = sku_t
+  else:
+    sku_query = "%"
   
-  # Vendor and Type are dropdowns, so they will be exact matches
-  if vendor:
-      query_conditions.append(q.vendor == vendor)
+  if product_type_t == 'All Types':
+    type_query = "%"
+  else:
+    type_query = product_type_t
   
-  if product_type:
-      query_conditions.append(q.type == product_type)
-  
-  # Combine all the conditions with an 'AND' operator
-  combined_query = q.AND(*query_conditions)
   
   # Execute the search with the combined query
-  results = app_tables.products.search(combined_query)
+  results = app_tables.products.search(product_name = q.ilike(product_name_query), 
+                                       sku = q.ilike(sku_query),
+                                       type = q.ilike(type_query)
+                                      )
   
   # Return the matching results
   return results
