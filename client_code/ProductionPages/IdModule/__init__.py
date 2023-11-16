@@ -75,11 +75,13 @@ class IdModule(IdModuleTemplate):
 
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.create_item_btn.enabled = False
     
+    print("create item fired.")
     item_info_dict = {
       #Set information for the qrcode
       'sku': self.selected_product_display.text,
-      'item_id': self.generate_unique_item_id(sku),
+      'item_id': self.generate_unique_item_id(self.selected_product_display.text),
       'bin': self.selected_product['bin'], 
       'os_bins': self.selected_product['os_bins'],
       'cross_refs': self.selected_product['cross_refs'],
@@ -118,6 +120,9 @@ class IdModule(IdModuleTemplate):
                                       os_bins=os_bins,
                                       cross_refs=cross_refs)
     self.qr_image.source = raw_source_url
+    self.system_id_display.text = item_id
+
+    self.create_item_btn.enabled = True
     
     
 

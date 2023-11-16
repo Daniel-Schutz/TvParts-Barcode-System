@@ -208,9 +208,9 @@ components:
             properties: {role: headline, text: 'System Item ID:', italic: true, font_size: 15}
             type: Label
             layout_properties: {}
-          - name: item_id_display
-            properties: {align: left}
-            type: RichText
+          - name: system_id_display
+            properties: {role: headline, text: '', italic: false, font_size: 15}
+            type: Label
             layout_properties: {}
   - name: create_barcode_button
     properties: {text: PRINT LABEL, role: primary-color, bold: true, font: '', font_size: 25}
