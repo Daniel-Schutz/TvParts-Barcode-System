@@ -20,6 +20,12 @@ def get_user_role():
   user = anvil.users.get_user()
   return user['role']
 
+#Get user full name
+@anvil.server.callable
+def get_user_full_name():
+  user = anvil.users.get_user()
+  return user['first_name'] + " " + user['last_name']
+
 #Check User First Name
 @anvil.server.callable
 def get_user_first_name():

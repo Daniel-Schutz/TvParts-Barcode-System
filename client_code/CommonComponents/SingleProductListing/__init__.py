@@ -18,4 +18,4 @@ class SingleProductListing(SingleProductListingTemplate):
     """This method is called when the button is clicked"""
     print("read the button click")
     print(self.item['sku'])
-    self.parent.raise_event('x-product-selected', sku=self.item['sku'])
+    self.parent.raise_event('x-product-selected', product=self.item)
