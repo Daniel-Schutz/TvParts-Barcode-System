@@ -51,4 +51,8 @@ class ProductExplorer(ProductExplorerTemplate):
     self.product_sku_txbx.text = None
     self.num_results_display.text = None
 
+  def main_submit_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
 

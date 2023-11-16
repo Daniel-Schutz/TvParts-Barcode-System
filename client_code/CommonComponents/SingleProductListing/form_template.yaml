@@ -94,6 +94,15 @@ components:
         properties: {}
         type: RichText
         layout_properties: {expand: true}
+      - name: card_3
+        properties: {role: card}
+        type: ColumnPanel
+        layout_properties: {width: 121}
+        components:
+        - name: primary_color_2
+          properties: {text: primary_color_2, role: primary-color}
+          type: Button
+          layout_properties: {grid_position: 'SYFNWH,CYGDSZ'}
     - name: flow_panel_4_copy_1
       properties: {}
       type: FlowPanel
@@ -107,4 +116,13 @@ components:
         properties: {}
         type: RichText
         layout_properties: {expand: true}
+      - name: card_3_copy_1
+        properties: {role: card}
+        type: ColumnPanel
+        layout_properties: {width: 123}
+        components:
+        - name: primary_color_1
+          properties: {text: primary_color_1, role: primary-color}
+          type: Button
+          layout_properties: {grid_position: 'IHYKYI,PABPAD'}
 is_package: true

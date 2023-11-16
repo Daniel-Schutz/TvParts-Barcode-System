@@ -146,8 +146,8 @@ components:
         properties: {text: And also here bb boo}
         type: Label
         layout_properties: {grid_position: 'LKANRO,LMPBCI'}
-      - name: primary_color_1
-        properties: {text: primary_color_1, role: primary-color, align: left}
+      - name: page_back_btn
+        properties: {text: Prev, role: primary-color, align: left}
         type: Button
         layout_properties: {grid_position: 'JNFYMU,TIYIKP'}
       - name: flow_panel_2
@@ -155,17 +155,19 @@ components:
         type: FlowPanel
         layout_properties: {grid_position: 'JNFYMU,IHSRYF'}
         components:
-        - name: page_number_label
-          properties: {align: center, bold: true}
+        - name: page_num_lbl
+          properties: {align: right, bold: true}
           type: Label
-        - name: label_1
-          properties: {}
+          layout_properties: {}
+        - name: of_label
+          properties: {align: center, text: of}
           type: Label
+          layout_properties: {}
         - name: ttl_pg_lbl
           properties: {}
           type: Label
-      - name: primary_color_2
-        properties: {text: primary_color_2, role: primary-color, align: right}
+      - name: page_next_btn
+        properties: {text: Next, role: primary-color, align: right}
         type: Button
         layout_properties: {grid_position: 'JNFYMU,SJOZDK'}
     - name: flow_panel_5
@@ -179,4 +181,9 @@ components:
       - name: selected_sku
         properties: {text: '', underline: false, font_size: 22}
         type: Label
+    - name: column_panel_2
+      properties: {}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'CVTKCS,GCLWOT'}
+      components: []
 is_package: true
