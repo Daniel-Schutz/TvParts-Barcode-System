@@ -10,6 +10,7 @@ import anvil.media
 
 from ...CommonComponents.SendMessages import SendMessages
 from ...CommonComponents.RecieveMessages import RecieveMessages
+from ..IdModule import IdModule
 
 import uuid
 import datetime
@@ -68,3 +69,8 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
   #     selected_value = self.exact_radio.value
   #   elif self.contains_radio.selected:
   #     selected_value = self.contains_radio.value
+
+  def to_id_screen_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.parent.add_component(IdModule(), full_width_row=True)
+    self.remove_from_parent()

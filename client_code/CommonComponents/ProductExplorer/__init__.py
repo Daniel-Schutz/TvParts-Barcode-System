@@ -117,3 +117,5 @@ class ProductExplorer(ProductExplorerTemplate):
   def select_product(self, sku, **event_args):
     print("triggered the event")
     self.selected_sku.text = sku
+    #raising close alert event for modal operations
+    self.raise_event('x-close-alert', value=sku)
