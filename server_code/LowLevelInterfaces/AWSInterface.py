@@ -78,6 +78,42 @@ class AWSInterface:
                 }
             }
 
+############ Higher Level Interface ###################
+    def simple_set_value(self, item_id, col_name, value):
+        key = {'item_id': item_id}
+        update_expression = f'SET {col_name} = :val'
+        expression_attribute_values = {':val', value}
+        response = self.update_item('unique_item', key, 
+                                    update_expression, expression_attribute_values)
+
+    def process_new_item(self, item_dict, raw_qr_source, 
+                         bucket='barcode-system-storage-tvparts', 
+                         folder='qr_images'):
+        dyn_item_dict = self.date_processor(item_dict)
+        obj_key_id = uuid.uuid4()
+        self.create_item('unique_item', dyn_item_dict)
+        obj_key = self.upload_image_from_url_to_s3(raw_qr_source, 
+                                                  bucket, 
+                                                  folder, 
+                                                  obj_key_id)
+        print(obj_key)
+        key = {'item_id': item['item_id']}
+        update_expression = 'SET s3_object_key = :val'
+        expression_attribute_values = {':val': obj_key}
+        response = aws.update_item('unique_item', key, update_expression, expression_attribute_values)
+        print(response)        
+        
+############ Helpers ##################################
+    def date_processor(self, item_dict):
+        new_dict = {}
+        for k,v in item_dict.items():
+            if type(v) == datetime.datetime:
+                new_v = v.isoformat()
+                new_dict[k] = new_v
+            else:
+                new_dict[k] = v
+        return new_dict
+
         
 ############ BASIC CRUD ###############################
     
