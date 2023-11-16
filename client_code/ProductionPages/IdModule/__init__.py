@@ -122,7 +122,10 @@ class IdModule(IdModuleTemplate):
     self.qr_image.source = raw_source_url
     self.system_id_display.text = item_id
 
-    print(item_info_dict)
+    #Add new item to Dynamo and its qr to S3
+    anvil.server.launch_background_task('process_new_item',
+                                        item_info_dict, 
+                                        raw_course_url)
 
     self.create_item_btn.enabled = True
     
