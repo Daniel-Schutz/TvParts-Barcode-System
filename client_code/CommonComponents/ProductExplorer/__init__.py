@@ -12,6 +12,7 @@ class ProductExplorer(ProductExplorerTemplate):
     self.init_components(**properties)
     self.type_dropdown.items = anvil.server.call('get_type_dropdown')
     self.type_dropdown.selected_value = 'All Types'
+    self.temp_items_from_db()
 
     # Any code you write here will run before the form opens.
 
@@ -51,8 +52,12 @@ class ProductExplorer(ProductExplorerTemplate):
     self.product_sku_txbx.text = None
     self.num_results_display.text = None
 
+
+############# EVENTS #######################################  
   def main_submit_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     pass
 
-
+  #helper for designing the repeater and pagination system
+  def temp_items_from_db(self):
+    self.repeating_panel_1.items = anvil.server.call('test_product_call')

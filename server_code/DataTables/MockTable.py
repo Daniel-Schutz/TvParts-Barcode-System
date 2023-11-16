@@ -7,6 +7,26 @@ from anvil.tables import app_tables
 import anvil.server
 
 @anvil.server.callable
+def test_product_call():
+  results = app_tables.products.search(sku=q.ilike("%R%"))
+  base_results = [row.to_dict() for row in results[:5]]
+  final_results = []
+  for entry in base_results:
+    entry['crosses'] = ', '.join(get_cross_refs(entry['sku']))
+  return [row for row in results[:5]]
+
+def get_cross_refs(product_sku):
+  results = app_tables.crossref.search(sku=product_sku)
+  #returning just the crosses as a list
+  return [row['cross_ref'] for row in results]
+
+def get_os_bins(product_sku):
+  results = app_tables.bins.search(sku=product_sku, 
+                                   bin_type='overstock')
+  #returning just the os locs as a list
+  return [row['bin'] for row in results]
+
+@anvil.server.callable
 def get_supplier_dropdown():
   results = app_tables.suppliers.search()
   return [(row['supplier_name'], row['supplier_name']) for row in results]

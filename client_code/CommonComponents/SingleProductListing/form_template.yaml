@@ -18,6 +18,8 @@ components:
         properties: {height: 174}
         type: Image
         layout_properties: {width: 176}
+        data_bindings:
+        - {property: source, code: 'self.item[''img_source_url'']', writeback: false}
     - name: column_panel_1
       properties: {}
       type: ColumnPanel
@@ -29,53 +31,68 @@ components:
         layout_properties: {grid_position: 'ZMOBSC,KWMTMM'}
         components:
         - name: name_label
-          properties: {text: 'Name:'}
+          properties: {text: 'Name:', bold: true, underline: true}
           type: Label
-        - name: name_output_bx
-          properties: {enabled: false}
-          type: TextBox
-          layout_properties: {width: 433.5}
+          layout_properties: {}
+        - name: name_content
+          properties: {}
+          type: RichText
+          data_bindings:
+          - {property: content, code: 'self.item[''product_name'']', writeback: false}
+          layout_properties: {expand: true}
       - name: flow_panel_3_copy_1
         properties: {}
         type: FlowPanel
-        layout_properties: {grid_position: 'LXWKPU,GMRIDQ'}
+        layout_properties: {grid_position: 'UYUIRO,EAOMWK'}
         components:
         - name: sku_label
-          properties: {text: 'SKU:'}
+          properties: {text: 'SKU:', underline: true}
           type: Label
-          layout_properties: {}
-        - name: sku_output_bx
-          properties: {enabled: false}
-          type: TextBox
-          layout_properties: {width: 216.5}
+        - name: sku_content
+          properties: {}
+          type: RichText
+          data_bindings:
+          - {property: content, code: 'self.item[''sku'']', writeback: false}
+      - name: flow_panel_5
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'UYUIRO,JBSVGG'}
+        components:
         - name: bin_label
-          properties: {text: 'Bin:'}
+          properties: {text: 'Bin:', underline: true}
           type: Label
-          layout_properties: {}
-        - name: bin_output_bx
-          properties: {enabled: false}
-          type: TextBox
+        - name: bin_content
+          properties: {}
+          type: RichText
+          data_bindings:
+          - {property: content, code: 'self.item[''bin'']', writeback: false}
       - name: flow_panel_3_copy_1_copy_1
         properties: {}
         type: FlowPanel
         layout_properties: {grid_position: 'EEKAVN,GSPTPX'}
         components:
         - name: type_label
-          properties: {text: 'Type:'}
+          properties: {text: 'Type:', underline: true}
           type: Label
           layout_properties: {}
-        - name: type_output_bx
-          properties: {enabled: false}
-          type: TextBox
-          layout_properties: {width: 184.5}
+        - name: type_content
+          properties: {}
+          type: RichText
+          data_bindings:
+          - {property: content, code: 'self.item[''type'']', writeback: false}
+      - name: flow_panel_6
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'EEKAVN,JTDRUG'}
+        components:
         - name: inventory_label
-          properties: {text: 'Inventory:', align: right}
+          properties: {text: 'Inventory:', align: right, underline: true}
           type: Label
-          layout_properties: {}
-        - name: inv_output_bx
-          properties: {enabled: false, align: right}
-          type: TextBox
-          layout_properties: {width: 54.5}
+        - name: inv_content
+          properties: {}
+          type: RichText
+          data_bindings:
+          - {property: content, code: 'self.item[''shopify_qty'']', writeback: false}
   - name: card_2
     properties: {role: null}
     type: ColumnPanel
@@ -87,29 +104,19 @@ components:
       layout_properties: {grid_position: 'VUCOVM,LRWEDQ'}
       components:
       - name: os_label
-        properties: {text: 'Overstock Bins:'}
+        properties: {text: 'Overstock Bins:', underline: true}
         type: Label
         layout_properties: {}
       - name: os_bin_output_bx
         properties: {}
         type: RichText
-        layout_properties: {expand: true}
-      - name: card_3
-        properties: {role: card}
-        type: ColumnPanel
-        layout_properties: {width: 121}
-        components:
-        - name: primary_color_2
-          properties: {text: primary_color_2, role: primary-color}
-          type: Button
-          layout_properties: {grid_position: 'SYFNWH,CYGDSZ'}
     - name: flow_panel_4_copy_1
       properties: {}
       type: FlowPanel
       layout_properties: {grid_position: 'TFDWHP,ROFUTH'}
       components:
       - name: crs_label
-        properties: {text: 'Cross References:'}
+        properties: {text: 'Cross References:', underline: true}
         type: Label
         layout_properties: {}
       - name: crs_output_bx
@@ -117,12 +124,12 @@ components:
         type: RichText
         layout_properties: {expand: true}
       - name: card_3_copy_1
-        properties: {role: card}
+        properties: {role: null}
         type: ColumnPanel
-        layout_properties: {width: 123}
+        layout_properties: {width: 244}
         components:
-        - name: primary_color_1
-          properties: {text: primary_color_1, role: primary-color}
+        - name: select_product_btn
+          properties: {text: select, role: primary-color, icon: 'fa:qrcode'}
           type: Button
           layout_properties: {grid_position: 'IHYKYI,PABPAD'}
 is_package: true

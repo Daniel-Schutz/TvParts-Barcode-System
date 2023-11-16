@@ -126,12 +126,13 @@ components:
         layout_properties: {grid_position: 'NNXKWQ,UJDDXK'}
         event_bindings: {click: reset_search}
     - name: card_3
-      properties: {role: card}
+      properties: {role: product-explorer-background}
       type: ColumnPanel
       layout_properties: {grid_position: 'RHZKGQ,CKUTOV'}
       components:
       - name: pagination_header_label
-        properties: {text: Pagination Stuff Here if needed}
+        properties: {text: Product Records, align: center, underline: true, bold: false,
+          font_size: 27}
         type: Label
         layout_properties: {grid_position: 'VQBRGT,ZHDDLZ'}
       - name: repeating_panel_1
