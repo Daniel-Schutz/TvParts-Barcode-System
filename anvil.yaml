@@ -77,6 +77,12 @@ db_schema:
     - name: bin
       admin_ui: {width: 200, order: 5.5}
       type: string
+    - name: os_bins
+      admin_ui: {width: 200, order: 6.5}
+      type: string
+    - name: cross_refs
+      admin_ui: {width: 200, order: 7.5}
+      type: string
     title: products
   quickmessages:
     client: none
