@@ -103,6 +103,14 @@ db_schema:
       admin_ui: {width: 200, order: 1}
       type: string
     title: crossref
+  tv_makes:
+    client: none
+    server: full
+    columns:
+    - name: make
+      admin_ui: {width: 200, order: 0}
+      type: string
+    title: tv_makes
   trucks:
     client: none
     server: full
