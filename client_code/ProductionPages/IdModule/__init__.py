@@ -122,6 +122,8 @@ class IdModule(IdModuleTemplate):
     self.qr_image.source = raw_source_url
     self.system_id_display.text = item_id
 
+    print(item_info_dict)
+
     self.create_item_btn.enabled = True
     
     
