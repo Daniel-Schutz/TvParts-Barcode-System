@@ -12,3 +12,10 @@ class SingleProductListing(SingleProductListingTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+######## Select Event #############################
+  def select_product_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    print("read the button click")
+    print(self.item['sku'])
+    self.parent.raise_event('x-product-selected', sku=self.item['sku'])

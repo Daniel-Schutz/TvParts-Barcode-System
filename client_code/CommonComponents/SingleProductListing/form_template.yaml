@@ -1,7 +1,9 @@
-container: {type: ColumnPanel}
+container:
+  type: ColumnPanel
+  properties: {role: null}
 components:
 - name: card_1
-  properties: {role: card}
+  properties: {role: null}
   type: ColumnPanel
   layout_properties: {grid_position: 'POXANX,XNSQYR'}
   components:
@@ -110,6 +112,8 @@ components:
       - name: os_bin_output_bx
         properties: {}
         type: RichText
+        data_bindings:
+        - {property: content, code: 'self.item[''os_bins'']', writeback: false}
     - name: flow_panel_4_copy_1
       properties: {}
       type: FlowPanel
@@ -123,6 +127,8 @@ components:
         properties: {}
         type: RichText
         layout_properties: {expand: true}
+        data_bindings:
+        - {property: content, code: 'self.item[''cross_refs'']', writeback: false}
       - name: card_3_copy_1
         properties: {role: null}
         type: ColumnPanel
@@ -132,4 +138,10 @@ components:
           properties: {text: select, role: primary-color, icon: 'fa:qrcode'}
           type: Button
           layout_properties: {grid_position: 'IHYKYI,PABPAD'}
+          event_bindings: {click: select_product_btn_click}
+- name: spacer_1
+  properties: {height: 3}
+  type: Spacer
+  layout_properties: {grid_position: 'PGUFQW,SEGWRL', row_background: 'theme:Secondary
+      700'}
 is_package: true

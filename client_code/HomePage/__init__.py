@@ -108,8 +108,15 @@ class HomePage(HomePageTemplate):
 
   def product_explorer_click(self, **event_args):
     """This method is called when the link is clicked"""
-    self.content_panel.clear()
-    self.content_panel.add_component(ProductExplorer(), full_width_row=True)
+    product_explorer_modal = ProductExplorer()
+    selected_value = anvil.alert(
+      product_explorer_modal, 
+      title="Product Explorer",
+      buttons=["CLOSE"],
+      large=True
+    )
+    #self.content_panel.clear()
+    #self.content_panel.add_component(ProductExplorer(), full_width_row=True)
 
   def mail_click(self, **event_args):
     recieve_msg_modal = RecieveMessages()
