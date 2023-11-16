@@ -77,10 +77,37 @@ components:
       type: ColumnPanel
       layout_properties: {grid_position: 'NZSYXX,BDFRXR'}
       components:
-      - name: make_label
-        properties: {text: 'Make:'}
+      - name: flow_panel_5
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'IZYOLH,IUBGDF'}
+        components:
+        - name: make_label
+          properties: {text: 'Make:', align: left}
+          type: Label
+        - name: make_dropdown
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 327}
+        - name: spacer_3
+          properties: {height: 32}
+          type: Spacer
+          layout_properties: {width: 66}
+        - name: model_label
+          properties: {text: 'Model:'}
+          type: Label
+        - name: model_input_bx
+          properties: {}
+          type: TextBox
+          layout_properties: {width: 284.5}
+      - name: year_label
+        properties: {text: 'Year:'}
         type: Label
-        layout_properties: {grid_position: 'ATIDNL,BALFIW'}
+        layout_properties: {grid_position: 'EGHQHK,RLUZXV'}
+      - name: size_label
+        properties: {text: 'Size (inches):'}
+        type: Label
+        layout_properties: {grid_position: 'EGHQHK,MNWYKZ'}
   - name: card_5_copy_1
     properties: {role: card}
     type: ColumnPanel
