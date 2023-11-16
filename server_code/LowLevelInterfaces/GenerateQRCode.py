@@ -18,7 +18,7 @@ import time
 
 @anvil.server.callable
 def generate_qr_code(wait_time=0, **kwargs):
-  json_str = json.dumps(kwargs, indent=1)
+  json_str = json.dumps(kwargs, indent=0)
   api_url = 'https://quickchart.io/qr'
   params = {
   'text': json_str,

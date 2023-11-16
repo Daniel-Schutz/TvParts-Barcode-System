@@ -137,7 +137,7 @@ class TeardownModule(TeardownModuleTemplate):
     supplier = self.supplier_dropdown.selected_value
     truck = self.truck_id.text
     qr_img_url = anvil.server.call('generate_qr_code', 
-                                              supplier=supplier, truck=truck)
+                                              truck=truck)
     s3_obj_key = anvil.server.call('store_qr_code', qr_img_url)
     s3_img_url = anvil.server.call('get_s3_image_url', s3_obj_key)
     self.qr_image.source = s3_img_url
