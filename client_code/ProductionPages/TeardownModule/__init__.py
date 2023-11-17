@@ -138,6 +138,7 @@ class TeardownModule(TeardownModuleTemplate):
     truck = self.truck_id.text
     qr_img_url = anvil.server.call('generate_qr_code', 
                                               truck=truck)
+    self.qr_image.source = qr_img_url
     s3_obj_key = anvil.server.call('store_qr_code', qr_img_url)
     s3_img_url = anvil.server.call('get_s3_image_url', s3_obj_key)
     self.qr_image.source = s3_img_url
