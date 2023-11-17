@@ -19,6 +19,14 @@ from io import BytesIO
 import logging
 
 @anvil.server.callable
+def get_row_from_dynamo(table_name, key):
+  aws_access = anvil.secrets.get_secret('aws_access')
+  aws_secret = anvil.secrets.get_secret('aws_secret')
+  aws = AWSInterface(aws_access, aws_secret)
+  return_dict = aws.get_item(table_name, {'item_id': key})
+  return return_dict
+
+@anvil.server.callable
 def store_qr_code(qr_source_url):
   aws_access = anvil.secrets.get_secret('aws_access')
   aws_secret = anvil.secrets.get_secret('aws_secret')
