@@ -101,7 +101,13 @@ class IdModule(IdModuleTemplate):
       'testing_status': "Never Tested",
       'stored_bin': '',
       'verified_by': '',
-      'verified_date': datetime.datetime.now(),
+      'verified_date': datetime.datetime(1900, 1, 1), #placeholder date
+      'picked_date': datetime.datetime(1900, 1, 1),
+      'picked_by': '',
+      'tested_by': '',
+      'tested_date': datetime.datetime(1900, 1, 1),
+      'packed_by': '',
+      'packed_date': datetime.datetime(1900, 1, 1),
       'order_id': '',
       's3_object_key': ''
     }
