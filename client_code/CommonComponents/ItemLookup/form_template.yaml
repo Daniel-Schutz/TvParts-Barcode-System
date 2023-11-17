@@ -12,9 +12,36 @@ components:
   - name: flow_panel_1
     properties: {}
     type: FlowPanel
-    layout_properties: {grid_position: 'NUIYXJ,MUHTYP'}
+    layout_properties: {grid_position: 'MJXLLV,OKMZJP'}
     components:
-    - name: scan_lael
-      properties: {}
+    - name: scan_label
+      properties: {text: 'Scan Item:'}
       type: Label
+      layout_properties: {}
+    - name: qr_icon
+      properties: {text: '', icon: 'fa:qrcode', font_size: 31}
+      type: Label
+      layout_properties: {}
+    - name: scanned_item_input
+      properties: {}
+      type: TextBox
+      layout_properties: {width: 387.5}
+  - name: spacer_1
+    properties: {height: 3}
+    type: Spacer
+    layout_properties: {grid_position: 'LUTDJH,YEVJNV', full_width_row: true, row_background: 'theme:Primary
+        700'}
+  - name: flow_panel_1_copy_1
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'ETXXEY,KTHNLJ'}
+    components:
+    - name: item_id_label
+      properties: {text: 'Item ID:'}
+      type: Label
+      layout_properties: {}
+    - name: item_id_output
+      properties: {}
+      type: RichText
+      layout_properties: {expand: true}
 is_package: true
