@@ -41,6 +41,7 @@ unique_ids:
     LowLevelInterfaces.AWSInterface: '1700015731423821346208564.3053'
     ProductionOperations.IdTables: '1700146957371788568146873.8663'
     LowLevelInterfaces.ShopifyInterface: '1700015818828653581255761.039'
+    ProductionOperations.TeardownTables: '1700245317541554627081458.3965'
     LowLevelInterfaces: '1699642469614491455829864.35767'
     Utilities: '1616578895984611844420952.8174'
   assets:
