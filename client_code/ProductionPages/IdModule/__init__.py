@@ -85,7 +85,6 @@ class IdModule(IdModuleTemplate):
       'bin': self.selected_product['bin'], 
       'os_bins': self.selected_product['os_bins'],
       'cross_refs': self.selected_product['cross_refs'],
-
       #Set all other information for item DB entry
       'product_name': self.selected_product['product_name'],
       'supplier': self.supplier_scan_output.content,
