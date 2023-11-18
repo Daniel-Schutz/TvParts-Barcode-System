@@ -59,7 +59,7 @@ components:
         properties: {}
         type: FlowPanel
         components:
-        - name: product_img_copy_1
+        - name: product_img
           properties: {height: 174}
           type: Image
           layout_properties: {width: 176}
@@ -152,7 +152,7 @@ components:
           properties: {text: 'Overstock Bins:', underline: true}
           type: Label
           layout_properties: {}
-        - name: os_bin_output_bx_copy_1
+        - name: os_bins_output
           properties: {}
           type: RichText
           data_bindings:
@@ -162,11 +162,11 @@ components:
         type: FlowPanel
         layout_properties: {grid_position: 'TFDWHP,ROFUTH'}
         components:
-        - name: crs_label_copy_1
+        - name: crs_label
           properties: {text: 'Cross References:', underline: true}
           type: Label
           layout_properties: {}
-        - name: crs_output_bx_copy_1
+        - name: crs_output
           properties: {}
           type: RichText
           layout_properties: {expand: true}
@@ -177,10 +177,15 @@ components:
           type: ColumnPanel
           layout_properties: {width: 244}
           components:
-          - name: select_product_btn_copy_1
-            properties: {text: select, role: primary-color, icon: 'fa:qrcode'}
+          - name: mis_id_button
+            properties: {text: Misidentified, role: secondary-color, icon: ''}
             type: Button
             layout_properties: {grid_position: 'IHYKYI,PABPAD'}
+            event_bindings: {click: select_product_btn_click}
+          - name: select_product_btn_copy_1_copy_1
+            properties: {text: select, role: primary-color, icon: 'fa:qrcode'}
+            type: Button
+            layout_properties: {grid_position: 'IHYKYI,VJVTSP'}
             event_bindings: {click: select_product_btn_click}
 - name: pick_mode_label_copy_1
   properties: {text: 'Ready to Pick?:'}
