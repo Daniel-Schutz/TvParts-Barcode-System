@@ -7,6 +7,12 @@ from anvil.tables import app_tables
 import anvil.server
 
 @anvil.server.callable
+def get_product_by_sku(input_sku):
+  results = app_tables.products.search(sku=q.like(f"{input_sku}"))
+  disassemble = [row for row in results[:5]]
+  return disassemble[0]
+
+@anvil.server.callable
 def get_type_dropdown():
   results = app_tables.product_type.search()
   types = [(row['type'], row['type']) for row in results]

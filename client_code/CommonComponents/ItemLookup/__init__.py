@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import json
+from ..SingleProductListing import SingleProductListing
 
 class ItemLookup(ItemLookupTemplate):
   def __init__(self, **properties):
@@ -18,6 +19,7 @@ class ItemLookup(ItemLookupTemplate):
 ########## Helpers ###################################
   def display_all_values(self, this_item):
     self.product_name_output.content = this_item['product_name']
+    self.img_output.source = this_item['img_source']
     self.item_id_output.content = this_item['item_id']
     self.stored_bin_output.content = this_item['stored_bin']
     self.lifecycle_status_output.content = this_item['lifecycle_status']
@@ -42,6 +44,7 @@ class ItemLookup(ItemLookupTemplate):
   def clear_all_values(self):
     self.product_name_output.content = None
     self.item_id_output.content = None
+    self.img_output.source = None
     self.stored_bin_output.content = None
     self.lifecycle_status_output.content = None
     self.testing_status_output.content = None
@@ -89,3 +92,17 @@ class ItemLookup(ItemLookupTemplate):
       anvil.alert("Item id does not exists. Please check and try again")
     else:
       self.display_all_values(item_dict)
+
+  def reset_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.lookup_by_id_input.enabled = True
+    self.scanned_item_input.enabled = True
+    self.clear_all_values()
+
+  def view_product_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    product_sku = self.item_id_output.content.split("__")[0] #assumes __ as id separator
+    product_dict = anvil.server.call('get_product_by_sku')
+
+    #Need to reform single product modal for this to work - see gpt
+    single_product_modal = SingleProductListing(item=product_dict)

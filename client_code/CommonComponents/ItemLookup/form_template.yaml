@@ -180,6 +180,7 @@ components:
             properties: {text: view product information, role: primary-color, align: right}
             type: Button
             layout_properties: {grid_position: 'YTSBBO,OIYASQ'}
+            event_bindings: {click: view_product_button_click}
       layout_properties: {grid_position: 'BHUKYV,RBOWZF'}
   - name: sourcing_label
     properties: {role: headline, text: Sourcing, underline: true}
@@ -476,4 +477,5 @@ components:
       properties: {text: reset item lookup, role: primary-color, align: right}
       type: Button
       layout_properties: {grid_position: 'YZVAXV,ANXCNR VXGVDV,GFSCIS'}
+      event_bindings: {click: reset_btn_click}
 is_package: true
