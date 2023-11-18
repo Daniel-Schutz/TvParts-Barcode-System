@@ -199,6 +199,14 @@ db_schema:
     - name: last_name
       admin_ui: {width: 200, order: 10}
       type: string
+  warehouse_statuses:
+    client: none
+    server: full
+    columns:
+    - name: status
+      admin_ui: {width: 200, order: 0}
+      type: string
+    title: warehouse_statuses
   years:
     client: none
     server: full
