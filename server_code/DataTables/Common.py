@@ -6,6 +6,23 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+import datetime
+import time
+
+@anvil.server.background_task
+def add_history_to_item(item_id, item_status):
+  current_time = datetime.datetime.now()
+  human_date_str = current_time.strftime("%m/%d/%Y")
+  human_time_str = current_time.strftime("%I:%M:%S %p")
+  time.sleep(1) #All other processing to finish
+  current_user = anvil.server.call('get_user_full_name')
+  current_role = anvil.server.call('get_user_role')
+  current_item = anvil.server.call('get_full_item', item_id)
+  current_history = current_item['history']
+  new_message = f"{current_user} ({current_role}) updated item status to {item_status} on {human_date_str} at {human_time_str}."
+  new_history  = current_history + "\n" + new_history
+  anvil.server.call('update_item', item_id, 'history', new_history)
+
 @anvil.server.callable
 def get_admin_settings():
   admin_pull = app_tables.adminsettings.search()

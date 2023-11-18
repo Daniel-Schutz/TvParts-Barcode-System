@@ -220,7 +220,7 @@ components:
       properties: {}
       type: TextBox
       layout_properties: {width: 587.5}
-      event_bindings: {}
+      event_bindings: {pressed_enter: item_code_place_input_pressed_enter}
   - name: bin_panel
     properties: {}
     type: FlowPanel
@@ -238,7 +238,7 @@ components:
       properties: {}
       type: TextBox
       layout_properties: {width: 587.5}
-      event_bindings: {}
+      event_bindings: {pressed_enter: bin_code_place_input_pressed_enter}
   - name: flow_panel_1_copy_1_copy_1_copy_1
     properties: {}
     type: FlowPanel
@@ -252,15 +252,15 @@ components:
       properties: {icon: 'fa:hand-paper-o', font_size: 33, bold: true}
       type: Label
       layout_properties: {}
-    - name: last_time_placed_output
+    - name: last_item_placed_output
       properties: {}
-      type: TextBox
-      layout_properties: {width: 438.5}
-      event_bindings: {}
+      type: RichText
+      layout_properties: {expand: true}
     - name: undo_prev_tn
       properties: {text: undo last item, role: primary-color, tooltip: You can only undo 1 previous item. Use to correct accidental scans.}
       type: Button
       layout_properties: {}
+      event_bindings: {click: undo_prev_tn_click}
 - name: spacer_1
   properties: {height: 10}
   type: Spacer

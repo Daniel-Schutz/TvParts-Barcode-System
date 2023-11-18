@@ -17,10 +17,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.verify_part_btn.enabled = False
     self.place_part_card.visible=False
     admin_settings = anvil.server.call('get_admin_settings')
-    self.item_id = None #setting as property not saved on screen
 
     #If disabled, assumes that items are placed in their primary bin location upon placement scan
     self.require_bin_to_place = admin_settings['require_bin_verify']
+    self.item_id = None #setting as property not saved on screen
     
     self.disable_verify_buttons()
     # Any code you write here will run before the form opens.
@@ -68,6 +68,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.place_part_card.visible = True
     if not self.require_bin_to_place:
       self.bin_panel.visible = False
+    else:
+      self.bin_code_place_input.enabled = False
       #TODO, add conditional to the shopify placement logic based on this setting
 
 ####### EVENTS - Verify Part ###################
@@ -102,10 +104,11 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     #This effectively renders this barcode dead. A new code will need to be printed for this item
     current_user = anvil.server.call('get_user_full_name')
     current_time = datetime.now()
+    item_status = "Misidentified"
     update_lifecycle_status = anvil.server.call('update_item', 
                                                 self.item_id, 
                                                 'lifecycle_status', 
-                                                'Misidentified')
+                                                item_status)
     update_verfied_by = anvil.server.call('update_item', 
                                           self.item_id, 
                                           'verified_by', 
@@ -114,6 +117,9 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                                           self.item_id, 
                                           'verified_date', 
                                           current_time)
+
+    #Update History
+    update_history_task = cf.add_event_to_item_history(self.item_id, item_status)
     
     #Console log for developer
     print(f"Item {self.item_id} marked as misidentified")
@@ -150,9 +156,96 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                                           self.item_id, 
                                           'verified_date', 
                                           current_time)
+
+    #Update History
+    update_history_task = cf.add_event_to_item_history(self.item_id, item_status)
+    
+    #Console log for developer
+    print(f"Item {self.item_id} marked as misidentified")
+
+    #Notice for Warehouse Employee
+    n = Notification(f"Item {self.item_id} verified!", 
+                     style='success', title='Part Verified', timeout=1)
+    n.show()
+    self.reset_selection()
     
 
 ########## Place Part Events ########################
+# Section set to automatically add parts to bin based on scan
+
+  def item_code_place_input_pressed_enter(self, **event_args):
+    def place_item_updates(item_id, bin):
+      current_user = anvil.server.call('get_user_full_name')
+      current_time = datetime.now()
+      update_lifecycle_status = anvil.server.call('update_item', 
+                                                  self.item_id, 
+                                                  'lifecycle_status', 
+                                                  'Placed')
+      update_stored_bin = anvil.server.call('update_item', 
+                                            self.item_id, 
+                                            'stored_bin', 
+                                            bin)
+      update_placed_by = anvil.server.call('update_item', 
+                                            self.item_id, 
+                                            'placed_by', 
+                                            current_user)
+      update_placed_date = anvil.server.call('update_item', 
+                                            self.item_id, 
+                                            'placed_date', 
+                                            current_time)
+      
+    
+    """This method is called when the user presses Enter in this text box"""
+    if not self.require_bin_to_place:
+      self.item_code_place_input.enabled = False
+      item_dict = cf.get_full_item_from_scan(self.item_code_place_input.text)
+      bin = item_dict['bin']
+      item_id = item_dict['item_id']
+      self.item_id = item_id
+      item_status = "Placed"
+      
+      #Update all item attributes and place item
+      place_item_updates(item_id, bin)
+      
+      #Update history
+      history_update = cf.add_event_to_item_history(item_id, item_status)
+    
+      #Console log for developer
+      print(f"Item {self.item_id} placed")
+  
+      #Notice for Warehouse Employee
+      n = Notification(f"Item {self.item_id} placed!", 
+                      style='success', title='Part Placed', timeout=1)
+      n.show()
+      self.last_item_placed_output.content = item_id
+      self.item_code_place_input.content = None
+      self.item_code_place_input.enabled = True
+      self.item_code_place_input.focus()
+
+    else:
+      self.bin_code_place_input.enabled = True
+      self.bin_code_place_input.focus()
+
+  def bin_code_place_input_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    #TODO: Create the processor for this when we actually have bins to scan
+    pass
+
+#### ON UNDO LAST ITEM ###########
+
+  def undo_prev_tn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    #TODO (Finish this function for resetting the last item)
+    pass
+
+
+
+
+      
+
+      
+      
+
 
 
     

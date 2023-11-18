@@ -237,7 +237,13 @@ db_schema:
   item_statuses:
     client: none
     server: full
-    columns: []
+    columns:
+    - name: status
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: num
+      admin_ui: {order: -1, width: 200}
+      type: number
     title: item_statuses
   messages:
     client: none

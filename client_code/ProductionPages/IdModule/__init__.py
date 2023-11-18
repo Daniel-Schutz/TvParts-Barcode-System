@@ -9,6 +9,7 @@ from anvil import js
 import anvil.media
 
 from ...CommonComponents.ProductExplorer import ProductExplorer
+from ...CommonComponents import CommonFunctions as cf
 
 import datetime
 import time
@@ -76,8 +77,7 @@ class IdModule(IdModuleTemplate):
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.create_item_btn.enabled = False
-    
-    print("create item fired.")
+
     item_info_dict = {
       #Set information for the qrcode
       'sku': self.selected_product_display.text,
@@ -95,10 +95,9 @@ class IdModule(IdModuleTemplate):
       'year': self.year_dropdown.selected_value,
       'size': self.size_dropdown.selected_value,
       'img_source': self.selected_product['img_source_url'],
-      'created_date': datetime.datetime.now(),
+      'created_date': current_time,
       'created_by': anvil.server.call('get_user_full_name'),
       'lifecycle_status': "New",
-      'testing_status': "Never Tested",
       'stored_bin': '',
       'verified_by': '',
       'verified_date': datetime.datetime(1900, 1, 1), #placeholder date
@@ -111,7 +110,8 @@ class IdModule(IdModuleTemplate):
       'packed_by': '',
       'packed_date': datetime.datetime(1900, 1, 1),
       'order_id': '',
-      's3_object_key': ''
+      's3_object_key': '',
+      'history': ''
     }
 
     #Create the qr_code with only important information
@@ -119,6 +119,7 @@ class IdModule(IdModuleTemplate):
     bin = item_info_dict['bin']
     os_bins = item_info_dict['os_bins']
     cross_refs = item_info_dict['cross_refs']
+    item_status = 'New'
     #Image Url directly from qr maker. This can display while bkgrd processes
     #Take care of AWS operations
     raw_source_url = anvil.server.call('generate_qr_code', 
@@ -130,9 +131,11 @@ class IdModule(IdModuleTemplate):
     self.system_id_display.text = item_id
 
     #Add new item to Dynamo and its qr to S3
-    anvil.server.launch_background_task('process_new_item',
+    creation_task = anvil.server.launch_background_task('process_new_item',
                                         item_info_dict, 
                                         raw_course_url)
+
+    history_update_task = cf.add_event_to_item_history(item_id, item_status)
 
     self.create_item_btn.enabled = True
     

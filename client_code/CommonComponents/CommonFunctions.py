@@ -5,13 +5,17 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import json
+import datetime
 # This is a module.
 # You can define variables and functions here, and use them from any form. For example, in a top-level form:
 #
 #    from .CommonComponents import Module1
 #
 #    Module1.say_hello()
-#
+
+def add_event_to_item_history(item_id, item_status):
+  return anvil.server.launch_background_task('add_history_to_item')
+
 def get_id_from_scan(scan_input_str, mode='product'):
   scan_dict = json.loads(scan_input_str)
   if mode == 'product':
