@@ -15,7 +15,7 @@ import json
 def get_id_from_scan(scan_input_str, mode='product'):
   scan_dict = json.loads(scan_input_str)
   if mode == 'product':
-    sku = scan_dict['sku']
+    sku = scan_dict['item_id'].split("__")[0] #assumes __ separator in item_id
     return sku
   elif mode == 'item':
     item_id = scan_dict['item_id']

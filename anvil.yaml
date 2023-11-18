@@ -147,6 +147,9 @@ db_schema:
     - name: require_bin_verify
       admin_ui: {width: 200, order: 0}
       type: bool
+    - name: setting_no
+      admin_ui: {order: -1, width: 200}
+      type: number
     title: adminsettings
   suppliers:
     client: none
@@ -231,6 +234,11 @@ db_schema:
       admin_ui: {width: 200, order: 0}
       type: string
     title: tv_sizes
+  item_statuses:
+    client: none
+    server: full
+    columns: []
+    title: item_statuses
   messages:
     client: none
     server: full

@@ -79,4 +79,9 @@ components:
     type: Button
     layout_properties: {grid_position: 'CZSWHF,XYTPZN'}
     event_bindings: {click: to_wh_stock_screen_btn_click}
+  - name: test_notifications_btn
+    properties: {text: test notification, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'CZSWHF,WWDBXH'}
+    event_bindings: {click: test_notification_click}
 is_package: true

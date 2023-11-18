@@ -45,8 +45,13 @@ components:
     - name: item_code_input
       properties: {}
       type: TextBox
-      layout_properties: {width: 587.5}
-      event_bindings: {pressed_enter: on_truck_code_enter}
+      layout_properties: {width: 550.5}
+      event_bindings: {pressed_enter: item_code_input_pressed_enter}
+    - name: clear_scan_btn
+      properties: {text: clear scan, role: primary-color}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: clear_scan_btn_click}
   - name: card_1_copy_1
     properties: {role: null}
     type: ColumnPanel
@@ -183,12 +188,12 @@ components:
             properties: {text: Misidentified, role: secondary-color, icon: ''}
             type: Button
             layout_properties: {grid_position: 'IHYKYI,PABPAD'}
-            event_bindings: {click: select_product_btn_click}
+            event_bindings: {click: mis_id_button_click}
           - name: verified_btn
             properties: {text: verify, role: primary-color, icon: ''}
             type: Button
             layout_properties: {grid_position: 'IHYKYI,VJVTSP'}
-            event_bindings: {click: select_product_btn_click}
+            event_bindings: {click: verified_btn_click}
 - name: place_part_card
   properties: {role: card}
   type: ColumnPanel
@@ -215,7 +220,7 @@ components:
       properties: {}
       type: TextBox
       layout_properties: {width: 587.5}
-      event_bindings: {pressed_enter: on_truck_code_enter}
+      event_bindings: {}
   - name: bin_panel
     properties: {}
     type: FlowPanel
@@ -233,7 +238,29 @@ components:
       properties: {}
       type: TextBox
       layout_properties: {width: 587.5}
-      event_bindings: {pressed_enter: on_truck_code_enter}
+      event_bindings: {}
+  - name: flow_panel_1_copy_1_copy_1_copy_1
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'JSULGP,ZNBBYM'}
+    components:
+    - name: last_item_placed_label
+      properties: {role: headline, text: 'Last Item Placed:', tooltip: ''}
+      type: Label
+      layout_properties: {}
+    - name: lip_icon
+      properties: {icon: 'fa:hand-paper-o', font_size: 33, bold: true}
+      type: Label
+      layout_properties: {}
+    - name: last_time_placed_output
+      properties: {}
+      type: TextBox
+      layout_properties: {width: 438.5}
+      event_bindings: {}
+    - name: undo_prev_tn
+      properties: {text: undo last item, role: primary-color, tooltip: You can only undo 1 previous item. Use to correct accidental scans.}
+      type: Button
+      layout_properties: {}
 - name: spacer_1
   properties: {height: 10}
   type: Spacer

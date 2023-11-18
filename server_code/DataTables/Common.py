@@ -9,7 +9,7 @@ import anvil.server
 @anvil.server.callable
 def get_admin_settings():
   admin_pull = app_tables.adminsettings.search()
-  admin_settings_dict = [row.to_dict() for row in admin_pull][0]
+  admin_settings_dict = [row for row in admin_pull][0]
   return admin_settings_dict
 
 @anvil.server.callable
@@ -19,8 +19,12 @@ def get_full_item(item_id):
                            item_id)
 
 @anvil.server.callable
-def update_item(item_id):
-  return anvil.server.call('')
+def update_item(item_id, col_name, value):
+  return anvil.server.call('set_value_in_dynamo', 
+                           'unique_item', 
+                           item_id, 
+                           col_name, 
+                           value)
 
 @anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
