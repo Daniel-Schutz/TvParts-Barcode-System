@@ -74,4 +74,9 @@ components:
     type: Button
     layout_properties: {grid_position: 'CZSWHF,YSXEBW'}
     event_bindings: {click: to_id_screen_click}
+  - name: to_wh_stock_screen_btn
+    properties: {text: go to wh stock screen, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'CZSWHF,XYTPZN'}
+    event_bindings: {click: to_wh_stock_screen_btn_click}
 is_package: true

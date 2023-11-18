@@ -36,6 +36,8 @@ class ItemLookup(ItemLookupTemplate):
     self.verified_by_output.content = this_item['verified_by']
     self.picked_on_output.content = this_item['picked_date']
     self.picked_by_output.content = this_item['picked_by']
+    self.placed_on_output.content = this_item['placed_date']
+    self.placed_by_output.content = this_item['placed_by']
     self.tested_on_output.content = this_item['tested_date']
     self.tested_by_output.content = this_item['tested_by']
     self.packed_on_output.content = this_item['packed_date']
@@ -60,6 +62,8 @@ class ItemLookup(ItemLookupTemplate):
     self.verified_by_output.content = None
     self.picked_on_output.content = None
     self.picked_by_output.content = None
+    self.placed_on_output.content = None
+    self.placed_by_output.content = None
     self.tested_on_output.content = None
     self.tested_by_output.content = None
     self.packed_on_output.content = None

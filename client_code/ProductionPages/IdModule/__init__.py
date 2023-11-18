@@ -102,6 +102,8 @@ class IdModule(IdModuleTemplate):
       'stored_bin': '',
       'verified_by': '',
       'verified_date': datetime.datetime(1900, 1, 1), #placeholder date
+      'placed_by': '',
+      'placed_date': datetime.datetime(1900, 1, 1),
       'picked_date': datetime.datetime(1900, 1, 1),
       'picked_by': '',
       'tested_by': '',

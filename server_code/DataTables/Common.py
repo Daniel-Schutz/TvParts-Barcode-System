@@ -7,6 +7,22 @@ from anvil.tables import app_tables
 import anvil.server
 
 @anvil.server.callable
+def get_admin_settings():
+  admin_pull = app_tables.adminsettings.search()
+  admin_settings_dict = [row.to_dict() for row in admin_pull][0]
+  return admin_settings_dict
+
+@anvil.server.callable
+def get_full_item(item_id):
+  return anvil.server.call('get_row_from_dynamo', 
+                           'unique_item', 
+                           item_id)
+
+@anvil.server.callable
+def update_item(item_id):
+  return anvil.server.call('')
+
+@anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
     table = getattr(app_tables, table_name)
     for record in records:

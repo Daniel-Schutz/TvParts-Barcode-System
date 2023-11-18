@@ -371,6 +371,11 @@ components:
         - name: picked_on_output
           properties: {}
           type: RichText
+      - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_2_copy_2
+        properties: {role: null}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'SFLQYU,HRWJLC'}
+        components: []
     - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_1
       properties: {role: null}
       type: ColumnPanel
@@ -403,6 +408,35 @@ components:
           type: Label
           layout_properties: {}
         - name: picked_by_output
+          properties: {}
+          type: RichText
+    - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_1_copy_1_copy_2
+      properties: {role: null}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'QSEACP,YNCHNO'}
+      components:
+      - name: flow_panel_2_copy_1_copy_1_copy_1_copy_2_copy_1_copy_1_copy_2
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'SFLQYU,IWFBPL'}
+        components:
+        - name: placed_on_label
+          properties: {text: 'Placed On:'}
+          type: Label
+          layout_properties: {}
+        - name: placed_on_output
+          properties: {}
+          type: RichText
+      - name: flow_panel_2_copy_1_copy_1_copy_1_copy_2_copy_2_copy_2
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'SFLQYU,RLETPS'}
+        components:
+        - name: placed_by_label
+          properties: {text: 'Placed By:'}
+          type: Label
+          layout_properties: {}
+        - name: placed_by_output
           properties: {}
           type: RichText
     - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_2_copy_1

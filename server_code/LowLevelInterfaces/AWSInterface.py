@@ -19,6 +19,14 @@ from io import BytesIO
 import logging
 
 @anvil.server.callable
+#key = item_id for item sets
+def set_value_in_dynamo(table_name, key, col_name, value):
+  aws_access = anvil.secrets.get_secret('aws_access')
+  aws_secret = anvil.secrets.get_secret('aws_secret')
+  aws = AWSInterface(aws_access, aws_secret)
+  return aws.simple_set_value(table_name, key, col_name, value)
+
+@anvil.server.callable
 def get_row_from_dynamo(table_name, key):
   aws_access = anvil.secrets.get_secret('aws_access')
   aws_secret = anvil.secrets.get_secret('aws_secret')
@@ -87,11 +95,11 @@ class AWSInterface:
             }
 
 ############ Higher Level Interface ###################
-    def simple_set_value(self, item_id, col_name, value):
+    def simple_set_value(self, table_name, item_id, col_name, value):
         key = {'item_id': item_id}
         update_expression = f'SET {col_name} = :val'
         expression_attribute_values = {':val', value}
-        response = self.update_item('unique_item', key, 
+        response = self.update_item(tale_name, key, 
                                     update_expression, expression_attribute_values)
 
     def process_new_item(self, item_dict, raw_qr_source, 

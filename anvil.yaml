@@ -140,6 +140,14 @@ db_schema:
       admin_ui: {width: 200, order: 8}
       type: string
     title: trucks
+  adminsettings:
+    client: none
+    server: full
+    columns:
+    - name: require_bin_verify
+      admin_ui: {width: 200, order: 0}
+      type: bool
+    title: adminsettings
   suppliers:
     client: none
     server: full
