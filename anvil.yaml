@@ -229,7 +229,25 @@ db_schema:
   openfulfillments:
     client: none
     server: full
-    columns: []
+    columns:
+    - name: fulfillment_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: order_no
+      admin_ui: {width: 200, order: 1}
+      type: number
+    - name: status
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: product_name
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: sku
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: item_id
+      admin_ui: {width: 200, order: 5}
+      type: string
     title: openfulfillments
   tv_sizes:
     client: none
@@ -329,6 +347,24 @@ db_schema:
       type: string
     - name: address
       admin_ui: {width: 200, order: 6}
+      type: string
+    - name: table_no
+      admin_ui: {width: 200, order: 7}
+      type: string
+    - name: section
+      admin_ui: {width: 200, order: 8}
+      type: string
+    - name: total_price
+      admin_ui: {width: 200, order: 9}
+      type: number
+    - name: total_items
+      admin_ui: {width: 200, order: 10}
+      type: number
+    - name: reserved_status
+      admin_ui: {width: 200, order: 11}
+      type: string
+    - name: reserved_by
+      admin_ui: {width: 200, order: 12}
       type: string
     title: openorders
   roles:
