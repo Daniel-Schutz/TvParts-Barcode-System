@@ -14,11 +14,20 @@ import requests
 import time
 from decimal import Decimal
 
+
+@anvil.server.callable
+def get_open_orders_from_shopify():
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  raw_open_orders = shop.get_all_open_orders(paginate=True)
+  return raw_open_orders
+
+
 class ShopifyInterface:
     
-    def __init__(self):
+    def __init__(self, shop_key):
         self.shop_url = 'tvpartstoday.com'
-        self.access_key = shopify_admin_key
+        self.access_key = shop_key
         self.api_version = '2023-10'
         self.base_url = f"https://{self.shop_url}/admin/api/{self.api_version}/"
         self.auth_headers = {

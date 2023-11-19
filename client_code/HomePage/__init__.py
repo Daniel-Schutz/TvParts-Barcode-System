@@ -7,7 +7,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ..EntryComponents.ChooseRole import ChooseRole
-from ..AdminSettings import AdminSettings
 from ..ProductionPages import TeardownModule
 from ..CommonComponents.SendMessages import SendMessages
 from ..CommonComponents.RecieveMessages import RecieveMessages

@@ -8,6 +8,17 @@ import anvil.server
 
 import datetime
 import time
+import pandas as pd
+
+@anvil.server.background_task
+def add_full_records_to_table(records, table_name):
+  # records = df.to_dict('records')
+  batch_size = 50  # Adjust batch size as needed
+  for start in range(0, len(records), batch_size):
+      end = start + batch_size
+      batch = records[start:end]
+      anvil.server.call('import_full_table_to_anvil', table_name, batch)
+      print(f"{end} records of {len(records)} uploaded to {table_name}.")
 
 @anvil.server.background_task
 def add_history_to_item(item_id, item_status):

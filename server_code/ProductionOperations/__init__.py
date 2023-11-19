@@ -8,6 +8,8 @@ import anvil.server
 
 from . import IdTables
 from . import TeardownTables
+from . import OrderManagement
+  
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.

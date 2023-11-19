@@ -81,3 +81,7 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
     n = Notification("Item has been denoted as misidentified. Please set item aside for management.", 
                      style='danger', title='Part Misidentified', timeout=2)    
     n.show()
+
+  def reset_orders_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    anvil.server.call('reset_open_tables')
