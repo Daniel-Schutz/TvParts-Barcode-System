@@ -226,6 +226,11 @@ db_schema:
       admin_ui: {width: 200, order: 0}
       type: number
     title: years
+  openfulfillments:
+    client: none
+    server: full
+    columns: []
+    title: openfulfillments
   tv_sizes:
     client: none
     server: full
@@ -300,6 +305,32 @@ db_schema:
       admin_ui: {width: 200, order: 7}
       type: string
     title: bins
+  openorders:
+    client: none
+    server: full
+    columns:
+    - name: order_no
+      admin_ui: {width: 200, order: 0}
+      type: number
+    - name: created
+      admin_ui: {width: 200, order: 1}
+      type: datetime
+    - name: status
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: customer_name
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: email
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: phone
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: address
+      admin_ui: {width: 200, order: 6}
+      type: string
+    title: openorders
   roles:
     client: none
     server: full
