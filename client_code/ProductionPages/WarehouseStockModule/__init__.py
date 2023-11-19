@@ -195,7 +195,6 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                                             current_time)
       
     
-    """This method is called when the user presses Enter in this text box"""
     if not self.require_bin_to_place:
       self.item_code_place_input.enabled = False
       item_dict = cf.get_full_item_from_scan(self.item_code_place_input.text)
@@ -233,10 +232,44 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 
 #### ON UNDO LAST ITEM ###########
 
-  def undo_prev_tn_click(self, **event_args):
+  def undo_prev_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     #TODO (Finish this function for resetting the last item)
-    pass
+    if not self.last_item_placed_output.content:
+      alert('There must be something in last item placed.')
+      return None
+    confirm = alert("Are you sure you want to undo the last placement?", 
+          buttons=['YES', 'NO'])
+    if confirm == 'YES':
+      item_id = self.last_item_placed_output.content
+      update_lifecycle_status = anvil.server.call('update_item', 
+                                                    item_id, 
+                                                    'lifecycle_status', 
+                                                    'Verified')
+      update_stored_bin = anvil.server.call('update_item', 
+                                              item_id, 
+                                              'stored_bin', 
+                                              '0')
+      update_placed_by = anvil.server.call('update_item', 
+                                              item_id, 
+                                              'placed_by', 
+                                              '')
+      update_placed_date = anvil.server.call('update_item', 
+                                              item_id, 
+                                              'placed_date', 
+                                              datetime.datetime(1900, 1, 1))
+            #Update history
+      history_update = cf.add_event_to_item_history(item_id, item_status)
+      
+        #Console log for developer
+      print(f"Item {item_id} placement undone.")
+    
+        #Notice for Warehouse Employee
+      n = Notification(f"Item {item_id} removed.", 
+                        style='warning', title='Part Removed', timeout=2)
+      n.show()
+    
+
 
 
 

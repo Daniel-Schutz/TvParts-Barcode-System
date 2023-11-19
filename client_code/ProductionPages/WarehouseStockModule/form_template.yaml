@@ -256,11 +256,11 @@ components:
       properties: {}
       type: RichText
       layout_properties: {expand: true}
-    - name: undo_prev_tn
+    - name: undo_prev_btn
       properties: {text: undo last item, role: primary-color, tooltip: You can only undo 1 previous item. Use to correct accidental scans.}
       type: Button
       layout_properties: {}
-      event_bindings: {click: undo_prev_tn_click}
+      event_bindings: {click: undo_prev_btn_click}
 - name: spacer_1
   properties: {height: 10}
   type: Spacer
