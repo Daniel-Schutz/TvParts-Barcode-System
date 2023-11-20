@@ -54,6 +54,7 @@ def get_all_open_orders():
     this_order_dict['total_items'] = total_item_count
     this_order_dict['reserved_status'] = 'Open'
     this_order_dict['reserved_by'] = ''
+    this_order_dict['notes'] = ''
     order_records.append(this_order_dict)
     for line_item in order['line_items']:
       for i in range(line_item['quantity']):

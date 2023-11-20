@@ -366,6 +366,9 @@ db_schema:
     - name: reserved_by
       admin_ui: {width: 200, order: 12}
       type: string
+    - name: notes
+      admin_ui: {width: 200, order: 13}
+      type: string
     title: openorders
   roles:
     client: none
