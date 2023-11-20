@@ -55,7 +55,7 @@ components:
           data_bindings:
           - {property: content, code: 'self.item[''product_name'']', writeback: false}
           layout_properties: {expand: true}
-      - name: flow_panel_3_copy_1_copy_2
+      - name: item_scan_panel
         properties: {}
         type: FlowPanel
         layout_properties: {grid_position: 'JGXDAJ,CPBNGX'}
@@ -72,6 +72,19 @@ components:
           properties: {}
           type: TextBox
           layout_properties: {width: 378.5}
+      - name: flow_panel_3_copy_1_copy_2_copy_1
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'BQKQTX,RJUEOI'}
+        components:
+        - name: item_id_label
+          properties: {text: 'Item Id:', bold: true, underline: true}
+          type: Label
+          layout_properties: {}
+        - name: item_id_output
+          properties: {}
+          type: RichText
+          layout_properties: {expand: true}
       - name: flow_panel_3_copy_1_copy_1
         properties: {}
         type: FlowPanel
