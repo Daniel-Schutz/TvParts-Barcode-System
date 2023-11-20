@@ -589,10 +589,10 @@ body>div[data-notify="container"].alert-warning>span[data-notify="title"]{
   color: %color:Primary 500%;
 }
 
-.btn[disabled] { color: rgba(0, 0, 0, .25); }
+.btn[disabled] { color: rgba(255,82,51, .25); }
 .anvil-role-raised > .btn[disabled], .anvil-role-primary-color > .btn[disabled], .anvil-role-secondary-color > .btn[disabled] {
-  background-color: rgba(0,0,0,0.12) !important;
-  color: rgba(0,0,0,0.25) !important;
+  background-color: rgba(255,82,51,0.12) !important;
+  color: rgba(255,82,51,0.25) !important;
   box-shadow: none !important;
 }
 

@@ -9,6 +9,7 @@ unique_ids:
     ProductionPages.TeardownModule: '1699641125193927383718541.3673'
     CommonComponents.RecieveMsgTemplate: '1699752036801930686489312.8278'
     CommonComponents.RecieveMessages: '1699751166118454969633808.0333'
+    CommonComponents.OpenOrderWHContainer: '1700450730876829182499694.6997'
     CommonComponents.ItemLookup: '1700229842666401522154468.7817'
     CommonComponents.single_input_modal: '1699979614721296251675471.481'
     CommonComponents.SingleSelect_modal: '1699997428710165976053974.94464'
