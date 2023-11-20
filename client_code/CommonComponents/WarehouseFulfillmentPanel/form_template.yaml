@@ -14,10 +14,10 @@ components:
       properties: {}
       type: FlowPanel
       components:
-      - name: product_img_copy_1
+      - name: product_img_output
         properties: {height: 232}
         type: Image
-        layout_properties: {width: 201}
+        layout_properties: {width: 223}
         data_bindings:
         - {property: source, code: 'self.item[''img_source_url'']', writeback: false}
     - name: column_panel_1_copy_1
@@ -49,7 +49,7 @@ components:
           properties: {text: 'Name:', bold: true, underline: true}
           type: Label
           layout_properties: {}
-        - name: name_content_copy_1
+        - name: name_content
           properties: {}
           type: RichText
           data_bindings:
@@ -93,7 +93,7 @@ components:
         - name: sku_label
           properties: {text: 'SKU:', underline: true}
           type: Label
-        - name: sku_content_copy_1
+        - name: sku_output
           properties: {}
           type: RichText
           data_bindings:
@@ -107,7 +107,7 @@ components:
           properties: {text: 'Overstock Bins:', underline: true}
           type: Label
           layout_properties: {}
-        - name: os_bin_output_bx_copy_1
+        - name: os_bin_output
           properties: {}
           type: RichText
           data_bindings:
@@ -120,15 +120,29 @@ components:
             properties: {text: 'Cross References:', underline: true}
             type: Label
             layout_properties: {}
-          - name: crs_output_bx_copy_1
+          - name: crs_output
             properties: {}
             type: RichText
             layout_properties: {expand: true}
             data_bindings:
             - {property: content, code: 'self.item[''cross_refs'']', writeback: false}
-  - name: select_product_btn_copy_1
-    properties: {text: select, role: primary-color, icon: 'fa:qrcode'}
-    type: Button
-    layout_properties: {grid_position: 'LRIPYP,YVZADY'}
-    event_bindings: {click: select_product_btn_click}
+      - name: flow_panel_1
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'WRWTYI,CDFMGC'}
+        components:
+        - name: no_stock_btn
+          properties: {text: NO stock, role: primary-color, icon: 'fa:qrcode', align: right}
+          type: Button
+          layout_properties: {}
+          event_bindings: {click: select_product_btn_click}
+        - name: clear_item_btn
+          properties: {text: clear item, role: primary-color, icon: 'fa:qrcode', align: right}
+          type: Button
+          layout_properties: {}
+          event_bindings: {click: select_product_btn_click}
+        - name: needs_attention_btn
+          properties: {text: clear item, role: primary-color, icon: 'fa:qrcode', align: right}
+          type: Button
+          event_bindings: {click: select_product_btn_click}
 is_package: true
