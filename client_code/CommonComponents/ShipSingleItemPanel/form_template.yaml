@@ -1,0 +1,21 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'SDPZTY,ZOGAPD'}
+  components:
+  - name: item_id_label
+    properties: {font_size: 20}
+    type: Label
+    layout_properties: {grid_position: 'IDCZAV,FUBBJM'}
+  - name: waiting_label
+    properties: {align: right, text: WAITING, foreground: 'theme:Gray 600', icon: 'fa:book'}
+    type: Label
+    layout_properties: {grid_position: 'IDCZAV,FNKRTW'}
+  - name: ready_label
+    properties: {align: right, text: READY, icon: 'fa:check', foreground: '#38ff3b',
+      visible: false}
+    type: Label
+    layout_properties: {grid_position: 'IDCZAV,WXPRCR'}
+is_package: true

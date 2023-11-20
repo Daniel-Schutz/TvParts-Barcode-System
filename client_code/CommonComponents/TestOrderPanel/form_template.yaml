@@ -84,9 +84,10 @@ components:
             properties: {}
             type: TextBox
             layout_properties: {width: 378.5}
-          - name: clear_button
-            properties: {text: button_1}
+          - name: clear_scan_btn
+            properties: {text: clear scan, role: primary-color, background: '#0000ff'}
             type: Button
+            layout_properties: {}
         - name: flow_panel_3_copy_1_copy_1
           properties: {}
           type: FlowPanel

@@ -20,7 +20,7 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'JMCIMS,YKHYID'}
       components:
-      - name: order_header_copy_1
+      - name: order_header
         properties: {role: headline, text: 'Order No:', font_size: 35}
         type: Label
         layout_properties: {}
@@ -38,7 +38,7 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'IWTHIK,ISEPNH'}
       components:
-      - name: table_label_copy_1
+      - name: table_label
         properties: {text: 'Table:'}
         type: Label
         layout_properties: {}
@@ -46,11 +46,11 @@ components:
         properties: {}
         type: RichText
         layout_properties: {expand: true}
-      - name: section_label_copy_1
+      - name: section_label
         properties: {text: 'Section:'}
         type: Label
         layout_properties: {}
-      - name: section_output_copy_1
+      - name: section_output
         properties: {}
         type: RichText
   - name: card_4_copy_1
@@ -63,10 +63,10 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'JGOANF,LXDPYU'}
       components:
-      - name: customer_name_label_copy_1
+      - name: customer_name_label
         properties: {text: 'Name:'}
         type: Label
-      - name: customer_name_output_copy_1
+      - name: customer_name_output
         properties: {}
         type: RichText
         layout_properties: {expand: true}
@@ -75,19 +75,19 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'JGOANF,JPXYUH'}
       components:
-      - name: price_label_copy_1
+      - name: price_label
         properties: {text: 'Price:'}
         type: Label
         layout_properties: {}
-      - name: price_output_copy_1
+      - name: price_output
         properties: {}
         type: RichText
         layout_properties: {expand: true}
-      - name: no_items_label_copy_1
+      - name: no_items_label
         properties: {text: 'No. of Items:'}
         type: Label
         layout_properties: {}
-      - name: no_items_output_copy_1
+      - name: no_items_output
         properties: {}
         type: RichText
   - name: spacer_1_copy_1
@@ -95,7 +95,7 @@ components:
     type: Spacer
     layout_properties: {grid_position: 'WKIDBZ,RLCVNV', row_background: 'theme:Secondary
         700'}
-  - name: repeating_panel_1_copy_1
+  - name: repeating_panel_1
     properties: {item_template: CommonComponents.WarehouseFulfillmentPanel}
     type: RepeatingPanel
     layout_properties: {grid_position: 'CGZDMV,HCIVOR'}
