@@ -1,0 +1,15 @@
+container: {type: ColumnPanel}
+components:
+- name: spacer_1
+  properties: {height: 24}
+  type: Spacer
+  layout_properties: {grid_position: 'GRSOYW,RTWSNI', full_width_row: true, row_background: '#f1f505'}
+- name: header
+  properties: {role: headline, text: Needs Attention, align: center, font_size: 36}
+  type: Label
+  layout_properties: {grid_position: 'TCTPZS,ZXWNJW'}
+- name: spacer_1_copy_1
+  properties: {height: 24}
+  type: Spacer
+  layout_properties: {grid_position: 'OKNHQW,EVRIVN', full_width_row: true, row_background: ''}
+is_package: true

@@ -15,6 +15,7 @@ unique_ids:
     CommonComponents.ItemLookup: '1700229842666401522154468.7817'
     CommonComponents.single_input_modal: '1699979614721296251675471.481'
     CommonComponents.SingleSelect_modal: '1699997428710165976053974.94464'
+    CommonComponents.NeedsAttentionParent: '1700454192580231243114140.73495'
     CommonComponents.SingleSelectRepeaterTemplate: '1699997206980403026841505.3284'
     CommonComponents.ProductExplorer.ItemTemplate3: '1700076138796957632811568.0193'
     AllBookings.RowTemplate1: '1617721139843303122760303.7587'

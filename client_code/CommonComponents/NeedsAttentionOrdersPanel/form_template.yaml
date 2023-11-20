@@ -5,27 +5,6 @@ components:
   type: ColumnPanel
   layout_properties: {grid_position: 'UCJIEI,WPGUSE', row_background: ''}
   components:
-  - name: card_5
-    properties: {role: null}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'QOZIEN,RROILQ'}
-  - name: card_6
-    properties: {role: null, background: ''}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'QOZIEN,LXSGBK', full_width_row: false, row_background: ''}
-    components:
-    - name: flow_panel_4
-      properties: {align: right}
-      type: FlowPanel
-      layout_properties: {grid_position: 'YYSBVZ,USDNOJ'}
-      components:
-      - name: issue_label
-        properties: {text: 'Issue:', align: right}
-        type: Label
-      - name: issue_output
-        properties: {background: ''}
-        type: RichText
-        layout_properties: {expand: false}
   - name: card_2
     properties: {role: null}
     type: ColumnPanel
