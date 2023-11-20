@@ -6,6 +6,7 @@ unique_ids:
     ProductionPages.IdModule: '170000507259398509353460.43266'
     CommonComponents.RecieveMessages.ItemTemplate1: '1699751480946530053801209.2628'
     ProductionPages.WarehouseStockModule: '1700323413302239302538328.27985'
+    CommonComponents.NeedsAttentionOrdersPanel: '1700453281534627416120480.8473'
     Contact: '1617723236153365210879811.5188'
     ProductionPages.TeardownModule: '1699641125193927383718541.3673'
     CommonComponents.RecieveMsgTemplate: '1699752036801930686489312.8278'
