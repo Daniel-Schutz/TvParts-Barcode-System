@@ -1,0 +1,165 @@
+container:
+  type: ColumnPanel
+  properties: {background: ''}
+components:
+- name: card_1
+  properties: {role: card, background: 'theme:Gray 50'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'BALQRD,ZAOMKJ'}
+  components:
+  - name: order_headline
+    properties: {role: headline, align: center, text: '(set this to ''Order {Order
+        number}'' with code)', underline: true}
+    type: Label
+    layout_properties: {grid_position: 'IKPIHQ,JHLYOJ'}
+  - name: card_3
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'GSEJJG,WBNFTE'}
+    components:
+    - name: flow_panel_2
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'PIBYBA,ALFPLV'}
+      components:
+      - name: table_label
+        properties: {text: 'Table:', bold: true, underline: false}
+        type: Label
+        layout_properties: {}
+      - name: table_output
+        properties: {}
+        type: RichText
+    - name: flow_panel_3
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'PIBYBA,HKUVWR'}
+      components:
+      - name: section_label
+        properties: {text: 'Section:', bold: true, underline: false}
+        type: Label
+        layout_properties: {}
+      - name: section_output
+        properties: {}
+        type: RichText
+  - name: card_1_copy_1
+    properties: {role: null}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'VSHNEI,IFXIDK'}
+    components:
+    - name: flow_panel_2_copy_1
+      properties: {background: '', role: null}
+      type: FlowPanel
+      layout_properties: {grid_position: 'PLIFWR,CIHTZP'}
+      components:
+      - name: flow_panel_1_copy_1
+        properties: {}
+        type: FlowPanel
+        components:
+        - name: product_img_output
+          properties: {height: 232}
+          type: Image
+          layout_properties: {width: 223}
+          data_bindings:
+          - {property: source, code: 'self.item[''img_source_url'']', writeback: false}
+      - name: column_panel_1_copy_1
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 679}
+        components:
+        - name: item_scan_panel_copy_1
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'GLQSTI,FJHTGK'}
+          components:
+          - name: item_scan_label_copy_1
+            properties: {text: 'Item Scan:', bold: true, underline: true}
+            type: Label
+            layout_properties: {}
+          - name: qr_label_copy_1
+            properties: {text: '', bold: true, underline: true, icon: 'fa:qrcode',
+              font_size: 33}
+            type: Label
+            layout_properties: {}
+          - name: item_scan_input_copy_1
+            properties: {}
+            type: TextBox
+            layout_properties: {width: 378.5}
+          - name: clear_button
+            properties: {text: button_1}
+            type: Button
+        - name: flow_panel_3_copy_1_copy_1
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'YVIDLW,HPNOHP'}
+          components:
+          - name: sku_label
+            properties: {text: 'SKU:', underline: true}
+            type: Label
+          - name: sku_output
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''sku'']', writeback: false}
+        - name: flow_panel_3_copy_1
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'ZMOBSC,KWMTMM'}
+          components:
+          - name: name_label
+            properties: {text: 'Name:', bold: true, underline: true}
+            type: Label
+            layout_properties: {}
+          - name: name_content
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''product_name'']', writeback: false}
+            layout_properties: {expand: true}
+        - name: item_id_panel
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'NHAEVH,EJGPVW'}
+          components:
+          - name: item_id_label
+            properties: {text: 'Item Id:', bold: true, underline: true}
+            type: Label
+            layout_properties: {}
+          - name: item_id_output
+            properties: {}
+            type: RichText
+            layout_properties: {expand: true}
+  - name: flow_panel_1
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'TIAIVK,PWXYDC'}
+    components:
+    - name: failed_button
+      properties: {text: failed, role: secondary-color, icon: 'fa:ban', align: right}
+      type: Button
+      layout_properties: {}
+      event_bindings: {}
+    - name: needs_attention_btn
+      properties: {text: needs attention, role: secondary-color, icon: 'fa:warning',
+        align: right, visible: false}
+      type: Button
+      event_bindings: {click: select_product_btn_click}
+      layout_properties: {}
+    - name: clear_item_btn
+      properties: {text: passed, role: primary-color, icon: 'fa:check', align: right}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: select_product_btn_click}
+  - name: card_2
+    properties: {role: card, background: '#c2eff5'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KNJCBQ,BVRGBO'}
+    components:
+    - name: items_header
+      properties: {role: headline, align: center, text: Items in Order, background: ''}
+      type: Label
+      layout_properties: {grid_position: 'FRNOTM,XIYAIT'}
+    - name: repeating_panel_1
+      properties: {item_template: CommonComponents.TestSingleItemPanel}
+      type: RepeatingPanel
+      layout_properties: {grid_position: 'AJQISD,OWLRMG'}
+is_package: true
