@@ -93,4 +93,5 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
     anvil.server.call('reset_open_tables')
 
 def item_lookup_btn_click(self, **event_args):
+  print("clicked item lookup")
   anvil.alert(ItemLookup())

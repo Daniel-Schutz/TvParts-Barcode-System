@@ -95,6 +95,15 @@ def update_rows(table_name, search_column, search_value, target_column, new_valu
     for row in table.search(**{search_column: search_value}):
         row[target_column] = new_value
 
+@anvil.server.background_task
+def update_rows_bk(table_name, search_column, search_value, target_column, new_value):
+    """
+    Set all values of target_column to new_value where search_column equals search_value.
+    """
+    table = getattr(app_tables, table_name)
+    for row in table.search(**{search_column: search_value}):
+        row[target_column] = new_value
+
 @anvil.server.callable
 def delete_rows(table_name, column_name, value):
     """
