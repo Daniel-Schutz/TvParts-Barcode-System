@@ -9,6 +9,32 @@ components:
     properties: {role: headline, text: Testing, align: center, underline: true, font_size: 36}
     type: Label
     layout_properties: {grid_position: 'JBDOLN,EZDSMF'}
+  - name: card_1_copy_3_copy_1
+    properties: {role: card, background: '#f0ebff'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'IPHMMK,CWIEBN'}
+    components:
+    - name: header_copy_2_copy_1
+      properties: {role: headline, align: center, text: Select New Table}
+      type: Label
+      layout_properties: {grid_position: 'CBUHTQ,QPFLMZ'}
+    - name: flow_panel_1_copy_3_copy_1
+      properties: {align: center}
+      type: FlowPanel
+      layout_properties: {grid_position: 'CAHOTX,YPKOHS'}
+      components:
+      - name: select_table_label_copy_1
+        properties: {text: 'Select Table: '}
+        type: Label
+        layout_properties: {}
+      - name: table_dropdown_copy_1
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 161}
+    - name: begin_table_btn_copy_1
+      properties: {text: begin Table, role: primary-color, font_size: 22, icon: 'fa:bolt'}
+      type: Button
+      layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
   - name: card_1_copy_1
     properties: {role: card, background: '#c8ffc8'}
     type: ColumnPanel
@@ -170,11 +196,20 @@ components:
         properties: {item_template: CommonComponents.TestSingleItemPanel}
         type: RepeatingPanel
         layout_properties: {grid_position: 'AJQISD,OWLRMG'}
+- name: card_1_copy_3_copy_1_copy_1
+  properties: {role: card, background: '#f0ebff'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'QWIJQS,FXJPKU'}
+  components:
+  - name: finish_table_btn_copy_1
+    properties: {text: finish table, role: primary-color, bold: true, icon: 'fa:check-circle',
+      font_size: 23}
+    type: Button
+    layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
 - name: spacer_1
   properties: {height: 12}
   type: Spacer
-  layout_properties: {grid_position: 'GRYTJE,MDPWMR QHQGDK,XOYWKH', full_width_row: true,
-    row_background: '#ffff00'}
+  layout_properties: {grid_position: '', full_width_row: true, row_background: '#ffff00'}
 - name: card_1_copy_2
   properties: {role: card, background: '#ffc7c7'}
   type: ColumnPanel
