@@ -14,6 +14,7 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
 
     # Any code you write here will run before the form opens.
 
+  
   def switch_to_empty_view(self):
     self.item_id_panel.visible = False
     self.clear_item_btn.visible = False
