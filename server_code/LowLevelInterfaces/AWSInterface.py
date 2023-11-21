@@ -98,8 +98,9 @@ class AWSInterface:
     def simple_set_value(self, table_name, item_id, col_name, value):
         key = {'item_id': item_id}
         update_expression = f'SET {col_name} = :val'
-        expression_attribute_values = {':val', value}
-        response = self.update_item(tale_name, key, 
+        value = self.value_processor(value)
+        expression_attribute_values = {':val': value}
+        response = self.update_item(table_name, key, 
                                     update_expression, expression_attribute_values)
 
     def process_new_item(self, item_dict, raw_qr_source, 
@@ -130,6 +131,18 @@ class AWSInterface:
                 new_dict[k] = v
         return new_dict
 
+    #Converts unsupported types for Dynamo
+    def value_processor(self, v:
+        if type(value) == datetime.datetime:
+          new_v = v.isoformat()
+          return new_v
+        for k,v in item_dict.items():
+            if type(v) == datetime.datetime:
+                new_v = v.isoformat()
+                new_dict[k] = new_v
+            else:
+                new_dict[k] = v
+        return new_dict  
         
 ############ BASIC CRUD ###############################
     

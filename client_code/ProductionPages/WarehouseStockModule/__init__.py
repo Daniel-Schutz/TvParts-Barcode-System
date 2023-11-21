@@ -34,7 +34,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.verified_btn.tooltipe = "You must scan an item first."
 
   def reset_selection(self):
-    self.disale_verify_button()
+    self.disable_verify_buttons()
     self.product_name_output.content = None
     self.product_img.source = None
     self.sku_output.content = None
