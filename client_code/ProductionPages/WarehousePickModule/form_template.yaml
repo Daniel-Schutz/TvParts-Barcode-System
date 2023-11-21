@@ -23,7 +23,7 @@ components:
       properties: {text: 'Select Table: '}
       type: Label
       layout_properties: {}
-    - name: table_dropdown_copy_1
+    - name: table_dropdown
       properties: {}
       type: DropDown
       layout_properties: {width: 262}
