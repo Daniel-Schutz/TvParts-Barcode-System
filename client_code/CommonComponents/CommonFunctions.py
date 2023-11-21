@@ -14,7 +14,9 @@ import datetime
 #    Module1.say_hello()
 
 def add_event_to_item_history(item_id, item_status):
-  return anvil.server.launch_background_task('add_history_to_item')
+  return anvil.server.call('add_history_to_item', 
+                           item_id, 
+                           item_status)
 
 def get_id_from_scan(scan_input_str, mode='product'):
   scan_dict = json.loads(scan_input_str)

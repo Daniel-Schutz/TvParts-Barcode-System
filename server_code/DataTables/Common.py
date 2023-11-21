@@ -20,8 +20,14 @@ def add_full_records_to_table(records, table_name):
       anvil.server.call('import_full_table_to_anvil', table_name, batch)
       print(f"{end} records of {len(records)} uploaded to {table_name}.")
 
-@anvil.server.background_task
+@anvil.server.callable
 def add_history_to_item(item_id, item_status):
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id, 
+                                      item_status)
+
+@anvil.server.background_task
+def add_history_to_item_bk(item_id, item_status):
   current_time = datetime.datetime.now()
   human_date_str = current_time.strftime("%m/%d/%Y")
   human_time_str = current_time.strftime("%I:%M:%S %p")
