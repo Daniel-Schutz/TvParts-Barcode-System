@@ -94,4 +94,9 @@ components:
     type: Button
     layout_properties: {grid_position: 'GMMXRN,NLULAQ'}
     event_bindings: {click: reset_orders_btn_click}
+  - name: open_item_lookup
+    properties: {text: Item lookup, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'GMMXRN,SBHUWC'}
+    event_bindings: {click: item_lookup_btn_click}
 is_package: true

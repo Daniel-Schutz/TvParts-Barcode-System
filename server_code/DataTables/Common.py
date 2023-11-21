@@ -54,6 +54,13 @@ def get_full_item(item_id):
 
 @anvil.server.callable
 def update_item(item_id, col_name, value):
+  return anvil.server.launch_background_task('update_item_bk', 
+                                             item_id, 
+                                             col_name, 
+                                             value)
+
+@anvil.server.background_task
+def update_item_bk(item_id, col_name, value):
   return anvil.server.call('set_value_in_dynamo', 
                            'unique_item', 
                            item_id, 

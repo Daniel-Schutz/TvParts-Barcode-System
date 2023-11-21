@@ -12,6 +12,7 @@ from ...CommonComponents.SendMessages import SendMessages
 from ...CommonComponents.RecieveMessages import RecieveMessages
 from ..IdModule import IdModule
 from ..WarehouseStockModule import WarehouseStockModule
+from ...CommonComponents.ItemLookup import ItemLookup
 
 import uuid
 import datetime
@@ -90,3 +91,6 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
   def reset_orders_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     anvil.server.call('reset_open_tables')
+
+def item_lookup_btn_click(self, **event_args):
+  anvil.alert(ItemLookup())

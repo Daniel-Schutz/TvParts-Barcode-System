@@ -13,6 +13,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.user = anvil.server.call('get_user_full_name')
     self.mode = 'verify'
     self.verify_part_btn.enabled = False
     self.place_part_card.visible=False
@@ -102,7 +103,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
   def mis_id_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     #This effectively renders this barcode dead. A new code will need to be printed for this item
-    current_user = anvil.server.call('get_user_full_name')
+    current_user = self.user
     current_time = datetime.now()
     item_status = "Misidentified"
     update_lifecycle_status = anvil.server.call('update_item', 
@@ -147,7 +148,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     update_lifecycle_status = anvil.server.call('update_item', 
                                                 self.item_id, 
                                                 'lifecycle_status', 
-                                                'Misidentified')
+                                                'Verified')
     update_verfied_by = anvil.server.call('update_item', 
                                           self.item_id, 
                                           'verified_by', 
@@ -162,7 +163,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     update_history_task = cf.add_event_to_item_history(self.item_id, item_status)
     
     #Console log for developer
-    print(f"Item {self.item_id} marked as misidentified")
+    print(f"Item {self.item_id} marked as Verified.")
 
     #Notice for Warehouse Employee
     n = Notification(f"Item {self.item_id} verified!", 
