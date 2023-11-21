@@ -43,6 +43,13 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.na_spacer.visible = True
     self.na_card.visible = True
 
+  def forced_finish_visibility(self):
+    self.select_table_card.visible = False
+    self.active_order_card.visible = False
+    self.finish_table_card.visible = True
+    self.na_spacer.visible = False
+    self.na_card.visible = False
+    
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
     open_tables_list = anvil.server.call('get_open_tables')
@@ -88,6 +95,10 @@ class WarehousePickModule(WarehousePickModuleTemplate):
                                              self.current_user, 
                                              self.current_order['order_no'], 
                                              self.current_table)
+    if not self.current_section:
+      n = Notification("Table complete! please take table to testing and press continue.", style='success')
+      n.show()
+      self.forced_finish_visibility()
     anvil.server.call('set_order_status', self.current_order['order_no'], 'Picking')
 
 #Fetching Current Order (gracefully handle refresh)
@@ -97,8 +108,14 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Getting a new order once this order is done (responds to event from fulfillments)
   def finish_order(self):
-    pass
+    anvil.server.call('finish_order_in_db', self.current_order['order_no'])
+    self.fetch_new_order()
+    self.set_order_card_content()
 
 #Closing out a table and effectively reverting to a non-active session
   def finish_table(self):
+    #close out any open tables in db
+    #refresh page to reset to empty state
     pass
+    
+    

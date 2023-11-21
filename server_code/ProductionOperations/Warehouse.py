@@ -46,7 +46,9 @@ def load_current_order(user):
 
 @anvil.server.callable
 def link_order_to_table_section(user, order, table):
-  open_section = app_tables.table_sections.search(table=table, order='')[0] #make sure we set order to '' when moving out
+  open_section = app_tables.table_sections.search(table=table, order='')[0] #reset order to '' after shipping
+  if len(open_section) == 0:
+    return None
   current_order = app_tables.openorders.get(reserved_status='Reserved', reserved_by=user)
   open_section.update(order=order)
   current_order.update(table_no=table, section=open_section['section'])
@@ -63,4 +65,14 @@ def update_user_on_section_rows(table_name, user):
   this_table_sections = app_tables.table_sections.search(table=table_name)
   for row in this_table_sections:
     row['current_user'] = user
+
+
+@anvil.server.callable
+def get_product_dict_by_name(product_name):
+  return app_tables.products.get(product_name=product_name)
+
+@anvil.server.callable
+def finish_order_in_db(order_no):
+  closed_order_row = app_tables.openorders.get(order_no=order_no)
+  closed_order_row.update(reserved_by='', reserved_status='Pending', status='Picked')
   

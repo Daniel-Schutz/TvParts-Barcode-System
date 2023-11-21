@@ -9,6 +9,7 @@ import anvil.server
 from . import IdTables
 from . import TeardownTables
 from . import OrderManagement
+from . import Warehouse
   
 
 # This is a server module. It runs on the Anvil server,
