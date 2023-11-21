@@ -77,6 +77,7 @@ class IdModule(IdModuleTemplate):
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.create_item_btn.enabled = False
+    current_time = datetime.datetime.now()
 
     item_info_dict = {
       #Set information for the qrcode
@@ -131,9 +132,9 @@ class IdModule(IdModuleTemplate):
     self.system_id_display.text = item_id
 
     #Add new item to Dynamo and its qr to S3
-    creation_task = anvil.server.launch_background_task('process_new_item',
+    creation_task = anvil.server.call_s('process_new_item',
                                         item_info_dict, 
-                                        raw_course_url)
+                                        raw_source_url)
 
     history_update_task = cf.add_event_to_item_history(item_id, item_status)
 

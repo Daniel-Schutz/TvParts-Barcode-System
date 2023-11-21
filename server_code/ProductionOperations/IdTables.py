@@ -36,8 +36,14 @@ def get_supplier_truck_from_code(truck_code):
   return supplier, truck
 
 ######## Background task - Add item to Dynamo/S3 ###############
-@anvil.server.background_task
+@anvil.server.callable
 def process_new_item(item, raw_qr_source):
+  anvil.server.launch_background_task('process_new_item_bk', 
+                                      item, 
+                                      raw_qr_source)
+
+@anvil.server.background_task
+def process_new_item_bk(item, raw_qr_source):
     aws = AWSInterface(aws_access, aws_secret)
     dyn_item_dict = aws.date_processor(item_dict)
     obj_key_id = uuid.uuid4()
