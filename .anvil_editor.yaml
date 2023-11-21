@@ -27,6 +27,7 @@ unique_ids:
     CommonComponents.ShipSingleItemPanel: '170046053332994522460703.8595'
     AllBookings: '1617030621033764612858222.0837'
     CommonComponents.ProductExplorer.ItemTemplate5: '1700096749931301291327106.4324'
+    CommonComponents.TableSelection: '1700533589430808277482161.3043'
     CommonComponents.TestSingleItemPanel: '1700458928845306411029183.4521'
     CommonComponents.SingleSelect_modal.ItemTemplate2: '1699997496695131668580488.82002'
     EntryComponents.ChooseRole: '1699631539626698152418225.4209'

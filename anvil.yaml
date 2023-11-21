@@ -140,6 +140,23 @@ db_schema:
       admin_ui: {width: 200, order: 8}
       type: string
     title: trucks
+  tables:
+    client: none
+    server: full
+    columns:
+    - name: table
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: type
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: status
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: current_user
+      admin_ui: {width: 200, order: 4}
+      type: string
+    title: tables
   adminsettings:
     client: none
     server: full
@@ -151,6 +168,29 @@ db_schema:
       admin_ui: {order: -1, width: 200}
       type: number
     title: adminsettings
+  table_sections:
+    client: none
+    server: full
+    columns:
+    - name: table
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: section
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: type
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: status
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: current_user
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: order
+      admin_ui: {width: 200, order: 5}
+      type: string
+    title: table_sections
   suppliers:
     client: none
     server: full
