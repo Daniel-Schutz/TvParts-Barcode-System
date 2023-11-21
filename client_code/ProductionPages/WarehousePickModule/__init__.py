@@ -114,11 +114,30 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Closing out a table and effectively reverting to a non-active session
   def finish_table(self):
-    #close out any open orders in the DB
-    #if there are orders that are half picked, raise an alert to move current order to
-    #  needs attention
+    self.get_current_state()
+    order_no = self.current_order['order_no']
+    
+    #close out any orders in the DB currently being picked
+    if self.current_order['status'] == 'Picking':
+      mid_pick = False
+      for fulfillment in self.current_fulfillments:
+        if fulfillment['status'] == 'Picked':
+          mid_pick = True
+      if mid_pick:
+        response = anvil.alert(f"You are currently picking order {order_no} \
+        which must be closed before closing this table.", buttons=['MOVE TO HOLDING', 'FINISH PICK'],
+                              title="Unprocessed Orders", large=True)
+        if response == 'MOVE TO HOLDING':
+          hold_table, hold_section = anvil.server.call('get_next_open_holding_area')
+          confirm = anvil.alert(f'Ok to move order {order_no} to Holding Area? Table: {hold_table}, Section: {hold_section}', buttons=['YES', 'NO'], 
+                                title= f'Move {order_no}to Holding Area')
+          if confirm:
+            anvil.server.call('move_order_to_holding_area', order_no, hold_table, hold_section)
     #close out the table itself too
-    #refresh page to reset to empty state
+    n = Notification("Table complete! please take table to testing and press continue.", style='success')
+    n.show()
+    anvil.server.call_s('close_table')
+    #TODO: refresh page to reset to empty state
     pass
     
     

@@ -75,4 +75,24 @@ def get_product_dict_by_name(product_name):
 def finish_order_in_db(order_no):
   closed_order_row = app_tables.openorders.get(order_no=order_no)
   closed_order_row.update(reserved_by='', reserved_status='Pending', status='Picked')
+
+
+@anvil.server.callable
+def get_next_open_holding_area(type='Warehouse Holding'):
+  open_holding_section = app_tables.table_sections.search(type=type, section='')[0]
+  return open_holding_section['table'], open_holding_section['section']
+
+@anvil.server.callable
+def move_order_to_holding_area(order_no, holding_table, holding_section):
+  old_table_row = app_tables.table_sections.get(order=order_no)
+  new_table_row = app_tables.table_sections.get(table=holding_table, section=holding_section)
+  order_row = app_tables.openorders.get(order_no=order_no)
+  new_table_row.update(order=order_no)
+  old_table_row.update(order='')
+  order_row.update(reserved_status='Pending', reserved_by='', table_no=holding_table, section=holding_section)
+
+@anvil.server.callable
+def close_table(table_no):
+  table_row = app_tables.tables.get(table=table_no)
+  table_row.update(current_user='', status='Testing')
   
