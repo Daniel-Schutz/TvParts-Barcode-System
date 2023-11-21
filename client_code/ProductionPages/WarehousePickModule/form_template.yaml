@@ -5,6 +5,32 @@ components:
   type: Label
   layout_properties: {grid_position: 'WSZWGP,XWDKFR', row_background: 'theme:Gray
       100'}
+- name: card_1_copy_3
+  properties: {role: card, background: '#f0ebff'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'TFPWVS,FGLVRN'}
+  components:
+  - name: header_copy_2
+    properties: {role: headline, align: center, text: Select New Table}
+    type: Label
+    layout_properties: {grid_position: 'MJQPPT,QMUPFF'}
+  - name: flow_panel_1_copy_3
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'CAHOTX,YPKOHS'}
+    components:
+    - name: select_table_label_copy_1
+      properties: {text: 'Select Table: '}
+      type: Label
+      layout_properties: {}
+    - name: table_dropdown_copy_1
+      properties: {}
+      type: DropDown
+      layout_properties: {width: 262}
+  - name: begin_btn_copy_1
+    properties: {text: begin Table, role: primary-color, font_size: 22, icon: 'fa:bolt'}
+    type: Button
+    layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
 - name: card_1_copy_1
   properties: {role: card, background: '#c2ffe8'}
   type: ColumnPanel
@@ -99,6 +125,16 @@ components:
     properties: {item_template: CommonComponents.WarehouseFulfillmentPanel}
     type: RepeatingPanel
     layout_properties: {grid_position: 'CGZDMV,HCIVOR'}
+- name: card_1_copy_3_copy_1
+  properties: {role: card, background: '#f0ebff'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'ZYOVLS,XRLIUI'}
+  components:
+  - name: finish_table_btn
+    properties: {text: finish table, role: primary-color, bold: true, icon: 'fa:check-circle',
+      font_size: 23}
+    type: Button
+    layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
 - name: spacer_1_copy_2
   properties: {height: 24}
   type: Spacer
