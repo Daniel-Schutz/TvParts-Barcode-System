@@ -232,7 +232,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 
 #### ON UNDO LAST ITEM ###########
 
-  def undo_prev_btn_click(self, **event_args):
+  def purgatory_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     #TODO (Finish this function for resetting the last item)
     if not self.last_item_placed_output.content:

@@ -42,6 +42,7 @@ class ItemLookup(ItemLookupTemplate):
     self.tested_by_output.content = this_item['tested_by']
     self.packed_on_output.content = this_item['packed_date']
     self.tested_by_output.content = this_item['packed_by']
+    self.item_history_output.content = this_item['history']
 
   def clear_all_values(self):
     self.product_name_output.content = None
@@ -68,6 +69,7 @@ class ItemLookup(ItemLookupTemplate):
     self.tested_by_output.content = None
     self.packed_on_output.content = None
     self.tested_by_output.content = None
+    self.item_history_output.content = None
 
   
 

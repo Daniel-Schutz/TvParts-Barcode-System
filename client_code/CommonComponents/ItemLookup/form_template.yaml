@@ -515,7 +515,11 @@ components:
     properties: {role: card}
     type: ColumnPanel
     layout_properties: {grid_position: 'NXIZOB,AEEXMS'}
-    components: []
+    components:
+    - name: item_history_output
+      properties: {}
+      type: RichText
+      layout_properties: {grid_position: 'ZVTHAU,TFXYWZ'}
   - name: reset_btn
     properties: {text: reset item lookup, role: primary-color, align: right}
     type: Button
