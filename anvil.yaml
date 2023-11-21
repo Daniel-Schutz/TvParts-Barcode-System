@@ -212,6 +212,17 @@ db_schema:
       admin_ui: {order: 0, width: 200}
       type: string
     title: suppliers
+  order_statuses:
+    client: none
+    server: full
+    columns:
+    - name: status
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: object_type
+      admin_ui: {width: 200, order: 1}
+      type: string
+    title: order_statuses
   users:
     title: Users
     client: none
@@ -250,14 +261,6 @@ db_schema:
     - name: last_name
       admin_ui: {width: 200, order: 10}
       type: string
-  warehouse_statuses:
-    client: none
-    server: full
-    columns:
-    - name: status
-      admin_ui: {width: 200, order: 0}
-      type: string
-    title: warehouse_statuses
   years:
     client: none
     server: full
