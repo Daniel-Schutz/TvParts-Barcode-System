@@ -114,7 +114,10 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Closing out a table and effectively reverting to a non-active session
   def finish_table(self):
-    #close out any open tables in db
+    #close out any open orders in the DB
+    #if there are orders that are half picked, raise an alert to move current order to
+    #  needs attention
+    #close out the table itself too
     #refresh page to reset to empty state
     pass
     
