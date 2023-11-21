@@ -158,6 +158,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                                           current_time)
 
     #Update History
+    item_status = 'Verified'
     update_history_task = cf.add_event_to_item_history(self.item_id, item_status)
     
     #Console log for developer

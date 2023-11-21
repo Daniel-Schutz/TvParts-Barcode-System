@@ -13,6 +13,7 @@ import boto3
 import requests
 import time
 import uuid
+import datetime
 from decimal import Decimal
 from botocore.exceptions import ClientError
 from io import BytesIO
@@ -132,17 +133,15 @@ class AWSInterface:
         return new_dict
 
     #Converts unsupported types for Dynamo
-    def value_processor(self, v:
-        if type(value) == datetime.datetime:
+    def value_processor(self, v):
+        if type(v) == datetime.datetime:
           new_v = v.isoformat()
           return new_v
-        for k,v in item_dict.items():
-            if type(v) == datetime.datetime:
-                new_v = v.isoformat()
-                new_dict[k] = new_v
-            else:
-                new_dict[k] = v
-        return new_dict  
+        elif type(v) == float:
+          new_v = Decimal(v)
+          return new_v
+        else:
+          return v
         
 ############ BASIC CRUD ###############################
     
