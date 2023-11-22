@@ -99,4 +99,9 @@ components:
     type: Button
     layout_properties: {grid_position: 'GMMXRN,SBHUWC'}
     event_bindings: {click: item_lookup_btn_click}
+  - name: warehouse_pick_btn
+    properties: {text: 'Warehouse Pick Screen]', role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'GMMXRN,BPQCPK'}
+    event_bindings: {click: warehouse_pick_btn_click}
 is_package: true

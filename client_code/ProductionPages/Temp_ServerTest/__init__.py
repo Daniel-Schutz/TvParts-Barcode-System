@@ -12,6 +12,7 @@ from ...CommonComponents.SendMessages import SendMessages
 from ...CommonComponents.RecieveMessages import RecieveMessages
 from ..IdModule import IdModule
 from ..WarehouseStockModule import WarehouseStockModule
+from ..WarehousePickModule import WarehousePickModule
 from ...CommonComponents.ItemLookup import ItemLookup
 
 import uuid
@@ -95,3 +96,7 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
 def item_lookup_btn_click(self, **event_args):
   print("clicked item lookup")
   anvil.alert(ItemLookup())
+
+def warehouse_pick_btn_click(self, **event_args):
+    self.parent.add_component(WarehousePickModule(), full_width_row=True)
+    self.remove_from_parent()    
