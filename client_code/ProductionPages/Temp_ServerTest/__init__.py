@@ -65,6 +65,9 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
       print(f"radio button changed, selected value: {self.exact_radio.value}")
     elif self.contains_radio.selected:
       print(f"radio button changed, selected value: {self.contains_radio.value}")
+    # sku = 'EAT65193302'
+    # row = anvil.server.call('get_product_row_by_sku',sku)
+    # [print(entry) for entry in row]
 
   # def group_radio_changed(self, **event_args):
   #   """This method is called when this radio button is selected"""

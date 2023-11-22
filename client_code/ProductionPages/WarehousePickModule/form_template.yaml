@@ -53,7 +53,7 @@ components:
         type: Label
         layout_properties: {}
       - name: order_no_output
-        properties: {font_size: 32}
+        properties: {font_size: 24}
         type: Label
         layout_properties: {}
   - name: card_3_copy_1

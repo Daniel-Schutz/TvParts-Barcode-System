@@ -9,7 +9,10 @@ import anvil.server
 
 @anvil.server.callable
 def get_current_table(user):
-   return app_tables.tables.get(current_user=user)['table']
+  try:
+    return app_tables.tables.get(current_user=user)['table']
+  except:
+    return None
 
 @anvil.server.callable
 def get_open_tables():
@@ -33,16 +36,22 @@ def fetch_new_order(user):
   claimed_order = app_tables.openorders.search(reserved_status='Open')[0]
   claimed_order.update(reserved_status = 'Reserved', reserved_by = user)
   # claimed_order['reserved_by'] = user
-  claimed_fulfillments = app_tables.openfulfillments.search(order_no=claimed_order['order_no'])
-  return claimed_order, claimed_fulfillments
+  return claimed_order
 
 @anvil.server.callable
 def load_current_order(user):
   claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
-  if not claimed_order:
-    return None, None
-  claimed_fulfillments = app_tables.openorders.search(order_no=claimed_order['order_no'])
-  return claimed_order, claimed_fulfillments
+  return claimed_order
+    
+@anvil.server.callable
+def load_current_fulfillments(order_no):
+  # claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
+  # print("in server load current order - lookng at order")
+  # print(entry for entry in claimed_order)
+  # if not claimed_order:
+  #   return None, None
+  claimed_fulfillments = app_tables.openfulfillments.search(order_no=order_no)
+  return claimed_fulfillments
   
   
 
@@ -52,7 +61,7 @@ def link_order_to_table_section(user, order, table):
   if len(open_section) == 0:
     return None
   current_order = app_tables.openorders.get(reserved_status='Reserved', reserved_by=user)
-  open_section.update(order=order)
+  open_section.update(order=order, current_user=user)
   current_order.update(table_no=table, section=open_section['section'])
   return open_section['section']
 
@@ -70,8 +79,12 @@ def update_user_on_section_rows(table_name, user):
 
 
 @anvil.server.callable
-def get_product_dict_by_name(product_name):
+def get_product_row_by_name(product_name):
   return app_tables.products.get(product_name=product_name)
+
+@anvil.server.callable
+def get_product_row_by_sku(in_sku):
+  return app_tables.products.get(sku=in_sku)
 
 @anvil.server.callable
 def finish_order_in_db(order_no):

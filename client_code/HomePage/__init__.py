@@ -21,6 +21,7 @@ class HomePage(HomePageTemplate):
     # anvil.server.events.message_update += self.message_update_handler
     self.show_links()
     if anvil.users.get_user():
+      self.user_role = anvil.server.call('get_user_role')
       self.update_notifications()
       self.role_navigation()
       
@@ -153,8 +154,8 @@ class HomePage(HomePageTemplate):
   def update_notifications(self):
     # Get the number of new messages
     user = anvil.users.get_user()
-    user_role = anvil.server.call('get_user_role')
-    new_count = anvil.server.call('get_unread_messages_count', user_role)
+    user_role = self.user_role
+    new_count = anvil.server.call_s('get_unread_messages_count', user_role)
     # Update your notifications display based on new_count
     self.msg_notifier.text = str(new_count)
     # Show or hide the notifier based on the count

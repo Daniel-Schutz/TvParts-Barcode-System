@@ -12,28 +12,42 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.switch_to_empty_view()
-    self.product_dict = anvil.server.call('get_product_dict_by_name', 
-                                          self.item['product_name'])
+    if self.item['status'] == 'New':
+      self.switch_to_empty_view()
+    else:
+      self.switch_to_scanned_view()
+    self.product_dict = anvil.server.call('get_product_row_by_sku', 
+                                  self.item['sku'])
     self.link_base_content()
-    #Handling Focus on Load
-    if self.repeater.get_components():
-      self.repeater.get_components()[0].item_scan_input.focus()
 
 ##### Visibility ###################################  
   def switch_to_empty_view(self):
+    self.picked_indicator.visible = False
     self.item_id_panel.visible = False
     self.clear_item_btn.visible = False
     self.needs_attention_btn.visible = False
     self.item_scan_panel.visible = True
     self.no_stock_btn.visible = True
+    self.bin_panel.visible = True
+    self.name_panel.visible = True
+    self.master_flow_card.background = '#ffffff'
+    self.product_img_output.visible = True
+    self.os_crs_panel.visible = True
+    # self.item_scan_input.focus()
 
   def switch_to_scanned_view(self):
+    self.picked_indicator.visible = True
     self.item_id_panel.visible = True
     self.clear_item_btn.visible = True
     self.needs_attention_btn.visible = True
     self.item_scan_panel.visible = False
     self.no_stock_btn.visible = False
+    self.bin_panel.visible = False
+    self.name_panel.visible = False
+    self.product_img_output.visible = False
+    self.os_crs_panel.visible = False
+    self.master_flow_card.background = '#96ff96'
+    
 
 ######### Link UI to object content ####################
   def link_base_content(self):
@@ -47,10 +61,11 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
 
 ######### EVENTS ####################################
   def item_scan_pressed_enter(self, **event_args):
-    item_id = json.loads(self.item_scan_input)['item_id']
+    item_id = json.loads(self.item_scan_input.text)['item_id']
+    self.item_id_output.content = item_id
     fulfillment_id = self.item['fulfillment_id']
-    anvil.server.call('link_item_to_fulfillment', 
+    anvil.server.call_s('link_item_to_fulfillment', 
                       fulfillment_id,
                       item_id)
-    self.parent.raise_event('x-change-focus-to-next')
+    self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)
     self.switch_to_scanned_view()
