@@ -13,9 +13,11 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.set_event_handler('x-order-picked', finish_order)
+    self.set_event_handler('x-order-picked', self.finish_order)
+    self.set_event_handler('x-abandon-order', self.fetch_new_order)
+    self.set_event_handler('x-change-focus-to-next', self.change_focus)
     self.current_user = anvil.server.call('get_user_full_name')
-    self.current_table = anvil.server.call('get_current_table')
+    self.current_table = anvil.server.call('get_current_table', self.current_user)
     self.current_order = None
     self.current_fulfillments = None
     self.current_section = None
@@ -68,7 +70,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 
 ########## Order Card Logic & Events #############################
-  #populates UI display from object attributes
+  # populates UI display from object attributes
   def set_order_card_content(self):
     self.order_no_output.content = self.current_order['order_no']
     self.table_output.content = self.current_table
@@ -77,6 +79,12 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.price_output.content = self.current_order['total_price']
     self.no_items_output.content = self.current_order['total_items']
     self.fulfillment_repeating_panel.items = self.current_fulfillments
+
+
+  # changes focus to next card upon scan
+  def change_focus(self, **event_args):
+    print('In change focus. Event args are:', event_args)
+    idx = self.fulfillment_repeating_panel.get_components()
 
 
 ########## Lifecycle DB Functions ###############################
@@ -88,9 +96,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.set_order_card_content()
     self.active_visibility()
 
-#Fetching a New Order
-  def fetch_new_order(self):
-    self.current_order, self.current_fulfillments = anvil.server.call('fetch_new_order')
+#Fetching a New Order, also called for no-stocks
+  def fetch_new_order(self, **event_args):
+    self.current_order, self.current_fulfillments = anvil.server.call('fetch_new_order', self.current_user)
     self.current_section = anvil.server.call('link_order_to_table_section', 
                                              self.current_user, 
                                              self.current_order['order_no'], 
@@ -104,7 +112,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
     self.current_order, self.current_fulfillments = \
-    anvil.server.call('load_current_order')
+    anvil.server.call('load_current_order', self.current_user)
+    if not self.current_order:
+      self.fetch_new_order()
 
 #Getting a new order once this order is done (responds to event from fulfillments)
   def finish_order(self):

@@ -9,7 +9,7 @@ import anvil.server
 
 @anvil.server.callable
 def get_current_table(user):
-   return app_tables.tables.get(current_user=user)
+   return app_tables.tables.get(current_user=user)['table']
 
 @anvil.server.callable
 def get_open_tables():
@@ -33,12 +33,14 @@ def fetch_new_order(user):
   claimed_order = app_tables.openorders.search(reserved_status='Open')[0]
   claimed_order.update(reserved_status = 'Reserved', reserved_by = user)
   # claimed_order['reserved_by'] = user
-  claimed_fulfillments = app_tables.openfulfillments.search(order_no=claimed_order)
+  claimed_fulfillments = app_tables.openfulfillments.search(order_no=claimed_order['order_no'])
   return claimed_order, claimed_fulfillments
 
 @anvil.server.callable
 def load_current_order(user):
   claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
+  if not claimed_order:
+    return None, None
   claimed_fulfillments = app_tables.openorders.search(order_no=claimed_order['order_no'])
   return claimed_order, claimed_fulfillments
   
@@ -92,7 +94,19 @@ def move_order_to_holding_area(order_no, holding_table, holding_section):
   order_row.update(reserved_status='Pending', reserved_by='', table_no=holding_table, section=holding_section)
 
 @anvil.server.callable
+def mark_no_stock(fulfillment_id):
+  f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
+  f_row.update(status='No Stock')
+  hold_section, hold_table = get_next_open_holding_area()
+  move_order_to_holding_area(f_row['order_no'], hold_table, hold_section)
+
+@anvil.server.callable
 def close_table(table_no):
   table_row = app_tables.tables.get(table=table_no)
   table_row.update(current_user='', status='Testing')
+
+@anvil.server.callable
+def link_item_to_fulfillment(fulfillment_id, item_id):
+  f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
+  f_row.update(item_id=item_id, status='Picked')
   

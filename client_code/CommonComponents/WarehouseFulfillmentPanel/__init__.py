@@ -6,6 +6,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+import json
+
 class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -14,7 +16,9 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     self.product_dict = anvil.server.call('get_product_dict_by_name', 
                                           self.item['product_name'])
     self.link_base_content()
-    # Any code you write here will run before the form opens.
+    #Handling Focus on Load
+    if self.repeater.get_components():
+      self.repeater.get_components()[0].item_scan_input.focus()
 
 ##### Visibility ###################################  
   def switch_to_empty_view(self):
@@ -37,4 +41,16 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     self.name_content.content = self.product_dict['product_name']
     self.sku_output.content = self.product_dict['sku']
     self.os_bin_output.content = self.product_dict['os_bins']
-    self.crs_output.content = self.product_dict['cross_refs'] 
+    self.crs_output.content = self.product_dict['cross_refs']
+    self.product_img_output.source = self.product_dict['img_source_url']
+
+
+######### EVENTS ####################################
+  def item_scan_pressed_enter(self, **event_args):
+    item_id = json.loads(self.item_scan_input)['item_id']
+    fulfillment_id = self.item['fulfillment_id']
+    anvil.server.call('link_item_to_fulfillment', 
+                      fulfillment_id,
+                      item_id)
+    self.parent.raise_event('x-change-focus-to-next')
+    self.switch_to_scanned_view()
