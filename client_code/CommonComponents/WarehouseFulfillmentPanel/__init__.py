@@ -67,5 +67,5 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     anvil.server.call_s('link_item_to_fulfillment', 
                       fulfillment_id,
                       item_id)
-    self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)
     self.switch_to_scanned_view()
+    self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)

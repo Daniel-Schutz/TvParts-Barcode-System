@@ -6,6 +6,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+from datetime import datetime
+
 
 @anvil.server.callable
 def get_current_table(user):
@@ -90,6 +92,9 @@ def get_product_row_by_sku(in_sku):
 def finish_order_in_db(order_no):
   closed_order_row = app_tables.openorders.get(order_no=order_no)
   closed_order_row.update(reserved_by='', reserved_status='Pending', status='Picked')
+  #potentially do this if we want to lookup table sections directly by current user. Right now is extraneous
+  # closed_section_row = app_tables.table_sections.get(order=order_no)
+  # closed_section_row.update(current_user='')
 
 
 @anvil.server.callable
@@ -122,4 +127,11 @@ def close_table(table_no):
 def link_item_to_fulfillment(fulfillment_id, item_id):
   f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
   f_row.update(item_id=item_id, status='Picked')
-  
+  order_no = f_row['order_no']
+  anvil.server.launch_background_task('update_item_with_fulfillment', order_no, item_id)
+
+@anvil.server.background_task
+def update_item_with_fulfillment(order_no, item_id):
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(order_no=order_no, picked_by=user, picked_on=datetime.now(), status='Picked')
+  anvil.server.launch_background_task('add_history_to_item_bk', item_id=item_id, item_status='Picked')

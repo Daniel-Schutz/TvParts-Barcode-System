@@ -19,6 +19,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.fulfillment_repeating_panel.set_event_handler('x-abandon-order', self.fetch_new_order)
     self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
     self.current_user = anvil.server.call('get_user_full_name')
+    self.current_role = anvil.server.call('get_user_role')
     self.current_table = anvil.server.call('get_current_table', self.current_user)
     self.current_order = None
     self.current_fulfillments = None
@@ -96,14 +97,14 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
   # changes focus to next card upon scan
   def change_focus(self, **event_args):
-    print('GOT THE EVENT HANDLER. In change focus. Event args are:', event_args)
+    #print('GOT THE EVENT HANDLER. In change focus. Event args are:', event_args)
     self.component_idx += 1
     all_picked = self.all_picked_check()
     if not all_picked:
       components = self.fulfillment_repeating_panel.get_components()
       components[self.component_idx].item_scan_input.focus()
     else:
-      print('The system recognized all orders have been picked')
+      #print('The system recognized all orders have been picked')
       self.finish_order()
     
 
@@ -119,7 +120,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Fetching a New Order, also called for no-stocks
   def fetch_new_order(self, **event_args):
-    n = Notification("Fetching New Order...", style='info', timeout=4)
+    n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
     self.current_order = anvil.server.call_s('fetch_new_order', self.current_user)
     self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
     self.current_section = anvil.server.call_s('link_order_to_table_section', 
@@ -130,7 +131,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       n = Notification("Table complete! please take table to testing and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
-    anvil.server.call('set_order_status', self.current_order['order_no'], 'Picking')
+    anvil.server.call_s('set_order_status', self.current_order['order_no'], 'Picking')
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
@@ -152,7 +153,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Getting a new order once this order is done (responds to event from fulfillments)
   def finish_order(self):
-    n = Notification(f"Order {self.current_order['order_no']} complete! Loading Next Open Order.", style='success')
+    n = Notification(f"Order {self.current_order['order_no']} complete! Loading Next Open Order.", style='success', title="Order Complete!", timeout=5)
     n.show()
     anvil.server.call_s('finish_order_in_db', self.current_order['order_no'])
     self.fetch_new_order()
