@@ -55,18 +55,25 @@ def load_current_fulfillments(order_no):
   claimed_fulfillments = app_tables.openfulfillments.search(order_no=order_no)
   return claimed_fulfillments
   
-  
 
 @anvil.server.callable
-def link_order_to_table_section(user, order, table):
+def get_next_open_section(table):
   open_search = app_tables.table_sections.search(table=table, order='') #reset order to '' after shipping
   if len(open_search) == 0:
     return None
-  open_section = open_search[0]
-  current_order = app_tables.openorders.get(reserved_status='Reserved', reserved_by=user)
-  open_section.update(order=order, current_user=user)
-  current_order.update(table_no=table, section=open_section['section'])
-  return open_section['section']
+  else:
+    return open_search[0]
+
+@anvil.server.callable
+def link_order_to_table_section(user, order, table):
+  open_section = get_next_open_section(table)
+  if not open_section:
+    return None
+  else:
+    current_order = app_tables.openorders.get(reserved_status='Reserved', reserved_by=user)
+    open_section.update(order=order, current_user=user)
+    current_order.update(table_no=table, section=open_section['section'])
+    return open_section['section']
 
 @anvil.server.callable
 def set_order_status(order, status):
@@ -123,6 +130,9 @@ def mark_no_stock(fulfillment_id):
 def close_table(table_no):
   table_row = app_tables.tables.get(table=table_no)
   table_row.update(current_user='', status='Testing')
+  section_rows = app_tables.table_sections.search(table=table_no)
+  for row in section_rows:
+    row['current_user'] = ''
 
 @anvil.server.callable
 def link_item_to_fulfillment(fulfillment_id, item_id, user):

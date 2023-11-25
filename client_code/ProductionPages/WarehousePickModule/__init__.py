@@ -79,6 +79,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
   def finish_table_click(self, **event_args):
     self.finish_table()
+    self.get_table_dropdown()
+    self.initial_visibility()
+    
 
 
 ########## Order Card Logic & Events #############################
@@ -119,9 +122,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 ########## Lifecycle DB Functions ###############################
 # Initializing a new table
   def get_new_table(self):
-    n = Notification("Assign New Table.", title='Reserve Table', style='success')
-    n.show()
-    self.current_table = anvil.server.call('claim_table', 
+    n = Notification("Claiming new table...",style='success')
+    self.current_table = anvil.server.call_s('claim_table', 
                                            self.current_user)
     self.fetch_new_order()
     self.set_order_card_content()
@@ -129,20 +131,24 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Fetching a New Order, also called for no-stocks
   def fetch_new_order(self, **event_args):
-    n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
-    n.show()
-    self.current_order = anvil.server.call_s('fetch_new_order', self.current_user)
-    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
-    self.current_section = anvil.server.call_s('link_order_to_table_section', 
-                                             self.current_user, 
-                                             str(self.current_order['order_no']), 
-                                             self.current_table)
+    n_1 = Notification('Finding next section...', timeout=1)
+    self.current_section = anvil.server.call('get_next_open_section', self.current_table)
     if not self.current_section:
       n = Notification("Table complete! please take table to testing and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
       return None
-    anvil.server.call_s('set_order_status', self.current_order['order_no'], 'Picking')
+    else:
+      n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
+      n.show()
+      self.current_order = anvil.server.call_s('fetch_new_order', self.current_user)
+      self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
+      self.current_section = anvil.server.call_s('link_order_to_table_section', 
+                                              self.current_user, 
+                                              str(self.current_order['order_no']), 
+                                              self.current_table)
+  
+      anvil.server.call_s('set_order_status', self.current_order['order_no'], 'Picking')
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
