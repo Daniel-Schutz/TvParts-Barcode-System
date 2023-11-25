@@ -134,5 +134,5 @@ def link_item_to_fulfillment(fulfillment_id, item_id, user):
 @anvil.server.background_task
 def update_item_with_fulfillment(order_no, item_id, user):
   item_row = app_tables.items.get(item_id=item_id)
-  item_row.update(order_no=order_no, picked_by=user, picked_on=datetime.now(), status='Picked')
+  item_row.update(order_no=str(order_no), picked_by=user, picked_on=datetime.now(), status='Picked')
   anvil.server.launch_background_task('add_history_to_item_bk', item_id=item_id, item_status='Picked')
