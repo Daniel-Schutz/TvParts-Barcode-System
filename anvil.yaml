@@ -237,6 +237,32 @@ db_schema:
       admin_ui: {width: 200, order: 1}
       type: string
     title: order_statuses
+  items:
+    client: none
+    server: full
+    columns:
+    - name: item_id
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: product_name
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: sku
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: s3_img_obj_key
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: bin
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: status
+      admin_ui: {width: 200, order: 5}
+      type: string
+    - name: location
+      admin_ui: {width: 200, order: 6}
+      type: string
+    title: items
   users:
     title: Users
     client: none
