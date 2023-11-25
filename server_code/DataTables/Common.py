@@ -37,25 +37,28 @@ def add_full_records_to_table(records, table_name):
       print(f"{end} records of {len(records)} uploaded to {table_name}.")
 
 @anvil.server.callable
-def add_history_to_item(item_id, item_status):
+def add_history_to_item(item_id, item_status, user_full_name, user_role):
+  print("inside the add history callable")
   anvil.server.launch_background_task('add_history_to_item_bk', 
                                       item_id, 
-                                      item_status)
+                                      item_status, 
+                                      user_full_name, 
+                                      user_role)
 
 @anvil.server.background_task
-def add_history_to_item_bk(item_id, item_status):
+def add_history_to_item_bk(item_id, item_status, user_full_name, user_role):
+  print("Inside the add history background task")
   current_time = datetime.datetime.now()
   human_date_str = current_time.strftime("%m/%d/%Y")
-  human_time_str = current_time.strftime("%I:%M:%S %p")
+  human_time_str = current_time.strftime("%I:%M:%S %p %Z")
   time.sleep(1) #All other processing to finish, may not be necessary
-  current_user = anvil.server.call('get_user_full_name')
-  current_role = anvil.server.call('get_user_role')
-  current_item = anvil.server.call('get_full_item', item_id)
+  current_user = user_full_name
+  current_role = user_role
+  current_item = app_tables.items.get(item_id=item_id)
   current_history = current_item['history']
   new_message = f"{current_user} ({current_role}) updated item status to {item_status} on {human_date_str} at {human_time_str}."
-  new_history  = current_history + "\n" + new_history
-  item_row = app_tables.items.get(item_id=item_id)
-  item_row['history'] = item_row['history'] + "\n" + new_message
+  new_history  = current_history + "\n" + new_message
+  current_item['history'] = new_history
 
 @anvil.server.callable
 def get_admin_settings():
@@ -63,27 +66,28 @@ def get_admin_settings():
   admin_settings_dict = [row for row in admin_pull][0]
   return admin_settings_dict
 
+
 #TODO - These are dynamo functions that are now obsolete.
-@anvil.server.callable
-def get_full_item(item_id):
-  return anvil.server.call('get_row_from_dynamo', 
-                           'unique_item', 
-                           item_id)
+# @anvil.server.callable
+# def get_full_item(item_id):
+#   return anvil.server.call('get_row_from_dynamo', 
+#                            'unique_item', 
+#                            item_id)
 
-@anvil.server.callable
-def update_item(item_id, col_name, value):
-  return anvil.server.launch_background_task('update_item_bk', 
-                                             item_id, 
-                                             col_name, 
-                                             value)
+# @anvil.server.callable
+# def update_item(item_id, col_name, value):
+#   return anvil.server.launch_background_task('update_item_bk', 
+#                                              item_id, 
+#                                              col_name, 
+#                                              value)
 
-@anvil.server.background_task
-def update_item_bk(item_id, col_name, value):
-  return anvil.server.call('set_value_in_dynamo', 
-                           'unique_item', 
-                           item_id, 
-                           col_name, 
-                           value)
+# @anvil.server.background_task
+# def update_item_bk(item_id, col_name, value):
+#   return anvil.server.call('set_value_in_dynamo', 
+#                            'unique_item', 
+#                            item_id, 
+#                            col_name, 
+#                            value)
 ####### End obsolete dynamo functions ###############
 
 

@@ -340,6 +340,9 @@ db_schema:
     - name: stored_bin
       admin_ui: {order: 4.25, width: 200}
       type: string
+    - name: img_source
+      admin_ui: {width: 200, order: 32}
+      type: string
     title: items
   users:
     title: Users

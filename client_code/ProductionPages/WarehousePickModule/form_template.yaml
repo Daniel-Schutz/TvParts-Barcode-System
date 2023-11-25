@@ -137,6 +137,7 @@ components:
       font_size: 23}
     type: Button
     layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
+    event_bindings: {click: finish_table_click}
 - name: na_spacer
   properties: {height: 24}
   type: Spacer

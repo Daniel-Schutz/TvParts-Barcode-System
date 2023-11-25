@@ -7,7 +7,7 @@ from anvil.tables import app_tables
 import anvil.server
 
 import json
-from ..LowLevelInterfaces import AWSInterface
+# from ..LowLevelInterfaces import AWSInterface
 
 
 
@@ -47,22 +47,17 @@ def add_item_row(item_json):
 @anvil.server.callable
 def process_new_item(item_json, raw_qr_source):
   add_item_row(item_json)
-  anvil.server.launch_background_task('add_s3_key_to_item')
+  anvil.server.launch_background_task('add_s3_key_to_item', 
+                                      item_json['item_id'], 
+                                      raw_qr_source)
   
 
 ######## Background task - Add image to S3 ###############
-def get_s3_object_key(raw_qr_source):
-  aws = AWSInterface(aws_access, aws_secret)
-  obj_key_id = uuid.uuid4()
-  obj_key = aws.upload_image_from_url_to_s3(raw_qr_source, 
-                                            'barcode-system-storage-tvparts', 
-                                            'qr_images', 
-                                            obj_key_id)
-  return obj_key
+  
 
 @anvil.server.background_task
 def add_s3_key_to_item(item_id, raw_qr_source):
-  obj_key = get_s3_object_key(raw_qr_source)
+  obj_key = anvil.server.call('get_s3_obj_key', raw_qr_source)
   item_row = app_tables.items.get(item_id=item_id)
   item_row['s3_object_key'] = obj_key
 

@@ -7,11 +7,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import json
+from .. import CommonFunctions as cf
 
 class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.current_user = anvil.server.call_s('get_user_full_name')
+    self.current_role = anvil.server.call_s('get_user_role')
     if self.item['status'] == 'New':
       self.switch_to_empty_view()
     else:
@@ -66,6 +69,7 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     fulfillment_id = self.item['fulfillment_id']
     anvil.server.call_s('link_item_to_fulfillment', 
                       fulfillment_id,
-                      item_id)
+                      item_id, self.current_user)
+    cf.add_event_to_item_history(item_id, 'Picked', self.current_user, self.current_role)
     self.switch_to_scanned_view()
     self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)

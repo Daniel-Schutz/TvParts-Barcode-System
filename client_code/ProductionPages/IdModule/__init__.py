@@ -22,6 +22,8 @@ class IdModule(IdModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.current_user = anvil.server.call('get_user_full_name')
+    self.current_role = anvil.server.call('get_user_role')
     self.make_dropdown.items = anvil.server.call('get_make_dropdown')
     self.year_dropdown.items = anvil.server.call('get_year_dropdown')
     self.size_dropdown.items = anvil.server.call('get_size_dropdown')
@@ -89,9 +91,8 @@ class IdModule(IdModuleTemplate):
       'sku': self.selected_product_display.text,
       'img_source': self.selected_product['img_source_url'],
       'primary_bin': self.selected_product['bin'],
-      'stored_bin': 'price',
+      'stored_bin': '',
       'status': "New",
-      'location': 'Id Table',
       'os_bins': self.selected_product['os_bins'],
       'cross_refs': self.selected_product['cross_refs'],
       #Set all other information for item DB entry
@@ -103,7 +104,7 @@ class IdModule(IdModuleTemplate):
       'year': self.year_dropdown.selected_value,
       'size': self.size_dropdown.selected_value,
       'identified_on': current_time,
-      'identified_by': anvil.server.call('get_user_full_name'),
+      'identified_by': self.current_user,
       'verified_by': '',
       'verified_on': datetime.datetime(1900, 1, 1), #placeholder date
       'binned_by': '',
@@ -114,15 +115,15 @@ class IdModule(IdModuleTemplate):
       'tested_on': datetime.datetime(1900, 1, 1),
       'packed_by': '',
       'packed_on': datetime.datetime(1900, 1, 1),
-      'order_id': '',
+      'order_no': '',
       's3_object_key': '',
       'history': '',
-      'sale_price': self.selected_product['']
+      'sale_price': self.selected_product['price']
     }
 
     #Create the qr_code with only important information
     item_id = item_info_dict['item_id']
-    bin = item_info_dict['bin']
+    bin = item_info_dict['primary_bin']
     os_bins = item_info_dict['os_bins']
     cross_refs = item_info_dict['cross_refs']
     item_status = 'New'
@@ -142,7 +143,10 @@ class IdModule(IdModuleTemplate):
                       raw_source_url)
 
     #Update history
-    history_update_task = cf.add_event_to_item_history(item_id, item_status)
+    history_update_task = cf.add_event_to_item_history(item_id, 
+                                                       item_status, 
+                                                       self.current_user, 
+                                                       self.current_role)
 
     self.create_item_btn.enabled = True
     

@@ -20,6 +20,19 @@ from io import BytesIO
 import logging
 
 @anvil.server.callable
+def get_s3_obj_key(raw_qr_source):
+  aws_access = anvil.secrets.get_secret('aws_access')
+  aws_secret = anvil.secrets.get_secret('aws_secret')
+  aws = AWSInterface(aws_access, aws_secret)
+  obj_key_id = uuid.uuid4()
+  obj_key = aws.upload_image_from_url_to_s3(raw_qr_source, 
+                                            'barcode-system-storage-tvparts', 
+                                            'qr_images', 
+                                            obj_key_id)
+  return obj_key
+  
+
+@anvil.server.callable
 #key = item_id for item sets
 def set_value_in_dynamo(table_name, key, col_name, value):
   aws_access = anvil.secrets.get_secret('aws_access')

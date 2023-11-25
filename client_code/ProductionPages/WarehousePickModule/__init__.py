@@ -73,6 +73,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def begin_table_btn_click(self, **event_args):
     self.get_new_table()
 
+  def finish_table_click(self, **event_args):
+    self.finish_table()
+
 
 ########## Order Card Logic & Events #############################
   # populates UI display from object attributes
@@ -112,6 +115,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 ########## Lifecycle DB Functions ###############################
 # Initializing a new table
   def get_new_table(self):
+    n = Notification("Assign New Table.", title='Reserve Table', style='success')
+    n.show()
     self.current_table = anvil.server.call('claim_table', 
                                            self.current_user)
     self.fetch_new_order()
@@ -121,6 +126,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 #Fetching a New Order, also called for no-stocks
   def fetch_new_order(self, **event_args):
     n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
+    n.show()
     self.current_order = anvil.server.call_s('fetch_new_order', self.current_user)
     self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
     self.current_section = anvil.server.call_s('link_order_to_table_section', 
@@ -131,17 +137,19 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       n = Notification("Table complete! please take table to testing and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
+      return None
     anvil.server.call_s('set_order_status', self.current_order['order_no'], 'Picking')
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
-    n = Notification("Getting current session state, Just a moment please.", style='info')
+    n = Notification("Getting current session state, Just a moment please.", style='info', title="Preparing Session...", timeout=5)
+    n.show()
     self.current_order = anvil.server.call_s('load_current_order', self.current_user)
     # print('in current state - Here is the current order')
     # [print(entry) for entry in self.current_order]
-    self.current_section = self.current_order['section']
     if not self.current_order:
       self.fetch_new_order()
+    self.current_section = self.current_order['section']
     self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', 
                                                   self.current_order['order_no'])
 
@@ -161,7 +169,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Closing out a table and effectively reverting to a non-active session
   def finish_table(self):
-    self.get_current_state()
+    #self.get_current_state()
+    n = Notification("Please wait. Closing table...", style='info')
     order_no = self.current_order['order_no']
     
     #close out any orders in the DB currently being picked
@@ -181,10 +190,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
           if confirm:
             anvil.server.call('move_order_to_holding_area', order_no, hold_table, hold_section)
     #close out the table itself too
-    n = Notification("Table complete! please take table to testing and press continue.", style='success')
+    n = Notification("Table complete! please take table to testing and press continue.", style='success', title='Move Table to Testing', timeout=5)
     n.show()
     anvil.server.call_s('close_table')
     #TODO: refresh page to reset to empty state
     pass
     
-

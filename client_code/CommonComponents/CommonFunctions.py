@@ -13,10 +13,13 @@ import datetime
 #
 #    Module1.say_hello()
 
-def add_event_to_item_history(item_id, item_status):
+def add_event_to_item_history(item_id, item_status, user_full_name, user_role):
+  print("Adding item to history from background function (client common call)")
   return anvil.server.call('add_history_to_item', 
                            item_id, 
-                           item_status)
+                           item_status, 
+                           user_full_name, 
+                           user_role)
 
 def get_id_from_scan(scan_input_str, mode='product'):
   scan_dict = json.loads(scan_input_str)

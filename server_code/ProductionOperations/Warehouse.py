@@ -29,7 +29,7 @@ def claim_table(user):
   row = app_tables.tables.get(table=new_table_dict['table'])
   row['current_user'] = user
   row['status'] = 'Picking'
-  anvil.server.launch_background_task('update_user_on_section_rows')
+  anvil.server.launch_background_task('update_user_on_section_rows', new_table_dict['table'], user)
   return row['table']
 
 @anvil.server.callable
@@ -59,9 +59,10 @@ def load_current_fulfillments(order_no):
 
 @anvil.server.callable
 def link_order_to_table_section(user, order, table):
-  open_section = app_tables.table_sections.search(table=table, order='')[0] #reset order to '' after shipping
-  if len(open_section) == 0:
+  open_search = app_tables.table_sections.search(table=table, order='') #reset order to '' after shipping
+  if len(open_search) == 0:
     return None
+  open_section = open_search[0]
   current_order = app_tables.openorders.get(reserved_status='Reserved', reserved_by=user)
   open_section.update(order=order, current_user=user)
   current_order.update(table_no=table, section=open_section['section'])
@@ -124,14 +125,14 @@ def close_table(table_no):
   table_row.update(current_user='', status='Testing')
 
 @anvil.server.callable
-def link_item_to_fulfillment(fulfillment_id, item_id):
+def link_item_to_fulfillment(fulfillment_id, item_id, user):
   f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
   f_row.update(item_id=item_id, status='Picked')
   order_no = f_row['order_no']
-  anvil.server.launch_background_task('update_item_with_fulfillment', order_no, item_id)
+  anvil.server.launch_background_task('update_item_with_fulfillment', order_no, item_id, user)
 
 @anvil.server.background_task
-def update_item_with_fulfillment(order_no, item_id):
+def update_item_with_fulfillment(order_no, item_id, user):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(order_no=order_no, picked_by=user, picked_on=datetime.now(), status='Picked')
   anvil.server.launch_background_task('add_history_to_item_bk', item_id=item_id, item_status='Picked')
