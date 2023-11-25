@@ -140,6 +140,23 @@ db_schema:
       admin_ui: {width: 200, order: 8}
       type: string
     title: trucks
+  itemholdingtables:
+    client: none
+    server: full
+    columns:
+    - name: table
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: item_id
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: sku
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: Note
+      admin_ui: {width: 200, order: 3}
+      type: string
+    title: ItemHoldingTables
   tables:
     client: none
     server: full
