@@ -1,6 +1,7 @@
 unique_ids:
   forms:
     HomePage: AUHZXNVV3SV7JSCL6LJAAPASHA3QLGFV
+    CommonComponents.NeedsAttentionResolveModal.ItemTemplate8: '1700951911121840740134360.9164'
     CommonComponents.OpenOrderWHContainer.ItemTemplate4: '1700451872147858945553844.6287'
     CommonComponents.SendMessages: '1699739232032953663830925.1073'
     ProductionPages.IdModule: '170000507259398509353460.43266'
@@ -17,6 +18,7 @@ unique_ids:
     CommonComponents.OpenOrderWHContainer: '1700450730876829182499694.6997'
     CommonComponents.ItemLookup: '1700229842666401522154468.7817'
     CommonComponents.single_input_modal: '1699979614721296251675471.481'
+    CommonComponents.NeedsAttentionResolveModal: '170095164369174363804685.67915'
     CommonComponents.SingleSelect_modal: '1699997428710165976053974.94464'
     CommonComponents.NeedsAttentionParent: '1700454192580231243114140.73495'
     CommonComponents.SingleSelectRepeaterTemplate: '1699997206980403026841505.3284'
@@ -35,6 +37,7 @@ unique_ids:
     ProductionPages.ShippingModule: '1700460598122589509378190.7428'
     ProductionPages.TestingModule: '1700460237105509159040423.9019'
     CommonComponents.SingleProductListing: '1700090046094770445370570.6528'
+    CommonComponents.NeedsAttentionInnerChild: '1700952032019452868653957.7638'
     ProductionPages.Temp_ServerTest: '169970933069972303857770.66028'
   modules:
     CommonComponents: '1699709270476468320053994.82245'

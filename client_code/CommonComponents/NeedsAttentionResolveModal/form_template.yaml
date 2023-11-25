@@ -1,0 +1,29 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card, background: '#dffbfb'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'MUHRKM,KPZLJX'}
+  components:
+  - name: headline
+    properties: {role: headline, align: center, text: 'Resolve Order {Order No}'}
+    type: Label
+    layout_properties: {grid_position: 'BCEPSW,XJMMCA'}
+  - name: clear_order_btn
+    properties: {text: clear all items, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'QJQWVS,RLIOQY'}
+  - name: cancel_order_btn
+    properties: {text: cancel Order, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'QJQWVS,FCKTFL'}
+  - name: fulfillments_card
+    properties: {role: card, background: 'theme:Gray 200'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'INPIMP,XRPQMR'}
+    components:
+    - name: fulfillments_repeater
+      properties: {item_template: CommonComponents.NeedsAttentionResolveModal.ItemTemplate8}
+      type: RepeatingPanel
+      layout_properties: {grid_position: 'JVUXQH,TCHAEC'}
+is_package: true
