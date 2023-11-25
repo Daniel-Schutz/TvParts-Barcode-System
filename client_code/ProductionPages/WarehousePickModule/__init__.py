@@ -51,6 +51,10 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.na_card.visible = True
 
   def forced_finish_visibility(self):
+    n = Notification('Your Table is full. Please close this table and grab a new one.', 
+                     title="Table Full Notice", 
+                     style='warning', 
+                     timeout=3)
     self.select_table_card.visible = False
     self.active_order_card.visible = False
     self.finish_table_card.visible = True
@@ -192,7 +196,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     #close out the table itself too
     n = Notification("Table complete! please take table to testing and press continue.", style='success', title='Move Table to Testing', timeout=5)
     n.show()
-    anvil.server.call_s('close_table')
+    anvil.server.call_s('close_table', self.current_table)
     #TODO: refresh page to reset to empty state
     pass
     

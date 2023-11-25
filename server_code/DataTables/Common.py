@@ -47,7 +47,6 @@ def add_history_to_item(item_id, item_status, user_full_name, user_role):
 
 @anvil.server.background_task
 def add_history_to_item_bk(item_id, item_status, user_full_name, user_role):
-  print("Inside the add history background task")
   current_time = datetime.datetime.now()
   human_date_str = current_time.strftime("%m/%d/%Y")
   human_time_str = current_time.strftime("%I:%M:%S %p %Z")
@@ -57,8 +56,11 @@ def add_history_to_item_bk(item_id, item_status, user_full_name, user_role):
   current_item = app_tables.items.get(item_id=item_id)
   current_history = current_item['history']
   new_message = f"{current_user} ({current_role}) updated item status to {item_status} on {human_date_str} at {human_time_str}."
-  new_history  = current_history + "\n" + new_message
-  current_item['history'] = new_history
+  if current_history == "":
+    current_item['history'] = new_message
+  else:
+    new_history  = current_history + "\n\n" + new_message
+    current_item['history'] = new_history
 
 @anvil.server.callable
 def get_admin_settings():
