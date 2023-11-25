@@ -34,6 +34,9 @@ class IdModule(IdModuleTemplate):
     code = ''.join(random.choice(chars) for _ in range(len))
     return sku + "__" + code
 
+  def generate_unique_box_id(self, len=6):
+    pass
+
 
 
 ######### COMPONENT EVENTS ############################
@@ -50,6 +53,7 @@ class IdModule(IdModuleTemplate):
     self.model_input_bx.enabled = False
     self.year_dropdown.enabled = False
     self.size_dropdown.enabled = False
+    self.box_id = str(uuid.uuid4()) #Maye make this a datetime + serial
 
   def reset_bx_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -80,39 +84,40 @@ class IdModule(IdModuleTemplate):
     current_time = datetime.datetime.now()
 
     item_info_dict = {
-      #Set information for the qrcode
-      'sku': self.selected_product_display.text,
+      'product_name': self.selected_product['product_name'],
       'item_id': self.generate_unique_item_id(self.selected_product_display.text),
-      'bin': self.selected_product['bin'], 
+      'sku': self.selected_product_display.text,
+      'img_source': self.selected_product['img_source_url'],
+      'primary_bin': self.selected_product['bin'],
+      'stored_bin': 'price',
+      'status': "New",
+      'location': 'Id Table',
       'os_bins': self.selected_product['os_bins'],
       'cross_refs': self.selected_product['cross_refs'],
       #Set all other information for item DB entry
-      'product_name': self.selected_product['product_name'],
       'supplier': self.supplier_scan_output.content,
       'truck': self.truck_scan_output.content,
-      'box_id': str(uuid.uuid4()),
+      'box_id': self.box_id,
       'make': self.make_dropdown.selected_value,
       'model': self.model_input_bx.text,
       'year': self.year_dropdown.selected_value,
       'size': self.size_dropdown.selected_value,
-      'img_source': self.selected_product['img_source_url'],
-      'created_date': current_time,
-      'created_by': anvil.server.call('get_user_full_name'),
-      'lifecycle_status': "New",
-      'stored_bin': '',
+      'identified_on': current_time,
+      'identified_by': anvil.server.call('get_user_full_name'),
       'verified_by': '',
-      'verified_date': datetime.datetime(1900, 1, 1), #placeholder date
-      'placed_by': '',
-      'placed_date': datetime.datetime(1900, 1, 1),
-      'picked_date': datetime.datetime(1900, 1, 1),
+      'verified_on': datetime.datetime(1900, 1, 1), #placeholder date
+      'binned_by': '',
+      'binned_on': datetime.datetime(1900, 1, 1),
       'picked_by': '',
+      'picked_on': datetime.datetime(1900, 1, 1),
       'tested_by': '',
-      'tested_date': datetime.datetime(1900, 1, 1),
+      'tested_on': datetime.datetime(1900, 1, 1),
       'packed_by': '',
-      'packed_date': datetime.datetime(1900, 1, 1),
+      'packed_on': datetime.datetime(1900, 1, 1),
       'order_id': '',
       's3_object_key': '',
-      'history': ''
+      'history': '',
+      'sale_price': self.selected_product['']
     }
 
     #Create the qr_code with only important information
@@ -121,8 +126,8 @@ class IdModule(IdModuleTemplate):
     os_bins = item_info_dict['os_bins']
     cross_refs = item_info_dict['cross_refs']
     item_status = 'New'
-    #Image Url directly from qr maker. This can display while bkgrd processes
-    #Take care of AWS operations
+    
+    #Image Url directly from qr maker.
     raw_source_url = anvil.server.call('generate_qr_code', 
                                       item_id=item_id, 
                                       bin=bin, 
@@ -131,11 +136,12 @@ class IdModule(IdModuleTemplate):
     self.qr_image.source = raw_source_url
     self.system_id_display.text = item_id
 
-    #Add new item to Dynamo and its qr to S3
-    creation_task = anvil.server.call_s('process_new_item',
-                                        item_info_dict, 
-                                        raw_source_url)
+    #Add the item to the datatable
+    anvil.server.call('process_new_item', 
+                      item_info_dict, 
+                      raw_source_url)
 
+    #Update history
     history_update_task = cf.add_event_to_item_history(item_id, item_status)
 
     self.create_item_btn.enabled = True

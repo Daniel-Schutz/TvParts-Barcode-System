@@ -5,10 +5,26 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
-
 import datetime
 import time
 import pandas as pd
+import json
+
+#Note: Get s3 Image URL (presigned url from oject key) already exists in AWSInterface 
+
+@anvil.server.callable
+def get_item_from_scan(scan_json_str):
+  scan_dict = json.loads(scan_json_str)
+  item_id = scan_dict['item_id']
+  item_row = app_tables.items.get(item_id=item_id)
+  return item_row
+
+@anvil.server.callable
+def get_truck_from_scan(truck_json_str):
+  scan_dict = json.loads(scan_json_str)
+  truck_id = scan_dict['truck_id']
+  truck_row = app_tables.trucks.get(truck_id=truck_id)
+  return truck_row
 
 @anvil.server.background_task
 def add_full_records_to_table(records, table_name):
@@ -31,14 +47,15 @@ def add_history_to_item_bk(item_id, item_status):
   current_time = datetime.datetime.now()
   human_date_str = current_time.strftime("%m/%d/%Y")
   human_time_str = current_time.strftime("%I:%M:%S %p")
-  time.sleep(1) #All other processing to finish
+  time.sleep(1) #All other processing to finish, may not be necessary
   current_user = anvil.server.call('get_user_full_name')
   current_role = anvil.server.call('get_user_role')
   current_item = anvil.server.call('get_full_item', item_id)
   current_history = current_item['history']
   new_message = f"{current_user} ({current_role}) updated item status to {item_status} on {human_date_str} at {human_time_str}."
   new_history  = current_history + "\n" + new_history
-  anvil.server.call('update_item', item_id, 'history', new_history)
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row['history'] = item_row['history'] + "\n" + new_message
 
 @anvil.server.callable
 def get_admin_settings():
@@ -46,6 +63,7 @@ def get_admin_settings():
   admin_settings_dict = [row for row in admin_pull][0]
   return admin_settings_dict
 
+#TODO - These are dynamo functions that are now obsolete.
 @anvil.server.callable
 def get_full_item(item_id):
   return anvil.server.call('get_row_from_dynamo', 
@@ -66,6 +84,9 @@ def update_item_bk(item_id, col_name, value):
                            item_id, 
                            col_name, 
                            value)
+####### End obsolete dynamo functions ###############
+
+
 
 @anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
@@ -91,9 +112,7 @@ def update_rows(table_name, search_column, search_value, target_column, new_valu
     """
     Set all values of target_column to new_value where search_column equals search_value.
     """
-    table = getattr(app_tables, table_name)
-    for row in table.search(**{search_column: search_value}):
-        row[target_column] = new_value
+    anvil.server.launch_background_task('update_rows_bk')
 
 @anvil.server.background_task
 def update_rows_bk(table_name, search_column, search_value, target_column, new_value):

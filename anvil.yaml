@@ -250,17 +250,95 @@ db_schema:
     - name: sku
       admin_ui: {width: 200, order: 2}
       type: string
-    - name: s3_img_obj_key
-      admin_ui: {width: 200, order: 3}
+    - name: s3_object_key
+      admin_ui: {order: 3, width: 200}
       type: string
-    - name: bin
-      admin_ui: {width: 200, order: 4}
+    - name: primary_bin
+      admin_ui: {order: 4, width: 200}
       type: string
     - name: status
       admin_ui: {width: 200, order: 5}
       type: string
-    - name: location
-      admin_ui: {width: 200, order: 6}
+    - name: order_no
+      admin_ui: {width: 200, order: 7}
+      type: string
+    - name: supplier
+      admin_ui: {width: 200, order: 8}
+      type: string
+    - name: truck
+      admin_ui: {width: 200, order: 9}
+      type: string
+    - name: make
+      admin_ui: {width: 200, order: 10}
+      type: string
+    - name: model
+      admin_ui: {width: 200, order: 11}
+      type: string
+    - name: year
+      admin_ui: {width: 200, order: 12}
+      type: number
+    - name: size
+      admin_ui: {width: 200, order: 13}
+      type: string
+    - name: identified_by
+      admin_ui: {width: 200, order: 15}
+      type: string
+    - name: identified_on
+      admin_ui: {order: 14, width: 200}
+      type: datetime
+    - name: verified_on
+      admin_ui: {width: 200, order: 16}
+      type: datetime
+    - name: verified_by
+      admin_ui: {width: 200, order: 17}
+      type: string
+    - name: binned_on
+      admin_ui: {width: 200, order: 18}
+      type: datetime
+    - name: binned_by
+      admin_ui: {width: 200, order: 19}
+      type: string
+    - name: picked_on
+      admin_ui: {width: 200, order: 20}
+      type: datetime
+    - name: picked_by
+      admin_ui: {width: 200, order: 21}
+      type: string
+    - name: tested_on
+      admin_ui: {width: 200, order: 22}
+      type: datetime
+    - name: tested_by
+      admin_ui: {width: 200, order: 23}
+      type: string
+    - name: packed_on
+      admin_ui: {width: 200, order: 24}
+      type: datetime
+    - name: packed_by
+      admin_ui: {width: 200, order: 25}
+      type: string
+    - name: retested_on
+      admin_ui: {width: 200, order: 26}
+      type: datetime
+    - name: retested_by
+      admin_ui: {width: 200, order: 27}
+      type: string
+    - name: history
+      admin_ui: {width: 200, order: 28}
+      type: string
+    - name: os_bins
+      admin_ui: {order: 4.5, width: 200}
+      type: string
+    - name: cross_refs
+      admin_ui: {width: 200, order: 29}
+      type: string
+    - name: box_id
+      admin_ui: {width: 200, order: 30}
+      type: string
+    - name: sale_price
+      admin_ui: {width: 200, order: 31}
+      type: number
+    - name: stored_bin
+      admin_ui: {order: 4.25, width: 200}
       type: string
     title: items
   users:
