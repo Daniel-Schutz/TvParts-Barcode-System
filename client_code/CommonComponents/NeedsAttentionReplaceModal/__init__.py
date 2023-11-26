@@ -14,6 +14,9 @@ class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
     self.init_components(**properties)
     self.prev_item_id = item_id
     self.replace_item_id_output.content = self.prev_item_id
+    self.f_id = anvil.server.call('get_f_id_from_item_id')
+    self.new_item_id_panel.visible = False
+    self.done_btn.enabled = False
     #remember that dropdown items are tuples
     self.replacement_reason_dropdown.items = [('(Select Reason)', '(Select Reason)'),
                                               ("Needs Fixed", "Needs Fixed"), 
@@ -28,9 +31,32 @@ class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
     try:
       scan_dict = json.loads(self.new_item_scan_input.content)
       new_item_id = scan_dict['item_id']
-      self.
+      self.new_item_id_output.content = new_item_id
+      self.new_item_scan_input.enabled = False
+      self.new_item_id_panel.visible = True
+      self.done_btn.enabled = True
+      return 'Valid'
+    except:
+      n = Notification("Scan is not a valid item!", style='danger')
+      n.show()
+      self.new_item_scan_input.enabled = True
+      self.new_item_scan_input.focus()
+      return "Invalid"
 
-######### Handle Button Click Logic on Done ####################
+######### Handle Button Click Logic ####################
   def cancel_btn_click(self, **event_args):
     self.raise_event('x-close-alert', value='CANCELLED')
+
+  def clear_scan_btn_click(self, **event_args):
+    self.new_item_id_output.content = None
+    self.new_item_id_panel.visible = False
+    self.done_btn.enabled = False
+    self.new_item_scan_input.enabled = True
+    self.new_item_scan_input.focus()
+
+### Here is the one that actually does something
+  def done_btn_click(self, **event_args):
+    if self.replacement_reason_dropdown.selected_value = '(Select Reason)'
+    
+
 

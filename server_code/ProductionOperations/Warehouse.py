@@ -210,4 +210,8 @@ def remove_fulfillment_by_item_id(item_id, user, user_role):
                                       'Binned', 
                                       user, 
                                       user_role)  
-  
+
+@anvil.server.callable
+def get_f_id_from_item_id(item_id):
+  f_row = app_tables.openfulfillments.get(item_id=item_id)
+  return f_row['fulfillment_id']

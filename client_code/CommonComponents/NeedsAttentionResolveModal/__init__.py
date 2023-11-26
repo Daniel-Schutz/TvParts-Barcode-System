@@ -71,7 +71,7 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
 
 
 ######### Inner Buttons handled using event handlers (to centralize logic) ####
-  def remove_item(self, item_id, **event_args):
+  def remove_item(self, item_id, fulfillment_id, **event_args):
     remove_modal = anvil.alert(f"Confirm removal of item {item_id} from order {self.current_order}",
                               title='Remove Item?', 
                                buttons=['YES', 'CANCEL'], 
@@ -89,7 +89,8 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
                                                            self.current_order)
       
 
-  def replace_item(self, item_id, **event_args):
+  def replace_item(self, item_id, fulfillment_id, **event_args):
+    #the actual action in this one happens in the modal
     replace_modal = anvil.alert(NeedsAttentionReplaceModal(item_id=item_id),
                                large=True, dismissible=False)
     if replace_modal == 'CANCELLED':
