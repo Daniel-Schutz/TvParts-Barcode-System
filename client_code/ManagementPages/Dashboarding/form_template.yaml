@@ -1,0 +1,96 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card, background: '#dcffdc'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'KVEXUH,VFEHDA'}
+  components:
+  - name: header
+    properties: {role: headline, align: center, text: Management Dashboarding, tooltip: Note that role selection will affect message inbox.}
+    type: Label
+    layout_properties: {grid_position: 'HNBPWJ,MAKVMQ'}
+  - name: card_2_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'DKVLWV,FLOJSF'}
+    components:
+    - name: user_role_label_copy_2
+      properties: {text: Dashboarding Options, align: center, bold: false, font_size: 19}
+      type: Label
+      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'OLDQTF,KSQRGP'}
+      components:
+      - name: select_table_label
+        properties: {text: Select Data Table}
+        type: Label
+        layout_properties: {}
+      - name: select_role_dropdown
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 357.8359375}
+    - name: flow_panel_1_copy
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'SHVHIT,YDVCSY'}
+      components:
+      - name: compare_label
+        properties: {text: 'Compare:'}
+        type: Label
+        layout_properties: {}
+      - name: select_role_dropdown_copy
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 357.8359375}
+      - name: spacer_2
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 27.1484375}
+      - name: compare_type_label
+        properties: {text: 'Comparison Type:'}
+        type: Label
+        layout_properties: {}
+      - name: comp_type_dropdown
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 225.15234375}
+    - name: flow_panel_1_copy_copy
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'NIZXPF,EZKQAH'}
+      components:
+      - name: categorize_label
+        properties: {text: 'Categorize By:'}
+        type: Label
+        layout_properties: {}
+      - name: categorize_by_dropdown
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 357.8359375}
+      - name: flow_panel_1_copy_copy_copy
+        properties: {}
+        type: FlowPanel
+        components:
+        - name: categorize_label_copy
+          properties: {text: 'Categorize By:'}
+          type: Label
+          layout_properties: {}
+        - name: categorize_by_dropdown_copy
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 357.8359375}
+    - name: msg_inbox_repeater
+      properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
+      type: RepeatingPanel
+      layout_properties: {grid_position: 'PMDPGR,KYJAUN'}
+    - name: generate_analysis_btn
+      properties: {text: generate analysis, role: primary-color, align: center}
+      type: Button
+      layout_properties: {grid_position: 'HPYTHS,OGHTYZ'}
+  - name: spacer_1
+    properties: {height: 5.796875}
+    type: Spacer
+    layout_properties: {grid_position: 'MTFANQ,JSHUSA', row_background: '#000000'}
+is_package: true
