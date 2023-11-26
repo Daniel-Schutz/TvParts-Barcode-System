@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - name: card_1
-  properties: {role: card}
+  properties: {role: card, background: '#dcdcff'}
   type: ColumnPanel
   layout_properties: {grid_position: 'UFXVSX,SQVUCV'}
   components:
@@ -77,19 +77,60 @@ components:
   - name: card_2_copy_copy
     properties: {role: card}
     type: ColumnPanel
-    layout_properties: {grid_position: 'ZINZXG,DXYWYT'}
+    layout_properties: {grid_position: 'SDVPQI,DBAPQV'}
     components:
     - name: user_role_label_copy_2_copy
       properties: {text: Set Admin Passcode (For Needs Attention), align: center,
         bold: false, font_size: 19}
       type: Label
       layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
-    - name: admin_passcode_input
+    - name: flow_panel_2
       properties: {}
-      type: TextBox
-      layout_properties: {grid_position: 'UVRKFD,UGPUEP'}
+      type: FlowPanel
+      layout_properties: {grid_position: 'UVRKFD,WLIMFV'}
+      components:
+      - name: admin_passcode_label
+        properties: {text: 'Admin Passcode:'}
+        type: Label
+        layout_properties: {}
+      - name: admin_passcode_input
+        properties: {}
+        type: TextBox
+        layout_properties: {width: 269.08165625000004}
     - name: set_admin_pass_btn
-      properties: {text: set passcode, role: primary-color, align: right}
+      properties: {text: set passcode, role: primary-color, align: center}
       type: Button
       layout_properties: {grid_position: 'UVRKFD,BGKQMY'}
+  - name: spacer_1_copy_copy
+    properties: {height: 5.796875}
+    type: Spacer
+    layout_properties: {grid_position: 'UHCZBA,CSXMWT', row_background: 'theme:Secondary
+        500'}
+  - name: card_2_copy_copy_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WWDARZ,OLYCIL'}
+    components:
+    - name: user_role_label_copy_2_copy_copy
+      properties: {text: 'Require Bin Verification?', align: center, bold: false,
+        font_size: 19}
+      type: Label
+      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
+    - name: flow_panel_2_copy
+      properties: {align: center}
+      type: FlowPanel
+      layout_properties: {grid_position: 'UVRKFD,WLIMFV'}
+      components:
+      - name: bin_verify_label
+        properties: {text: 'Select One:'}
+        type: Label
+        layout_properties: {}
+      - name: bin_verify_dropdown
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 213.7813125}
+      - name: bin_verify_btn
+        properties: {text: submit, role: primary-color}
+        type: Button
+        layout_properties: {}
 is_package: true
