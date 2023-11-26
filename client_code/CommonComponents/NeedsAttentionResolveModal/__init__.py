@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 
 import json
 from ..NeedsAttentionReplaceModal import NeedsAttentionReplaceModal
+from ..MovetoTray import MovetoTray
 
 class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
   def __init__(self, order_no, repeater_items, user, role, **properties):
@@ -101,9 +102,13 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
       
       
     
-
-
-
 ########## Move to Tray Logic #####################
   def move_to_tray(self):
-    pass
+    tray_modal = anvil.alert(MovetoTray(user=self.current_user, role=self.user_role, order_no=self.current_order), 
+                             large=True, buttons=['CANCEL'])
+    if tray_modal == 'CANCEL':
+      return None
+    n = Notification('Order restored. Will return to flow after the next table completion.',
+                    title='Order Restored!', style='success', timeout=3)
+    n.show()
+    self.raise_event('x-close-alert')

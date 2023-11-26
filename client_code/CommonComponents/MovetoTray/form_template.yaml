@@ -21,4 +21,8 @@ components:
       properties: {}
       type: DropDown
       layout_properties: {width: 351.71875}
+  - name: move_btn
+    properties: {text: move to tray, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'UAAFTS,JKTIYT'}
 is_package: true

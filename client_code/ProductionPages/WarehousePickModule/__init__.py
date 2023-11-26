@@ -24,6 +24,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.current_order = None
     self.current_fulfillments = None
     self.current_section = None
+    self.begin_tray_btn.visible = False
+    self.tray_mode = False #processing orders that were resolved
+    
     if not self.current_table:
       self.initial_visibility()
       self.get_table_dropdown()
@@ -78,16 +81,29 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
-    open_tables_list = anvil.server.call('get_open_tables')
-    self.table_dropdown.items = open_tables_list
-    self.table_dropdown.selected_value = '(Select Table)'
-    self.begin_table_btn.visible = False
+    picking_trays = anvil.server.call('get_pending_trays')
+    if not picking_trays:
+      open_tables_list = anvil.server.call('get_open_tables')
+      self.table_dropdown.items = open_tables_list
+      self.table_dropdown.selected_value = '(Select Table)'
+      self.begin_table_btn.visible = False
+    else:
+      n = Notification("Previous Orders have been resolved. Please select a tray to continue.", 
+                       style='warning', timeout=5, title='Tray Processing')
+      n.show()
+      self.table_dropdown.items = picking_trays
+      self.table_dropdown.selected_value = '(Select Table)'
+      self.begin_table_btn.visible = False
+      self.tray_mode = True
 
   def select_table_dropdown_change(self, **event_args):
     if self.table_dropdown.selected_value == '(Select Table)':
       self.begin_table_btn.visible = False
     else:
-      self.begin_table_btn.visible = True
+      if self.tray_mode:
+        self.begin_tray_btn.visible = True
+      else:
+        self.begin_table_btn.visible = True
 
   def begin_table_btn_click(self, **event_args):
     self.get_new_table()
@@ -182,8 +198,6 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def all_picked_check(self):
     return self.component_idx == self.num_fulfillments
 
-
-
 #Getting a new order once this order is done (responds to event from fulfillments)
   def finish_order(self):
     n = Notification(f"Order {self.current_order['order_no']} complete! Loading Next Open Order.", style='success', title="Order Complete!", timeout=5)
@@ -248,3 +262,15 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.num_na_orders.output = len(self.needs_attention_orders)
       self.needs_attention_repeater.items = self.needs_attention_orders
 
+######### Handling for Tray Mode ################
+  def begin_tray_btn_click(self, **event_args):
+    self.current_table = self.table_dropdown.selected_value
+    anvil.server.call('reserve_tray', self.current_table)
+    self.get_current_state() #should give me the order and fulfillments
+    #check if it's already done
+    tray_complete = anvil.server.call('tray_complete', self.current_order)
+    if tray_complete:
+      self.finish_table()
+    else:
+      self.fulfillment_repeating_panel.items = self.current_fulfillments
+    

@@ -29,7 +29,7 @@ components:
     layout_properties: {grid_position: 'BZKDKM,FHRMHE'}
     components:
     - name: replacement_reason_label
-      properties: {role: headline, text: 'Replacement Reason:', italic: true, font_size: 15}
+      properties: {role: headline, text: 'Old Item to be:', italic: true, font_size: 15}
       type: Label
       layout_properties: {}
     - name: replacement_reason_dropdown

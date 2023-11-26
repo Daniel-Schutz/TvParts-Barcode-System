@@ -31,7 +31,12 @@ components:
   - name: begin_table_btn
     properties: {text: begin Table, role: primary-color, font_size: 22, icon: 'fa:bolt'}
     type: Button
-    layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
+    layout_properties: {grid_position: 'NDRRTI,ERZOLE'}
+    event_bindings: {click: begin_table_btn_click}
+  - name: begin_tray_btn
+    properties: {text: begin tray, role: primary-color, font_size: 22, icon: 'fa:briefcase'}
+    type: Button
+    layout_properties: {grid_position: 'YSUXOO,CPSTBM'}
     event_bindings: {click: begin_table_btn_click}
 - name: active_order_card
   properties: {role: card, background: '#c2ffe8'}

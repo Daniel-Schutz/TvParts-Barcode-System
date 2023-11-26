@@ -215,3 +215,86 @@ def remove_fulfillment_by_item_id(item_id, user, user_role):
 def get_f_id_from_item_id(item_id):
   f_row = app_tables.openfulfillments.get(item_id=item_id)
   return f_row['fulfillment_id']
+
+@anvil.server.callable
+def replace_item_on_fulfillment(old_item_id, new_item_id, old_destiny, user, role):
+  old_item_row = app_tables.items.get(item_id=old_item_id)
+  f_row = app_tables.openfulfillments.get(item_id=old_item_id)
+  f_row.update(item_id=new_item_id)
+  if old_destiny == 'Fixed':
+    old_item_row.update(status='Needs Fixed', order_no='')
+    anvil.server.launch_background_task('add_history_to_item_bk', 
+                                        old_item_id, 
+                                        'Needs Fixed', 
+                                        user, 
+                                        role)
+  elif old_destiny == 'Restocked':
+    old_item_row.update(status='Binned', order_no='', binned_on=datetime.now(), binned_by=user)
+    anvil.server.launch_background_task('add_history_to_item_bk', 
+                                        old_item_id, 
+                                        'Binned', 
+                                        user, 
+                                        role)    
+  elif old_destiny == 'Tossed':
+    old_item_row.update(status='Tossed', order_no='')
+    anvil.server.launch_background_task('add_history_to_item_bk', 
+                                        old_item_id, 
+                                        'Tossed', 
+                                        user, 
+                                        role)
+    #Add argument to subtract stock from Shopify & sync here
+  new_item_row = app_tables.items.get(item_id=new_item_id)
+  new_item_row.update(order_no=f_row['order_no'], 
+                      status='Picked', 
+                      picked_on=datetime.now(), 
+                      picked_by=user)
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      new_item_id, 
+                                      'Picked', 
+                                      user, 
+                                      role)
+
+@anvil.server.callable
+def get_open_trays_for_dd():
+  open_tray_rows = app_tables.tables.search(type='Tray', status="Open")
+  default_val = ("(Select Tray), (Select Tray)")
+  open_tray_tup_list = [(row['table'], row['table']) for row in open_tray_rows]
+  open_tray_tup_list.append(default_val)
+  return open_tray_tup_list
+
+@anvil.server.callable
+def move_order_to_tray(order_no, tray):
+  old_section_row = app_tables.table_sections.get(order=order_no)
+  old_section_row.update(current_user='', order=order_no)
+  tray_table_row = app_tables.tables.get(table=tray)
+  tray_table_row['status'] = 'Picking'
+  new_section_row = app_tables.table_sections.search(table=tray)[0] #we are assuming trays are 1 item entities now
+  new_section_row.update(order=order_no)
+
+####### Trays above tables logic ############
+@anvil.server.callable
+def get_pending_trays():
+  pending_trays = app_tables.tables.search(type='Tray', status='Picking')
+  if len(pending_trays) == 0:
+    return None
+  else:
+    default = ("Select Table", "Select Table")
+    pending_trays_vals = [(row['table'], row['table']) for row in pending_trays]
+    pending_trays_vals.append(default)
+    return pending_trays
+  
+@anvil.server.callable
+def reserve_tray(tray, user):
+  tray_section_row = app_tables.table_sections.get(table=tray)
+  tray_section_row.update(current_user=user)
+  tray_table_row = app_tables.tables.get(table=tray)
+  tray_table_row.update(current_user=user)
+
+@anvil.server.callable
+def tray_complete(order_no):
+  f_rows = app_tables.openfulfillments.search(order_no=order_no)
+  for fulfillment in f_rows:
+    f_status = fulfillment['status']
+    if f_status != "Picked":
+      return False
+  return True
