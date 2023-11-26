@@ -17,6 +17,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     #   component.set_event_handler('x-change-focus-to-next', self.change_focus)
     # self.set_event_handler('x-order-picked', self.finish_order)
     self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
+    self.needs_attention_repeater.set_event_handler('x-wh-needs-attention', self.move_to_holding)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -43,7 +44,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     else:
       self.num_na_orders = len(self.needs_attention_orders)
       self.no_pending_panel.visible = False
-      self.needs_attention_repeater.visible = True   
+      self.needs_attention_repeater.visible = True
+      self.needs_attention_repeater.items = self.needs_attention_orders
       
       
 
@@ -219,4 +221,30 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     #TODO: refresh page to reset to empty state
     pass
 
-    
+##### Needs Attention Panel ############
+  #responds to fulfillment repeater buttons
+  def move_to_holding(self, sku, fulfillment_id, **event_args):
+    confirm = anvil.alert(f"Confirm: {sku} is not in stock?", 
+                          buttons=['YES', 'CANCEL'], 
+                          large=True, Title = "Out of Stock?")
+    if confirm == "YES":
+      anvil.server.call('set_fulfillment_status', fulfillment_id, 'No Stock')
+      open_section = anvil.server.call('get_next_open_section', 'WHH1') #hardcoded table name here
+      move_item = anvil.alert(f"Please move Order to Holding Table {open_section['table']}, \
+      {open_section['section']}", buttons=['OK'], large=True,
+                title="Move Item to Holding.")
+      #Message for Management
+      anvil.server.call('create_message', 
+                        self.current_user, 
+                        self.current_role, 'Management',
+                       f'NEEDS ATTENTION: {sku} marked as out of stock in warehouse. Blocking order {self.current_order}.',
+                       {sku})
+      #Order to Holding Area
+      anvil.server.call('move_order_to_holding_area', self.current_order,
+                       open_section[table], open_section['section'])
+      #Start fresh
+      self.fetch_new_order()
+      self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
+      self.num_na_orders.output = len(self.needs_attention_orders)
+      self.needs_attention_repeater.items = self.needs_attention_orders
+

@@ -79,5 +79,7 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     self.switch_to_empty_view()
 
   def no_stock_btn_click(self, **event_args):
-    fuself.item['']
-    self.parent.raise_event('x-wh-needs-attention', sku=self.sku_output.content)
+    self.parent.raise_event('x-wh-needs-attention', 
+                            sku=self.sku_output.content, 
+                            fulfillment_id = self.item['fulfillment_id'])
+    #Note - we take care of datatable manipulation at the order level. Subs just throw events.

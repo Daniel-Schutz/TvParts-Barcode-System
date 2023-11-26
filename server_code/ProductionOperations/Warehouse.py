@@ -155,3 +155,8 @@ def get_needs_attention_items(holding_type='Warehouse Hold'):
     return None
   else:
     return search_results
+
+@anvil.server.callable
+def set_fulfillment_status(fulfillment_id, status):
+  f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
+  f_row['status'] = status
