@@ -165,6 +165,7 @@ def set_fulfillment_status(fulfillment_id, status):
   f_row['status'] = status
 
 @anvil.server.callable
+#current issue: This gets called after the deletion so there is no way to get the restock
 def restock_linked_item(f_id, user, user_role):
   f_row = app_tables.openfulfillments.get(fulfillment_id=f_id)
   if f_row['item_id'] == '':
@@ -197,7 +198,7 @@ def reset_order(order_no):
 # fully removes the order and fulfillments from the system
 @anvil.server.callable
 def delete_order(order_no):
-  section_row = app_tables.table_sections.get(order=order_no)
+  section_row = app_tables.table_sections.get(order=str(order_no))
   section_row.update(order='', current_user='')
   #delete rows of orders and fulfillments
   anvil.server.launch_background_task('delete_rows_bk', 'openorders', 'order_no', order_no)
