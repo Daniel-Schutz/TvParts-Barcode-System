@@ -58,8 +58,8 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
   def clear_items_btn_click(self, **event_args):
     n_1 = Notification(f"Resetting Order {self.current_order}. Please wait.", style='info')
     n_1.show()
-    anvil.server.call('reset_order', self.current_order)
     self.restock_linked_items()
+    anvil.server.call('reset_order', self.current_order)
     self.raise_event("x-close-alert", value=42) #close modal
     pass
 
@@ -67,8 +67,8 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
   def cancel_order_btn_click(self, **event_args):
     n_1 = Notification(f"Deleting Order {self.current_order}. Please wait.", style='info')
     n_1.show()
-    anvil.server.call('delete_order', self.current_order)
     self.restock_linked_items()
+    anvil.server.call('delete_order', self.current_order)
     self.raise_event("x-close-alert", value=42) #close modal
     pass
 

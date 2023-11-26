@@ -206,7 +206,7 @@ def delete_order(order_no):
 
 @anvil.server.callable
 def remove_fulfillment_by_item_id(item_id, user, user_role):
-  anvil.server.call('delete_rows', 'openfulfillment', 'item_id', item_id)
+  anvil.server.call('delete_rows', 'openfulfillments', 'item_id', item_id)
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(status='Binned', order_no='')
   anvil.server.launch_background_task('add_history_to_item_bk', 
