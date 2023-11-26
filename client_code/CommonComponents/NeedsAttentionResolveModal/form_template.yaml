@@ -13,10 +13,12 @@ components:
     properties: {text: clear all items, role: primary-color}
     type: Button
     layout_properties: {grid_position: 'SJZHME,XJZVAN'}
+    event_bindings: {click: clear_items_btn_click}
   - name: cancel_order_btn
     properties: {text: cancel Order, role: primary-color}
     type: Button
     layout_properties: {grid_position: 'SJZHME,OFYJJL'}
+    event_bindings: {click: cancel_order_btn_click}
   - name: spacer_1
     properties: {height: 6.5859375}
     type: Spacer

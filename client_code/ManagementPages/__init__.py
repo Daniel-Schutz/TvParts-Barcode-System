@@ -10,6 +10,8 @@ from anvil.tables import app_tables
 #
 #    Package1.say_hello()
 #
+from .ActionPanel import ActionPanel
+from .ControlPanel import ControlPanel
+from .Dashboarding import Dashboarding
+from .RoleNavigation import RoleNavigation
 
-def say_hello():
-  print("Hello, world")

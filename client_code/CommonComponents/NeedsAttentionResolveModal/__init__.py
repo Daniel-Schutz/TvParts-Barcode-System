@@ -19,6 +19,8 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
     self.headline.text = f"Resolve Order {order_no}"
     self.current_user = user
     self.user_role = role
+
+    #handle item logic within the modal
     self.fulfillments_repeater.set_event_handler('x-remove-item-btn', self.remove_item)
     self.fulfillments_repeater.set_event_handler('x-replace-item-btn', self.replace_item)
 

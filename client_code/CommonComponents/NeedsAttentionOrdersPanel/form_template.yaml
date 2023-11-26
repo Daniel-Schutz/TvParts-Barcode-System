@@ -96,4 +96,5 @@ components:
     properties: {text: resolve items, role: primary-color}
     type: Button
     layout_properties: {grid_position: 'VDVUFM,ANMDWJ'}
+    event_bindings: {click: resolve_items_btn_click}
 is_package: true

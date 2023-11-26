@@ -82,4 +82,10 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     self.parent.raise_event('x-wh-needs-attention', 
                             sku=self.sku_output.content, 
                             fulfillment_id = self.item['fulfillment_id'])
+    print("raised event in no stock")
     #Note - we take care of datatable manipulation at the order level. Subs just throw events.
+
+  def needs_attention_btn_click(self, **event_args):
+    self.parent.raise_event('x-wh-needs-attention', 
+                            sku=self.sku_output.content, 
+                            fulfillment_id = self.item['fulfillment_id'])

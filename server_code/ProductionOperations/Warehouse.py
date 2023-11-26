@@ -112,9 +112,10 @@ def get_next_open_holding_area(type='Warehouse Holding'):
 
 @anvil.server.callable
 def move_order_to_holding_area(order_no, holding_table, holding_section):
+  order_no = str(order_no)
   old_table_row = app_tables.table_sections.get(order=order_no)
   new_table_row = app_tables.table_sections.get(table=holding_table, section=holding_section)
-  order_row = app_tables.openorders.get(order_no=order_no)
+  order_row = app_tables.openorders.get(order_no=int(order_no)) #need to fix this in the shopify handler
   new_table_row.update(order=order_no)
   old_table_row.update(order='')
   order_row.update(reserved_status='Pending', reserved_by='', table_no=holding_table, section=holding_section)
@@ -150,11 +151,13 @@ def update_item_with_fulfillment(order_no, item_id, user):
 ########## Needs attention handling ######################
 @anvil.server.callable
 def get_needs_attention_items(holding_type='Warehouse Hold'):
-  search_results = app_tables.table_sections.search((type == holding_type), (order != ''))
+  search_results = app_tables.table_sections.search(type=holding_type, order=q.not_(''))
   if len(search_results) == 0:
     return None
   else:
-    return search_results
+    contained_orders = [int(row['order']) for row in search_results] #Need to update order d_type in shopify interface
+    order_records = app_tables.openorders.search(order_no=q.any_of(*contained_orders))
+    return order_records
 
 @anvil.server.callable
 def set_fulfillment_status(fulfillment_id, status):
@@ -188,7 +191,7 @@ def reset_order(order_no):
                    section='(Not Set)', 
                    reserved_status='Open', 
                    reserved_by='')
-  section_row = app_tables.table_sections.get(order=order_no) #this might not be an appropriate state, we will see during testing
+  section_row = app_tables.table_sections.get(order=str(order_no)) #this might not be an appropriate state, we will see during testing
   section_row.update(order='', current_user='')
 
 # fully removes the order and fulfillments from the system

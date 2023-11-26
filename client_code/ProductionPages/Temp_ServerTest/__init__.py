@@ -14,6 +14,7 @@ from ..IdModule import IdModule
 from ..WarehouseStockModule import WarehouseStockModule
 from ..WarehousePickModule import WarehousePickModule
 from ...CommonComponents.ItemLookup import ItemLookup
+from ..ManagementMasterModule import ManagementMasterModule
 
 import uuid
 import datetime
@@ -32,15 +33,10 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
 
 ######### COMPONENT EVENTS ############################
 
-  def modal_send_msg_btn_click(self, **event_args):
+  def management_area_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    send_msg_modal = SendMessages()
-    anvil.alert(
-      send_msg_modal, 
-      title="Send New Message",
-      buttons=[],
-      large=True
-    )
+    self.parent.add_component(ManagementMasterModule(), full_width_row=True)
+    self.remove_from_parent()
 
   def modal_recieve_msg_btn_click(self, **event_args):
     """This method is called when the button is clicked"""

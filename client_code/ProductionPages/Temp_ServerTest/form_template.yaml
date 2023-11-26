@@ -21,11 +21,11 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'KZOFAE,QYRJZO'}
     components:
-    - name: modal_send_msg_btn
-      properties: {text: Modal Send Message, role: primary-color}
+    - name: management_area_btn
+      properties: {text: go to management area, role: primary-color}
       type: Button
       layout_properties: {grid_position: 'TQHMLN,OHLOBY'}
-      event_bindings: {click: modal_send_msg_btn_click}
+      event_bindings: {click: management_area_btn_click}
     - name: modal_send_msg_btn_copy_1
       properties: {text: Modal Send Message, role: primary-color}
       type: Button

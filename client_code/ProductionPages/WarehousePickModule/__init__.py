@@ -17,7 +17,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     #   component.set_event_handler('x-change-focus-to-next', self.change_focus)
     # self.set_event_handler('x-order-picked', self.finish_order)
     self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
-    self.needs_attention_repeater.set_event_handler('x-wh-needs-attention', self.move_to_holding)
+    self.fulfillment_repeating_panel.set_event_handler('x-wh-needs-attention', self.move_to_holding)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -38,19 +38,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
         self.fulfillment_repeating_panel.get_components()[0].item_scan_input.focus()
 
   # #### Needs Attention Inits ######
-    self.dept_output = 'Warehouse'
-    self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
-    if not self.needs_attention_orders:
-      self.num_na_orders = 0
-      self.no_pending_panel.visible = True
-      self.needs_attention_repeater.visible = False
-    else:
-      self.num_na_orders = len(self.needs_attention_orders)
-      self.no_pending_panel.visible = False
-      self.needs_attention_repeater.visible = True
-      self.needs_attention_repeater.items = self.needs_attention_orders
-      
-      
+    self.dept_output.content = 'Warehouse'
+    self.refresh_needs_attention_area()
 
 
 ########### Visibility Helper Functions ####################
@@ -157,8 +146,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.current_table = anvil.server.call_s('claim_table', 
                                            self.current_user)
     self.fetch_new_order()
-    self.set_order_card_content()
-    self.active_visibility()
+    # self.set_order_card_content()
+    # self.active_visibility()
 
 #Fetching a New Order, also called for no-stocks
   def fetch_new_order(self, **event_args):
@@ -180,6 +169,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
                                               self.current_table)
   
       anvil.server.call_s('set_order_status', self.current_order['order_no'], 'Picking')
+      self.set_order_card_content()
+      self.active_visibility()
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
@@ -238,6 +229,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 ##### Needs Attention Panel ############
   #responds to fulfillment repeater buttons
   def move_to_holding(self, sku, fulfillment_id, **event_args):
+    print("Made it to the move_to_holding event.")
     confirm = anvil.alert(f"Confirm: {sku} is not in stock?", 
                           buttons=['YES', 'CANCEL'], 
                           large=True, Title = "Out of Stock?")
@@ -245,23 +237,41 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       anvil.server.call('set_fulfillment_status', fulfillment_id, 'No Stock')
       open_section = anvil.server.call('get_next_open_section', 'WHH1') #hardcoded table name here
       move_item = anvil.alert(f"Please move Order to Holding Table {open_section['table']}, \
-      {open_section['section']}", buttons=['OK'], large=True,
+      Section: {open_section['section']}", buttons=['OK'], large=True,
                 title="Move Item to Holding.")
       #Message for Management
+      # print("user", self.current_user)
+      # print("role", self.current_role)
+      # print("sku", sku)
+      # print("order", self.current_order)
       anvil.server.call('create_message', 
-                        self.current_user, 
-                        self.current_role, 'Management',
-                       f'NEEDS ATTENTION: {sku} marked as out of stock in warehouse. Blocking order {self.current_order}.',
-                       {sku})
+                        self.current_user,
+                        self.current_role, 
+                        'Management',
+                        #'Test Message for holding',
+                       f'NEEDS ATTENTION: {sku} marked as out of stock in warehouse. Blocking order {self.current_order["order_no"]}.',
+                       sku)
       #Order to Holding Area
-      anvil.server.call('move_order_to_holding_area', self.current_order,
-                       open_section[table], open_section['section'])
+      anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],
+                       open_section['table'], open_section['section'])
       #Start fresh
       self.fetch_new_order()
       self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
       self.num_na_orders.output = len(self.needs_attention_orders)
-      self.needs_attention_repeater.items = self.needs_attention_orders
+      self.refresh_needs_attention_area()
 
+  def refresh_needs_attention_area(self):
+    self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
+    if not self.needs_attention_orders:
+      self.num_na_orders.content = 0
+      self.no_pending_panel.visible = True
+      self.needs_attention_repeater.visible = False
+    else:
+      self.num_na_orders.content = len(self.needs_attention_orders)
+      self.no_pending_panel.visible = False
+      self.needs_attention_repeater.visible = True
+      self.needs_attention_repeater.items = self.needs_attention_orders
+  
 ######### Handling for Tray Mode ################
   def begin_tray_btn_click(self, **event_args):
     self.current_table = self.table_dropdown.selected_value

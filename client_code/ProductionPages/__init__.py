@@ -7,6 +7,10 @@ from anvil.tables import app_tables
 #Module Imports
 from .TeardownModule import TeardownModule
 from .IdModule import IdModule
+from .WarehousePickModule import WarehousePickModule
+from .WarehouseStockModule import WarehouseStockModule
+from .TestingModule import TestingModule
+from .ShippingModule import ShippingModule
 
 # This is a package.
 # You can define variables and functions here, and use them from any form. For example, in a top-level form:

@@ -1,7 +1,8 @@
 container: {type: ColumnPanel}
 components:
 - name: header
-  properties: {role: headline, text: Management Operations, align: center, icon: 'fa:star'}
+  properties: {role: headline, text: Management Operations, align: center, icon: 'fa:star',
+    background: '#00ff00'}
   type: Label
   layout_properties: {grid_position: 'MXVOSE,FXMEMJ'}
 - name: card_1
@@ -18,18 +19,22 @@ components:
       properties: {text: control panel, role: primary-color}
       type: Button
       layout_properties: {}
+      event_bindings: {click: control_panel_btn_click}
     - name: action_panel_btn
       properties: {text: action panel, role: primary-color}
       type: Button
       layout_properties: {}
+      event_bindings: {click: action_panel_btn_click}
     - name: dashboard_btn
       properties: {text: dashboarding, role: primary-color}
       type: Button
       layout_properties: {}
+      event_bindings: {click: dashboard_btn_click}
     - name: role_nav_btn
       properties: {text: Role Naviagtion, role: primary-color}
       type: Button
       layout_properties: {}
+      event_bindings: {click: role_nav_btn_click}
 - name: main_content_panel
   properties: {}
   type: ColumnPanel

@@ -136,7 +136,7 @@ components:
           properties: {text: NO stock, role: secondary-color, icon: 'fa:ban', align: right}
           type: Button
           layout_properties: {}
-          event_bindings: {}
+          event_bindings: {click: no_stock_btn_click}
         - name: clear_item_btn
           properties: {text: clear item, role: raised, icon: 'fa:close', align: right}
           type: Button
@@ -146,6 +146,6 @@ components:
           properties: {text: needs attention, role: secondary-color, icon: 'fa:warning',
             align: right}
           type: Button
-          event_bindings: {}
+          event_bindings: {click: needs_attention_btn_click}
           layout_properties: {}
 is_package: true
