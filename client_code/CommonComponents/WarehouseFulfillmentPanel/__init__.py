@@ -73,3 +73,11 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     cf.add_event_to_item_history(item_id, 'Picked', self.current_user, self.current_role)
     self.switch_to_scanned_view()
     self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)
+
+  def clear_item_btn_click(self, **event_args):
+    self.item_scan_input = self.name_content
+    self.switch_to_empty_view()
+
+  def no_stock_btn_click(self, **event_args):
+    fuself.item['']
+    self.parent.raise_event('x-wh-needs-attention', sku=self.sku_output.content)

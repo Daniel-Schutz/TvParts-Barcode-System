@@ -166,7 +166,7 @@ components:
         properties: {text: 'Department:'}
         type: Label
         layout_properties: {}
-      - name: dept_output_copy_1
+      - name: dept_output
         properties: {}
         type: RichText
     - name: flow_panel_2_copy_2
@@ -177,7 +177,7 @@ components:
       - name: no_orders_label_copy_1
         properties: {text: 'No. of Orders:'}
         type: Label
-      - name: no_orders_output_copy_1
+      - name: num_na_orders
         properties: {}
         type: RichText
     - name: spacer_2_copy_1

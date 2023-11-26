@@ -146,3 +146,12 @@ def update_item_with_fulfillment(order_no, item_id, user):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(order_no=str(order_no), picked_by=user, picked_on=datetime.now(), status='Picked')
   anvil.server.launch_background_task('add_history_to_item_bk', item_id=item_id, item_status='Picked')
+
+########## Needs attention handling ######################
+@anvil.server.callable
+def get_needs_attention_items(holding_type='Warehouse Hold'):
+  search_results = app_tables.table_sections.search((type == holding_type), (order != ''))
+  if len(search_results) == 0:
+    return None
+  else:
+    return search_results

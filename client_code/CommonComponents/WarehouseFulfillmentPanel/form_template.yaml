@@ -141,7 +141,7 @@ components:
           properties: {text: clear item, role: raised, icon: 'fa:close', align: right}
           type: Button
           layout_properties: {}
-          event_bindings: {}
+          event_bindings: {click: clear_item_btn_click}
         - name: needs_attention_btn
           properties: {text: needs attention, role: secondary-color, icon: 'fa:warning',
             align: right}

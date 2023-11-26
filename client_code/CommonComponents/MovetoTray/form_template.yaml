@@ -1,0 +1,24 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'ELARWF,VOZQBH'}
+  components:
+  - name: header
+    properties: {role: headline, text: Move to Tray, align: center}
+    type: Label
+    layout_properties: {grid_position: 'GNTYRJ,KGVIIQ'}
+  - name: flow_panel_1
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'SFJRDN,NHPQWQ'}
+    components:
+    - name: dest_label
+      properties: {text: 'Destination:'}
+      type: Label
+    - name: tray_picker_dropdown
+      properties: {}
+      type: DropDown
+      layout_properties: {width: 351.71875}
+is_package: true

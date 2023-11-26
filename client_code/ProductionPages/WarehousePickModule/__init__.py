@@ -16,7 +16,6 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     # for component in self.fulfillment_repeating_panel.get_components():
     #   component.set_event_handler('x-change-focus-to-next', self.change_focus)
     # self.set_event_handler('x-order-picked', self.finish_order)
-    self.fulfillment_repeating_panel.set_event_handler('x-abandon-order', self.fetch_new_order)
     self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
@@ -33,6 +32,20 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.active_visibility()
       if self.fulfillment_repeating_panel.get_components():
         self.fulfillment_repeating_panel.get_components()[0].item_scan_input.focus()
+
+  # #### Needs Attention Inits ######
+    self.dept_output = 'Warehouse'
+    self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
+    if not self.needs_attention_orders:
+      self.num_na_orders = 0
+      self.no_pending_panel.visible = True
+      self.needs_attention_repeater.visible = False
+    else:
+      self.num_na_orders = len(self.needs_attention_orders)
+      self.no_pending_panel.visible = False
+      self.needs_attention_repeater.visible = True   
+      
+      
 
 
 ########### Visibility Helper Functions ####################
@@ -205,4 +218,5 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     anvil.server.call_s('close_table', self.current_table)
     #TODO: refresh page to reset to empty state
     pass
+
     
