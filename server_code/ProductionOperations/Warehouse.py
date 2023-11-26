@@ -160,3 +160,54 @@ def get_needs_attention_items(holding_type='Warehouse Hold'):
 def set_fulfillment_status(fulfillment_id, status):
   f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
   f_row['status'] = status
+
+@anvil.server.callable
+def restock_linked_item(f_id, user, user_role):
+  f_row = app_tables.openfulfillments.get(fulfillment_id=f_id)
+  if f_row['item_id'] == '':
+    return None
+  else:
+    item_row = app_tables.items.get(item_id=f_row['item_id'])
+    
+    #this line also unlinks from fulfillment
+    f_row.update(item_id='', status='New')
+    
+    item_row.update(status='Binned', order_no='')
+    anvil.server.launch_background_task('add_history_to_item_bk', 
+                                        f_row['item_id'], 
+                                        'Binned', 
+                                        user, 
+                                        user_role)
+  return item_row['stored_bin']
+
+@anvil.server.callable
+def reset_order(order_no):
+  order_row = app_tables.openorders.get(order_no=order_no)
+  order_row.update(status='New', 
+                   table_no='(Not Set)', 
+                   section='(Not Set)', 
+                   reserved_status='Open', 
+                   reserved_by='')
+  section_row = app_tables.table_sections.get(order=order_no) #this might not be an appropriate state, we will see during testing
+  section_row.update(order='', current_user='')
+
+# fully removes the order and fulfillments from the system
+@anvil.server.callable
+def delete_order(order_no):
+  section_row = app_tables.table_sections.get(order=order_no)
+  section_row.update(order='', current_user='')
+  #delete rows of orders and fulfillments
+  anvil.server.launch_background_task('delete_rows_bk', 'openorders', 'order_no', order_no)
+  anvil.server.launch_background_task('delete_rows_bk', 'openfulfillments', 'order_no', order_no)
+
+@anvil.server.callable
+def remove_fulfillment_by_item_id(item_id, user, user_role):
+  anvil.server.call('delete_rows', 'openfulfillment', 'item_id', item_id)
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(status='Binned', order_no='')
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      f_row['item_id'], 
+                                      'Binned', 
+                                      user, 
+                                      user_role)  
+  

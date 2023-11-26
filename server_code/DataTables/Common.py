@@ -137,3 +137,12 @@ def delete_rows(table_name, column_name, value):
     table = getattr(app_tables, table_name)
     for row in table.search(**{column_name: value}):
         row.delete()
+
+@anvil.server.background_task
+def delete_rows_bk(table_name, column_name, value):
+    """
+    Delete rows where column_name equals value.
+    """
+    table = getattr(app_tables, table_name)
+    for row in table.search(**{column_name: value}):
+        row.delete()
