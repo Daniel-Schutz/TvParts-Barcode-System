@@ -6,6 +6,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+import json
+
 class TestingModule(TestingModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -20,6 +22,8 @@ class TestingModule(TestingModuleTemplate):
     self.current_section = None
     self.begin_tray_btn.visible = False
     self.tray_mode = False #processing orders that were resolved
+    self.this_item_id = None
+    self.target_f = None
     
     if not self.current_table:
       self.initial_visibility()
@@ -63,7 +67,11 @@ class TestingModule(TestingModuleTemplate):
     self.na_spacer.visible = False
     self.na_card.visible = False
 
-
+  def enable_buttons(self):
+    self.failed_btn.enabled = True
+    self.passed_btn.enabled = True
+    self.needs_attention_btn.enable = True
+    
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
     picking_trays = anvil.server.call('get_pending_test_trays')
@@ -146,4 +154,24 @@ class TestingModule(TestingModuleTemplate):
       self.fulfillments_repeater.items = self.current_fulfillments
 
 
-# This whole system is scan driven
+# This whole system is scan driven. self.target_f is the fulfillment linked to the scanned item
+  def item_scan_input_pressed_enter(self, **event_args):
+    scan_dict = json.loads(self.item_scan_input.text)
+    self.this_item_id = scan_dict['item_id']
+    for f in self.current_fulfillments:
+      if f['item_id'] == self.this_item_id:
+        self.target_f = f
+        break
+    if not self.target_f:
+      n = Notification(f"Scanned item {self.this_item_id} is not a part of Order {self.current_order['order_no']}. Please try again.", 
+                       title='Item not in Order',
+                      style='warning')
+      n.show()
+      self.item_scan_input.text = None
+    else:
+      self.sku_output.content = target_f['sku']
+      self.name_content.content = target_f['product_name']
+      self.item_id_output.content = target_f['item_id']
+      self.enable_buttons()
+
+###### Button Events #############

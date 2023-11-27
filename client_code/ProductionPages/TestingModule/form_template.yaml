@@ -135,7 +135,7 @@ components:
             - name: sku_label_copy_1
               properties: {text: 'SKU:', underline: true}
               type: Label
-            - name: sku_output_copy_1
+            - name: sku_output
               properties: {}
               type: RichText
               data_bindings:
@@ -149,7 +149,7 @@ components:
               properties: {text: 'Name:', bold: true, underline: true}
               type: Label
               layout_properties: {}
-            - name: name_content_copy_1
+            - name: name_content
               properties: {}
               type: RichText
               data_bindings:
@@ -164,7 +164,7 @@ components:
               properties: {text: 'Item Id:', bold: true, underline: true}
               type: Label
               layout_properties: {}
-            - name: item_id_output_copy_1
+            - name: item_id_output
               properties: {}
               type: RichText
               layout_properties: {expand: true}
