@@ -42,6 +42,14 @@ def get_next_open_section(table):
   else:
     return open_search[0]
 
+@anvil.server.callable
+def close_table(table_no, status):
+  table_row = app_tables.tables.get(table=table_no)
+  table_row.update(current_user='', status=status)
+  section_rows = app_tables.table_sections.search(table=table_no)
+  for row in section_rows:
+    row['current_user'] = ''
+
 
 ####### Trays above tables logic ############
 @anvil.server.callable

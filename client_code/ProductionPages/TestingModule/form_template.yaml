@@ -123,7 +123,7 @@ components:
               properties: {}
               type: TextBox
               layout_properties: {width: 378.5}
-            - name: clear_scan_btn_copy_1
+            - name: clear_scan_btn
               properties: {text: clear scan, role: primary-color, background: '#0000ff'}
               type: Button
               layout_properties: {}
@@ -177,12 +177,12 @@ components:
         properties: {text: failed, role: secondary-color, icon: 'fa:ban', align: right}
         type: Button
         layout_properties: {}
-        event_bindings: {}
+        event_bindings: {click: failed_btn_click}
       - name: needs_attention_btn
         properties: {text: needs attention, role: secondary-color, icon: 'fa:warning',
           align: right, visible: true}
         type: Button
-        event_bindings: {click: select_product_btn_click}
+        event_bindings: {click: needs_attention_btn_click}
         layout_properties: {}
       - name: passed_btn
         properties: {text: passed, role: primary-color, icon: 'fa:check', align: right}

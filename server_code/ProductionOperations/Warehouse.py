@@ -103,13 +103,6 @@ def mark_no_stock(fulfillment_id):
   hold_section, hold_table = get_next_open_holding_area()
   move_order_to_holding_area(f_row['order_no'], hold_table, hold_section)
 
-@anvil.server.callable
-def close_table(table_no):
-  table_row = app_tables.tables.get(table=table_no)
-  table_row.update(current_user='', status='Testing')
-  section_rows = app_tables.table_sections.search(table=table_no)
-  for row in section_rows:
-    row['current_user'] = ''
 
 @anvil.server.callable
 def link_item_to_fulfillment(fulfillment_id, item_id, user):

@@ -115,13 +115,32 @@ class TestingModule(TestingModuleTemplate):
     components[self.component_idx].item_scan_input.focus()
 
 
+# ######### Lifecycle DB Helper Functions ########################
+  def update_fulfillments(self):
+    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', 
+                                                  self.current_order['order_no'])
+    self.fulfillments_repeater.items = self.current_fulfillments
+
+  def check_complete(self):
+    complete = True
+    for f in self.current_fulfillments:
+      if f['status'] != 'Tested':
+        complete = False
+        break
+    if complete:
+      self.fetch_new_order()
+    else:
+      self.update_fulfillments()
+      self.clear_scan_btn_click()
+      
+
 ########## Lifecycle DB Functions ###############################
 # Initializing a new table
   def get_new_table(self):
-    n = Notification("Claiming new table...",style='success')
+    n = Notification("Claiming new table...", style='success')
     self.current_table = anvil.server.call_s('claim_table', 
-                                           self.current_user, 
-                                             "Testing")
+                                            self.current_user, 
+                                              "Testing")
     self.fetch_new_order()
 
 #Fetching Current Order (gracefully handle refresh)
@@ -132,16 +151,14 @@ class TestingModule(TestingModuleTemplate):
     if not self.current_order:
       self.fetch_new_order()
     self.current_section = self.current_order['section']
-    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', 
-                                                  self.current_order['order_no'])
-    self.fulfillments_repeater.items = self.current_fulfillments
+    self.update_fulfillments()
 
 #Fetching a New Order after completion of testing, or problems
   def fetch_new_order(self, **event_args):
     n_1 = Notification('Finding next section...', timeout=1)
     self.current_section = anvil.server.call('get_next_open_section', self.current_table)
     if not self.current_section:
-      n = Notification("Table complete! please take table to testing and press continue.", style='success')
+      n = Notification("Table complete! please take table to Shipping and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
       return None
@@ -175,3 +192,35 @@ class TestingModule(TestingModuleTemplate):
       self.enable_buttons()
 
 ###### Button Events #############
+  def clear_scan_btn_click(self, **event_args):
+    self.item_scan_input.text = None
+    self.sku_output.content = None
+    self.name_content.content = None
+    self.item_id_output.content = None
+    self.failed_btn.enabled = False
+    self.needs_attention_btn.enabled = False
+    self.passed_btn.enabled = False
+    self.target_f = None
+
+  def passed_btn_click(self, **event_args):
+    self.fulfillments_repeater.raise_event_on_children('x-mark-passed-item', 
+                                                       item_id=self.target_f['item_id'])
+
+    #DB Logic Here
+    self.update_fulfillments()
+    self.check_complete()
+    pass
+    
+  def needs_attention_btn_click(self, **event_args):
+    pass #This kicks off the whole needs attention flow, so we'll come back to it
+
+  def failed_btn_click(self, **event_args):
+    self.fulfillments_repeater.raise_event_on_children('x-mark-failed-item', 
+                                                       item_id=self.target_f['item_id'])
+    pass #This kicks off the whole needs attention flow, so we'll come back to it
+
+  def finish_table_btn_click(self, **event_args):
+    n = Notification("Closing Table, please wait...")
+    anvil.server.call('close_table', self.current_table, status='Shipping')
+    self.initial_visibility()
+    self.get_table_dropdown()

@@ -223,7 +223,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     #close out the table itself too
     n = Notification("Table complete! please take table to testing and press continue.", style='success', title='Move Table to Testing', timeout=5)
     n.show()
-    anvil.server.call_s('close_table', self.current_table)
+    anvil.server.call_s('close_table', self.current_table, status='Testing')
     #TODO: refresh page to reset to empty state
     pass
 
