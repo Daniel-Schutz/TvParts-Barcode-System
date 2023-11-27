@@ -16,21 +16,13 @@ def get_current_table(user):
   except:
     return None
 
-@anvil.server.callable
-def get_open_tables():
-  response = app_tables.tables.search(status="Open")
-  open_tables = [(row['table'], row['table']) for row in response]
-  open_tables.append(('(Select Table)', '(Select Table)'))
-  return open_tables
+# @anvil.server.callable
+# def get_open_tables():
+#   response = app_tables.tables.search(status="Open")
+#   open_tables = [(row['table'], row['table']) for row in response]
+#   open_tables.append(('(Select Table)', '(Select Table)'))
+#   return open_tables
 
-@anvil.server.callable
-def claim_table(user):
-  new_table_dict = app_tables.tables.search(status="Open")[0] #might need to break this out if it doesn't return a dict
-  row = app_tables.tables.get(table=new_table_dict['table'])
-  row['current_user'] = user
-  row['status'] = 'Picking'
-  anvil.server.launch_background_task('update_user_on_section_rows', new_table_dict['table'], user)
-  return row['table']
 
 @anvil.server.callable
 def fetch_new_order(user):
@@ -40,10 +32,10 @@ def fetch_new_order(user):
   # claimed_order['reserved_by'] = user
   return claimed_order
 
-@anvil.server.callable
-def load_current_order(user):
-  claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
-  return claimed_order
+# @anvil.server.callable
+# def load_current_order(user):
+#   claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
+#   return claimed_order
     
 @anvil.server.callable
 def load_current_fulfillments(order_no):
@@ -276,16 +268,16 @@ def move_order_to_tray(order_no, tray):
   new_section_row.update(order=order_no)
 
 ####### Trays above tables logic ############
-@anvil.server.callable
-def get_pending_trays():
-  pending_trays = app_tables.tables.search(type='Tray', status='Picking')
-  if len(pending_trays) == 0:
-    return None
-  else:
-    default = ("Select Table", "Select Table")
-    pending_trays_vals = [(row['table'], row['table']) for row in pending_trays]
-    pending_trays_vals.append(default)
-    return pending_trays
+# @anvil.server.callable
+# def get_pending_pick_trays():
+#   pending_trays = app_tables.tables.search(type='Tray', status='Picking')
+#   if len(pending_trays) == 0:
+#     return None
+#   else:
+#     default = ("Select Table", "Select Table")
+#     pending_trays_vals = [(row['table'], row['table']) for row in pending_trays]
+#     pending_trays_vals.append(default)
+#     return pending_trays
   
 @anvil.server.callable
 def reserve_tray(tray, user):

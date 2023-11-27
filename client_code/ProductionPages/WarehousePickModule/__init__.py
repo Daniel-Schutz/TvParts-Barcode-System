@@ -70,9 +70,9 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
-    picking_trays = anvil.server.call('get_pending_trays')
+    picking_trays = anvil.server.call('get_pending_trays', "Picking")
     if not picking_trays:
-      open_tables_list = anvil.server.call('get_open_tables')
+      open_tables_list = anvil.server.call('get_open_tables', status='Open')
       self.table_dropdown.items = open_tables_list
       self.table_dropdown.selected_value = '(Select Table)'
       self.begin_table_btn.visible = False
@@ -119,7 +119,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     
     #set focus stuff
     self.component_idx = 0
-    self.num_fulfillments = len(self.current_fulfillments )
+    self.num_fulfillments = len(self.current_fulfillments)
     components = self.fulfillment_repeating_panel.get_components()
     components[self.component_idx].item_scan_input.focus()
 
@@ -144,7 +144,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def get_new_table(self):
     n = Notification("Claiming new table...",style='success')
     self.current_table = anvil.server.call_s('claim_table', 
-                                           self.current_user)
+                                           self.current_user, 
+                                             "Open")
     self.fetch_new_order()
     # self.set_order_card_content()
     # self.active_visibility()
@@ -176,7 +177,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def get_current_state(self):
     n = Notification("Getting current session state, Just a moment please.", style='info', title="Preparing Session...", timeout=5)
     n.show()
-    self.current_order = anvil.server.call_s('load_current_order', self.current_user)
+    self.current_order = anvil.server.call_s('load_current_order', self.current_user, status='Picking')
     # print('in current state - Here is the current order')
     # [print(entry) for entry in self.current_order]
     if not self.current_order:

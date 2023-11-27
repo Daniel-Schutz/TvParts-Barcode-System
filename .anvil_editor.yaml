@@ -51,6 +51,7 @@ unique_ids:
     ManagementPages: '1700981553912750168732347.0048'
     ProductionPages: '1699641069798382756825463.67816'
   server_modules:
+    ProductionOperations.SharedFunctions: '170104788916962096989089.83641'
     DataTables.ProductTable: '1699843012192638094364581.0051'
     DataTables.MessageTable: '1699744731839960993406177.7355'
     LowLevelInterfaces.GenerateQRCode: '1699661406410151368247332.17514'
@@ -63,6 +64,7 @@ unique_ids:
     DataTables.Common: '169991835392483448256799.02312'
     LowLevelInterfaces.AWSInterface: '1700015731423821346208564.3053'
     ProductionOperations.IdTables: '1700146957371788568146873.8663'
+    ProductionOperations.Testing: '1701046838582650681270119.2415'
     LowLevelInterfaces.ShopifyInterface: '1700015818828653581255761.039'
     ProductionOperations.TeardownTables: '1700245317541554627081458.3965'
     LowLevelInterfaces: '1699642469614491455829864.35767'
