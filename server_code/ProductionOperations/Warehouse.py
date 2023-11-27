@@ -6,7 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
-from datetime import datetime
+
 
 
 @anvil.server.callable
@@ -36,25 +36,9 @@ def fetch_new_order(user):
 # def load_current_order(user):
 #   claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
 #   return claimed_order
-    
-@anvil.server.callable
-def load_current_fulfillments(order_no):
-  # claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
-  # print("in server load current order - lookng at order")
-  # print(entry for entry in claimed_order)
-  # if not claimed_order:
-  #   return None, None
-  claimed_fulfillments = app_tables.openfulfillments.search(order_no=order_no)
-  return claimed_fulfillments
   
 
-@anvil.server.callable
-def get_next_open_section(table):
-  open_search = app_tables.table_sections.search(table=table, order='') #reset order to '' after shipping
-  if len(open_search) == 0:
-    return None
-  else:
-    return open_search[0]
+
 
 @anvil.server.callable
 def link_order_to_table_section(user, order, table):

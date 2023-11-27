@@ -6,6 +6,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+from datetime import datetime
+
 @anvil.server.callable
 def get_open_tables(status):
   response = app_tables.tables.search(status=status)
@@ -26,6 +28,19 @@ def claim_table(user, status):
 def load_current_order(user, status):
   claimed_order = app_tables.openorders.get(reserved_by=user, status=status)
   return claimed_order
+
+@anvil.server.callable
+def load_current_fulfillments(order_no):
+  claimed_fulfillments = app_tables.openfulfillments.search(order_no=order_no)
+  return claimed_fulfillments
+
+@anvil.server.callable
+def get_next_open_section(table):
+  open_search = app_tables.table_sections.search(table=table, order='') #reset order to '' after shipping
+  if len(open_search) == 0:
+    return None
+  else:
+    return open_search[0]
 
 
 ####### Trays above tables logic ############

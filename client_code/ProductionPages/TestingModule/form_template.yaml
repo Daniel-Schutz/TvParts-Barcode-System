@@ -46,7 +46,7 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'FGQNDH,OVSYLH', row_background: ''}
     components:
-    - name: order_headline_copy_1
+    - name: order_headline
       properties: {role: headline, align: center, text: '(set this to ''Order {Order
           number}'' with code)', underline: true}
       type: Label
@@ -94,7 +94,7 @@ components:
           properties: {}
           type: FlowPanel
           components:
-          - name: product_img_output_copy_1
+          - name: product_img_output
             properties: {height: 232}
             type: Image
             layout_properties: {width: 223}
@@ -119,7 +119,7 @@ components:
                 font_size: 33}
               type: Label
               layout_properties: {}
-            - name: item_scan_input_copy_1_copy_1
+            - name: item_scan_input
               properties: {}
               type: TextBox
               layout_properties: {width: 378.5}
@@ -173,18 +173,18 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'TIAIVK,PWXYDC'}
       components:
-      - name: failed_button_copy_1
+      - name: failed_btn
         properties: {text: failed, role: secondary-color, icon: 'fa:ban', align: right}
         type: Button
         layout_properties: {}
         event_bindings: {}
-      - name: needs_attention_btn_copy_1
+      - name: needs_attention_btn
         properties: {text: needs attention, role: secondary-color, icon: 'fa:warning',
-          align: right, visible: false}
+          align: right, visible: true}
         type: Button
         event_bindings: {click: select_product_btn_click}
         layout_properties: {}
-      - name: clear_item_btn_copy_1
+      - name: passed_btn
         properties: {text: passed, role: primary-color, icon: 'fa:check', align: right}
         type: Button
         layout_properties: {}
@@ -198,7 +198,7 @@ components:
         properties: {role: headline, align: center, text: Items in Order, background: ''}
         type: Label
         layout_properties: {grid_position: 'FRNOTM,XIYAIT'}
-      - name: repeating_panel_1_copy_1
+      - name: fulfillments_repeater
         properties: {item_template: CommonComponents.TestSingleItemPanel}
         type: RepeatingPanel
         layout_properties: {grid_position: 'AJQISD,OWLRMG'}
