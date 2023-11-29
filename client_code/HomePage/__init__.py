@@ -12,6 +12,7 @@ from ..CommonComponents.SendMessages import SendMessages
 from ..CommonComponents.RecieveMessages import RecieveMessages
 from ..ProductionPages.Temp_ServerTest import Temp_ServerTest
 from ..CommonComponents.ProductExplorer import ProductExplorer
+from ..CommonComponents.ItemLookup import ItemLookup
 
 
 class HomePage(HomePageTemplate):
@@ -40,6 +41,7 @@ class HomePage(HomePageTemplate):
       self.role_home_btn.visible = True
       self.recieved_msgs_btn.visible = True
       self.product_explorer_btn.visible = True
+      self.lookup_by_scan_btn.visible = True
       print(f"test_area visibility set to: {self.test_area.visible}")
       if anvil.server.call('check_admin'):
         self.settings_link.visible = True
@@ -117,6 +119,16 @@ class HomePage(HomePageTemplate):
     )
     #self.content_panel.clear()
     #self.content_panel.add_component(ProductExplorer(), full_width_row=True)
+
+  def find_item_btn_click(self, **event_args):
+    """This method is called when the link is clicked"""
+    item_lookup_modal = ItemLookup()
+    selected_value = anvil.alert(
+      item_lookup_modal,
+      title="Item",
+      buttons=["CLOSE"],
+      large=True
+    ) 
 
   def mail_click(self, **event_args):
     recieve_msg_modal = RecieveMessages()

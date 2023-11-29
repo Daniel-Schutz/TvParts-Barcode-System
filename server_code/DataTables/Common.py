@@ -73,31 +73,6 @@ def get_admin_settings():
   return admin_settings_dict
 
 
-#TODO - These are dynamo functions that are now obsolete.
-# @anvil.server.callable
-# def get_full_item(item_id):
-#   return anvil.server.call('get_row_from_dynamo', 
-#                            'unique_item', 
-#                            item_id)
-
-# @anvil.server.callable
-# def update_item(item_id, col_name, value):
-#   return anvil.server.launch_background_task('update_item_bk', 
-#                                              item_id, 
-#                                              col_name, 
-#                                              value)
-
-# @anvil.server.background_task
-# def update_item_bk(item_id, col_name, value):
-#   return anvil.server.call('set_value_in_dynamo', 
-#                            'unique_item', 
-#                            item_id, 
-#                            col_name, 
-#                            value)
-####### End obsolete dynamo functions ###############
-
-
-
 @anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
     table = getattr(app_tables, table_name)

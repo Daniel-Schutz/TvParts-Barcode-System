@@ -15,6 +15,7 @@ from ..WarehouseStockModule import WarehouseStockModule
 from ..WarehousePickModule import WarehousePickModule
 from ...CommonComponents.ItemLookup import ItemLookup
 from ..ManagementMasterModule import ManagementMasterModule
+from ..TestingModule import TestingModule
 
 import uuid
 import datetime
@@ -25,11 +26,6 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-
-
-
-
 
 ######### COMPONENT EVENTS ############################
 
@@ -81,7 +77,7 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
 
   def to_id_screen_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.parent.add_component(IdModule(), full_width_row=True)
+    self.parent.add_component(TestModule(), full_width_row=True)
     self.remove_from_parent()  
 
   def test_notification_click(self, **event_args):
@@ -90,14 +86,19 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
                      style='danger', title='Part Misidentified', timeout=2)    
     n.show()
 
+  def test_screen_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.parent.add_component(TestingModule(), full_width_row=True)
+    self.remove_from_parent() 
+
   def reset_orders_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     anvil.server.call('reset_open_tables')
 
-def item_lookup_btn_click(self, **event_args):
-  print("clicked item lookup")
-  anvil.alert(ItemLookup())
-
-def warehouse_pick_btn_click(self, **event_args):
-    self.parent.add_component(WarehousePickModule(), full_width_row=True)
-    self.remove_from_parent()    
+  def item_lookup_btn_click(self, **event_args):
+    print("clicked item lookup")
+    anvil.alert(ItemLookup())
+  
+  def warehouse_pick_btn_click(self, **event_args):
+      self.parent.add_component(WarehousePickModule(), full_width_row=True)
+      self.remove_from_parent()    

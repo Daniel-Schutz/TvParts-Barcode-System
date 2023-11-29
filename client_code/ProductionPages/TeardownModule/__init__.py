@@ -93,10 +93,16 @@ class TeardownModule(TeardownModuleTemplate):
     self.truck_id.text = truck_id
 
     
-    img_source = anvil.server.call('search_rows', 
+    s3_source = anvil.server.call('search_rows', 
                       'trucks', 
                       column_name='truck_id', 
-                      value=truck_id)[0]['qr_img_source']
+                      value=truck_id)[0]['s3_object_key']
+    
+    #Get presigned url
+    img_source = anvil.server.call('get_s3_image_url', s3_source)
+    
+
+    
     self.qr_image.source = img_source
   
 
