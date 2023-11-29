@@ -13,6 +13,10 @@ import json
 #Note: Get s3 Image URL (presigned url from oject key) already exists in AWSInterface 
 
 @anvil.server.callable
+def get_all_rows_from_products():
+    return app_tables.products.search()
+
+@anvil.server.callable
 def get_item_from_scan(scan_json_str):
   scan_dict = json.loads(scan_json_str)
   item_id = scan_dict['item_id']

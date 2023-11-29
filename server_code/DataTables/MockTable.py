@@ -8,8 +8,8 @@ import anvil.server
 
 @anvil.server.callable
 def test_product_call():
-  results = app_tables.products.search(sku=q.ilike("%R%"))
-  return [row for row in results[:5]]
+  results = app_tables.products.search(sku=q.ilike("81421233%"))
+  return results
 
 @anvil.server.callable
 def get_supplier_dropdown():
