@@ -194,6 +194,9 @@ class TestingModule(TestingModuleTemplate):
 
 # ##### Button Events - Initial Visibility #############
   def begin_table_btn_click(self, **event_args):
+    self.get_current_state()
+    self.init_order_card_content()
+    self.active_visibility()
     pass
 
 ###### Button Events - Active Visibility #############
