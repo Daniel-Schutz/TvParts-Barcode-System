@@ -9,6 +9,13 @@ import anvil.server
 from datetime import datetime
 
 @anvil.server.callable
+def get_current_table(user):
+  try:
+    return app_tables.tables.get(current_user=user)['table'] #look at converting this so it returns the whole row. Might as well to be consistent
+  except:
+    return None
+
+@anvil.server.callable
 def get_open_tables(status):
   response = app_tables.tables.search(status=status)
   open_tables = [(row['table'], row['table']) for row in response]
@@ -20,7 +27,8 @@ def claim_table(user, status):
   new_table_dict = app_tables.tables.search(status=status)[0] #might need to break this out if it doesn't return a dict
   row = app_tables.tables.get(table=new_table_dict['table'])
   row['current_user'] = user
-  row['status'] = 'Picking'
+  row['status'] = status
+  print('Assigned Table.')
   anvil.server.launch_background_task('update_user_on_section_rows', new_table_dict['table'], user)
   return row['table']
 

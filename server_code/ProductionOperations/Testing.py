@@ -7,16 +7,21 @@ from anvil.tables import app_tables
 import anvil.server
 
 @anvil.server.callable
-def get_next_order(user):
-  user_current_table = app_tables.tables.get(current_user=user)
-  next_order = app_tables.openorders.search(table_no=user_current_table['table'], 
+def get_next_order(user, table_no):
+  next_order = app_tables.openorders.search(table_no=table_no, 
                                             status='Picked')
-  if len(next_order > 0):
+  if len(next_order) > 0:
     next_order = next_order[0]
     next_order.update(reserved_status='Reserved', reserved_by=user, status='Testing')
   else:
     next_order = None
   return next_order
+
+@anvil.server.callable
+def claim_selected_table(user, table_no):
+  table_row = app_tables.tables.get(table=table_no)
+  table_row.update(current_user=user)
+  return table_row
 
 
 

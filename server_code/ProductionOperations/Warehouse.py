@@ -6,16 +6,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
-
-
-
-@anvil.server.callable
-def get_current_table(user):
-  try:
-    return app_tables.tables.get(current_user=user)['table']
-  except:
-    return None
-
 # @anvil.server.callable
 # def get_open_tables():
 #   response = app_tables.tables.search(status="Open")

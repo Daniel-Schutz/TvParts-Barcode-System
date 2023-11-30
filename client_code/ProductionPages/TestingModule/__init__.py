@@ -33,7 +33,7 @@ class TestingModule(TestingModuleTemplate):
       self.init_order_card_content()
       self.active_visibility()
       if self.fulfillments_repeater.get_components():
-        self.fulfillments_repeater.get_components()[0].item_scan_input.focus()
+        self.item_scan_input.focus()
 
   # # #### Needs Attention Inits ######
   #   self.dept_output.content = 'Testing'
@@ -109,11 +109,8 @@ class TestingModule(TestingModuleTemplate):
     self.passed_btn.enabled = False
     self.needs_attention_btn.enabled = False
 
-    #set focus stuff
-    self.component_idx = 0
-    self.num_fulfillments = len(self.current_fulfillments)
-    components = self.fulfillments_repeater.get_components()
-    components[self.component_idx].item_scan_input.focus()
+    # set focus
+    self.item_scan_input.focus()
 
 
 # ######### Lifecycle DB Helper Functions ########################
@@ -137,12 +134,20 @@ class TestingModule(TestingModuleTemplate):
 
 ########## Lifecycle DB Functions ###############################
 # Initializing a new table
-  def get_new_table(self):
-    n = Notification("Claiming new table...", style='success')
-    self.current_table = anvil.server.call_s('claim_table', 
-                                            self.current_user, 
-                                              "Testing")
-    self.fetch_new_order()
+  def claim_selected_table(self):
+    selected_table = self.table_dropdown.selected_value
+    n = Notification("Claiming table...", style='success')
+    self.current_table = anvil.server.call('claim_selected_table', 
+                                           user=self.current_user, 
+                                           table_no=selected_table)
+    #self.fetch_new_order()
+
+  # def get_new_table(self):
+  #   n = Notification("Claiming new table...", style='success')
+  #   self.current_table = anvil.server.call_s('claim_table', 
+  #                                           self.current_user, 
+  #                                             "Testing")
+  #   self.fetch_new_order()
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
@@ -158,19 +163,22 @@ class TestingModule(TestingModuleTemplate):
   def fetch_new_order(self, **event_args):
     n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
     n.show()
-    self.current_order = anvil.server.call_s('get_next_order', self.current_user)
+    self.current_order = anvil.server.call_s('get_next_order', 
+                                             self.current_user, 
+                                             self.current_table)
     if not self.current_order:
       n = Notification("Table complete! please take table to Shipping and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
       print("no open sections in fetch new order")
       return None
-    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
     self.current_section = self.current_order['section']
-    self.fulfillments_repeater.items = self.current_fulfillments
+    self.update_fulfillment_display()
 
 # Update the fulfillments after a scan has been marked
-  
+  def update_fulfillment_display(self):
+    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
+    self.fulfillments_repeater.items = self.current_fulfillments
 
 # This whole system is scan driven. self.target_f is the fulfillment linked to the scanned item
   def item_scan_input_pressed_enter(self, **event_args):
@@ -187,13 +195,14 @@ class TestingModule(TestingModuleTemplate):
       n.show()
       self.item_scan_input.text = None
     else:
-      self.sku_output.content = target_f['sku']
-      self.name_content.content = target_f['product_name']
-      self.item_id_output.content = target_f['item_id']
+      self.sku_output.content = self.target_f['sku']
+      self.name_content.content = self.target_f['product_name']
+      self.item_id_output.content = self.target_f['item_id']
       self.enable_buttons()
 
 # ##### Button Events - Initial Visibility #############
   def begin_table_btn_click(self, **event_args):
+    self.claim_selected_table()
     self.get_current_state()
     self.init_order_card_content()
     self.active_visibility()
@@ -215,12 +224,13 @@ class TestingModule(TestingModuleTemplate):
                                                        item_id=self.target_f['item_id'])
 
     #DB Logic Here
-    self.update_fulfillments()
-    self.check_complete()
+    #self.update_fulfillments()
+    #self.check_complete()
     pass
     
   def needs_attention_btn_click(self, **event_args):
-    pass #This kicks off the whole needs attention flow, so we'll come back to it
+    self.fulfillments_repeater.raise_event_on_children('x-test-needs-attention', 
+                                                    item_id=self.target_f['item_id'])
 
   def failed_btn_click(self, **event_args):
     self.fulfillments_repeater.raise_event_on_children('x-mark-failed-item', 

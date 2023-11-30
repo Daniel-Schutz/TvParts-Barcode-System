@@ -124,10 +124,12 @@ components:
               properties: {}
               type: TextBox
               layout_properties: {width: 378.5}
+              event_bindings: {pressed_enter: item_scan_input_pressed_enter}
             - name: clear_scan_btn
               properties: {text: clear scan, role: primary-color, background: '#0000ff'}
               type: Button
               layout_properties: {}
+              event_bindings: {click: clear_scan_btn_click}
           - name: flow_panel_3_copy_1_copy_1_copy_1
             properties: {}
             type: FlowPanel
@@ -189,7 +191,7 @@ components:
         properties: {text: passed, role: primary-color, icon: 'fa:check', align: right}
         type: Button
         layout_properties: {}
-        event_bindings: {click: select_product_btn_click}
+        event_bindings: {click: passed_btn_click}
     - name: card_2_copy_1
       properties: {role: card, background: '#c2eff5'}
       type: ColumnPanel
@@ -208,11 +210,12 @@ components:
   type: ColumnPanel
   layout_properties: {grid_position: 'QWIJQS,FXJPKU'}
   components:
-  - name: finish_table_btn_copy_1
+  - name: finish_table_btn
     properties: {text: finish table, role: primary-color, bold: true, icon: 'fa:check-circle',
       font_size: 23}
     type: Button
     layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
+    event_bindings: {click: finish_table_btn_click}
 - name: na_spacer
   properties: {height: 12}
   type: Spacer
