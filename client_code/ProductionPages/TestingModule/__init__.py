@@ -12,8 +12,8 @@ class TestingModule(TestingModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
-    self.fulfillment_repeating_panel.set_event_handler('x-ts-needs-attention', self.move_to_holding)
+    self.fulfillments_repeater.set_event_handler('x-change-focus-to-next', self.change_focus)
+    #self.fulfillments_repeater.set_event_handler('x-ts-needs-attention', self.move_to_holding)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -32,12 +32,12 @@ class TestingModule(TestingModuleTemplate):
       self.get_current_state() #sets order and fulfillments
       self.init_order_card_content()
       self.active_visibility()
-      if self.fulfillment_repeating_panel.get_components():
-        self.fulfillment_repeating_panel.get_components()[0].item_scan_input.focus()
+      if self.fulfillments_repeater.get_components():
+        self.fulfillments_repeater.get_components()[0].item_scan_input.focus()
 
-  # #### Needs Attention Inits ######
-    self.dept_output.content = 'Testing'
-    self.refresh_needs_attention_area()
+  # # #### Needs Attention Inits ######
+  #   self.dept_output.content = 'Testing'
+  #   self.refresh_needs_attention_area()
 
 ######## Visibility Helpers ###############
   def initial_visibility(self):
@@ -74,7 +74,8 @@ class TestingModule(TestingModuleTemplate):
     
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
-    picking_trays = anvil.server.call('get_pending_test_trays')
+    #picking_trays = anvil.server.call('get_pending_test_trays')
+    picking_trays = False
     if not picking_trays:
       testing_tables_list = anvil.server.call('get_open_tables', status='Testing')
       self.table_dropdown.items = testing_tables_list
@@ -111,7 +112,7 @@ class TestingModule(TestingModuleTemplate):
     #set focus stuff
     self.component_idx = 0
     self.num_fulfillments = len(self.current_fulfillments)
-    components = self.fulfillment_repeating_panel.get_components()
+    components = self.fulfillments_repeater.get_components()
     components[self.component_idx].item_scan_input.focus()
 
 
@@ -224,3 +225,8 @@ class TestingModule(TestingModuleTemplate):
     anvil.server.call('close_table', self.current_table, status='Shipping')
     self.initial_visibility()
     self.get_table_dropdown()
+
+##### Refocus on events #########
+  def change_focus(self, **event_args):
+    #print('GOT THE EVENT HANDLER. In change focus. Event args are:', event_args)
+    pass
