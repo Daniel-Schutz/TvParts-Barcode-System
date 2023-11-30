@@ -156,21 +156,21 @@ class TestingModule(TestingModuleTemplate):
 
 #Fetching a New Order after completion of testing, or problems
   def fetch_new_order(self, **event_args):
-    n_1 = Notification('Finding next section...', timeout=1)
-    self.current_section = anvil.server.call('get_next_open_section', self.current_table)
-    if not self.current_section:
+    n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
+    n.show()
+    self.current_order = anvil.server.call_s('get_next_order', self.current_user)
+    if not self.current_order:
       n = Notification("Table complete! please take table to Shipping and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
+      print("no open sections in fetch new order")
       return None
-    else:
-      n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
-      n.show()
-      self.current_order = anvil.server.call_s('get_next_order', self.current_user)
-      self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
-      self.current_section = self.current_order['section']
-      self.fulfillments_repeater.items = self.current_fulfillments
+    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
+    self.current_section = self.current_order['section']
+    self.fulfillments_repeater.items = self.current_fulfillments
 
+# Update the fulfillments after a scan has been marked
+  
 
 # This whole system is scan driven. self.target_f is the fulfillment linked to the scanned item
   def item_scan_input_pressed_enter(self, **event_args):
