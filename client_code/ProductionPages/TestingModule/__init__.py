@@ -192,7 +192,11 @@ class TestingModule(TestingModuleTemplate):
       self.item_id_output.content = target_f['item_id']
       self.enable_buttons()
 
-###### Button Events #############
+# ##### Button Events - Initial Visibility #############
+  def begin_table_btn_click(self, **event_args):
+    pass
+
+###### Button Events - Active Visibility #############
   def clear_scan_btn_click(self, **event_args):
     self.item_scan_input.text = None
     self.sku_output.content = None
