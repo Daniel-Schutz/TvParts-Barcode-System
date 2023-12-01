@@ -43,7 +43,6 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
       if bin:
         bins_str += f"{counter}: sku:{[skus_list[counter]]} | bin: {bin}\n"
       counter += 1
-    bins_dict_str = json.dumps()
     n = Notification(f"Items have been restocked in the system. \
     Please return all items to their original bins.\n {bins_str}", 
                      title="Restock Parts", 
