@@ -9,6 +9,11 @@ import anvil.server
 from datetime import datetime
 
 @anvil.server.callable
+def set_f_status_by_item_id(item_id, status):
+  f_row = app_tables.openfulfillments.get(item_id=item_id)
+  f_row['status'] = status
+
+@anvil.server.callable
 def get_current_table(user):
   try:
     return app_tables.tables.get(current_user=user)['table'] #look at converting this so it returns the whole row. Might as well to be consistent

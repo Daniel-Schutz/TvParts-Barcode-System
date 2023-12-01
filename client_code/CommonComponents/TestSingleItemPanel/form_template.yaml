@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - name: main_card
-  properties: {role: card, background: ''}
+  properties: {role: card, background: 'theme:White'}
   type: ColumnPanel
   layout_properties: {grid_position: 'SDPZTY,ZOGAPD'}
   components:

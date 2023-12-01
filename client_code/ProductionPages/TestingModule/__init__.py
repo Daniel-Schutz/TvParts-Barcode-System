@@ -223,9 +223,11 @@ class TestingModule(TestingModuleTemplate):
     self.fulfillments_repeater.raise_event_on_children('x-mark-passed-item', 
                                                        item_id=self.target_f['item_id'])
 
-    #DB Logic Here
+    anvil.server.call('set_f_status_by_item_id', 
+                      item_id=self.item_scan_input.content, 
+                      status='Tested')
     #self.update_fulfillments()
-    #self.check_complete()
+    self.check_complete()
     pass
     
   def needs_attention_btn_click(self, **event_args):
