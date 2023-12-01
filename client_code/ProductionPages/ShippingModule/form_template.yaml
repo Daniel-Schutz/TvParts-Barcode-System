@@ -171,6 +171,11 @@ components:
         properties: {item_template: CommonComponents.ShipSingleItemPanel}
         type: RepeatingPanel
         layout_properties: {grid_position: 'AJQISD,OWLRMG'}
+      - name: finalize_order_btn
+        properties: {text: pack order, role: primary-color, icon: 'fa:dropbox', background: '#008c00',
+          font_size: 19}
+        type: Button
+        layout_properties: {grid_position: 'AVKZQC,RJMNOB'}
 - name: card_1_copy_3_copy_1_copy_1_copy_1
   properties: {role: card, background: '#f0ebff'}
   type: ColumnPanel

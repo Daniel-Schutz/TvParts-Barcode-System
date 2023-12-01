@@ -6,6 +6,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+from datetime import datetime
+
 # @anvil.server.callable
 # def get_open_tables():
 #   response = app_tables.tables.search(status="Open")

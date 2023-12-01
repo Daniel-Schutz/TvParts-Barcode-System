@@ -12,6 +12,7 @@ class ShippingModule(ShippingModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    # self.set_event_handler('x-ship-needs-attention', self.needs_attention)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -119,23 +120,29 @@ class ShippingModule(ShippingModuleTemplate):
                                                   self.current_order['order_no'])
     self.fulfillments_repeater.items = self.current_fulfillments
 
-  def check_complete(self):
-    complete = True
-    for f in self.current_fulfillments:
-      if f['status'] != 'Shipped':
-        complete = False
-        break
-    if complete:
-      self.close_order()
-      more_orders_this_table = self.fetch_new_order()
-      self.clear_scan_btn_click()
-      if not more_orders_this_table:
-        return None #Stops the system from generating a new order card
-      self.init_order_card_content()
-      self.item_scan_input.focus()
-    else:
-      self.update_fulfillments()
-      self.clear_scan_btn_click()
+  # def check_complete(self):
+  #   complete = True
+  #   for f in self.current_fulfillments:
+  #     if f['status'] != 'Packed':
+  #       complete = False
+  #       break
+  #   if complete:
+  #     self.close_order()
+  #     self.remove_order_from_table()
+  #     more_orders_this_table = self.fetch_new_order()
+  #     self.clear_scan_btn_click()
+  #     if not more_orders_this_table:
+  #       return None #Stops the system from generating a new order card
+  #     self.init_order_card_content()
+  #     self.item_scan_input.focus()
+  #   else:
+  #     self.update_fulfillments()
+  #     self.clear_scan_btn_click()
+
+  #Remove the order from the table once it's shipped
+  def remove_order_from_table(self):
+    order_no = self.current_order('order_no')
+    anvil.server.call_s('remove_order_from_table', order_no=order_no)
       
 
 ########## Lifecycle DB Functions ###############################
@@ -152,7 +159,7 @@ class ShippingModule(ShippingModuleTemplate):
   def get_current_state(self):
     n = Notification("Getting current session state, Just a moment please.", style='info', title="Preparing Session...", timeout=5)
     n.show()
-    self.current_order = anvil.server.call_s('load_current_order', self.current_user, status='Shipping')
+    self.current_order = anvil.server.call_s('load_current_order', self.current_user, status='Packing')
     if not self.current_order:
       self.fetch_new_order()
     self.current_section = self.current_order['section']
@@ -209,7 +216,7 @@ class ShippingModule(ShippingModuleTemplate):
     order_no = self.current_order['order_no']
     anvil.server.call('close_order_in_db', 
                       order_no=order_no, 
-                      status='Tested')
+                      status='Packed')
 
 # ##### Button Events - Initial Visibility #############
   def begin_table_btn_click(self, **event_args):
@@ -220,43 +227,22 @@ class ShippingModule(ShippingModuleTemplate):
     pass
 
 ###### Button Events - Active Visibility #############
-  def clear_scan_btn_click(self, **event_args):
-    self.item_scan_input.text = None
-    self.sku_output.content = None
-    self.name_content.content = None
-    self.item_id_output.content = None
-    self.failed_btn.enabled = False
-    self.needs_attention_btn.enabled = False
-    self.passed_btn.enabled = False
-    self.target_f = None
-    self.item_scan_input.focus()
+  # def needs_attention(self, item_id, **event_args):
+  #   print(f'needs attention event captured on item {item_id}.')
+  #   #get the test workflow that gets kicked off here and bring it in
+  #   pass
 
-  def passed_btn_click(self, **event_args):
-    self.fulfillments_repeater.raise_event_on_children('x-mark-passed-item', 
-                                                       item_id=self.target_f['item_id'])
-
-    anvil.server.call('set_f_status_by_item_id', 
-                      item_id=self.target_f['item_id'], 
-                      status='Packed')
-    # self.update_fulfillments()
-    self.check_complete()
-    pass
-    
-  def needs_attention_btn_click(self, **event_args):
-    self.fulfillments_repeater.raise_event_on_children('x-test-needs-attention', 
-                                                    item_id=self.target_f['item_id'])
-
-  def failed_btn_click(self, **event_args):
-    self.fulfillments_repeater.raise_event_on_children('x-mark-failed-item', 
-                                                       item_id=self.target_f['item_id'])
-    self.move_to_holding_failed(item_id=self.target_f['item_id'], 
-                                fulfillment_id=self.target_f['fulfillment_id'])
-    
-    pass #This kicks off the whole needs attention flow, so we'll come back to it
+  def pack_order_btn_click(self, **event_args):
+    anvil.server.call('pack_order_and_fulfillments', 
+                      user=self.current_user, 
+                      role=self.current_role, 
+                      order_no=self.current_order['order_no'])
+    self.fetch_new_order()
 
   def finish_table_btn_click(self, **event_args):
     n = Notification("Closing Table, please wait...")
     anvil.server.call('close_table', self.current_table, status='Open')
+    #Add a call to delete the order and its fulfillments from the orders and fulfillments tables
     self.initial_visibility()
     self.get_table_dropdown()
 

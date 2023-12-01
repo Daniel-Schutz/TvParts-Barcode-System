@@ -12,3 +12,7 @@ class ShipSingleItemPanel(ShipSingleItemPanelTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+# Raise event for needs attention
+  def needs_attention_btn_click(self, **event_args):
+    self.raise_event('x-ship-needs-attention', item_id=self.item['item_id'])
