@@ -233,6 +233,8 @@ class ShippingModule(ShippingModuleTemplate):
   #   pass
 
   def pack_order_btn_click(self, **event_args):
+    order_no = self.current_order['order_no']
+    n = Notification(f"Order {order_no} marked as packed! Removing from open orders")
     anvil.server.call('pack_order_and_fulfillments', 
                       user=self.current_user, 
                       role=self.current_role, 
