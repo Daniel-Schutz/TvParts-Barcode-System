@@ -96,9 +96,9 @@ components:
           type: FlowPanel
           components:
           - name: product_img_output
-            properties: {height: 232}
+            properties: {height: 241.40234375}
             type: Image
-            layout_properties: {width: 223}
+            layout_properties: {width: 189.0703125}
             data_bindings:
             - {property: source, code: 'self.item[''img_source_url'']', writeback: false}
         - name: column_panel_1_copy_1_copy_1
@@ -244,7 +244,7 @@ components:
         properties: {text: 'Department:'}
         type: Label
         layout_properties: {}
-      - name: dept_output_copy_1_copy_1
+      - name: dept_output
         properties: {}
         type: RichText
     - name: flow_panel_2_copy_2_copy_1
@@ -255,7 +255,7 @@ components:
       - name: no_orders_label_copy_1_copy_1
         properties: {text: 'No. of Orders:'}
         type: Label
-      - name: no_orders_output_copy_1_copy_1
+      - name: num_na_orders
         properties: {}
         type: RichText
     - name: spacer_2_copy_1_copy_1
@@ -263,8 +263,17 @@ components:
       type: Spacer
       layout_properties: {grid_position: 'VAZQRV,IMSSRV', row_background: 'theme:Secondary
           700'}
-  - name: repeating_panel_1_copy_2_copy_1
+  - name: needs_attention_repeater
     properties: {item_template: CommonComponents.NeedsAttentionOrdersPanel}
     type: RepeatingPanel
-    layout_properties: {grid_position: 'GERFKN,CUXYPI KIWEGI,MABUCJ'}
+    layout_properties: {grid_position: 'SBWXWY,DCJIVE'}
+  - name: no_pending_panel
+    properties: {role: card, background: '#00ff00'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KIWEGI,FSMPYP'}
+    components:
+    - name: no_pending_label
+      properties: {role: headline, align: center, text: You have no orders in need of attention!}
+      type: Label
+      layout_properties: {grid_position: 'EQJZTE,TEPIYT'}
 is_package: true

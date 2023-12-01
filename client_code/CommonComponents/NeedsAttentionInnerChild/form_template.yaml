@@ -54,12 +54,12 @@ components:
       properties: {}
       type: RichText
   - name: remove_item_btn
-    properties: {text: remove item, role: primary-color}
+    properties: {text: remove ( Partial No Stock), role: primary-color}
     type: Button
     layout_properties: {grid_position: 'CIPSRX,RJVFPR'}
     event_bindings: {click: remove_item_btn_click}
   - name: replace_item_button
-    properties: {text: replace item, role: primary-color}
+    properties: {text: replace item (Bad Item), role: primary-color}
     type: Button
     layout_properties: {grid_position: 'CIPSRX,WLXEHA'}
     event_bindings: {click: replace_item_btn_click}

@@ -12,7 +12,7 @@ class TestingModule(TestingModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.fulfillments_repeater.set_event_handler('x-change-focus-to-next', self.change_focus)
+    #self.fulfillments_repeater.set_event_handler('x-change-focus-to-next', self.change_focus)
     #self.fulfillments_repeater.set_event_handler('x-ts-needs-attention', self.move_to_holding)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
@@ -35,9 +35,9 @@ class TestingModule(TestingModuleTemplate):
       if self.fulfillments_repeater.get_components():
         self.item_scan_input.focus()
 
-  # # #### Needs Attention Inits ######
-  #   self.dept_output.content = 'Testing'
-  #   self.refresh_needs_attention_area()
+  # #### Needs Attention Inits ######
+    self.dept_output.content = 'Testing'
+    self.refresh_needs_attention_area()
 
 ######## Visibility Helpers ###############
   def initial_visibility(self):
@@ -105,6 +105,7 @@ class TestingModule(TestingModuleTemplate):
     self.order_headline.text = f"Order: {self.current_order['order_no']}"
     self.table_output.content = self.current_table
     self.section_output.content = self.current_section
+    self.product_img_output.source = None
     self.failed_btn.enabled = False
     self.passed_btn.enabled = False
     self.needs_attention_btn.enabled = False
@@ -127,8 +128,10 @@ class TestingModule(TestingModuleTemplate):
         break
     if complete:
       self.close_order()
-      self.fetch_new_order()
+      more_orders_this_table = self.fetch_new_order()
       self.clear_scan_btn_click()
+      if not more_orders_this_table:
+        return None #Stops the system from generating a new order card
       self.init_order_card_content()
       self.item_scan_input.focus()
     else:
@@ -167,6 +170,7 @@ class TestingModule(TestingModuleTemplate):
   def fetch_new_order(self, **event_args):
     n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
     n.show()
+    print(self.current_table)
     self.current_order = anvil.server.call_s('get_next_order', 
                                              self.current_user, 
                                              self.current_table)
@@ -178,6 +182,7 @@ class TestingModule(TestingModuleTemplate):
       return None
     self.current_section = self.current_order['section']
     self.update_fulfillment_display()
+    return "Continue"
 
 # Update the fulfillments after a scan has been marked
   def update_fulfillment_display(self):
@@ -203,6 +208,9 @@ class TestingModule(TestingModuleTemplate):
       self.name_content.content = self.target_f['product_name']
       self.item_id_output.content = self.target_f['item_id']
       self.enable_buttons()
+      self.product_img_output.source = anvil.server.call_s('get_img_source_from_sku', 
+                                                           sku=self.target_f['sku'])
+      
 
 # Close Orders when they are complete
   def close_order(self):
@@ -238,7 +246,7 @@ class TestingModule(TestingModuleTemplate):
     anvil.server.call('set_f_status_by_item_id', 
                       item_id=self.target_f['item_id'], 
                       status='Tested')
-    self.update_fulfillments()
+    # self.update_fulfillments()
     self.check_complete()
     pass
     
@@ -249,6 +257,9 @@ class TestingModule(TestingModuleTemplate):
   def failed_btn_click(self, **event_args):
     self.fulfillments_repeater.raise_event_on_children('x-mark-failed-item', 
                                                        item_id=self.target_f['item_id'])
+    self.move_to_holding_failed(item_id=self.target_f['item_id'], 
+                                fulfillment_id=self.target_f['fulfillment_id'])
+    
     pass #This kicks off the whole needs attention flow, so we'll come back to it
 
   def finish_table_btn_click(self, **event_args):
@@ -257,7 +268,55 @@ class TestingModule(TestingModuleTemplate):
     self.initial_visibility()
     self.get_table_dropdown()
 
-##### Refocus on events #########
-  def change_focus(self, **event_args):
-    #print('GOT THE EVENT HANDLER. In change focus. Event args are:', event_args)
-    pass
+
+##### Needs Attention Panel ############
+  #responds to fulfillment repeater buttons
+  def move_to_holding_failed(self, item_id, fulfillment_id, **event_args):
+    print("Made it to the move_to_holding event.")
+    confirm = anvil.alert(f"Confirm item {item_id} does not pass testing", 
+                          buttons=['YES', 'CANCEL'], 
+                          large=True, Title = "Failed Testing?")
+    if confirm == "YES":
+      anvil.server.call('set_fulfillment_status', fulfillment_id, 'Needs Replaced')
+      open_section = anvil.server.call('get_next_open_section', 'TH1') #hardcoded table name here
+      move_item = anvil.alert(f"Please move Order to Holding Table {open_section['table']}, \
+      Section: {open_section['section']}", buttons=['OK'], large=True,
+                title="Move Item to Holding.")
+      #Message for Management
+      # print("user", self.current_user)
+      # print("role", self.current_role)
+      # print("sku", sku)
+      # print("order", self.current_order)
+      anvil.server.call('create_message', 
+                        self.current_user, 
+                        self.current_role, 
+                        'Management',
+                        #'Test Message for holding',
+                       f'FAILED TEST: Item {item_id} marked as failed at testing. Notice has been sent to warehouse to replace. Blocking order {self.current_order["order_no"]}.',
+                       item_id)
+      #Order to Holding Area
+      anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],
+                       open_section['table'], open_section['section'])
+      #Start fresh
+      self.fetch_new_order()
+      self.init_order_card_content()
+      self.needs_attention_orders = anvil.server.call('get_needs_attention_items', 
+                                                      holding_type='Testing Hold', 
+                                                      dept='Testing')
+      self.num_na_orders.output = len(self.needs_attention_orders)
+      self.refresh_needs_attention_area()
+
+  def refresh_needs_attention_area(self):
+    self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
+                                                    holding_type='Testing Hold', 
+                                                    dept='Testing')
+    if not self.needs_attention_orders:
+      self.num_na_orders.content = 0
+      self.no_pending_panel.visible = True
+      self.needs_attention_repeater.visible = False
+    else:
+      self.num_na_orders.content = len(self.needs_attention_orders)
+      self.no_pending_panel.visible = False
+      self.needs_attention_repeater.visible = True
+      self.needs_attention_repeater.items = self.needs_attention_orders
+  

@@ -11,7 +11,7 @@ from ..NeedsAttentionReplaceModal import NeedsAttentionReplaceModal
 from ..MovetoTray import MovetoTray
 
 class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
-  def __init__(self, order_no, repeater_items, user, role, **properties):
+  def __init__(self, order_no, repeater_items, user, role, dept, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.fulfillments_repeater.items = repeater_items
@@ -19,12 +19,14 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
     self.headline.text = f"Resolve Order {order_no}"
     self.current_user = user
     self.user_role = role
+    self.dept = dept
 
     #handle item logic within the modal
-    self.fulfillments_repeater.set_event_handler('x-remove-item-btn', self.remove_item)
+    self.fulfillments_repeater.set_event_handler('x-remove-item-btn', self.remove_fulfillment)
     self.fulfillments_repeater.set_event_handler('x-replace-item-btn', self.replace_item)
 
     # Any code you write here will run before the form opens.
+
 
 
 ######## Event helper functions #########################
@@ -46,7 +48,7 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
     Please return all items to their original bins.\n {bins_str}", 
                      title="Restock Parts", 
                      style='warning', 
-                     timeout=120)
+                     timeout=240)
     n.show()
   
 
@@ -61,7 +63,6 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
     self.restock_linked_items()
     anvil.server.call('reset_order', self.current_order)
     self.raise_event("x-close-alert", value=42) #close modal
-    pass
 
   #removes the order and its fulfillments from the system and restocks linked items
   def cancel_order_btn_click(self, **event_args):
@@ -70,18 +71,24 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
     self.restock_linked_items()
     anvil.server.call('delete_order', self.current_order)
     self.raise_event("x-close-alert", value=42) #close modal
-    pass
 
 
 ######### Inner Buttons handled using event handlers (to centralize logic) ####
-  def remove_item(self, item_id, fulfillment_id, **event_args):
-    remove_modal = anvil.alert(f"Confirm removal of item {item_id} from order {self.current_order}",
-                              title='Remove Item?', 
+  def remove_fulfillment(self, fulfillment_id, **event_args):
+    if len(self.fulfillments_repeater.items) == 1:
+      kill_order = anvil.alert("NOTICE: Since there is only product in this order, removing the product will cancel the fulfillment of this order. Ok to proceed?",
+                 title="Cancel Order?", buttons=['DELETE ORDER', 'CANCEL'], large=True)
+      if kill_order == 'DELETE ORDER':
+        self.cancel_order_btn_click()
+        return None
+    sku = anvil.server.call('get_sku_from_f_id', fulfillment_id=fulfillment_id)
+    remove_modal = anvil.alert(f"Confirm removal of {sku} from order {self.current_order}",
+                              title='Remove Product?', 
                                buttons=['YES', 'CANCEL'], 
                                large=True)
     if remove_modal == 'YES':
-      n = Notification("Removing Fulfillment from Order. Just a moment.", 
-                       title='Partial No-Stock: Removing Item', style='warning',
+      n = Notification("Removing Product from Order. Just a moment.", 
+                       title='Partial No-Stock: Removing Product from Order', style='warning',
                       timeout=5)
       n.show()
       anvil.server.call('remove_fulfillment_by_item_id', 

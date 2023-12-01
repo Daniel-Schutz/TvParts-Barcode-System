@@ -20,7 +20,6 @@ class NeedsAttentionInnerChild(NeedsAttentionInnerChildTemplate):
   def remove_item_btn_click(self, **event_args):
     #All we do is raise events. Resolve Modal logic handles the events
     self.parent.raise_event('x-remove-item-btn', 
-                     item_id=self.item['item_id'], 
                      fulfillment_id=self.item['fulfillment_id'])
 
   def replace_item_btn_click(self, **event_args):

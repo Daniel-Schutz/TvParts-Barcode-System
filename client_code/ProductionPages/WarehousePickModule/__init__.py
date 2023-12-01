@@ -257,12 +257,16 @@ class WarehousePickModule(WarehousePickModuleTemplate):
                        open_section['table'], open_section['section'])
       #Start fresh
       self.fetch_new_order()
-      self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
+      self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
+                                                      holding_type='Warehouse Hold', 
+                                                      dept="Warehouse")
       self.num_na_orders.output = len(self.needs_attention_orders)
       self.refresh_needs_attention_area()
 
   def refresh_needs_attention_area(self):
-    self.needs_attention_orders = anvil.server.call('get_needs_attention_items')
+    self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
+                                                    holding_type='Warehouse Hold', 
+                                                    dept='Warehouse')
     if not self.needs_attention_orders:
       self.num_na_orders.content = 0
       self.no_pending_panel.visible = True
