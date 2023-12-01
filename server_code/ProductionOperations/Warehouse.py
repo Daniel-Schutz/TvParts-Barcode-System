@@ -63,7 +63,7 @@ def get_product_row_by_sku(in_sku):
   return app_tables.products.get(sku=in_sku)
 
 @anvil.server.callable
-def finish_order_in_db(order_no):
+def finish_order_in_db(order_no, status): #TODO: Convert these calls to "close_order_in_db" in shared functions
   closed_order_row = app_tables.openorders.get(order_no=order_no)
   closed_order_row.update(reserved_by='', reserved_status='Pending', status='Picked')
   #potentially do this if we want to lookup table sections directly by current user. Right now is extraneous

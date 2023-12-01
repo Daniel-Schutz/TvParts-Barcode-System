@@ -63,6 +63,11 @@ def close_table(table_no, status):
   for row in section_rows:
     row['current_user'] = ''
 
+@anvil.server.callable
+def close_order_in_db(order_no, status):
+  closed_order_row = app_tables.openorders.get(order_no=order_no)
+  closed_order_row.update(reserved_by='', reserved_status='Pending', status=status)
+
 
 ####### Trays above tables logic ############
 @anvil.server.callable

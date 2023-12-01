@@ -126,7 +126,11 @@ class TestingModule(TestingModuleTemplate):
         complete = False
         break
     if complete:
+      self.close_order()
       self.fetch_new_order()
+      self.clear_scan_btn_click()
+      self.init_order_card_content()
+      self.item_scan_input.focus()
     else:
       self.update_fulfillments()
       self.clear_scan_btn_click()
@@ -200,6 +204,13 @@ class TestingModule(TestingModuleTemplate):
       self.item_id_output.content = self.target_f['item_id']
       self.enable_buttons()
 
+# Close Orders when they are complete
+  def close_order(self):
+    order_no = self.current_order['order_no']
+    anvil.server.call('close_order_in_db', 
+                      order_no=order_no, 
+                      status='Tested')
+
 # ##### Button Events - Initial Visibility #############
   def begin_table_btn_click(self, **event_args):
     self.claim_selected_table()
@@ -218,15 +229,16 @@ class TestingModule(TestingModuleTemplate):
     self.needs_attention_btn.enabled = False
     self.passed_btn.enabled = False
     self.target_f = None
+    self.item_scan_input.focus()
 
   def passed_btn_click(self, **event_args):
     self.fulfillments_repeater.raise_event_on_children('x-mark-passed-item', 
                                                        item_id=self.target_f['item_id'])
 
     anvil.server.call('set_f_status_by_item_id', 
-                      item_id=self.item_scan_input.content, 
+                      item_id=self.target_f['item_id'], 
                       status='Tested')
-    #self.update_fulfillments()
+    self.update_fulfillments()
     self.check_complete()
     pass
     
