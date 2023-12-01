@@ -27,11 +27,11 @@ components:
         properties: {text: 'Select Table: '}
         type: Label
         layout_properties: {}
-      - name: table_dropdown_copy_1
+      - name: table_dropdown
         properties: {}
         type: DropDown
         layout_properties: {width: 161}
-    - name: begin_table_btn_copy_1
+    - name: begin_table_btn
       properties: {text: begin Table, role: primary-color, font_size: 22, icon: 'fa:bolt'}
       type: Button
       layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
@@ -40,7 +40,7 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'FGQNDH,OVSYLH', row_background: ''}
     components:
-    - name: order_headline_copy_1
+    - name: order_headline
       properties: {role: headline, align: center, text: '(set this to ''Order {Order
           number}'' with code)', underline: true}
       type: Label
@@ -59,7 +59,7 @@ components:
           properties: {text: 'Table:', bold: true, underline: false}
           type: Label
           layout_properties: {}
-        - name: table_output_copy_1
+        - name: table_output
           properties: {}
           type: RichText
       - name: flow_panel_3_copy_1
@@ -71,7 +71,7 @@ components:
           properties: {text: 'Section:', bold: true, underline: false}
           type: Label
           layout_properties: {}
-        - name: section_output_copy_1
+        - name: section_output
           properties: {}
           type: RichText
     - name: card_1_copy_1_copy_1
@@ -88,7 +88,7 @@ components:
           properties: {}
           type: FlowPanel
           components:
-          - name: product_img_output_copy_1
+          - name: product_img_output
             properties: {height: 232}
             type: Image
             layout_properties: {width: 223}
@@ -113,7 +113,7 @@ components:
                 font_size: 33}
               type: Label
               layout_properties: {}
-            - name: item_scan_input_copy_1_copy_1
+            - name: item_scan_input
               properties: {}
               type: TextBox
               layout_properties: {width: 378.5}
@@ -125,7 +125,7 @@ components:
             - name: sku_label_copy_1
               properties: {text: 'SKU:', underline: true}
               type: Label
-            - name: sku_output_copy_1
+            - name: sku_output
               properties: {}
               type: RichText
               data_bindings:
@@ -139,7 +139,7 @@ components:
               properties: {text: 'Name:', bold: true, underline: true}
               type: Label
               layout_properties: {}
-            - name: name_content_copy_1
+            - name: name_content
               properties: {}
               type: RichText
               data_bindings:
@@ -154,7 +154,7 @@ components:
               properties: {text: 'Item Id:', bold: true, underline: true}
               type: Label
               layout_properties: {}
-            - name: item_id_output_copy_1
+            - name: item_id_output
               properties: {}
               type: RichText
               layout_properties: {expand: true}
@@ -167,7 +167,7 @@ components:
         properties: {role: headline, align: center, text: Items in Order, background: ''}
         type: Label
         layout_properties: {grid_position: 'FRNOTM,XIYAIT'}
-      - name: repeating_panel_1_copy_1
+      - name: fulfillments_repeater
         properties: {item_template: CommonComponents.ShipSingleItemPanel}
         type: RepeatingPanel
         layout_properties: {grid_position: 'AJQISD,OWLRMG'}
@@ -176,7 +176,7 @@ components:
   type: ColumnPanel
   layout_properties: {grid_position: 'OHFQTO,NHQGRE'}
   components:
-  - name: finish_table_btn_copy_1_copy_1
+  - name: finish_table_btn
     properties: {text: finish table, role: primary-color, bold: true, icon: 'fa:check-circle',
       font_size: 23}
     type: Button
@@ -209,7 +209,7 @@ components:
         properties: {text: 'Department:'}
         type: Label
         layout_properties: {}
-      - name: dept_output_copy_1_copy_1
+      - name: dept_output
         properties: {}
         type: RichText
     - name: flow_panel_2_copy_2_copy_1
@@ -220,7 +220,7 @@ components:
       - name: no_orders_label_copy_1_copy_1
         properties: {text: 'No. of Orders:'}
         type: Label
-      - name: no_orders_output_copy_1_copy_1
+      - name: num_na_orders
         properties: {}
         type: RichText
     - name: spacer_2_copy_1_copy_1
@@ -228,7 +228,7 @@ components:
       type: Spacer
       layout_properties: {grid_position: 'VAZQRV,IMSSRV', row_background: 'theme:Secondary
           700'}
-  - name: repeating_panel_1_copy_2_copy_1
+  - name: needs_attention_repeater
     properties: {item_template: CommonComponents.NeedsAttentionOrdersPanel}
     type: RepeatingPanel
     layout_properties: {grid_position: 'GERFKN,CUXYPI KIWEGI,MABUCJ'}
