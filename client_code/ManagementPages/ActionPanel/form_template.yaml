@@ -25,7 +25,7 @@ components:
       layout_properties: {grid_position: 'INNIAS,YNOVVA'}
       components:
       - name: num_id_items_label
-        properties: {text: 'Identification Holding Table Count:'}
+        properties: {text: 'ID Holding Table Count:'}
         type: Label
         layout_properties: {}
       - name: holding_table_count_output
@@ -35,10 +35,18 @@ components:
       properties: {}
       type: FlowPanel
       layout_properties: {grid_position: 'INNIAS,HELETK'}
-    - name: reset_id_hold_count
-      properties: {text: reset id hold count, role: primary-color, align: right}
-      type: Button
-      layout_properties: {grid_position: 'INNIAS,UDQKAZ'}
+      components:
+      - name: set_id_count_label
+        properties: {text: 'Set Count:'}
+        type: Label
+        layout_properties: {}
+      - name: id_hold_count_input
+        properties: {}
+        type: TextBox
+      - name: set_id_hold_count_btn
+        properties: {text: set Hold Count, role: primary-color, align: right}
+        type: Button
+        layout_properties: {}
   - name: spacer_1_copy_2
     properties: {height: 6.94140625}
     type: Spacer
@@ -139,11 +147,19 @@ components:
       properties: {text: Purgatory, align: center, bold: false, font_size: 23}
       type: Label
       layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
+    - name: purgatory_bins_btn
+      properties: {text: bins, role: primary-color}
+      type: Button
+      layout_properties: {grid_position: 'SXNURM,RFUIKV'}
+    - name: purgatory_items_btn
+      properties: {text: items, role: primary-color}
+      type: Button
+      layout_properties: {grid_position: 'SXNURM,HPZXOQ'}
     - name: spacer_1_copy_copy_copy
       properties: {height: 5.140625}
       type: Spacer
       layout_properties: {grid_position: 'ORPTRO,WRCGDM', row_background: '#030303'}
-    - name: na_orders_repeater_copy_copy
+    - name: bins_purgatory_repeater
       properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
       type: RepeatingPanel
       layout_properties: {grid_position: 'PMDPGR,KYJAUN WILVWL,RXJNER'}
