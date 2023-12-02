@@ -13,6 +13,7 @@ from . import Warehouse
 from . import SharedFunctions
 from . import Testing
 from . import Shipping
+from . import Management
   
 
 # This is a server module. It runs on the Anvil server,

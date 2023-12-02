@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
-- name: card_1
-  properties: {role: card}
+- name: main_card
+  properties: {role: card, background: '#e0feff'}
   type: ColumnPanel
   layout_properties: {grid_position: 'BQQXVT,NGVEFB'}
   components:
@@ -23,12 +23,23 @@ components:
       properties: {bold: true, text: 'Primary Bin:'}
       type: Label
       layout_properties: {}
-    - name: item_id_output_copy
+    - name: primary_bin_output
       properties: {}
       type: RichText
-  - name: submit_button
-    properties: {text: Submit, role: primary-color, align: right}
+  - name: spacing_placeholder
+    properties: {text: move to bin, role: primary-color, align: left, visible: false,
+      enabled: false}
     type: Button
     layout_properties: {grid_position: 'WSULHI,GSZIYM'}
+    event_bindings: {click: button_submit_click}
+  - name: move_to_bin_btn
+    properties: {text: move to bin, role: primary-color, align: center}
+    type: Button
+    layout_properties: {grid_position: 'WSULHI,XIYAEG'}
+    event_bindings: {click: button_submit_click}
+  - name: toss_btn_copy
+    properties: {text: toss, role: primary-color, align: right, background: '#ff0000'}
+    type: Button
+    layout_properties: {grid_position: 'WSULHI,JXYGQJ'}
     event_bindings: {click: button_submit_click}
 is_package: true

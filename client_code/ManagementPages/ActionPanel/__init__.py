@@ -13,10 +13,12 @@ class ActionPanel(ActionPanelTemplate):
 
   #Init Orders
   self.orders_na_all()
-  #Init Items
+  self.get_needs_fixed_panel()
   #Init Purgatory
 
     # Any code you write here will run before the form opens.
+
+####### Get id holding read count
 
 ####### Orders NA Displays & Navigation ################
   def orders_na_all(self, **event_args):
@@ -86,3 +88,14 @@ class ActionPanel(ActionPanelTemplate):
       self.no_pending_items_panel.visible = False
       self.na_orders_repeater.items = all_na_orders
       self.na_orders_repeater.visible = True
+
+
+####### Needs Fixed Display ################
+  def get_needs_fixed_panel(self):
+    needs_fixed_items = anvil.server.call('get_needs_fixed_items')
+    if not needs_fixed_items:
+      self.na_items_repeater.visible = False
+      self.no_pending_items_panel.visible = True
+    else:
+      self.na_items_repeater.visible = True
+      self.no_pending_items_panel.visible = False
