@@ -16,6 +16,7 @@ unique_ids:
     ManagementPages.RoleNavigation.ItemTemplate9: '17010143149023929252204.5573096'
     CommonComponents.NeedsAttentionOrdersPanel: '1700453281534627416120480.8473'
     ProductionPages.TeardownModule: '1699641125193927383718541.3673'
+    CommonComponents.NeedFixedItemPanel: '1701502827981828596369714.6068'
     CommonComponents.RecieveMsgTemplate: '1699752036801930686489312.8278'
     ManagementPages.ActionPanel: '1701014421686380627448427.57404'
     ProductionPages.WarehousePickModule: '1700459470964758142850321.8326'

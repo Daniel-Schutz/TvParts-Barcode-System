@@ -15,7 +15,7 @@ components:
     layout_properties: {grid_position: 'CMOOID,MOXBMN', row_background: 'theme:Secondary
         700', full_width_row: true}
   - name: id_hold_card
-    properties: {role: card}
+    properties: {role: card, background: '#b3fffa'}
     type: ColumnPanel
     layout_properties: {grid_position: 'TFFHFS,MPTCYV'}
     components:
