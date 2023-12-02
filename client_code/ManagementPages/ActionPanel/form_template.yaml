@@ -121,7 +121,7 @@ components:
       properties: {height: 5.140625}
       type: Spacer
       layout_properties: {grid_position: 'ORPTRO,WRCGDM', row_background: '#030303'}
-    - name: na_items_repeater
+    - name: nf_items_repeater
       properties: {item_template: CommonComponents.NeedFixedItemPanel}
       type: RepeatingPanel
       layout_properties: {grid_position: 'PMDPGR,KYJAUN'}

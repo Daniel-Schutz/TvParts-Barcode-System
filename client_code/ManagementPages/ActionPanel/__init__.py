@@ -94,8 +94,8 @@ class ActionPanel(ActionPanelTemplate):
   def get_needs_fixed_panel(self):
     needs_fixed_items = anvil.server.call('get_needs_fixed_items')
     if not needs_fixed_items:
-      self.na_items_repeater.visible = False
+      self.nf_items_repeater.visible = False
       self.no_pending_items_panel.visible = True
     else:
-      self.na_items_repeater.visible = True
+      self.nf_items_repeater.visible = True
       self.no_pending_items_panel.visible = False
