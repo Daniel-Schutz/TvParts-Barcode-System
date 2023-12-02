@@ -9,8 +9,6 @@ from anvil.tables import app_tables
 import time
 import json
 
-#TODO: Items need to be removed from the table as they are packed. The table is clean at the end and simply revert to open
-
 class ShippingModule(ShippingModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.

@@ -22,6 +22,6 @@ components:
     properties: {text: needs attention, role: secondary-color, icon: 'fa:warning',
       align: right, visible: true}
     type: Button
-    event_bindings: {click: select_product_btn_click}
+    event_bindings: {click: needs_attention_btn_click}
     layout_properties: {grid_position: 'RUHKDD,OUHRTB'}
 is_package: true
