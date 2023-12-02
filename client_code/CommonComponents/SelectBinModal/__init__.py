@@ -7,22 +7,31 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 class SelectBinModal(SelectBinModalTemplate):
-  def __init__(self, primary_bin, **properties):
+  def __init__(self, primary_bin, mode='os_bins', **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.set_bin_btn.visible = False
     self.primary_bin = primary_bin
-    self.get_bin_dropdown()
+    if mode == 'os_bins':
+      self.get_os_bin_dropdown()
+    elif mode == 'open_bins':
+      self.get_open_bin_dropdown()
+    else:
+      raise ValueError("Bin Modal operating mode must be 'os_bins' or 'open_bins'")
     self.bin_drop_down.selected_value = '(Select Bin)'
 
     # Any code you write here will run before the form opens.
 
-# Create a bin dropdown from the list
-  def get_bin_dropdown(self):
+# Get bin dropdown based on existing os_bins
+  def get_os_bin_dropdown(self):
     bin_list = anvil.server.call('get_all_bins_from_primary', 
                               self.primary_bin)
     self.bin_drop_down.items = anvil.server.call('create_select_bin_dropdown', 
                                                  bin_list)
+
+# Get bin dropdown based on open bins available
+  def get_os_bin_dropdown(self):
+    self.bin_drop_down.items = anvil.server.call('get_open_bins_dropdown')
 
 # Only show submit when a valid value is chosen
   def bin_drop_down_changed(self, **event_args):

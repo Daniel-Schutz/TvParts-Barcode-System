@@ -6,6 +6,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+from datetime import datetime
+
 @anvil.server.callable
 def get_needs_fixed_items():
   search_results = app_tables.items.search(status='Needs Fixed')
@@ -142,3 +144,39 @@ def get_purgatory_items():
     return None
   else:
     return results
+
+@anvil.server.callable
+def remove_bin_only_from_purgatory(bin):
+  delete_row = app_tables.purgatory.get(bin=bin)
+  delete_row.delete()
+
+@anvil.server.callable
+def get_open_bins_dropdown():
+  open_bin_rows = app_tables.bins.search(bin_status='open')
+  if len(open_bin_rows) == 0:
+    return None #This is currently an uncaught case
+  else:
+    open_bin_rows = [(row['bin'], row['bin']) for row in open_bin_rows]
+    open_bin_rows.append(('(Select Bin)', '(Select Bin)'))
+
+@anvil.server.callable
+def purg_all_items_to_new_bin(user, role, new_bin, primary_bin):
+  purg_row = app_tables.purgatory.get(bin=primary_bin)
+  sku = purg_row['sku']
+  purg_row.delete()
+  new_bin_row = app_tables.bins.get(bin=new_bin)
+  new_bin_row.update(bin_status='filled', sku=sku)
+  items_to_move = app_tables.items.search(sku=sku, status='Purgatory')
+  for item_row in items_to_move:
+    item_row.update(status='binned', stored_bin=new_bin, binned_on=datetime.now(), binned_by=user)
+    anvil.server.launch_background_task('add_history_to_item_bk', item_row['item_id'], 'Binned', user, role)
+  pass
+
+@anvil.server.callable
+def purg_toss_all_items(user, role, primary_bin):
+  purg_row = app_tables.purgatory.get(bin=primary_bin)
+  sku = purg_row['sku']
+  purg_row.delete()
+  items_to_toss = app_tables.items.search(sku=sku, status='Purgatory')
+  for item_row in items_to_toss:
+    anvil.server.call('toss_item', user, item_row, item_row['item_id'])

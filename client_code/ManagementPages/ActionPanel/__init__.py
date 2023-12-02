@@ -22,6 +22,18 @@ class ActionPanel(ActionPanelTemplate):
                                              self.nf_move_item_to_bin)
     self.nf_items_repeater.set_event_handler('x-nf-toss-item', self.nf_toss_item)
 
+    #set event listeners for Purgatory repeater logic
+    self.bins_purgatory_repeater.set_event_handler('x-purg-remove-bin-only', 
+                                                   self.purg_remove_bin_only)
+    self.bins_purgatory_repeater.set_event_handler('x-purg-move-all-items', 
+                                                   self.purg_move_items_to_new_bin)
+    self.bins_purgatory_repeater.set_event_handler('x-purg-toss-all-items', 
+                                                   self.purg_toss_all_items)
+    self.items_purgatory_repeater.set_event_handler('x-purg-move-single-item', 
+                                                    self.purg_move_single_item_to_bin)
+    self.items_purgatory_repeater.set_event_handler('x-purg-toss-single-item', 
+                                                    self.purg_toss_single_item)
+    
     #Init all repeaters
     n_1 = Notification("Action Panel Loading. This requires a large amount of data, so please wait a moment...", 
                        title="Getting Action Panel", style='info', timeout=10)
@@ -29,7 +41,7 @@ class ActionPanel(ActionPanelTemplate):
     self.get_id_holding_count()
     self.orders_na_all()
     self.get_needs_fixed_panel()
-    #Init Purgatory
+    self.update_purgatory()
     #Provide loaded success screen
     n_2 = Notification('Loading Complete! You may close this window', 
                        title='Action Panel Loaded', style='success', timeout=5)
@@ -199,8 +211,11 @@ class ActionPanel(ActionPanelTemplate):
       if not purgatory_items_exist:
         self.no_purgatory_view()
       else:
+        self.items_purgatory_repeater.items = self.purgatory_items
         self.purgatory_items_view()
     else:
+      self.bins_purgatory_repeater.items = self.purgatory_bins
+      self.items_purgatory_repeater.items = self.purgatory_items
       self.purgatory_bins_view()
 
 # Visibility and master buttons
@@ -230,3 +245,81 @@ class ActionPanel(ActionPanelTemplate):
     self.items_purgatory_repeater.visible = False
     self.items_purgatory_spacer.visible = False
     self.no_purgatory_panel.visible = True
+
+# Purgatory Event Handling
+  def purg_remove_bin_only(self, bin, **event_args):
+    confirm = anvil.alert("""Removing this Bin from purgatory WILL NOT remove the items in purgatory. 
+    You will need to use the items panel to deal with those separately.\n\nRemove Bin from Purgatory?""",
+                         title='Purgatory: Remove Bin Only', buttons=['REMOVE BIN', 'CANCEL'],
+                         large=True)
+    if confirm == 'REMOVE BIN':
+      anvil.server.call_s('remove_bin_only_from_purgatory', bin)
+      n = Notification("Updating Purgatory Bins...", style='info')
+      n.show()
+      self.purgatory_bins = anvil.server.call('get_purgatory_bins')
+      self.bins_purgatory_repeater.items = self.purgatory_bins
+
+  def purg_move_items_to_new_bin(self, bin, **event_args):
+    new_bin = anvil.alert(SelectBinModal(primary_bin=None, mode='open_bins'), 
+                          large=True)
+    n = Notification("Updating Purgatory Bins and Items, this may take a moment...", style='info', timeout=5)
+    n.show()
+    anvil.server.call('purg_all_items_to_new_bin', 
+                      self.current_user, 
+                      self.current_role, new_bin, bin)
+    self.purgatory_bins = anvil.server.call('get_purgatory_bins')
+    self.bins_purgatory_repeater.items = self.purgatory_bins
+    self.purgatory_items = anvil.server.call('get_purgatory_items')
+    self.items_purgatory_repeater.items = self.purgatory_items
+
+  def purg_toss_all_items(self, bin, **event_args):
+    confirm = anvil.alert("Are you sure you want to toss all items and remove from Purgatory?", 
+                          title='Confirm Toss', large=True, 
+                          buttons=['TOSS ALL ITEMS', 'CANCEL'])
+    if confirm == 'TOSS ALL ITEMS':
+      n_3 = Notification('Tossing items, just a moment...', 
+                         title='Remove from Purgatory - Toss Items', 
+                         style='Warning', 
+                         timeout=5)
+      anvil.server.call('purg_toss_all_items', 
+                        self.current_user, 
+                        self.current_role, 
+                        bin)
+      self.purgatory_bins = anvil.server.call('get_purgatory_bins')
+      self.bins_purgatory_repeater.items = self.purgatory_bins
+      self.purgatory_items = anvil.server.call('get_purgatory_items')
+      self.items_purgatory_repeater.items = self.purgatory_items
+
+  def purg_move_single_item_to_bin(self, primary_bin, item_id, **event_args):
+    print('caught the purg move item event')
+    new_bin = anvil.alert(SelectBinModal(primary_bin=primary_bin), 
+                          large=True)
+    if not new_bin:
+      pass #take no action if the modal is closed without seletion
+    else:
+      n = Notification(f'Please restock item to bin {new_bin}.', 
+                       title="Item Binned", 
+                       style = 'info', 
+                       timeout=60)
+      anvil.server.call('bin_and_update_item', 
+                        self.current_user, 
+                        self.current_role, item_id, new_bin)
+      self.purgatory_items = anvil.server.call('get_purgatory_items')
+      self.items_purgatory_repeater.items = self.purgatory_items
+
+  def purg_toss_single_item(self, item_id, **event_args):
+    confirm = anvil.alert("Are you sure you want to toss this item?", 
+                      title='Confirm Toss', large=True, 
+                      buttons=['TOSS ITEM', 'CANCEL'])
+    if confirm == 'TOSS ITEM':
+      n = Notification(f'Item {item_id} has been tossed.', 
+                       title='Item Tossed', 
+                       style='danger')
+      n.show()
+      anvil.server.call_s('toss_item', 
+                          self.current_user, 
+                          self.current_role, 
+                          item_id)
+      self.purgatory_items = anvil.server.call('get_purgatory_items')
+      self.items_purgatory_repeater.items = self.purgatory_items
+    
