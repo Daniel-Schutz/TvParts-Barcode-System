@@ -163,8 +163,12 @@ components:
       properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
       type: RepeatingPanel
       layout_properties: {grid_position: 'PMDPGR,KYJAUN WILVWL,RXJNER'}
-    - name: smeti_purgatory_repeater_copy
-      properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
+    - name: temp_purgatory_spacer
+      properties: {height: 2.296875}
+      type: Spacer
+      layout_properties: {grid_position: 'HCOWBU,SITUYE', row_background: '#000000'}
+    - name: items_purgatory_repeater
+      properties: {item_template: CommonComponents.PurgatoryItemPanel}
       type: RepeatingPanel
       layout_properties: {grid_position: 'TXPCVN,TRBGJX'}
     - name: no_purgatory_panel

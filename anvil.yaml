@@ -545,6 +545,26 @@ db_schema:
       admin_ui: {width: 200, order: 13}
       type: string
     title: openorders
+  purgatory:
+    client: none
+    server: full
+    columns:
+    - name: bin
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: product_name
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: sku
+      admin_ui: {width: 200, order: 3}
+      type: string
+    - name: os_bins
+      admin_ui: {width: 200, order: 4}
+      type: string
+    - name: purgatory_count
+      admin_ui: {width: 200, order: 5}
+      type: number
+    title: purgatory
   roles:
     client: none
     server: full
