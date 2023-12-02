@@ -182,7 +182,7 @@ db_schema:
       admin_ui: {width: 200, order: 4}
       type: string
     title: tables
-  adminsettings:
+  management_settings:
     client: none
     server: full
     columns:
@@ -195,7 +195,7 @@ db_schema:
     - name: num_id_hold
       admin_ui: {width: 200, order: 1}
       type: number
-    title: adminsettings
+    title: management_settings
   table_sections:
     client: none
     server: full
