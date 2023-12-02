@@ -19,7 +19,7 @@ def remove_order_from_table(order_no):
 def pack_order_and_fulfillments(user, role, order_no):
   #get order row, set status to packed
   order_row = app_tables.openorders.get(order_no=order_no)
-  order_row.update(status='Packed', reserved_by='', reserved_status='Finished', table_no='', section='') #finished status used for deletion when table completes
+  order_row.update(status='Packed', reserved_by=user, reserved_status='Finished', table_no='', section='') #finished status used for deletion when table completes
   #get all fulfillment rows
   f_rows = app_tables.openfulfillments.search(order_no=order_no)
   #for each fulfillment row, set fulfillment to packed, and item status to packed
@@ -41,4 +41,17 @@ def update_items_sold_bk(user, role, item_id):
                                       'Sold', 
                                       user, 
                                       role)
-  
+
+@anvil.server.callable
+def remove_packed_orders_from_system(user): 
+  #we use user to make sure only orders on the table they packed get deleted
+  #we also make this background process so it doesn't affect UX
+  anvil.server.launch_background_task('remove_packed_orders_from_system_bk')
+
+@anvil.server.background_task
+def remove_packed_orders_from_system_bk(user):
+  finished_orders = app_tables.openorders.search(reserved_status='Finished', reserved_by=user)
+  for order in reserved_orders:
+    anvil.server.call('delete_rows', 'openfulfillments', 'order_no', order['order_no'])
+    anvil.server.call('delete_rows', 'openorders', 'order_no', order['order_no'])
+    

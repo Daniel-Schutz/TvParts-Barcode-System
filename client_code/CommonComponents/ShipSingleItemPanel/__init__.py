@@ -9,10 +9,19 @@ from anvil.tables import app_tables
 class ShipSingleItemPanel(ShipSingleItemPanelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self.set_event_handler('x-item_scanned', self.on_item_scanned)
     self.init_components(**properties)
+    self.item_id_label.text = self.item['item_id']
 
     # Any code you write here will run before the form opens.
 
 # Raise event for needs attention
   def needs_attention_btn_click(self, **event_args):
     self.raise_event('x-ship-needs-attention', item_id=self.item['item_id'])
+
+# Change display on the panel when the right item is scanned
+  def on_item_scanned(self, item_id, **event_args):
+    if item_id == self.item['item_id']:
+      self.waiting_label.visible = False
+      self.ready_label.visible = True
+      self.main_card.background = '#EEEEEE'

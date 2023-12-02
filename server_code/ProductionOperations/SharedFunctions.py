@@ -9,6 +9,17 @@ import anvil.server
 from datetime import datetime
 
 @anvil.server.callable
+def get_next_order(user, table_no, search_status, new_status): 
+  next_order = app_tables.openorders.search(table_no=table_no, 
+                                            status=search_status)
+  if len(next_order) > 0:
+    next_order = next_order[0]
+    next_order.update(reserved_status='Reserved', reserved_by=user, status=new_status)
+  else:
+    next_order = None
+  return next_order
+
+@anvil.server.callable
 def set_f_status_by_item_id(item_id, status):
   f_row = app_tables.openfulfillments.get(item_id=item_id)
   f_row['status'] = status

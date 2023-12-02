@@ -173,7 +173,9 @@ class TestingModule(TestingModuleTemplate):
     print(self.current_table)
     self.current_order = anvil.server.call_s('get_next_order', 
                                              self.current_user, 
-                                             self.current_table)
+                                             self.current_table, 
+                                             "Picked", 
+                                             "Testing")
     if not self.current_order:
       n = Notification("Table complete! please take table to Shipping and press continue.", style='success')
       n.show()
