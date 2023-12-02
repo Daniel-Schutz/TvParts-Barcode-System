@@ -13,7 +13,7 @@ components:
     - name: column_panel_1
       properties: {}
       type: ColumnPanel
-      layout_properties: {width: 727.9609375}
+      layout_properties: {width: 922.3671875}
       components:
       - name: bin_panel
         properties: {}
@@ -21,25 +21,25 @@ components:
         layout_properties: {grid_position: 'TIRTJS,GSAZZR'}
         components:
         - name: bin_label_copy
-          properties: {text: 'Bin:', underline: true, font_size: 40}
+          properties: {text: 'Bin:', underline: true, font_size: 24}
           type: Label
           layout_properties: {}
         - name: bin_content_copy
-          properties: {font_size: 40}
+          properties: {font_size: 24}
           type: RichText
           data_bindings: []
           layout_properties: {}
       - name: bin_panel_copy
         properties: {}
         type: FlowPanel
-        layout_properties: {grid_position: 'VZOGTM,WPZBEJ'}
+        layout_properties: {grid_position: 'TIRTJS,CVOGAH'}
         components:
         - name: purg_count_label
-          properties: {text: 'Purgatory Count:', underline: true, font_size: 28}
+          properties: {text: 'Purgatory Count:', underline: true, font_size: 24}
           type: Label
           layout_properties: {}
         - name: purg_count_content
-          properties: {font_size: 28}
+          properties: {font_size: 24}
           type: RichText
           data_bindings: []
           layout_properties: {}
@@ -58,19 +58,19 @@ components:
           data_bindings:
           - {property: content, code: 'self.item[''product_name'']', writeback: false}
           layout_properties: {expand: true}
-      - name: flow_panel_3_copy_1
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'UYUIRO,EAOMWK'}
-        components:
-        - name: sku_label
-          properties: {text: 'SKU:', underline: true}
-          type: Label
-        - name: sku_content
+        - name: flow_panel_3_copy_1
           properties: {}
-          type: RichText
-          data_bindings:
-          - {property: content, code: 'self.item[''sku'']', writeback: false}
+          type: FlowPanel
+          layout_properties: {width: 447.609}
+          components:
+          - name: sku_label
+            properties: {text: 'SKU:', underline: true}
+            type: Label
+          - name: sku_content
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''sku'']', writeback: false}
   - name: card_2
     properties: {role: null}
     type: ColumnPanel
@@ -93,7 +93,7 @@ components:
     - name: flow_panel_4_copy_1
       properties: {}
       type: FlowPanel
-      layout_properties: {grid_position: 'TFDWHP,ROFUTH'}
+      layout_properties: {grid_position: 'VUCOVM,VJSBSE'}
       components:
       - name: crs_label
         properties: {text: 'Cross References:', underline: true}
@@ -105,24 +105,40 @@ components:
         layout_properties: {expand: true}
         data_bindings:
         - {property: content, code: 'self.item[''cross_refs'']', writeback: false}
-      - name: card_3_copy_1
-        properties: {role: null}
-        type: ColumnPanel
-        layout_properties: {width: 244}
-        components: []
   - name: card_3
     properties: {role: card}
     type: ColumnPanel
-    layout_properties: {grid_position: 'DATXLI,PPULBK'}
+    layout_properties: {grid_position: 'DATXLI,PPULBK', row_background: '#f2ffe5'}
     components:
     - name: bin_action_header
-      properties: {role: headline, text: Bin Actions (Do Not Affect Individual Items),
-        align: center}
+      properties: {role: headline, text: Bin Actions (Do Not Affect Items), align: center,
+        underline: true}
       type: Label
       layout_properties: {grid_position: 'MEAALE,LSUXSD'}
     - name: remove_from_purg_btn
-      properties: {text: select, role: primary-color, icon: 'fa:qrcode'}
+      properties: {text: remove from purgatory, role: primary-color, icon: 'fa:check-circle'}
       type: Button
       layout_properties: {grid_position: 'QMJLFB,YTRZXW'}
+      event_bindings: {click: select_product_btn_click}
+  - name: card_3_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'DATXLI,RREAHE'}
+    components:
+    - name: bulk_action_header
+      properties: {role: headline, text: Bulk Actions (Affect Bins and Items), align: center,
+        underline: true}
+      type: Label
+      layout_properties: {grid_position: 'MEAALE,LSUXSD'}
+    - name: move_all_to_bin_btn
+      properties: {text: move all to bin, role: primary-color, icon: 'fa:dropbox',
+        background: '#2eff31'}
+      type: Button
+      layout_properties: {grid_position: 'QMJLFB,YTRZXW'}
+      event_bindings: {click: select_product_btn_click}
+    - name: toss_all_items_btn
+      properties: {text: toss all items, role: primary-color, icon: 'fa:trash', background: '#ff745c'}
+      type: Button
+      layout_properties: {grid_position: 'QMJLFB,DKNRGT'}
       event_bindings: {click: select_product_btn_click}
 is_package: true
