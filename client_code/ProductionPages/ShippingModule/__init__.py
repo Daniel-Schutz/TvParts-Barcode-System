@@ -69,6 +69,15 @@ class ShippingModule(ShippingModuleTemplate):
     self.na_spacer.visible = False
     self.na_card.visible = False
 
+  def clear_scan(self):
+    print('in clear scan')
+    self.item_scan_input.text = None
+    self.sku_output.content = None
+    self.name_content.content = None
+    self.item_id_output.content = None
+    self.item_scan_input.focus()
+
+
   # def enable_buttons(self):
   #   self.failed_btn.enabled = True
   #   self.passed_btn.enabled = True
@@ -121,7 +130,7 @@ class ShippingModule(ShippingModuleTemplate):
                                                   self.current_order['order_no'])
     self.fulfillments_repeater.items = self.current_fulfillments
 
-  def pack_order(self):
+  def pack_order(self, **event_args):
     complete = True
     for f in self.current_fulfillments:
       if f['status'] != 'Packed':
@@ -130,23 +139,23 @@ class ShippingModule(ShippingModuleTemplate):
         mark them as needing attention before closing the order.''', style='danger', 
                          title="Cannot Pack Order - Outstanding Items", timeout=5)
         n.show()
+        complete = False
         break
     if complete:
       self.close_order()
-      self.remove_order_from_table()
       more_orders_this_table = self.fetch_new_order()
-      self.clear_scan_btn_click()
       if not more_orders_this_table:
         return None #Stops the system from generating a new order card
       self.init_order_card_content()
+      self.clear_scan()
       self.item_scan_input.focus()
     else:
+      self.clear_scan()
       self.update_fulfillments()
-      self.clear_scan_btn_click()
 
   #Remove the order from the table once it's shipped
   def remove_order_from_table(self):
-    order_no = self.current_order('order_no')
+    order_no = self.current_order['order_no']
     anvil.server.call_s('remove_order_from_table', order_no=order_no)
       
 
@@ -199,7 +208,7 @@ class ShippingModule(ShippingModuleTemplate):
 # This whole system is scan driven. self.target_f is the fulfillment linked to the scanned item
   def item_scan_input_pressed_enter(self, **event_args):
     #self.item_scan_input.enabled = False
-    time.sleep(0.4) #wait for the item to finish inputting
+    time.sleep(1) #wait for the item to finish inputting
     scan_dict = json.loads(self.item_scan_input.text)
     self.this_item_id = scan_dict['item_id']
     for f in self.current_fulfillments:
@@ -216,10 +225,11 @@ class ShippingModule(ShippingModuleTemplate):
       self.sku_output.content = self.target_f['sku']
       self.name_content.content = self.target_f['product_name']
       self.item_id_output.content = self.target_f['item_id']
-      self.fulfillments_repeater.raise_event_on_children('x-item_scanned', item_id=self.target_f['item_id'])
-      # self.enable_buttons()
-      self.product_img_output.source = anvil.server.call_s('get_img_source_from_sku', 
+      self.product_img_output.source = anvil.server.call('get_img_source_from_sku', 
                                                            sku=self.target_f['sku'])
+      self.update_fulfillment_display()
+      self.fulfillments_repeater.raise_event_on_children('x-item_scanned', item_id=self.target_f['item_id'])
+      
       
 
 # Close Orders when they are complete
@@ -241,20 +251,22 @@ class ShippingModule(ShippingModuleTemplate):
     pass
 
 ###### Button Events - Active Visibility #############
-  def needs_attention(self, item_id, **event_args):
+  def needs_attention(self, fulfillment_id, item_id, **event_args):
     print(f'needs attention event captured on item {item_id}.')
-    self.move_to_ship_holding()
+    self.move_to_ship_holding(item_id, fulfillment_id)
     #get the test workflow that gets kicked off here and bring it in
     pass
 
-  def pack_order_btn_click(self, **event_args):
-    order_no = self.current_order['order_no']
-    n = Notification(f"Order {order_no} marked as packed! Removing from open orders")
-    anvil.server.call('pack_order_and_fulfillments', 
-                      user=self.current_user, 
-                      role=self.current_role, 
-                      order_no=self.current_order['order_no'])
-    self.fetch_new_order()
+  # def pack_order_btn_click(self, **event_args):
+  #   order_no = self.current_order['order_no']
+  #   n = Notification(f"Order {order_no} marked as packed! Removing from open orders")
+  #   anvil.server.call('pack_order_and_fulfillments', 
+  #                     user=self.current_user, 
+  #                     role=self.current_role, 
+  #                     order_no=self.current_order['order_no'])
+  #   self.fetch_new_order()
+  #   self.init_order_card_content()
+  #   self.active_visibility()
 
   def finish_table_btn_click(self, **event_args):
     n = Notification("Closing Table, please wait...")
@@ -293,16 +305,17 @@ class ShippingModule(ShippingModuleTemplate):
       #Start fresh
       self.fetch_new_order()
       self.init_order_card_content()
-      self.needs_attention_orders = anvil.server.call('get_needs_attention_items', 
-                                                      holding_type='Shipping Hold', 
-                                                      dept='Shipping')
-      self.num_na_orders.output = len(self.needs_attention_orders)
+      self.clear_scan()
+      # self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
+      #                                                 holding_type='Shipping Hold', 
+      #                                                 dept='Shipping')
+      # self.num_na_orders.output = len(self.needs_attention_orders)
       self.refresh_needs_attention_area()
 
   def refresh_needs_attention_area(self):
     self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
-                                                    holding_type='Testing Hold', 
-                                                    dept='Testing')
+                                                    holding_type='Shipping Hold', 
+                                                    dept='Shipping')
     if not self.needs_attention_orders:
       self.num_na_orders.content = 0
       self.no_pending_panel.visible = True

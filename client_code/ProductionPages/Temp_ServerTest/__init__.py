@@ -78,7 +78,7 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
 
   def to_id_screen_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.parent.add_component(TestModule(), full_width_row=True)
+    self.parent.add_component(IdModule(), full_width_row=True)
     self.remove_from_parent()  
 
   def test_notification_click(self, **event_args):

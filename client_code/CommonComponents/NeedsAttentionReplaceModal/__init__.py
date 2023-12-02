@@ -7,15 +7,17 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import json
+import time
 
 class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
   def __init__(self, item_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    print(item_id)
     self.prev_item_id = item_id
     self.current_user = anvil.server.call('get_user_full_name')
     self.user_role = anvil.server.call('get_user_role')
-    self.replace_item_id_output.content = self.prev_item_id
+    self.replace_item_id_out.text = item_id
     self.f_id = anvil.server.call('get_f_id_from_item_id', item_id)
     self.scan_item_input_panel.visible = False
     self.new_item_id_panel.visible = False
@@ -39,21 +41,21 @@ class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
   
 
 ######### Validate before replacing ############################
-  def validate_item_scan_input(self):
-    try:
-      scan_dict = json.loads(self.new_item_scan_input.content)
-      new_item_id = scan_dict['item_id']
-      self.new_item_id_output.content = new_item_id
-      self.new_item_scan_input.enabled = False
-      self.new_item_id_panel.visible = True
-      self.done_btn.enabled = True
-      return 'Valid'
-    except:
-      n = Notification("Scan is not a valid item!", style='danger')
-      n.show()
-      self.new_item_scan_input.enabled = True
-      self.new_item_scan_input.focus()
-      return "Invalid"
+  def validate_item_scan_input(self, **event_args):
+    # try:
+    scan_dict = json.loads(self.new_item_scan_input.text)
+    new_item_id = scan_dict['item_id']
+    self.new_item_id_output.text = new_item_id
+    self.new_item_scan_input.enabled = False
+    self.new_item_id_panel.visible = True
+    self.done_btn.enabled = True
+    return 'Valid'
+    # except:
+    #   n = Notification("Scan is not a valid item!", style='danger')
+    #   n.show()
+    #   self.new_item_scan_input.enabled = True
+    #   self.new_item_scan_input.focus()
+    #   return "Invalid"
 
 ######### Handle Button Click Logic ####################
   def cancel_btn_click(self, **event_args):
@@ -62,6 +64,7 @@ class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
   def clear_scan_btn_click(self, **event_args):
     self.new_item_id_output.content = None
     self.new_item_id_panel.visible = False
+    self.new_item_scan_input.text = None
     self.done_btn.enabled = False
     self.new_item_scan_input.enabled = True
     self.new_item_scan_input.focus()
@@ -69,7 +72,7 @@ class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
 ### Here is the one that actually does something
   def done_btn_click(self, **event_args):
     destiny = self.replacement_reason_dropdown.selected_value
-    new_item_id = self.new_item_id_output.content
+    new_item_id = self.new_item_id_output.text
     anvil.server.call('replace_item_on_fulfillment', 
                       self.prev_item_id, 
                       new_item_id, 

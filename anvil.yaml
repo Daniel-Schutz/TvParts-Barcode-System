@@ -111,6 +111,14 @@ db_schema:
       admin_ui: {width: 200, order: 0}
       type: string
     title: tv_makes
+  bin_statuses:
+    client: none
+    server: full
+    columns:
+    - name: status
+      admin_ui: {width: 200, order: 0}
+      type: string
+    title: bin_statuses
   trucks:
     client: none
     server: full

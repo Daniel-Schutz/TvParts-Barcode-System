@@ -112,6 +112,15 @@ def get_needs_attention_orders(holding_type, dept):
     return modified_records
 
 @anvil.server.callable
+def get_all_needs_attention_orders():
+  search_results = app_tables.table_sections.search(type=q.any_of('Warehouse Hold', 'Testing Hold', 'Shipping Hold'), order=q.not_(''))
+  if len(search_results) == 0:
+    return None
+  else:
+    contained_orders = [int(row['order']) for row in search_results] #Need to update order d_type in shopify interface
+    order_records = app_tables.openorders.search(order_no=q.any_of(*contained_orders))
+
+@anvil.server.callable
 def set_fulfillment_status(fulfillment_id, status):
   f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
   f_row['status'] = status
@@ -179,6 +188,11 @@ def get_f_id_from_item_id(item_id):
   return f_row['fulfillment_id']
 
 @anvil.server.callable
+def set_f_status_from_item_id(item_id, status):
+  f_row = app_tables.openfulfillments.get(item_id=item_id)
+  f_row.update(status=status)
+
+@anvil.server.callable
 def replace_item_on_fulfillment(old_item_id, new_item_id, old_destiny, user, role, item_status):
   old_item_row = app_tables.items.get(item_id=old_item_id)
   f_row = app_tables.openfulfillments.get(item_id=old_item_id)
@@ -206,7 +220,7 @@ def replace_item_on_fulfillment(old_item_id, new_item_id, old_destiny, user, rol
                                         role)
     #Add argument to subtract stock from Shopify & sync here
   new_item_row = app_tables.items.get(item_id=new_item_id)
-  new_item_row.update(order_no=f_row['order_no'], 
+  new_item_row.update(order_no=str(f_row['order_no']), 
                       status=item_status, 
                       picked_on=datetime.now(), 
                       picked_by=user)

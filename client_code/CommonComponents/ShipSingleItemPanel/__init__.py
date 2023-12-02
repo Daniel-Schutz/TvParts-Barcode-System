@@ -17,7 +17,9 @@ class ShipSingleItemPanel(ShipSingleItemPanelTemplate):
 
 # Raise event for needs attention
   def needs_attention_btn_click(self, **event_args):
-    self.raise_event('x-ship-needs-attention', item_id=self.item['item_id'])
+    self.parent.raise_event('x-ship-needs-attention', 
+                            item_id=self.item['item_id'], 
+                            fulfillment_id=self.item['fulfillment_id'])
 
 # Change display on the panel when the right item is scanned
   def on_item_scanned(self, item_id, **event_args):
@@ -25,3 +27,4 @@ class ShipSingleItemPanel(ShipSingleItemPanelTemplate):
       self.waiting_label.visible = False
       self.ready_label.visible = True
       self.main_card.background = '#EEEEEE'
+      anvil.server.call_s('set_f_status_by_item_id', item_id, "Packed")

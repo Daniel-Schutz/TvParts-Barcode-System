@@ -183,7 +183,7 @@ components:
           font_size: 19}
         type: Button
         layout_properties: {grid_position: 'AVKZQC,RJMNOB'}
-        event_bindings: {click: pack_order_btn_click}
+        event_bindings: {click: pack_order}
 - name: finish_table_card
   properties: {role: card, background: '#f0ebff'}
   type: ColumnPanel

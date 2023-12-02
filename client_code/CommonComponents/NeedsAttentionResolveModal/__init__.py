@@ -33,16 +33,17 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
   def restock_linked_items(self):
     skus_list = [f['sku'] for f in self.fulfillments_repeater.items]
     bins_str = ''
-    counter=0
+    # counter=0
     for fulfillment in self.fulfillments_repeater.items:
       f_id = fulfillment['fulfillment_id']
       bin = anvil.server.call('restock_linked_item', 
                         f_id, 
                         self.current_user, 
                         self.user_role)
+      print(f'in the bin area of restocking. bin={bin}')
       if bin:
         bins_str += f"{counter}: sku:{[skus_list[counter]]} | bin: {bin}\n"
-      counter += 1
+      # counter += 1
     n = Notification(f"Items have been restocked in the system. \
     Please return all items to their original bins.\n {bins_str}", 
                      title="Restock Parts", 

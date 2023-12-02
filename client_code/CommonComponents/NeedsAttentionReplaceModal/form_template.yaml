@@ -18,7 +18,7 @@ components:
       properties: {role: headline, text: 'Item to Replace:', italic: true, font_size: 15}
       type: Label
       layout_properties: {}
-    - name: replace_item_id_output
+    - name: replace_item_id_out
       properties: {role: headline, text: '', italic: false, font_size: 15, bold: true,
         underline: false}
       type: Label
