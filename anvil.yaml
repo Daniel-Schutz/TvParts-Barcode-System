@@ -186,15 +186,24 @@ db_schema:
     client: none
     server: full
     columns:
-    - name: require_bin_verify
-      admin_ui: {width: 200, order: 0}
+    - name: setting_title
+      admin_ui: {width: 200, order: 2}
+      type: string
+    - name: setting_desc
+      admin_ui: {order: 3, width: 373}
+      type: string
+    - name: bool_response
+      admin_ui: {width: 200, order: 4}
       type: bool
-    - name: setting_no
-      admin_ui: {order: -1, width: 200}
+    - name: num_response
+      admin_ui: {width: 200, order: 5}
       type: number
-    - name: num_id_hold
-      admin_ui: {width: 200, order: 1}
-      type: number
+    - name: text_response
+      admin_ui: {width: 200, order: 6}
+      type: string
+    - name: setting_type
+      admin_ui: {width: 200, order: 3.5}
+      type: string
     title: management_settings
   table_sections:
     client: none

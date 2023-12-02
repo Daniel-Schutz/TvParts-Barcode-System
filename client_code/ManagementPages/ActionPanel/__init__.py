@@ -18,7 +18,37 @@ class ActionPanel(ActionPanelTemplate):
 
     # Any code you write here will run before the form opens.
 
-####### Get id holding read count
+####### Get id holding read count ############
+  def get_id_holding_count(self):
+    self.holding_table_count_output.text = anvil.server.call_s('get_id_holding_count')
+    pass
+
+  # set hold count logic
+  def set_hold_count_btn_click(self, **event_args):
+    self.set_id_hold_count_btn.enabled = False
+    set_text = self.id_hold_count_input.text
+    try:
+      set_num = int(set_text)
+      anvil.server.call('set_id_holding_count', 
+                        count=set_num)
+      n = Notification(f'Id holding count has been set to {set_num}', 
+                  title='Holding Count Updated!', 
+                  style='success', timeout=2)
+      n.show()
+      self.id_hold_count_input.text = None
+      self.get_id_holding_count(self)
+      self.set_id_hold_count_btn.enabled = True
+      
+    except:
+      n = Notification('New Id Holding Count must be a whole number.', 
+                       title='Invalid Entry', 
+                       style='danger', timeout=2)
+      n.show()
+      self.id_hold_count_input.text = None
+      self.id_hold_count_input.focus()
+      self.set_id_hold_count_btn.enabled = True
+      return None #Stop execution
+  
 
 ####### Orders NA Displays & Navigation ################
   def orders_na_all(self, **event_args):

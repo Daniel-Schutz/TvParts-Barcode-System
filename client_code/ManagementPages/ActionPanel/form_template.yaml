@@ -44,9 +44,10 @@ components:
         properties: {}
         type: TextBox
       - name: set_id_hold_count_btn
-        properties: {text: set Hold Count, role: primary-color, align: right}
+        properties: {text: set Hold Count, role: primary-color, align: right, tooltip: Use this button to reset the count of items in ID holding after remediation.}
         type: Button
         layout_properties: {}
+        event_bindings: {click: set_hold_count_btn_click}
   - name: spacer_1_copy_2
     properties: {height: 6.94140625}
     type: Spacer

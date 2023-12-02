@@ -8,7 +8,6 @@ import anvil.server
 
 from . import IdTables
 from . import TeardownTables
-from . import OrderManagement
 from . import Warehouse
 from . import SharedFunctions
 from . import Testing
