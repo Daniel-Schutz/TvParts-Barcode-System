@@ -12,7 +12,7 @@ class ShippingModule(ShippingModuleTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    # self.set_event_handler('x-ship-needs-attention', self.needs_attention)
+    self.set_event_handler('x-ship-needs-attention', self.needs_attention)
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -67,10 +67,10 @@ class ShippingModule(ShippingModuleTemplate):
     self.na_spacer.visible = False
     self.na_card.visible = False
 
-  def enable_buttons(self):
-    self.failed_btn.enabled = True
-    self.passed_btn.enabled = True
-    self.needs_attention_btn.enable = True
+  # def enable_buttons(self):
+  #   self.failed_btn.enabled = True
+  #   self.passed_btn.enabled = True
+  #   self.needs_attention_btn.enable = True
     
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
@@ -106,9 +106,9 @@ class ShippingModule(ShippingModuleTemplate):
     self.table_output.content = self.current_table
     self.section_output.content = self.current_section
     self.product_img_output.source = None
-    self.failed_btn.enabled = False
-    self.passed_btn.enabled = False
-    self.needs_attention_btn.enabled = False
+    # self.failed_btn.enabled = False
+    # self.passed_btn.enabled = False
+    # self.needs_attention_btn.enabled = False
 
     # set focus
     self.item_scan_input.focus()
@@ -206,7 +206,7 @@ class ShippingModule(ShippingModuleTemplate):
       self.sku_output.content = self.target_f['sku']
       self.name_content.content = self.target_f['product_name']
       self.item_id_output.content = self.target_f['item_id']
-      self.enable_buttons()
+      # self.enable_buttons()
       self.product_img_output.source = anvil.server.call_s('get_img_source_from_sku', 
                                                            sku=self.target_f['sku'])
       
@@ -227,10 +227,11 @@ class ShippingModule(ShippingModuleTemplate):
     pass
 
 ###### Button Events - Active Visibility #############
-  # def needs_attention(self, item_id, **event_args):
-  #   print(f'needs attention event captured on item {item_id}.')
-  #   #get the test workflow that gets kicked off here and bring it in
-  #   pass
+  def needs_attention(self, item_id, **event_args):
+    print(f'needs attention event captured on item {item_id}.')
+    self.move_to_ship_holding()
+    #get the test workflow that gets kicked off here and bring it in
+    pass
 
   def pack_order_btn_click(self, **event_args):
     order_no = self.current_order['order_no']
@@ -251,28 +252,24 @@ class ShippingModule(ShippingModuleTemplate):
 
 ##### Needs Attention Panel ############
   #responds to fulfillment repeater buttons
-  def move_to_holding_failed(self, item_id, fulfillment_id, **event_args):
-    print("Made it to the move_to_holding event.")
-    confirm = anvil.alert(f"Confirm item {item_id} does not pass testing", 
+  def move_to_ship_holding(self, item_id, fulfillment_id, **event_args):
+    print("Made it to the move ship to holding event.")
+    confirm = anvil.alert(f"Confirm item {item_id} needs to move to holding", 
                           buttons=['YES', 'CANCEL'], 
-                          large=True, Title = "Failed Testing?")
+                          large=True, Title = "Needs Attention?")
     if confirm == "YES":
-      anvil.server.call('set_fulfillment_status', fulfillment_id, 'Needs Replaced')
-      open_section = anvil.server.call('get_next_open_section', 'TH1') #hardcoded table name here
+      anvil.server.call('set_fulfillment_status', fulfillment_id, 'Needs Attention')
+      open_section = anvil.server.call('get_next_open_section', 'SH1') #hardcoded table name here
       move_item = anvil.alert(f"Please move Order to Holding Table {open_section['table']}, \
       Section: {open_section['section']}", buttons=['OK'], large=True,
                 title="Move Item to Holding.")
       #Message for Management
-      # print("user", self.current_user)
-      # print("role", self.current_role)
-      # print("sku", sku)
-      # print("order", self.current_order)
       anvil.server.call('create_message', 
                         self.current_user, 
                         self.current_role, 
                         'Management',
                         #'Test Message for holding',
-                       f'FAILED TEST: Item {item_id} marked as failed at testing. Notice has been sent to warehouse to replace. Blocking order {self.current_order["order_no"]}.',
+                       f'NEEDS ATTENTION - SHIPPING: Item {item_id} needs attention in Shipping. Blocking order {self.current_order["order_no"]}.',
                        item_id)
       #Order to Holding Area
       anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],
@@ -281,8 +278,8 @@ class ShippingModule(ShippingModuleTemplate):
       self.fetch_new_order()
       self.init_order_card_content()
       self.needs_attention_orders = anvil.server.call('get_needs_attention_items', 
-                                                      holding_type='Testing Hold', 
-                                                      dept='Testing')
+                                                      holding_type='Shipping Hold', 
+                                                      dept='Shipping')
       self.num_na_orders.output = len(self.needs_attention_orders)
       self.refresh_needs_attention_area()
 

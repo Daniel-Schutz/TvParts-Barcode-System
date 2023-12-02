@@ -9,7 +9,7 @@ components:
     properties: {role: headline, text: Shipping, align: center, underline: true, font_size: 36}
     type: Label
     layout_properties: {grid_position: 'JBDOLN,EZDSMF'}
-  - name: card_1_copy_3_copy_1
+  - name: select_table_card
     properties: {role: card, background: '#f0ebff'}
     type: ColumnPanel
     layout_properties: {grid_position: 'OCWYSQ,SNAWCD'}
@@ -34,8 +34,13 @@ components:
     - name: begin_table_btn
       properties: {text: begin Table, role: primary-color, font_size: 22, icon: 'fa:bolt'}
       type: Button
-      layout_properties: {grid_position: 'LCOOYO,CFLUGW'}
-  - name: card_1_copy_1
+      layout_properties: {grid_position: 'VBRFON,TBHNPV'}
+    - name: begin_tray_btn
+      properties: {text: begin tray, role: primary-color, font_size: 22, icon: 'fa:briefcase'}
+      type: Button
+      layout_properties: {grid_position: 'TADHKK,AGSBLT'}
+      event_bindings: {click: begin_table_btn_click}
+  - name: active_order_card
     properties: {role: card, background: '#c8ffc8'}
     type: ColumnPanel
     layout_properties: {grid_position: 'FGQNDH,OVSYLH', row_background: ''}

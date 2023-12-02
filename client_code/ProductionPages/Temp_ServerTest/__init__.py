@@ -16,6 +16,7 @@ from ..WarehousePickModule import WarehousePickModule
 from ...CommonComponents.ItemLookup import ItemLookup
 from ..ManagementMasterModule import ManagementMasterModule
 from ..TestingModule import TestingModule
+from ..ShippingModule import ShippingModule
 
 import uuid
 import datetime
@@ -101,4 +102,8 @@ class Temp_ServerTest(Temp_ServerTestTemplate):
   
   def warehouse_pick_btn_click(self, **event_args):
       self.parent.add_component(WarehousePickModule(), full_width_row=True)
-      self.remove_from_parent()    
+      self.remove_from_parent() 
+
+  def shipping_area_btn_click(self, **event_args):
+      self.parent.add_component(ShippingModule(), full_width_row=True)
+      self.remove_from_parent() 
