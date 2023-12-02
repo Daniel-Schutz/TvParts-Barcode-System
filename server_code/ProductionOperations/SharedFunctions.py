@@ -229,3 +229,36 @@ def replace_item_on_fulfillment(old_item_id, new_item_id, old_destiny, user, rol
                                       item_status, 
                                       user, 
                                       role)
+
+######### Bin Operations ###############
+@anvil.server.callable
+def create_select_bin_dropdown(bin_list):
+  select_tuple = ('(Select Bin)', '(Select Bin)')
+  bin_dropdown_list = [select_tuple]
+  bin_rows = app_tables.bins.search(bin=q.any_of(*bin_list))
+  #for dropdowns, first tuple idx is displayed, second is the actual value
+  for row in bin_rows:
+    type = row['bin_type']
+    bin_num = row['bin']
+    bin_dropdown_list.append((f"{type}: {bin_num}", bin_num))
+  return bin_dropdown_list
+
+@anvil.server.callable
+def get_all_bins_from_primary(primary_bin):
+  primary_row = app_tables.bins.get(bin=primary_bin)
+  sku = primary_row['sku']
+  bin_rows = app_tables.bins.search(sku=sku)
+  return [row['bin'] for row in bin_rows]
+
+@anvil.server.callable
+def bin_and_update_item(user, role, item_id, bin_num):
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(status='Binned', binned_by=user, binned_on=datetime.now(), stored_bin=bin_num)
+  anvil.server.launch_background_task('add_history_to_item_bk', item_id, 'Binned', user, role)
+
+@anvil.server.callable
+def toss_item(user, role, item_id):
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(status='Tossed', stored_bin='')
+  #TODO: Add the add the subtract from Shopify inventory command here
+  anvil.server.launch_background_task('add_history_to_item_bk', item_id, 'Tossed', user, role)  

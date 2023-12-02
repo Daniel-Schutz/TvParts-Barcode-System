@@ -571,8 +571,11 @@ db_schema:
       admin_ui: {width: 200, order: 4}
       type: string
     - name: purgatory_count
-      admin_ui: {width: 200, order: 5}
+      admin_ui: {order: 1.5, width: 200}
       type: number
+    - name: cross_refs
+      admin_ui: {width: 200, order: 5}
+      type: string
     title: purgatory
   roles:
     client: none

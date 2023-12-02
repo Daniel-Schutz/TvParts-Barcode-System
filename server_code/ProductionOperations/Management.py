@@ -98,7 +98,7 @@ def remove_packed_orders():
 def get_existing_order_numbers():
   return [row['order_no'] for row in app_tables.openorders.search()]
 
-################# End Reset Table Helpers #################################
+###########################################################################
 
 ########## Reset Order & Fulfillment Tables ###############################
 #This is the "Big Reset" at the beginning of each pick batch
@@ -125,3 +125,20 @@ def reset_open_tables():
   end_time = time.time()
   print(f'big update success! required {round(end_time-start_time, 2)} seconds')
 ############################################################################
+
+############# Purgatory #################################################
+@anvil.server.callable
+def get_purgatory_bins():
+  results = app_tables.purgatory.search()
+  if len(results) == 0:
+    return None
+  else:
+    return results
+
+@anvil.server.callable
+def get_purgatory_items():
+  results = app_tables.items.search(status='Purgatory')
+  if len(results) == 0:
+    return None
+  else:
+    return results

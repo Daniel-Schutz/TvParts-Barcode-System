@@ -19,7 +19,7 @@ components:
       type: RichText
       layout_properties: {expand: true}
       components: []
-    - name: primary_bin_label
+    - name: stored_bin_label
       properties: {bold: true, text: 'Primary Bin:'}
       type: Label
       layout_properties: {}

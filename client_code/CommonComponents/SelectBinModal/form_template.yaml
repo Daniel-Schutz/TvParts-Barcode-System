@@ -22,6 +22,7 @@ components:
       properties: {}
       type: DropDown
       layout_properties: {width: 543.77734375}
+      event_bindings: {change: bin_drop_down_changed(}
     - name: set_bin_btn
       properties: {text: Submit, role: primary-color, align: right}
       type: Button
