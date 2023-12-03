@@ -3,74 +3,79 @@ components:
 - name: card_1
   properties: {role: card, background: '#dcffdc'}
   type: ColumnPanel
-  layout_properties: {grid_position: 'UUKPAD,FPKBBM'}
+  layout_properties: {grid_position: 'UUKPAD,FPKBBM', full_width_row: true}
   components:
   - name: header
     properties: {role: headline, align: center, text: Management Role Selector, tooltip: Note that role selection will affect message inbox.}
     type: Label
     layout_properties: {grid_position: 'HNBPWJ,MAKVMQ'}
-  - name: card_2
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'TUVVNF,GUVIXO'}
+  - name: flow_panel_2
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'WWBGHL,HIRRPH', full_width_row: true}
     components:
-    - name: user_role_label
-      properties: {text: Choose Role Page, align: center, bold: false, font_size: 19,
-        underline: true}
-      type: Label
-      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
     - name: teardown_role_btn
-      properties: {text: Teardown, role: primary-color}
+      properties: {text: Teardown, role: primary-color, background: ''}
       type: Button
-      layout_properties: {grid_position: 'GKIXQT,SRZAJP'}
-    - name: testing_role_btn
-      properties: {text: testing, role: primary-color}
-      type: Button
-      layout_properties: {grid_position: 'GKIXQT,UOBGTN'}
+      layout_properties: {}
     - name: id_role_btn
       properties: {text: Identification, role: primary-color}
       type: Button
-      layout_properties: {grid_position: 'GKIXQT,SNLRXG'}
+    - name: warehouse_pick_role_btn
+      properties: {text: warehouse Pick, role: primary-color}
+      type: Button
+      layout_properties: {}
+    - name: warehouse_stock_role_btn
+      properties: {text: warehouse stock, role: primary-color}
+      type: Button
+      layout_properties: {}
+    - name: testing_role_btn
+      properties: {text: testing, role: primary-color}
+      type: Button
     - name: shipping_role_btn
       properties: {text: shipping, role: primary-color}
       type: Button
-      layout_properties: {grid_position: 'GKIXQT,CTUYYK'}
-    - name: warehouse_role_btn
-      properties: {text: warehouse, role: primary-color}
+    - name: all_inboxes_btn
+      properties: {text: all inboxes, role: primary-color}
       type: Button
-      layout_properties: {grid_position: 'GKIXQT,RQVHKP'}
-  - name: spacer_1
-    properties: {height: 5.796875}
-    type: Spacer
-    layout_properties: {grid_position: 'CMOOID,MOXBMN', row_background: 'theme:Primary
-        700'}
-  - name: card_2_copy
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'DKVLWV,FLOJSF'}
+- name: role_page_view_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'ZYNAQJ,UVCXVI'}
+- name: spacer_1
+  properties: {height: 5.796875}
+  type: Spacer
+  layout_properties: {grid_position: 'HBOTBU,CXLMJW', row_background: 'theme:Secondary
+      700'}
+- name: messages_card
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'UYGZUK,LEVEVJ', full_width_row: true}
+  components:
+  - name: view_messages_label
+    properties: {text: View Message Inbox by Role Type, align: center, bold: false,
+      font_size: 19, tooltip: 'Note that this will show outstanding messages only.
+        If you''d like to also see archived messages, contact Autonomi'}
+    type: Label
+    layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
+  - name: flow_panel_1
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'OLDQTF,KSQRGP', full_width_row: true}
     components:
-    - name: user_role_label_copy_2
-      properties: {text: See Inboxes, align: center, bold: false, font_size: 19}
+    - name: select_role_label
+      properties: {text: 'Select Role:'}
       type: Label
-      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
-    - name: flow_panel_1
+    - name: select_role_dropdown
       properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'OLDQTF,KSQRGP'}
-      components:
-      - name: select_role_label
-        properties: {text: 'Select Role:'}
-        type: Label
-      - name: select_role_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 357.8359375}
-      - name: load_msgs_btn
-        properties: {text: load messages, role: primary-color, align: right}
-        type: Button
-        layout_properties: {}
-    - name: msg_inbox_repeater
-      properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
-      type: RepeatingPanel
-      layout_properties: {grid_position: 'PMDPGR,KYJAUN'}
+      type: DropDown
+      layout_properties: {width: 357.8359375}
+    - name: load_msgs_btn
+      properties: {text: load messages, role: primary-color, align: right}
+      type: Button
+      layout_properties: {}
+  - name: msg_inbox_repeater
+    properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'PMDPGR,KYJAUN'}
 is_package: true

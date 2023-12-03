@@ -15,6 +15,7 @@ class ControlPanel(ControlPanelTemplate):
     self.select_role_dropdown.items = anvil.server.call('get_roles_dropdown')
     self.select_role_dropdown.selected_value = '(Select Role)'
     self.assign_new_role_btn.enabled = False
+    self.admin_passcode_input.text = anvil.server.call('get_admin_passcode')
 
     # Any code you write here will run before the form opens.
 
@@ -78,3 +79,33 @@ class ControlPanel(ControlPanelTemplate):
                        style='success', 
                        timeout=5)
       n.show()
+
+######## Set Admin Passcode Logic (Including Events) #########
+  def set_admin_pass_btn_click(self, **event_args):
+    if not self.admin_passcode_input.text:
+      n = Notification("You must type something in the passcode area first!", 
+                       style='warning', timeout=1)
+      n.show()
+    else:
+      anvil.server.call('set_admin_passcode', passcode)
+      n = Notification("Passcode updated!", 
+                       style='success', timeout=2)
+      n.show()
+
+########## set bin mode logic (including events) #########
+  def setup_bin_mode_dropdown(self):
+    dropdown_items = [('Select', 'Select'), ('Auto', 'Auto')]
+    self.bin_mode_dropdown.items = dropdown_items
+    self.bin_mode_dropdown.selected_value = anvil.server.call('get_bin_stock_mode')
+
+  def bin_stock_submit_btn_click(self, **event_args):
+    confirm = anvil.alert("Change Warehouse Stock Mode?",
+                          title="Confirm - Set Warehouse Stock Mode", 
+                          buttons=['SET MODE', 'CANCEL'], large=True)
+    if confirm == 'SET MODE':
+      mode = self.bin_mode_dropdown.selected_value
+      anvil.server.call('set_bin_stock_mode', mode)
+      n = Notification("Bin Stock Mode updated!", 
+                       style='success', timeout=2)
+      n.show()
+

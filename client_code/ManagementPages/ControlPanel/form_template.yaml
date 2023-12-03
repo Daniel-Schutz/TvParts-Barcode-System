@@ -106,6 +106,7 @@ components:
       properties: {text: set passcode, role: primary-color, align: center}
       type: Button
       layout_properties: {grid_position: 'UVRKFD,BGKQMY'}
+      event_bindings: {click: set_admin_pass_btn_click}
   - name: spacer_1_copy_copy
     properties: {height: 5.796875}
     type: Spacer
@@ -116,9 +117,8 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'WWDARZ,OLYCIL'}
     components:
-    - name: user_role_label_copy_2_copy_copy
-      properties: {text: 'Require Bin Verification?', align: center, bold: false,
-        font_size: 19}
+    - name: bin_verify_header
+      properties: {text: Select Bin Stock Mode, align: center, bold: false, font_size: 19}
       type: Label
       layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
     - name: flow_panel_2_copy
@@ -130,11 +130,14 @@ components:
         properties: {text: 'Select One:'}
         type: Label
         layout_properties: {}
-      - name: bin_verify_dropdown
-        properties: {}
+      - name: bin_mode_dropdown
+        properties: {tooltip: 'If ''Select'', warehouse must choose the bin they are
+            storing in for every part they store. This is slower, but allows for OS
+            selection.   If ''Auto'', system assumes stocking in primary bin. This
+            is faster, but movement of items to OS bins must be handled manually.'}
         type: DropDown
         layout_properties: {width: 213.7813125}
-      - name: bin_verify_btn
+      - name: bin_stock_submit_btn
         properties: {text: submit, role: primary-color}
         type: Button
         layout_properties: {}

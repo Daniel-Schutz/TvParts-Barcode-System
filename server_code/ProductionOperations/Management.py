@@ -304,3 +304,26 @@ def clear_all_orders_fulfillments_bk():
 @anvil.server.callable
 def clear_all_orders_fulfillments():
   anvil.server.launch_background_task('clear_all_orders_fulfillments_bk')
+
+## Set Admin Pass Logic
+@anvil.server.callable
+def get_admin_passcode():
+  settings_row = app_tables.management_settings.get(setting_title='Admin Passcode')
+  return settings_row['text_response']
+
+@anvil.server.callable
+def set_admin_passcode(passcode):
+  settings_row = app_tables.management_settings.get(setting_title='Admin Passcode')
+  settings_row.update(text_response=passcode)
+
+## Bin Mode Logic
+@anvil.server.callable
+def get_bin_stock_mode():
+  settings_row = app_tables.management_settings.get(setting_title='Bin Stock Mode')
+  return settings_row['text_response']  
+
+@anvil.server.callable
+def set_bin_stock_mode(mode):
+  settings_row = app_tables.management_settings.get(setting_title='Bin Stock Mode')
+  settings_row.update(text_response=mode) 
+  
