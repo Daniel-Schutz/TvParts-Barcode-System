@@ -51,7 +51,7 @@ components:
         properties: {}
         type: RichText
     - name: flow_panel_1_copy
-      properties: {}
+      properties: {align: center}
       type: FlowPanel
       layout_properties: {grid_position: 'CHZTPF,FZVFFS'}
       components:
@@ -116,10 +116,10 @@ components:
       - name: filt_conditon_2_panel
         properties: {}
         type: FlowPanel
-        layout_properties: {grid_position: 'YMYCCE,CFXZSL'}
+        layout_properties: {grid_position: 'DMGKZW,PVVDJB'}
         components:
-        - name: condition_1_col_label_copy
-          properties: {text: 'Condition 1:'}
+        - name: condition_2_col_label
+          properties: {text: 'Condition 2:'}
           type: Label
           layout_properties: {}
         - name: filt_col_dd_2
@@ -137,6 +137,32 @@ components:
           properties: {}
           type: TextBox
         - name: query_2_date_input
+          properties: {}
+          type: DatePicker
+      - name: filt_conditon_2_panel_copy
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'FQKTAS,ZZVIVH'}
+        components:
+        - name: condition_3_col_label
+          properties: {text: 'Condition 2:'}
+          type: Label
+          layout_properties: {}
+        - name: filt_col_dd_3
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 192.07775}
+        - name: filt_3_dtype_out
+          properties: {}
+          type: RichText
+        - name: query3_dd_copy
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 127.812625}
+        - name: query_2_text_input_copy
+          properties: {}
+          type: TextBox
+        - name: query_2_date_input_copy
           properties: {}
           type: DatePicker
 is_package: true
