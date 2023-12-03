@@ -1,18 +1,19 @@
 container: {type: ColumnPanel}
 components:
 - name: card_1
-  properties: {role: card}
+  properties: {role: card, background: '#ffcccc'}
   type: ColumnPanel
-  layout_properties: {grid_position: 'KHMUXT,KNEKGR'}
+  layout_properties: {grid_position: 'KHMUXT,KNEKGR', full_width_row: true}
   components:
   - name: headline_1
-    properties: {role: headline, text: Edit Datatables, align: center}
+    properties: {role: headline, text: Edit Backend Datatables, align: center}
     type: Label
     layout_properties: {grid_position: 'TRCVGF,TODSFD'}
   - name: rich_text_1
-    properties: {align: center, content: "This is an advanced menu and can leave the\
-        \ system in an ususable state if used incorrectly. \n\nPlease proceed with\
-        \ caution."}
+    properties: {align: center, content: "WARNING: This is an advanced menu and can\
+        \ leave the system in an ususable state if used incorrectly. \n\nTake extra\
+        \ care when editing the following datatables: tables, table_section, openorders,\
+        \ openfulfillments.\n\nPlease proceed with caution."}
     type: RichText
     layout_properties: {grid_position: 'ZZKBQM,QRBYDA'}
   - name: reset_button
@@ -20,9 +21,9 @@ components:
     type: Button
     layout_properties: {grid_position: 'CEAVSW,VHLJOC'}
   - name: card_2
-    properties: {role: card}
+    properties: {role: card, background: '#d1fffe'}
     type: ColumnPanel
-    layout_properties: {grid_position: 'XFCYVG,IZIFKR', row_background: '#d6fffe'}
+    layout_properties: {grid_position: 'XFCYVG,IZIFKR', row_background: ''}
     components:
     - name: flow_panel_1
       properties: {}
@@ -33,4 +34,82 @@ components:
         properties: {text: 'Select Table:'}
         type: Label
         layout_properties: {}
+      - name: select_table_dd
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 255.65625}
+    - name: flow_panel_1_copy_2
+      properties: {align: right}
+      type: FlowPanel
+      layout_properties: {grid_position: 'LUXTOX,MTRUIC'}
+      components:
+      - name: table_label_copy_2
+        properties: {text: 'No. Results:'}
+        type: Label
+        layout_properties: {}
+      - name: no_results_output
+        properties: {}
+        type: RichText
+    - name: flow_panel_1_copy
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'CHZTPF,FZVFFS'}
+      components:
+      - name: column_label
+        properties: {text: 'Column to Modify:'}
+        type: Label
+        layout_properties: {}
+      - name: select_table_dd_copy
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 245.36303125}
+      - name: column_datatype
+        properties: {}
+        type: RichText
+    - name: card_3
+      properties: {role: card, background: '#faffb8'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'HIOXXG,LUAAEU'}
+      components:
+      - name: flow_panel_2
+        properties: {align: center}
+        type: FlowPanel
+        layout_properties: {grid_position: 'JGEPXN,WMDOYZ'}
+        components:
+        - name: filters_header
+          properties: {role: headline, align: center, text: Filter Conditions, font_size: 20,
+            underline: false, tooltip: 'All filter conditions are "AND" selectors.
+              To achieve "OR" selection, simply run the update for each condition
+              in the OR statement.'}
+          type: Label
+      - name: add_condition_btn
+        properties: {text: primary_color_1, role: primary-color}
+        type: Button
+        layout_properties: {grid_position: 'UKTYXI,QUBGKH'}
+      - name: filt_conditon_1_panel
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'GKWLNB,SESVRW'}
+        components:
+        - name: condition_1_col_label
+          properties: {text: 'Condition 1:'}
+          type: Label
+          layout_properties: {}
+        - name: filt_col_dd_1
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 192.07775}
+        - name: filt_1_dtype_out
+          properties: {}
+          type: RichText
+        - name: query_dd
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 127.812625}
+        - name: query_1_text_input
+          properties: {}
+          type: TextBox
+        - name: query_1_date_input
+          properties: {}
+          type: DatePicker
 is_package: true
