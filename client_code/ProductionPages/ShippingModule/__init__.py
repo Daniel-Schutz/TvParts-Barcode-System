@@ -10,12 +10,12 @@ import time
 import json
 
 class ShippingModule(ShippingModuleTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.fulfillments_repeater.set_event_handler('x-ship-needs-attention', self.needs_attention)
-    self.current_user = anvil.server.call('get_user_full_name')
-    self.current_role = anvil.server.call('get_user_role')
+    self.current_user = current_user
+    self.current_role = current_role
     self.current_table = anvil.server.call('get_current_table', self.current_user)
     self.current_order = None
     self.current_fulfillments = None

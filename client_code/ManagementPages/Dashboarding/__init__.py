@@ -7,8 +7,10 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 class Dashboarding(DashboardingTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.current_user = current_user
+    self.current_role = current_role
 
     # Any code you write here will run before the form opens.

@@ -19,11 +19,11 @@ import string
 import uuid
 
 class IdModule(IdModuleTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.current_user = anvil.server.call('get_user_full_name')
-    self.current_role = anvil.server.call('get_user_role')
+    self.current_user = current_user
+    self.current_role = current_role
     self.make_dropdown.items = anvil.server.call('get_make_dropdown')
     self.year_dropdown.items = anvil.server.call('get_year_dropdown')
     self.size_dropdown.items = anvil.server.call('get_size_dropdown')

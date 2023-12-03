@@ -141,4 +141,19 @@ components:
         properties: {text: submit, role: primary-color}
         type: Button
         layout_properties: {}
+  - name: spacer_1_copy_copy_copy
+    properties: {height: 8.62109375}
+    type: Spacer
+    layout_properties: {grid_position: 'LMHNLQ,EEXEUH', row_background: 'theme:Secondary
+        700'}
+  - name: headline_1
+    properties: {role: headline, text: 'Need More Control?'}
+    type: Label
+    layout_properties: {grid_position: 'YCQONH,RQWZNO'}
+  - name: edit_dt_btn
+    properties: {text: edit datatables (advanced), role: primary-color, font_size: 24,
+      icon: 'fa:database', background: '#ff0000', tooltip: 'Are you sure this is the
+        only way? Consider talking to Issac before doing this.'}
+    type: Button
+    layout_properties: {grid_position: 'YCQONH,RUTEYC'}
 is_package: true

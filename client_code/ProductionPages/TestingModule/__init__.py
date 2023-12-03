@@ -9,13 +9,13 @@ from anvil.tables import app_tables
 import json
 
 class TestingModule(TestingModuleTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     #self.fulfillments_repeater.set_event_handler('x-change-focus-to-next', self.change_focus)
     #self.fulfillments_repeater.set_event_handler('x-ts-needs-attention', self.move_to_holding)
-    self.current_user = anvil.server.call('get_user_full_name')
-    self.current_role = anvil.server.call('get_user_role')
+    self.current_user = current_user
+    self.current_role = current_role
     self.current_table = anvil.server.call('get_current_table', self.current_user)
     self.current_order = None
     self.current_fulfillments = None

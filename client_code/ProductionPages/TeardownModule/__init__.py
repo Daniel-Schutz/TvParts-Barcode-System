@@ -18,10 +18,12 @@ import time
 import json
 
 class TeardownModule(TeardownModuleTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     suppliers = self.mock_get_suppliers()
+    self.current_user = current_user
+    self.current_role = current_role
     self.supplier_dropdown.items = suppliers
     self.supplier_dropdown.selected_value = "Unknown Supplier"
 

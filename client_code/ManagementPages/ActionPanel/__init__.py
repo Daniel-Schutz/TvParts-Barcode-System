@@ -9,11 +9,11 @@ from anvil.tables import app_tables
 from ...CommonComponents.SelectBinModal import SelectBinModal
 
 class ActionPanel(ActionPanelTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.current_user = anvil.server.call('get_user_full_name')
-    self.current_role = anvil.server.call('get_user_role')
+    self.current_user = current_user
+    self.current_role = current_role
     self.purgatory_bins = ''
     self.purgatory_items = ''
 
@@ -89,7 +89,7 @@ class ActionPanel(ActionPanelTemplate):
     self.shipping_holding_btn.background = "#3FA498"
     all_na_orders = anvil.server.call('get_all_needs_attention_orders')
     
-    if len(all_na_orders) == 0:
+    if not all_na_orders:
       self.no_pending_items_panel.visible = True
       self.na_orders_repeater.visible = False
     else:
@@ -106,7 +106,7 @@ class ActionPanel(ActionPanelTemplate):
                                       "Warehouse Hold", 
                                       "Warehouse")
     
-    if len(all_na_orders) == 0:
+    if not all_na_orders:
       self.no_pending_items_panel.visible = True
       self.na_orders_repeater.visible = False
     else:
@@ -124,7 +124,7 @@ class ActionPanel(ActionPanelTemplate):
                                       "Testing Hold", 
                                       "Testing")
     
-    if len(all_na_orders) == 0:
+    if not all_na_orders:
       self.no_pending_items_panel.visible = True
       self.na_orders_repeater.visible = False
     else:
@@ -142,7 +142,7 @@ class ActionPanel(ActionPanelTemplate):
                                       "Shipping Hold", 
                                       "Shipping")
     
-    if len(all_na_orders) == 0:
+    if not all_na_orders:
       self.no_pending_items_panel.visible = True
       self.na_orders_repeater.visible = False
     else:

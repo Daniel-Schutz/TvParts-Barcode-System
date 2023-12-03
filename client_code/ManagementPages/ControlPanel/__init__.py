@@ -6,10 +6,14 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from ...ProductionPages.EditDatatables import EditDatatables
+
 class ControlPanel(ControlPanelTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.current_user = current_user
+    self.current_role = current_role
     self.select_user_dropdown.items = anvil.server.call('get_users_dropdown')
     self.select_user_dropdown.selected_value = '(Select User)'
     self.select_role_dropdown.items = anvil.server.call('get_full_roles_dropdown')
@@ -109,3 +113,12 @@ class ControlPanel(ControlPanelTemplate):
                        style='success', timeout=2)
       n.show()
 
+####### Edit Datatables Flow #####################
+  def edit_datatables_btn_click(self, **event_args):
+    confirm = anvil.alert("""The Edit Datatables is an advanced menu without input validation.
+    Misuse of this menu may cause the system to become unusable, so be sure you know what you're
+    doing. Ok to proceed?""", 
+                          title='Edit Datatables - Are you Sure?', 
+                          large=True, buttons=['EDIT DATATABLES', 'CANCEL'])
+    if confirm == 'EDIT DATATABLES':
+      anvil.alert(EditDatatables()) #all use of the modal comes from its own logic

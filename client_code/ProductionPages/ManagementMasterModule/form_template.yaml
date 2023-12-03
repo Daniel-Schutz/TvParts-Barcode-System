@@ -4,11 +4,11 @@ components:
   properties: {role: headline, text: Management Operations, align: center, icon: 'fa:star',
     background: '#00ff00'}
   type: Label
-  layout_properties: {grid_position: 'MXVOSE,FXMEMJ'}
+  layout_properties: {grid_position: 'MXVOSE,FXMEMJ', full_width_row: true}
 - name: card_1
-  properties: {role: card}
+  properties: {role: null}
   type: ColumnPanel
-  layout_properties: {grid_position: 'GMSGCV,VUSIVZ'}
+  layout_properties: {grid_position: 'GMSGCV,VUSIVZ', full_width_row: true}
   components:
   - name: flow_panel_1
     properties: {align: center}
@@ -38,5 +38,5 @@ components:
 - name: main_content_panel
   properties: {}
   type: ColumnPanel
-  layout_properties: {grid_position: 'TLZPGL,DOUYYV'}
+  layout_properties: {grid_position: 'TLZPGL,DOUYYV', full_width_row: true}
 is_package: true

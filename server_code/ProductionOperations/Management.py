@@ -21,7 +21,7 @@ def get_needs_fixed_items():
 
 @anvil.server.callable
 def get_id_holding_count():
-  setting_row = app_tables.management_settings.get(setting_title='ID Holding Count')
+  setting_row = app_tables.management_settings.get(setting_title='Id Holding Count')
   return setting_row['num_response']
 
 @anvil.server.callable
@@ -195,7 +195,8 @@ def get_full_roles_dropdown():
   default_val = ('(Select Role)', '(Select Role)')
   all_role_rows = app_tables.roles.search()
   role_tups = [(row['role'], row['role']) for row in all_role_rows]
-  return role_tups.append(default_val)
+  role_tups.append(default_val)
+  return role_tups
 
 @anvil.server.callable
 def get_users_dropdown():
@@ -204,7 +205,8 @@ def get_users_dropdown():
   default_val = ('(Select User)', '(Select User)')
   all_user_rows = app_tables.users.search()
   user_tups = [(get_full_name(row), row['email']) for row in all_user_rows]
-  return user_tups.append(default_val)
+  user_tups.append(default_val)
+  return user_tups
 
 @anvil.server.callable
 def set_user_to_role(user_email, role): #email is what comes back from the selector. see above

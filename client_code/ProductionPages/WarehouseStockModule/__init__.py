@@ -10,17 +10,17 @@ from ...CommonComponents import CommonFunctions as cf
 from datetime import datetime
 
 class WarehouseStockModule(WarehouseStockModuleTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.user = anvil.server.call('get_user_full_name')
+    self.current_user = current_user
+    self.current_role = current_role
     self.mode = 'verify'
     self.verify_part_btn.enabled = False
     self.place_part_card.visible=False
-    admin_settings = anvil.server.call('get_admin_settings')
 
     #If disabled, assumes that items are placed in their primary bin location upon placement scan
-    self.require_bin_to_place = admin_settings['require_bin_verify']
+    self.require_bin_to_place = False #come back and edit this when looking at full functionality
     self.item_id = None #setting as property not saved on screen
     
     self.disable_verify_buttons()
@@ -103,7 +103,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
   def mis_id_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     #This effectively renders this barcode dead. A new code will need to be printed for this item
-    current_user = self.user
+    current_user = self.current_user
     current_time = datetime.now()
     item_status = "Misidentified"
     update_lifecycle_status = anvil.server.call('update_item', 

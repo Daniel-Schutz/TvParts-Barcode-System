@@ -10,7 +10,7 @@ from ...CommonComponents import CommonFunctions as cf
 from datetime import datetime
 
 class WarehousePickModule(WarehousePickModuleTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # for component in self.fulfillment_repeating_panel.get_components():
@@ -18,8 +18,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     # self.set_event_handler('x-order-picked', self.finish_order)
     self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
     self.fulfillment_repeating_panel.set_event_handler('x-wh-needs-attention', self.move_to_holding)
-    self.current_user = anvil.server.call('get_user_full_name')
-    self.current_role = anvil.server.call('get_user_role')
+    self.current_user = current_user
+    self.current_role = current_role
     self.current_table = anvil.server.call('get_current_table', self.current_user)
     self.current_order = None
     self.current_fulfillments = None

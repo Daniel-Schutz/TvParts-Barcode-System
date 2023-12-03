@@ -14,8 +14,10 @@ from ...ProductionPages.TestingModule import TestingModule
 from ...ProductionPages.ShippingModule import ShippingModule
 
 class RoleNavigation(RoleNavigationTemplate):
-  def __init__(self, **properties):
+  def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
+    self.current_user = current_user
+    self.current_role = current_role
     self.init_components(**properties)
     self.init_messages()
     self.selected_color = '#236F65'
@@ -25,7 +27,10 @@ class RoleNavigation(RoleNavigationTemplate):
 
 #### Change views (evets and logic) ########################
   def teardown_view(self):
-    self.role_page_view_panel.add_component(TeardownModule())
+    self.role_page_view_panel.clear()
+    self.role_page_view_panel.add_component(TeardownModule(current_user=self.current_user, 
+                                                           current_role=self.current_role), 
+                                            full_width_row=True)
     self.teardown_role_btn.background = self.selected_color
     self.id_role_btn.background = self.open_color
     self.warehouse_pick_role_btn.background = self.open_color
@@ -37,7 +42,10 @@ class RoleNavigation(RoleNavigationTemplate):
     self.messages_card.visible = False
 
   def id_view(self):
-    self.role_page_view_panel.add_component(IdModule())
+    self.role_page_view_panel.clear()
+    self.role_page_view_panel.add_component(IdModule(current_user=self.current_user, 
+                                                           current_role=self.current_role), 
+                                            full_width_row=True)
     self.teardown_role_btn.background = self.open_color
     self.id_role_btn.background = self.selected_color
     self.warehouse_pick_role_btn.background = self.open_color
@@ -49,7 +57,10 @@ class RoleNavigation(RoleNavigationTemplate):
     self.messages_card.visible = False
 
   def wh_pick_view(self):
-    self.role_page_view_panel.add_component(WarehousePickModule())
+    self.role_page_view_panel.clear()
+    self.role_page_view_panel.add_component(WarehousePickModule(current_user=self.current_user, 
+                                                           current_role=self.current_role), 
+                                            full_width_row=True)
     self.teardown_role_btn.background = self.open_color
     self.id_role_btn.background = self.open_color
     self.warehouse_pick_role_btn.background = self.selected_color
@@ -61,7 +72,10 @@ class RoleNavigation(RoleNavigationTemplate):
     self.messages_card.visible = False
 
   def wh_stock_view(self):
-    self.role_page_view_panel.add_component(WarehouseStockModule())
+    self.role_page_view_panel.clear()
+    self.role_page_view_panel.add_component(WarehouseStockModule(current_user=self.current_user, 
+                                                           current_role=self.current_role), 
+                                            full_width_row=True)
     self.teardown_role_btn.background = self.open_color
     self.id_role_btn.background = self.open_color
     self.warehouse_pick_role_btn.background = self.open_color
@@ -73,7 +87,10 @@ class RoleNavigation(RoleNavigationTemplate):
     self.messages_card.visible = False
 
   def testing_view(self):
-    self.role_page_view_panel.add_component(TestingModule())
+    self.role_page_view_panel.clear()
+    self.role_page_view_panel.add_component(TestingModule(current_user=self.current_user, 
+                                                           current_role=self.current_role), 
+                                            full_width_row=True)
     self.teardown_role_btn.background = self.open_color
     self.id_role_btn.background = self.open_color
     self.warehouse_pick_role_btn.background = self.open_color
@@ -85,7 +102,10 @@ class RoleNavigation(RoleNavigationTemplate):
     self.messages_card.visible = False   
 
   def shipping_view(self):
-    self.role_page_view_panel.add_component(ShippingModule())
+    self.role_page_view_panel.clear()
+    self.role_page_view_panel.add_component(ShippingModule(current_user=self.current_user, 
+                                                           current_role=self.current_role), 
+                                            full_width_row=True)
     self.teardown_role_btn.background = self.open_color
     self.id_role_btn.background = self.open_color
     self.warehouse_pick_role_btn.background = self.open_color
