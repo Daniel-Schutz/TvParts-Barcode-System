@@ -10,5 +10,71 @@ class ControlPanel(ControlPanelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.select_user_dropdown.items = anvil.server.call('get_users_dropdown')
+    self.select_user_dropdown.selected_value = '(Select User)'
+    self.select_role_dropdown.items = anvil.server.call('get_roles_dropdown')
+    self.select_role_dropdown.selected_value = '(Select Role)'
+    self.assign_new_role_btn.enabled = False
 
     # Any code you write here will run before the form opens.
+
+########### Change User Role Logic (Including Events) #############
+  def on_assigned_user_change(self, **event_args):
+    if self.select_user_dropdown.selected_value == '(Select User)':
+      return None
+    else:
+      if self.select_role_dropdown.selected_value == '(Select Role)':
+        return None
+      else:
+        self.assign_new_role_btn.enabled = True
+
+  def on_assigned_role_change(self, **event_args):
+    if self.select_role_dropdown.selected_value == '(Select Role)':
+      return None
+    else:
+      if self.select_user_dropdown.selected_value == '(Select User)':
+        return None
+      else:
+        self.assign_new_role_btn.enabled = True
+
+  def assign_role_btn_click(self, **event_args):
+    role = self.select_role_dropdown.selected_value
+    user = self.select_user_dropdown.selected_value
+    anvil.server.call('set_user_to_role', 
+                      user, 
+                      role)
+    n = Notification(f"New role {role} assigned to {user}!", 
+                     style='success', 
+                     title='New Role Assigned')
+    #Reset menu
+    self.select_role_dropdown.selected_value = '(Select Role)'
+    self.select_user_dropdown.selected_value = '(Select User)'
+    self.assign_new_role_btn.enabled = False
+
+########### Manage Open Order Logic (Including Events) ###############
+  def refresh_open_orders_btn_click(self, **event_args):
+    confirm = anvil.alert("Refreshing all open orders will grab all open orders within the last 7 days. Ok to Proceed?",
+                          title="Refresh Open Orders (Prepare Pick Batch)", 
+                          buttons=['PULL NEW ORDERS', 'CANCEL'], large=True)
+    if confirm == 'PULL NEW ORDERS':
+      anvil.server.call('refresh_orders_and_fulfillment')
+      n = Notification("""Order processing has started in the background. Please allow up to 5 minutes for the
+      system to finish batch updating.""", 
+                       title="Pulling New Orders", 
+                       style='success', 
+                       timeout=5)
+      n.show()
+
+  def clear_open_order_btn_click(self, **event_args):
+    confirm = anvil.alert("""Clearing all Orders and Fulfillments will also reset all Tables, Trays, and Holding Areas.
+    There MUST be no orders processing, and needs attention area MUST be empty to continue. 
+    Orders remaining in these areas may leave the system in an unrecoverable state.\n\nPLEASE PROCEED WITH CAUTION!""",
+                          title="Clear all orders?", 
+                          buttons=['CLEAR SYSTEM ORDERS', 'CANCEL'], large=True)
+    if confirm == 'CLEAR SYSTEM ORDERS':
+      anvil.server.call('clear_all_orders_fulfillments')
+      n = Notification("""Clearing all orders in the background. Please allow up to 30 seconds to complete.""", 
+                       title="Clearing Orders", 
+                       style='success', 
+                       timeout=5)
+      n.show()

@@ -7,7 +7,10 @@ from anvil.tables import app_tables
 import anvil.server
 
 from datetime import datetime
+import pandas as pd
 
+##############################################################
+######################### Action Panel #######################
 @anvil.server.callable
 def get_needs_fixed_items():
   search_results = app_tables.items.search(status='Needs Fixed')
@@ -180,3 +183,124 @@ def purg_toss_all_items(user, role, primary_bin):
   items_to_toss = app_tables.items.search(sku=sku, status='Purgatory')
   for item_row in items_to_toss:
     anvil.server.call('toss_item', user, item_row, item_row['item_id'])
+
+########################################################
+########################################################
+
+########################################################
+########## Control Panel (Settings) ####################
+
+@anvil.server.callable
+def get_roles_dropdown():
+  default_val = ('(Select Role)', '(Select Role)')
+  all_role_rows = app_tables.roles.search()
+  role_tups = [(row['role'], row['role']) for row in all_role_rows]
+  return role_tups.append(default_val)
+
+@anvil.server.callable
+def get_users_dropdown():
+  def get_full_name(row):
+    return row['first_name'] + " " + row['last_name']
+  default_val = ('(Select User)', '(Select User)')
+  all_user_rows = app_tables.users.search()
+  user_tups = [(get_full_name(row), row['email']) for row in all_user_rows]
+  return user_tups.append(default_val)
+
+@anvil.server.callable
+def set_user_to_role(user_email, role): #email is what comes back from the selector. see above
+  user_row = app_tables.users.get(email=user_email)
+  user_row.update(role=role)
+
+##### Bulk Order/Fulfillment Logic
+def build_upload_records_bk(records, table_name):
+  records = section_records
+  batch_size = 50  # Adjust batch size as needed
+  for start in range(0, len(records), batch_size):
+    end = start + batch_size
+    batch = records[start:end]
+    anvil.server.call('import_full_table_to_anvil', table_name , batch)
+    print(f"{end} records of {len(records)} uploaded.")
+
+def get_open_orders_from_shopify():
+  def str_to_program_time(datetime_str):
+      no_tz_str = '-'.join(datetime_str.split("-")[:3])
+      return datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
+  open_orders = anvil.server.call('get_open_orders_from_shopify')
+  order_records = []
+  fulfillment_records = []
+  for order in open_orders:
+    this_order_dict = {}
+    this_order_dict['order_no'] = order['order_number'] #make order number a string here when rebuilding DBs
+    this_order_dict['created'] = order['created_at']
+    this_order_dict['status'] = 'New'
+    this_order_dict['customer_name'] = order['shipping_address']['name'] if order['shipping_address'] else '(Not Provided)'
+    this_order_dict['email'] = order['contact_email']
+    this_order_dict['phone'] = order['billing_address']['phone']
+    try:
+      this_order_dict['address'] = ' '.join([order['shipping_address']['address1'], 
+                                            order['shipping_address']['city'],
+                                            order['shipping_address']['province_code'],
+                                            order['shipping_address']['zip']])
+    except:
+      this_order_dict['address'] = '(Not Provided)'
+    this_order_dict['table_no'] = '(Not Set)'
+    this_order_dict['section'] = '(Not Set)'
+    this_order_dict['total_price'] = float(order['current_total_price'])
+    total_item_count = 0
+    for line_item in order['line_items']:
+      total_item_count += line_item['quantity']
+    this_order_dict['total_items'] = total_item_count
+    this_order_dict['reserved_status'] = 'Open'
+    this_order_dict['reserved_by'] = ''
+    order_records.append(this_order_dict)
+    for line_item in order['line_items']:
+      for i in range(line_item['quantity']):
+        this_fulfillment_dict = {}
+        this_fulfillment_dict['fulfillment_id'] = str(uuid.uuid4())
+        this_fulfillment_dict['order_no'] = order['order_number']
+        this_fulfillment_dict['status'] = 'New'
+        this_fulfillment_dict['product_name'] = line_item['name']
+        this_fulfillment_dict['sku'] = line_item['sku']
+        this_fulfillment_dict['item_id'] = ''
+        fulfillment_records.append(this_fulfillment_dict)
+  orders_df = pd.DataFrame(order_records)
+  fulfillments_df = pd.DataFrame(fulfillment_records)
+  orders_df['created'] = orders_df['created'].apply(str_to_program_time)
+  return orders_df, fulfillments_df
+
+def refresh_pick_batch(orders_df, fulfillments_df):  
+  #Step 1: Remove all orders/fulfillments that have been packed
+  for row in app_tables.openorders.search(status='Packed'):
+    row.delete()
+  for row in app_tables.openfulfillments.search(status='Packed'):
+    row.delete()
+  #Step 2: Remove any Orders/fulfillments already in Anvil
+  existing_orders = [row['order_no'] for row in app_tables.openorders.search()]
+  added_orders_df = orders_df[~orders_df['order_no'].isin(existing_orders)]
+  added_fulfillments_df = fulfillments_df[~fulfillments_df['order_no'].isin(existing_orders)]
+  #Step 3: Add remaining Orders/fulfillments to Anvil
+  added_order_records = added_orders_df.to_records()
+  added_fulfillment_records = added_fulfillments_df.to_records()
+  build_upload_records_bk(added_order_records, 'openorders')
+  build_upload_records_bk(added_fulfillment_records, 'openfulfillments')
+
+@anvil.server.background_task
+def refresh_orders_and_fulfillments_bk():
+  orders_df, fulfillments_df = get_open_orders_from_shopify()
+  refresh_pick_batch(orders_df, fulfillments_df)
+
+@anvil.server.callable
+def refresh_orders_and_fulfillment():
+  anvil.server.launch_background_task('refresh_orders_and_fulfillments_bk')
+
+#easy delete module
+@anvil.server.background_task
+def clear_all_orders_fulfillments_bk():
+  for row in app_tables.openorders.search():
+    row.delete()
+  for row in app_tables.openfulfillments.search():
+    row.delete()
+
+@anvil.server.callable
+def clear_all_orders_fulfillments():
+  anvil.server.launch_background_task('clear_all_orders_fulfillments_bk')
