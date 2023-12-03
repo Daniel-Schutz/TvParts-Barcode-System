@@ -159,10 +159,10 @@ components:
           properties: {}
           type: DropDown
           layout_properties: {width: 127.812625}
-        - name: query_2_text_input_copy
+        - name: query_3_text_input
           properties: {}
           type: TextBox
-        - name: query_2_date_input_copy
+        - name: query_3_date_input
           properties: {}
           type: DatePicker
 is_package: true
