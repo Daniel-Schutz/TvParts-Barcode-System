@@ -83,7 +83,8 @@ components:
               in the OR statement.'}
           type: Label
       - name: add_condition_btn
-        properties: {text: primary_color_1, role: primary-color}
+        properties: {text: add condition, role: primary-color, tooltip: 'You can only
+            add up to 3 conditions. If you need more, contact Autonomi.'}
         type: Button
         layout_properties: {grid_position: 'UKTYXI,QUBGKH'}
       - name: filt_conditon_1_panel
@@ -110,6 +111,32 @@ components:
           properties: {}
           type: TextBox
         - name: query_1_date_input
+          properties: {}
+          type: DatePicker
+      - name: filt_conditon_2_panel
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'YMYCCE,CFXZSL'}
+        components:
+        - name: condition_1_col_label_copy
+          properties: {text: 'Condition 1:'}
+          type: Label
+          layout_properties: {}
+        - name: filt_col_dd_2
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 192.07775}
+        - name: filt_2_dtype_out
+          properties: {}
+          type: RichText
+        - name: query2_dd
+          properties: {}
+          type: DropDown
+          layout_properties: {width: 127.812625}
+        - name: query_2_text_input
+          properties: {}
+          type: TextBox
+        - name: query_2_date_input
           properties: {}
           type: DatePicker
 is_package: true
