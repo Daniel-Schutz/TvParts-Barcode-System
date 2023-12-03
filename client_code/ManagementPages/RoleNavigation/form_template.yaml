@@ -18,35 +18,42 @@ components:
       properties: {text: Teardown, role: primary-color, background: ''}
       type: Button
       layout_properties: {}
+      event_bindings: {click: teardown_btn_click}
     - name: id_role_btn
       properties: {text: Identification, role: primary-color}
       type: Button
+      event_bindings: {click: id_btn_click}
     - name: warehouse_pick_role_btn
       properties: {text: warehouse Pick, role: primary-color}
       type: Button
       layout_properties: {}
+      event_bindings: {click: wh_pick_btn_click}
     - name: warehouse_stock_role_btn
       properties: {text: warehouse stock, role: primary-color}
       type: Button
       layout_properties: {}
+      event_bindings: {click: wh_stock_btn_click}
     - name: testing_role_btn
       properties: {text: testing, role: primary-color}
       type: Button
+      event_bindings: {click: testing_btn_click}
     - name: shipping_role_btn
       properties: {text: shipping, role: primary-color}
       type: Button
+      event_bindings: {click: shipping_btn_click}
     - name: all_inboxes_btn
       properties: {text: all inboxes, role: primary-color}
       type: Button
-- name: role_page_view_panel
-  properties: {}
-  type: ColumnPanel
-  layout_properties: {grid_position: 'ZYNAQJ,UVCXVI'}
+      event_bindings: {click: all_inboxes_btn_click}
 - name: spacer_1
   properties: {height: 5.796875}
   type: Spacer
   layout_properties: {grid_position: 'HBOTBU,CXLMJW', row_background: 'theme:Secondary
       700'}
+- name: role_page_view_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'YHPGKY,FRKIMV', full_width_row: true}
 - name: messages_card
   properties: {role: card}
   type: ColumnPanel
@@ -70,12 +77,23 @@ components:
       properties: {}
       type: DropDown
       layout_properties: {width: 357.8359375}
+      event_bindings: {change: select_role_dropdown_changed}
     - name: load_msgs_btn
       properties: {text: load messages, role: primary-color, align: right}
       type: Button
       layout_properties: {}
   - name: msg_inbox_repeater
-    properties: {item_template: ManagementPages.RoleNavigation.ItemTemplate9}
+    properties: {item_template: CommonComponents.RecieveMsgTemplate}
     type: RepeatingPanel
     layout_properties: {grid_position: 'PMDPGR,KYJAUN'}
+  - name: inbox_clear_card
+    properties: {role: card, background: '#80ff80'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'MFXMCJ,HETRGT'}
+    components:
+    - name: no_messages_msg
+      properties: {role: headline, align: center, text: 'Put f"{role} inbox is clear!"
+          here'}
+      type: Label
+      layout_properties: {grid_position: 'LOWKXY,LJRAHY'}
 is_package: true

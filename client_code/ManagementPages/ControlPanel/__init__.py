@@ -12,7 +12,7 @@ class ControlPanel(ControlPanelTemplate):
     self.init_components(**properties)
     self.select_user_dropdown.items = anvil.server.call('get_users_dropdown')
     self.select_user_dropdown.selected_value = '(Select User)'
-    self.select_role_dropdown.items = anvil.server.call('get_roles_dropdown')
+    self.select_role_dropdown.items = anvil.server.call('get_full_roles_dropdown')
     self.select_role_dropdown.selected_value = '(Select Role)'
     self.assign_new_role_btn.enabled = False
     self.admin_passcode_input.text = anvil.server.call('get_admin_passcode')

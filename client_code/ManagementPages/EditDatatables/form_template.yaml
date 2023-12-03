@@ -1,0 +1,36 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'KHMUXT,KNEKGR'}
+  components:
+  - name: headline_1
+    properties: {role: headline, text: Edit Datatables, align: center}
+    type: Label
+    layout_properties: {grid_position: 'TRCVGF,TODSFD'}
+  - name: rich_text_1
+    properties: {align: center, content: "This is an advanced menu and can leave the\
+        \ system in an ususable state if used incorrectly. \n\nPlease proceed with\
+        \ caution."}
+    type: RichText
+    layout_properties: {grid_position: 'ZZKBQM,QRBYDA'}
+  - name: reset_button
+    properties: {text: reset search, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'CEAVSW,VHLJOC'}
+  - name: card_2
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'XFCYVG,IZIFKR', row_background: '#d6fffe'}
+    components:
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'LUXTOX,FQSSLW'}
+      components:
+      - name: table_label
+        properties: {text: 'Select Table:'}
+        type: Label
+        layout_properties: {}
+is_package: true

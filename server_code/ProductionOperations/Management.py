@@ -191,7 +191,7 @@ def purg_toss_all_items(user, role, primary_bin):
 ########## Control Panel (Settings) ####################
 
 @anvil.server.callable
-def get_roles_dropdown():
+def get_full_roles_dropdown():
   default_val = ('(Select Role)', '(Select Role)')
   all_role_rows = app_tables.roles.search()
   role_tups = [(row['role'], row['role']) for row in all_role_rows]
@@ -326,4 +326,9 @@ def get_bin_stock_mode():
 def set_bin_stock_mode(mode):
   settings_row = app_tables.management_settings.get(setting_title='Bin Stock Mode')
   settings_row.update(text_response=mode) 
+########################################################
+########################################################
+
+########################################################
+########## Role Navigation Panel  ######################
   
