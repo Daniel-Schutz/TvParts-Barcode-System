@@ -217,4 +217,34 @@ components:
     type: Button
     layout_properties: {grid_position: 'TEEDVJ,SYQUUP'}
     event_bindings: {}
+- name: spacer_1
+  properties: {height: 15.953125}
+  type: Spacer
+  layout_properties: {grid_position: 'ZYVABZ,NKWANU', full_width_row: true, row_background: '#000000'}
+- name: card_8
+  properties: {role: card, background: '#f5dfd6'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'IGSMGX,CSJLZW', full_width_row: true}
+  components:
+  - name: flow_panel_8
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'TVLUME,LMNNUY'}
+    components:
+    - name: current_count_label
+      properties: {text: 'Current Holding Area Count:', align: left}
+      type: Label
+    - name: id_hold_count_output
+      properties: {}
+      type: RichText
+  - name: id_holding_label
+    properties: {text: 'Need Help?', align: right}
+    type: Label
+    layout_properties: {grid_position: 'TVLUME,AZVRPD FKNULK,UVONBR'}
+  - name: move_to_holding_btn
+    properties: {text: move item to holding area, role: primary-color, background: '#db0000',
+      align: right}
+    type: Button
+    layout_properties: {grid_position: 'TVLUME,AZVRPD FKNULK,CZPCAQ'}
+    event_bindings: {click: move_item_to_holding_btn_click}
 is_package: true

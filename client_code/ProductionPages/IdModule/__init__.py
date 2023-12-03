@@ -27,6 +27,7 @@ class IdModule(IdModuleTemplate):
     self.make_dropdown.items = anvil.server.call('get_make_dropdown')
     self.year_dropdown.items = anvil.server.call('get_year_dropdown')
     self.size_dropdown.items = anvil.server.call('get_size_dropdown')
+    self.update_holding_area_count()
     self.selected_product = None
 
 
@@ -149,6 +150,24 @@ class IdModule(IdModuleTemplate):
                                                        self.current_role)
 
     self.create_item_btn.enabled = True
-    
-    
 
+
+##### Holding Area Logic (and events) #############
+  def update_holding_area_count(self):
+    hold_area_count = anvil.server.call_s('get_id_holding_count')
+    self.id_hold_count_output.content = hold_area_count
+    
+  def move_item_to_holding_btn_click(self, **event_args):
+    confirm = anvil.alert("Add Item to Holding area? Note that this is only for unlabeled parts",
+                         title="Pre-Id Holding?", large=True,
+                         buttons=["MOVE TO HOLDING", 'CANCEL'])
+    if confirm == 'MOVE TO HOLDING':
+      set_num = int(self.id_hold_count_output.content) + 1
+      anvil.server.call('set_id_holding_count', 
+                        count=set_num)
+      n = Notification(f'Id holding count has been set to {set_num}', 
+                  title='Holding Count Updated!', 
+                  style='success', timeout=2)
+      n.show()
+      self.update_holding_area_count
+      
