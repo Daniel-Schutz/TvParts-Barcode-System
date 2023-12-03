@@ -7,14 +7,94 @@ from anvil.tables import app_tables
 import anvil.server
 
 from datetime import datetime
+import json
 
-# @anvil.server.callable
-# def get_open_tables():
-#   response = app_tables.tables.search(status="Open")
-#   open_tables = [(row['table'], row['table']) for row in response]
-#   open_tables.append(('(Select Table)', '(Select Table)'))
-#   return open_tables
 
+
+############################################################
+########### Warehouse - Stock ##############################
+
+@anvil.server.callable
+def get_primary_bin_from_item_scan(item_scan_str, item_id_delimiter='__'):
+  item_id = json.loads(item_scan_str)
+  sku = item_id.split(item_id_delimiter)[0]
+  prod_row = app_tables.products.get(sku=sku)
+  return prod_row['bin']
+
+@anvil.server.callable
+def update_item_on_binned(user, role, item_id, bin):
+  anvil.server.launch_background_task('update_item_on_binned_bk', user, item_id, bin)
+
+@anvil.server.background_task
+def update_item_on_binned_bk(user, role, item_id, bin):
+  item_row = app_tables.items.get(item_id=item_id)
+  current_time = datetime.now()
+  item_row.update(status='Binned', 
+                  stored_bin=bin, 
+                  binned_by=user, 
+                  binned_on=current_time)
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status='Binned', 
+                                      user_full_name=user, 
+                                      user_role=role)
+
+
+@anvil.server.callable
+def get_other_bins_dd(primary_bin):
+  other_bins_list = anvil.server.call('get_all_bins_from_primary', primary_bin)
+  default_val = ("(Select Bin)", "(Select Bin)")
+  bin_tups = [(bin, bin) for bin in other_bins_list]
+  bin_tups.append(default_val)
+  return bin_tups
+
+@anvil.server.callable
+def add_new_bin_for_item(item_id, new_bin, item_id_delimiter="__"):
+  sku = item_id.split(item_id_delimiter)[0]
+  bin_row = app_tables.bins.get(bin=new_bin)
+  product_row = app_tables.products.get(sku=sku)
+  bin_row.update(sku=sku, bin_status='filled', product_id=product_row['product_id'])
+  old_os_bins = product_row['os_bins']
+  product_row.update(os_bins = old_os_bins + f", {new_bin}")
+
+@anvil.server.callable
+def add_bin_to_purgatory(user, role, bin, item_id, item_id_delimiter="__"):
+  sku = item_id.split(item_id_delimiter)[0]
+  product_row = app_tables.products.get(sku=sku)
+  bin_row = app_tables.bins.get(bin=bin)
+  app_tables.purgatory.add_row(bin=bin, 
+                               cross_refs=product_row['cross_refs'], 
+                               os_bins=product_row['os_bins'], 
+                               product_name=product_row['product_name'], 
+                               purgatory_count=0, 
+                               sku=sku)
+  add_item_to_purgatory(user, role, item_id)
+
+@anvil.server.callable
+def add_item_to_purgatory(user, role, bin, item_id, item_id_delimiter="__"):
+  item_row = app_tables.items.get(item_id=item_id)
+  purg_row = app_tables.purgatory.get(bin=bin)
+  purg_row['purgatory_count'] += 1
+  item_row.update(status='Purgatory')
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status='Purgatory', 
+                                      user_full_name=user, 
+                                      user_role=role)
+
+@anvil.server.callable
+def get_bins_in_purgatory():
+  purg_rows = app_tables.purgatory.search()
+  return[row['bin'] for row in purg_rows]
+
+############################################################
+############################################################
+
+
+
+
+############################################################
+########### Warehouse - Pick ##############################
 
 @anvil.server.callable
 def fetch_new_order(user):
@@ -23,14 +103,6 @@ def fetch_new_order(user):
   claimed_order.update(reserved_status = 'Reserved', reserved_by = user)
   # claimed_order['reserved_by'] = user
   return claimed_order
-
-# @anvil.server.callable
-# def load_current_order(user):
-#   claimed_order = app_tables.openorders.get(reserved_by=user, status='Picking')
-#   return claimed_order
-  
-
-
 
 @anvil.server.callable
 def link_order_to_table_section(user, order, table):
@@ -104,10 +176,14 @@ def link_item_to_fulfillment(fulfillment_id, item_id, user):
   anvil.server.launch_background_task('update_item_with_fulfillment', order_no, item_id, user)
 
 @anvil.server.background_task
-def update_item_with_fulfillment(order_no, item_id, user):
+def update_item_with_fulfillment(order_no, item_id, user, role): #need to add the user and role everywhere this is called
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(order_no=str(order_no), picked_by=user, picked_on=datetime.now(), status='Picked')
-  anvil.server.launch_background_task('add_history_to_item_bk', item_id=item_id, item_status='Picked')
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status='Picked', 
+                                      user_full_name=user, 
+                                      user_role=role)
 
 #Needs attention handling moved to SharedFunctions
 

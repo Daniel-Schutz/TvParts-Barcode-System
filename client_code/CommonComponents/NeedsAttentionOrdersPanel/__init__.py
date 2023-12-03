@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ..NeedsAttentionResolveModal import NeedsAttentionResolveModal
+from ...ManagementPages.AdminPassModal import AdminPassModal
 
 class NeedsAttentionOrdersPanel(NeedsAttentionOrdersPanelTemplate):
   def __init__(self, **properties):
@@ -31,18 +32,21 @@ class NeedsAttentionOrdersPanel(NeedsAttentionOrdersPanelTemplate):
     fulfillments = anvil.server.call('load_current_fulfillments', 
                                      order_no=order_no)
     
-    #Get the department down to the innermost nest so it can be used to define visibility based on dept
-    # fs_with_dept = []
-    # for record in fulfillments:
-    #   f_dict = dict(record)
-    #   f_dict['dept'] = self.dept
-    #   f_dict['num_fulfillments'] = len(fulfillments)
-    #   fs_with_dept.append(f_dict)
-    modal_return = anvil.alert(NeedsAttentionResolveModal(order_no=order_no,
-                                                          repeater_items=fulfillments, 
-                                                          user=self.current_user, 
-                                                          role=self.current_role, 
-                                                          dept=self.dept), 
-                               large=True, 
-                               title="Resolve Order Menu")
-    #some conditional logic about what events to pass up based on what happens in the modal
+    #Admin Passcode protection
+    access = anvil.alert(AdminPassModal(), 
+                         dismissible=False, 
+                         large=True)
+    if access == 'Granted':
+      modal_return = anvil.alert(NeedsAttentionResolveModal(order_no=order_no,
+                                                            repeater_items=fulfillments, 
+                                                            user=self.current_user, 
+                                                            role=self.current_role, 
+                                                            dept=self.dept), 
+                                large=True, 
+                                title="Resolve Order Menu")
+    elif access == 'Denied':
+      n = Notification("Admin Passcode was incorrect!", 
+                       style='danger', title='Wrong Password',
+                      timeout=1)
+    else:
+      return None
