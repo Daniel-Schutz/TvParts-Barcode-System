@@ -12,3 +12,15 @@ class EditDatatables(EditDatatablesTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+    
+##################################################
+###### Visibility Settings #######################
+
+
+###################################################
+###### Data Type/Data Validation & Dropdowns ######
+
+
+###################################################
+###### Database Interaction #######################

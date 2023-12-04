@@ -12,8 +12,8 @@ components:
   - name: rich_text_1
     properties: {align: center, content: "WARNING: This is an advanced menu and can\
         \ leave the system in an ususable state if used incorrectly. \n\nTake extra\
-        \ care when editing the following datatables: tables, table_section, openorders,\
-        \ openfulfillments.\n\nPlease proceed with caution."}
+        \ care when editing the following datatables: items, tables, table_section,\
+        \ openorders, openfulfillments.\n\nPlease proceed with caution."}
     type: RichText
     layout_properties: {grid_position: 'ZZKBQM,QRBYDA'}
   - name: reset_button
