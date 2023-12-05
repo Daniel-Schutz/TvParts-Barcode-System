@@ -348,14 +348,17 @@ def get_table_name_dropdown():
   table_dropdown = [(row['table_display'], row['table_name']) for row in table_names_rows]
   return table_dropdown
 
-@anvil.server.callable
-def get_cols_for_table_dropdown(table_name):
+
+def get_cols_from_table(table_name):
   table=getattr(app_tables, table_name)
   columns = table.list_columns()
-  return table
+  return columns
   
 @anvil.server.callable
-def get_col_types_for_table_dropdown(table_name):
-  table=getattr(app_tables, table_name)
-  columns = table.list_columns()
-  pass
+def get_col_names_for_dd(table_name):
+  columns = get_cols_from_table(table_name)
+  return[(col[name], col[name]) for col in columns]
+
+@anvil.server.callable
+def get_col_types_for_dd(table_name):
+  columns
