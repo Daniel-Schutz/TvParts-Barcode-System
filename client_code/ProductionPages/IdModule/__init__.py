@@ -39,10 +39,12 @@ class IdModule(IdModuleTemplate):
     code = ''.join(random.choice(chars) for _ in range(len))
     return sku + "__" + code
 
-  def generate_unique_box_id(self, len=6):
+  def generate_unique_box_id(self, len=4):
     chars = string.ascii_letters + string.digits
     code = ''.join(random.choice(chars) for _ in range(len))
-    now = datetime.da
+    today = datetime.datetime.now().strftime('%m-%d-%Y')
+    return today + "__" + code
+    
 
 
 
@@ -60,7 +62,7 @@ class IdModule(IdModuleTemplate):
     self.model_input_bx.enabled = False
     self.year_dropdown.enabled = False
     self.size_dropdown.enabled = False
-    self.box_id = str(uuid.uuid4()) #make this its own table
+    self.box_id = self.generate_unique_box_id() #make this its own table
     self.launch_pdt_explr_btn.enabled = True
     self.create_item_btn.enabled = True
 
@@ -132,8 +134,8 @@ class IdModule(IdModuleTemplate):
     #Create the qr_code with only important information
     item_id = item_info_dict['item_id']
     bin = item_info_dict['primary_bin']
-    os_bins = item_info_dict['os_bins']
-    cross_refs = item_info_dict['cross_refs']
+    #os_bins = item_info_dict['os_bins']
+    #cross_refs = item_info_dict['cross_refs']
     item_status = 'New'
     
     #Image Url directly from qr maker.
@@ -165,7 +167,7 @@ class IdModule(IdModuleTemplate):
     self.id_hold_count_output.content = hold_area_count
     
   def move_item_to_holding_btn_click(self, **event_args):
-    confirm = anvil.alert("Add Item to Holding area? Note that this is only for unlabeled parts",
+    confirm = anvil.alert("Add Item to Holding area? Note that this is only for unlabeled parts. Leave held parts in their original box",
                          title="Pre-Id Holding?", large=True,
                          buttons=["MOVE TO HOLDING", 'CANCEL'])
     if confirm == 'MOVE TO HOLDING':
