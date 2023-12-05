@@ -361,4 +361,5 @@ def get_col_names_for_dd(table_name):
 
 @anvil.server.callable
 def get_col_types_for_dd(table_name):
-  columns
+  columns = get_cols_from_table(table_name)
+  return[(col[name], col[name]) for col in columns]
