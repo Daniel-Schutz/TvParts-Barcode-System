@@ -346,12 +346,16 @@ def set_bin_stock_mode(mode):
 def get_table_name_dropdown():
   table_names_rows = app_tables.table_registry.search()
   table_dropdown = [(row['table_display'], row['table_name']) for row in table_names_rows]
+  return table_dropdown
 
 @anvil.server.callable
 def get_cols_for_table_dropdown(table_name):
   table=getattr(app_tables, table_name)
+  columns = table.list_columns()
+  return table
   
-
 @anvil.server.callable
 def get_col_types_for_table_dropdown(table_name):
+  table=getattr(app_tables, table_name)
+  columns = table.list_columns()
   pass
