@@ -507,6 +507,17 @@ db_schema:
       admin_ui: {width: 200, order: 7}
       type: string
     title: bins
+  table_registry:
+    client: none
+    server: full
+    columns:
+    - name: table_name
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: table_display
+      admin_ui: {width: 200, order: 1}
+      type: string
+    title: table_registry
   openorders:
     client: none
     server: full
