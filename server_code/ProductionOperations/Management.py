@@ -346,8 +346,8 @@ def set_bin_stock_mode(mode):
 def get_table_name_dropdown():
   table_names_rows = app_tables.table_registry.search()
   table_dropdown = [(row['table_display'], row['table_name']) for row in table_names_rows]
+  table_dropdown.append(('(Select Table)', '(Select Table)'))
   return table_dropdown
-
 
 def get_cols_from_table(table_name):
   table=getattr(app_tables, table_name)
@@ -356,15 +356,18 @@ def get_cols_from_table(table_name):
 
 @anvil.server.callable
 def get_table_len(table_name):
-  table=getattr(app_tables, table_name)
-  return len(table)
+  table=getattr(app_tables, table_name, None)
+  len_table = len(table.search())
+  return len_table
   
 @anvil.server.callable
 def get_col_names_for_dd(table_name):
   columns = get_cols_from_table(table_name)
-  return[(col['name'], col['name']) for col in columns]
+  cols_from_table = [(col['name'], col['name']) for col in columns]
+  cols_from_table.append(('(Select Column)', '(Select Column)'))
+  return cols_from_table
 
 @anvil.server.callable
-def get_col_types_for_dd(table_name):
+def get_col_type_dict_for_mapping(table_name):
   columns = get_cols_from_table(table_name)
-  return[(col['name'], col['type']) for col in columns]
+  return {k:v for k,v in (col['name'], col['type'])}

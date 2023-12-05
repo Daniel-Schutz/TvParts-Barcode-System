@@ -27,6 +27,8 @@ class IdModule(IdModuleTemplate):
     self.make_dropdown.items = anvil.server.call('get_make_dropdown')
     self.year_dropdown.items = anvil.server.call('get_year_dropdown')
     self.size_dropdown.items = anvil.server.call('get_size_dropdown')
+    self.launch_pdt_explr_btn.enabled = False
+    self.create_item_btn.enabled = False
     self.update_holding_area_count()
     self.selected_product = None
 
@@ -38,7 +40,9 @@ class IdModule(IdModuleTemplate):
     return sku + "__" + code
 
   def generate_unique_box_id(self, len=6):
-    pass
+    chars = string.ascii_letters + string.digits
+    code = ''.join(random.choice(chars) for _ in range(len))
+    now = datetime.da
 
 
 
@@ -56,7 +60,9 @@ class IdModule(IdModuleTemplate):
     self.model_input_bx.enabled = False
     self.year_dropdown.enabled = False
     self.size_dropdown.enabled = False
-    self.box_id = str(uuid.uuid4()) #Maye make this a datetime + serial
+    self.box_id = str(uuid.uuid4()) #make this its own table
+    self.launch_pdt_explr_btn.enabled = True
+    self.create_item_btn.enabled = True
 
   def reset_bx_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -75,6 +81,7 @@ class IdModule(IdModuleTemplate):
 
   def launch_pdt_explr_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
+    self.qr_image.source = None
     product_explorer = ProductExplorer()
     self.selected_product = alert(product_explorer, 
                             title="Select Product", 
@@ -169,5 +176,6 @@ class IdModule(IdModuleTemplate):
                   title='Holding Count Updated!', 
                   style='success', timeout=2)
       n.show()
-      self.update_holding_area_count
+      self.qr_image.source = None
+      self.update_holding_area_count()
       

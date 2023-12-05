@@ -25,7 +25,7 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'XFCYVG,IZIFKR', row_background: ''}
     components:
-    - name: flow_panel_1
+    - name: select_table_panel
       properties: {}
       type: FlowPanel
       layout_properties: {grid_position: 'LUXTOX,FQSSLW'}
@@ -38,7 +38,7 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 255.65625}
-    - name: flow_panel_1_copy_2
+    - name: num_results_panel
       properties: {align: right}
       type: FlowPanel
       layout_properties: {grid_position: 'LUXTOX,MTRUIC'}
@@ -50,7 +50,7 @@ components:
       - name: no_results_output
         properties: {}
         type: RichText
-    - name: flow_panel_1_copy
+    - name: col_to_modify_panel
       properties: {align: center}
       type: FlowPanel
       layout_properties: {grid_position: 'CHZTPF,FZVFFS'}
@@ -63,10 +63,10 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 245.36303125}
-      - name: column_datatype
+      - name: column_datatype_out
         properties: {}
         type: RichText
-    - name: card_3
+    - name: filter_conditions_card
       properties: {role: card, background: '#faffb8'}
       type: ColumnPanel
       layout_properties: {grid_position: 'HIOXXG,LUAAEU'}
@@ -165,7 +165,7 @@ components:
         - name: query_3_date_input
           properties: {}
           type: DatePicker
-    - name: flow_panel_3
+    - name: set_value_panel
       properties: {}
       type: FlowPanel
       layout_properties: {grid_position: 'IAQKYJ,EFDELE'}
