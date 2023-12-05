@@ -353,13 +353,18 @@ def get_cols_from_table(table_name):
   table=getattr(app_tables, table_name)
   columns = table.list_columns()
   return columns
+
+@anvil.server.callable
+def get_table_len(table_name):
+  table=getattr(app_tables, table_name)
+  return len(table)
   
 @anvil.server.callable
 def get_col_names_for_dd(table_name):
   columns = get_cols_from_table(table_name)
-  return[(col[name], col[name]) for col in columns]
+  return[(col['name'], col['name']) for col in columns]
 
 @anvil.server.callable
 def get_col_types_for_dd(table_name):
   columns = get_cols_from_table(table_name)
-  return[(col[name], col[name]) for col in columns]
+  return[(col['name'], col['type']) for col in columns]
