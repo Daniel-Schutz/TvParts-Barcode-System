@@ -263,7 +263,7 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'JTFDQE,RAOHPK'}
     components:
-    - name: bin_panel_copy
+    - name: bin_panel
       properties: {align: center}
       type: FlowPanel
       layout_properties: {grid_position: 'GAIPRB,QYCYJI'}
@@ -277,32 +277,32 @@ components:
         type: DropDown
         layout_properties: {width: 230.27734375}
         event_bindings: {change: on_other_bin_dd_change}
-  - name: flow_panel_2
-    properties: {align: center}
-    type: FlowPanel
-    layout_properties: {grid_position: 'SSIFKN,QAVWWC'}
-    components:
-    - name: back_to_primary_btn
-      properties: {text: back to primary..., role: primary-color, background: 'theme:Gray
-          600', font_size: 16, align: left}
-      type: Button
-      event_bindings: {click: back_to_primary_btn_click}
-    - name: spacer_3
-      properties: {height: 32}
-      type: Spacer
-      layout_properties: {width: 68.49609375}
-    - name: place_other_bin_btn
-      properties: {text: add to stock, role: primary-color, font_size: 16}
-      type: Button
-      event_bindings: {click: place_other_bin_btn_click}
-    - name: spacer_4
-      properties: {height: 32}
-      type: Spacer
-      layout_properties: {width: 72.390625}
-    - name: new_bin_btn
-      properties: {text: new bin, role: primary-color, background: '#6464ff', font_size: 16,
-        align: right}
-      type: Button
+    - name: flow_panel_2
+      properties: {align: center}
+      type: FlowPanel
+      layout_properties: {grid_position: 'JVLNCA,ICIYTQ'}
+      components:
+      - name: back_to_primary_btn
+        properties: {text: back to primary..., role: primary-color, background: 'theme:Gray
+            600', font_size: 16, align: left}
+        type: Button
+        event_bindings: {click: back_to_primary_btn_click}
+      - name: spacer_3
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 68.49609375}
+      - name: place_other_bin_btn
+        properties: {text: add to stock, role: primary-color, font_size: 16}
+        type: Button
+        event_bindings: {click: place_other_bin_btn_click}
+      - name: spacer_4
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 72.390625}
+      - name: new_bin_btn
+        properties: {text: new bin, role: primary-color, background: '#6464ff', font_size: 16,
+          align: right}
+        type: Button
 - name: spacer_1
   properties: {height: 10}
   type: Spacer

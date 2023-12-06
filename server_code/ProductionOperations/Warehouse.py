@@ -39,6 +39,40 @@ def update_item_on_binned_bk(user, role, item_id, bin):
                                       user_full_name=user, 
                                       user_role=role)
 
+@anvil.server.callable
+def update_item_on_misid(user, role, item_id):
+  anvil.server.launch_background_task('update_item_on_misid_bk', user, role, item_id)
+
+@anvil.server.background_task
+def update_item_on_misid_bk(user, role, item_id):
+  item_row = app_tables.items.get(item_id=item_id)
+  current_time = datetime.now()
+  item_row.update(status='Misidentified', 
+                  verified_by=user, 
+                  verified_on=current_time)
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status='Misidentified', 
+                                      user_full_name=user, 
+                                      user_role=role)
+
+@anvil.server.callable
+def update_item_on_verify(user, role, item_id):
+  anvil.server.launch_background_task('update_item_on_verify_bk', user, role, item_id)
+
+@anvil.server.background_task
+def update_item_on_verify_bk(user, role, item_id):
+  item_row = app_tables.items.get(item_id=item_id)
+  current_time = datetime.now()
+  item_row.update(status='Misidentified', 
+                  verified_by=user, 
+                  verified_on=current_time)
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status='Verified', 
+                                      user_full_name=user, 
+                                      user_role=role)
+
 
 @anvil.server.callable
 def get_other_bins_dd(primary_bin):

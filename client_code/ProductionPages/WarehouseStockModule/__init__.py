@@ -27,6 +27,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.place_item_id = None
     
     self.disable_verify_buttons()
+    self.item_code_input.focus()
     # Any code you write here will run before the form opens.
 
 
@@ -71,11 +72,11 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.verify_part_card.visible = False
     self.place_part_card.visible = True
     self.reset_place_part_visibility()
-    if not self.require_bin_to_place:
-      self.bin_panel.visible = False
-    else:
-      self.bin_code_place_input.enabled = False
-      #TODO, add conditional to the shopify placement logic based on this setting
+    # if not self.require_bin_to_place:
+    #   self.bin_panel.visible = False
+    # else:
+    #   self.bin_code_place_input.enabled = False
+    #   #TODO, add conditional to the shopify placement logic based on this setting
 
 ####### EVENTS - Verify Part ###################
   def item_code_input_pressed_enter(self, **event_args):
@@ -98,6 +99,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.verified_btn.enabled = True
     self.mis_id_button.tooltip = None
     self.verified_btn.tooltipe = None
+    self.item_code_input.focus()
 
   def clear_scan_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -110,21 +112,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     current_user = self.current_user
     current_time = datetime.now()
     item_status = "Misidentified"
-    update_lifecycle_status = anvil.server.call('update_item', 
-                                                self.verify_item_id, 
-                                                'lifecycle_status', 
-                                                item_status)
-    update_verfied_by = anvil.server.call('update_item', 
-                                          self.verify_item_id, 
-                                          'verified_by', 
-                                          current_user)
-    update_verfied_date = anvil.server.call('update_item', 
-                                          self.verify_item_id, 
-                                          'verified_date', 
-                                          current_time)
-
-    #Update History
-    update_history_task = cf.add_event_to_item_history(self.verify_item_id, item_status)
+    anvil.server.call('update_item_on_misid', 
+                      self.current_user, 
+                      self.current_role, 
+                      self.verify_item_id) #note that this also updates history
     
     #Console log for developer
     print(f"Item {self.verify_item_id} marked as misidentified")
@@ -149,23 +140,11 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     """This method is called when the button is clicked"""
     current_user = self.current_user
     current_time = datetime.now()
-    update_lifecycle_status = anvil.server.call('update_item', 
-                                                self.verify_item_id, 
-                                                'lifecycle_status', 
-                                                'Verified')
-    update_verfied_by = anvil.server.call('update_item', 
-                                          self.verify_item_id, 
-                                          'verified_by', 
-                                          current_user)
-    update_verfied_date = anvil.server.call('update_item', 
-                                          self.verify_item_id, 
-                                          'verified_date', 
-                                          current_time)
+    anvil.server.call('update_item_on_verify', 
+                      self.current_user, 
+                      self.current_role, 
+                      self.verify_item_id) #updates history as well
 
-    #Update History
-    item_status = 'Verified'
-    update_history_task = cf.add_event_to_item_history(self.verify_item_id, item_status)
-    
     #Console log for developer
     print(f"Item {self.verify_item_id} marked as Verified.")
 
@@ -182,7 +161,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.other_bins_dd.selected_value = '(No Other Bins)'
     self.place_item_id = None
     self.item_code_place_input.text = None
-    self.item_code_input_place_input.enabled = True
+    self.item_code_place_input.enabled = True
     self.primary_bin_output.content = None
     self.scan_item_panel.visible = True
     self.primary_bin_panel.visible = False
@@ -214,11 +193,11 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                       bin)
   
   def item_code_place_input_pressed_enter(self, **event_args):  
-    self.item_code_input_place_input.enabled = False
+    self.item_code_place_input.enabled = False
     
     #get the primary bin location  & purgatory rows
     purgatory_bins = anvil.server.call_s('get_bins_in_purgatory')
-    item_scan = self.item_code_place_input.content
+    item_scan = self.item_code_place_input.text
     self.place_item_id = json.loads(item_scan)['item_id']
     
     #maybe add validation at this row for item scans later on
@@ -305,90 +284,4 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 
 
 
-    
-#     if not self.require_bin_to_place:
-#       self.item_code_place_input.enabled = False
-#       item_dict = cf.get_full_item_from_scan(self.item_code_place_input.text)
-#       bin = item_dict['bin']
-#       item_id = item_dict['item_id']
-#       self.item_id = item_id
-#       item_status = "Binned"
-      
-#       #Update all item attributes and place item
-#       self._place_item_updates(item_id, bin)
-      
-#       #Update history
-#       history_update = cf.add_event_to_item_history(item_id, item_status)
-    
-#       #Console log for developer
-#       print(f"Item {self.item_id} binned")
-  
-#       #Notice for Warehouse Employee
-#       n = Notification(f"Item {self.item_id} binned!", 
-#                       style='success', title='Part Binned', timeout=1)
-#       n.show()
-#       self.last_item_placed_output.content = item_id
-#       self.item_code_place_input.content = None
-#       self.item_code_place_input.enabled = True
-#       self.item_code_place_input.focus()
-
-#     else:
-#       self.bin_code_place_input.enabled = True
-#       self.bin_code_place_input.focus()
-
-  
-
-# #### ON UNDO LAST ITEM ###########
-
-#   def purgatory_btn_click(self, **event_args):
-#     """This method is called when the button is clicked"""
-#     #TODO (Finish this function for resetting the last item)
-#     if not self.last_item_placed_output.content:
-#       alert('There must be something in last item placed.')
-#       return None
-#     confirm = alert("Are you sure you want to undo the last placement?", 
-#           buttons=['YES', 'NO'])
-#     if confirm == 'YES':
-#       item_id = self.last_item_placed_output.content
-#       update_lifecycle_status = anvil.server.call('update_item', 
-#                                                     item_id, 
-#                                                     'lifecycle_status', 
-#                                                     'Verified')
-#       update_stored_bin = anvil.server.call('update_item', 
-#                                               item_id, 
-#                                               'stored_bin', 
-#                                               '0')
-#       update_placed_by = anvil.server.call('update_item', 
-#                                               item_id, 
-#                                               'placed_by', 
-#                                               '')
-#       update_placed_date = anvil.server.call('update_item', 
-#                                               item_id, 
-#                                               'placed_date', 
-#                                               datetime.datetime(1900, 1, 1))
-#             #Update history
-#       history_update = cf.add_event_to_item_history(item_id, item_status)
-      
-#         #Console log for developer
-#       print(f"Item {item_id} placement undone.")
-    
-#         #Notice for Warehouse Employee
-#       n = Notification(f"Item {item_id} removed.", 
-#                         style='warning', title='Part Removed', timeout=2)
-#       n.show()
-    
-
-
-
-
-
-      
-
-      
-      
-
-
-
-    
-    
     

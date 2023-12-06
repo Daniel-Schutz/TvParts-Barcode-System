@@ -1,0 +1,37 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'DRRSLW,ZMKZUZ'}
+  components:
+  - name: header
+    properties: {role: headline, align: center, text: Recall Box From Item Scan}
+    type: Label
+    layout_properties: {grid_position: 'OZTAGM,RPIPIA'}
+  - name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'WQRXNH,JPGOXL'}
+    components:
+    - name: item_label
+      properties: {text: 'Scan Item:'}
+      type: Label
+      layout_properties: {}
+    - name: qr_label
+      properties: {text: '', icon: 'fa:qrcode', font_size: 28}
+      type: Label
+      layout_properties: {}
+    - name: text_box_1
+      properties: {}
+      type: TextBox
+      layout_properties: {width: 630.3125}
+  - name: cancel_btn
+    properties: {text: primary_color_1, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'PMJMEW,PHKZZP'}
+  - name: get_box_btn
+    properties: {text: Recall box, role: primary-color}
+    type: Button
+    layout_properties: {grid_position: 'PMJMEW,KJCOVO'}
+is_package: true
