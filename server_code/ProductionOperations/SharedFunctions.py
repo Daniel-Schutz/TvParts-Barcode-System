@@ -267,3 +267,6 @@ def toss_item(user, role, item_id):
 def get_all_bin_rows():
   return app_tables.bins.search()
 
+@anvil.server.callable
+def get_all_product_rows():
+  return app_tables.products.search()
