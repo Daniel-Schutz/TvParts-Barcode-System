@@ -134,8 +134,8 @@ class IdModule(IdModuleTemplate):
     #Create the qr_code with only important information
     item_id = item_info_dict['item_id']
     bin = item_info_dict['primary_bin']
-    #os_bins = item_info_dict['os_bins']
-    #cross_refs = item_info_dict['cross_refs']
+    os_bins = item_info_dict['os_bins']
+    cross_refs = item_info_dict['cross_refs']
     item_status = 'New'
     
     #Image Url directly from qr maker.
