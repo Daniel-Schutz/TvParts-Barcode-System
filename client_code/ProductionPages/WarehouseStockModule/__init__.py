@@ -171,7 +171,6 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.scan_item_panel.visible = True
     self.primary_bin_panel.visible = True
     self.other_bins_panel.visible = False
-    
 
   def other_bin_visibility(self):
     self.scan_item_panel.visible = True
@@ -201,7 +200,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.place_item_id = json.loads(item_scan)['item_id']
     
     #maybe add validation at this row for item scans later on
-    primary_bin = anvil.server.call('get_primary_bin_from_item_scan')
+    primary_bin = anvil.server.call('get_primary_bin_from_item_scan', 
+                                    self.item_code_place_input.text)
 
     #Purgatory Handling
     if primary_bin in purgatory_bins:

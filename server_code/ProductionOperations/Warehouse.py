@@ -16,7 +16,7 @@ import json
 
 @anvil.server.callable
 def get_primary_bin_from_item_scan(item_scan_str, item_id_delimiter='__'):
-  item_id = json.loads(item_scan_str)
+  item_id = json.loads(item_scan_str)['item_id']
   sku = item_id.split(item_id_delimiter)[0]
   prod_row = app_tables.products.get(sku=sku)
   return prod_row['bin']

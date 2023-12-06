@@ -96,7 +96,8 @@ class IdModule(IdModuleTemplate):
       self.model_input_bx.enabled = False
       self.year_dropdown.enabled = False
       self.size_dropdown.enabled = False
-      self.box_id = self.generate_unique_box_id() #make this its own table
+      if not self.box_id:
+        self.box_id = self.generate_unique_box_id() #make this its own table
       self.launch_pdt_explr_btn.enabled = True
     else:
       anvil.alert('All Truck and TV fields must be filled out before generating labels.', 
@@ -116,6 +117,25 @@ class IdModule(IdModuleTemplate):
     self.year_dropdown.selected_value = '(Select Year)'
     self.size_dropdown.enabled = True
     self.size_dropdown.selected_value = '(Select Size)'
+    self.box_id = None
+
+  def recall_box_btn_click(self, **event_args):
+    item_id = anvil.alert(RecallItemModal(), 
+                          dismissible=False, 
+                          large=True, 
+                          title="Recall Box for Previous Item")
+    if item_id:
+      item_dict = anvil.server.call('get_full_item_from_id', item_id)
+      self.truck_code_input.text = "(Retrieved from Recall)"
+      self.truck_code_input.enabled = False
+      self.supplier_scan_output.content = item_dict['supplier']
+      self.truck_scan_output.content = item_dict['truck']
+      self.make_dropdown.selected_value = item_dict['make']
+      self.model_input_bx.text = item_dict['model']
+      self.year_dropdown.selected_value = item_dict['year']
+      self.size_dropdown.selected_value = item_dict['size']
+      self.box_id = item_dict['box_id']
+      self.lock_box_btn_click()
 
   def launch_pdt_explr_btn_click(self, **event_args):
     """This method is called when the button is clicked"""

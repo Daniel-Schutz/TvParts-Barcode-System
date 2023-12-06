@@ -263,4 +263,7 @@ def toss_item(user, role, item_id):
   #TODO: Add the add the subtract from Shopify inventory command here
   anvil.server.launch_background_task('add_history_to_item_bk', item_id, 'Tossed', user, role)
 
+@anvil.server.callable
+def get_all_bin_rows():
+  return app_tables.bins.search()
 
