@@ -31,6 +31,7 @@ class IdModule(IdModuleTemplate):
     self.create_item_btn.enabled = False
     self.update_holding_area_count()
     self.selected_product = None
+    self.id_hold_count_output.content = anvil.server.call('get_id_holding_count')
 
 
 ######## Helpers ######################################
@@ -84,6 +85,7 @@ class IdModule(IdModuleTemplate):
   def launch_pdt_explr_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.qr_image.source = None
+    self.selected_product_display.text = None
     product_explorer = ProductExplorer()
     self.selected_product = alert(product_explorer, 
                             title="Select Product", 

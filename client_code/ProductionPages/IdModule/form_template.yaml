@@ -167,7 +167,8 @@ components:
         type: Label
         layout_properties: {}
     - name: create_item_btn
-      properties: {text: create item, role: primary-color}
+      properties: {text: create item, role: primary-color, background: '#00a803',
+        icon: 'fa:qrcode', font_size: 22}
       type: Button
       layout_properties: {grid_position: 'LWQHVX,VGOTRM'}
       event_bindings: {click: create_item_btn_click}
@@ -213,7 +214,8 @@ components:
             type: Label
             layout_properties: {}
   - name: create_barcode_button
-    properties: {text: PRINT LABEL, role: primary-color, bold: true, font: '', font_size: 25}
+    properties: {text: PRINT LABEL, role: primary-color, bold: true, font: '', font_size: 25,
+      background: '#00a803', icon: 'fa:file'}
     type: Button
     layout_properties: {grid_position: 'TEEDVJ,SYQUUP'}
     event_bindings: {}
