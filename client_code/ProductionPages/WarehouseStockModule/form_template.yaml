@@ -236,8 +236,9 @@ components:
       type: Label
       layout_properties: {}
     - name: primary_bin_output
-      properties: {}
+      properties: {font_size: 24}
       type: RichText
+      layout_properties: {}
     - name: bin_primary_btn
       properties: {text: add to stock, role: primary-color, font_size: 16}
       type: Button
