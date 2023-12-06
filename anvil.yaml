@@ -506,6 +506,9 @@ db_schema:
     - name: notes
       admin_ui: {width: 200, order: 7}
       type: string
+    - name: auto_needs_fixed
+      admin_ui: {width: 200, order: 8}
+      type: bool
     title: bins
   table_registry:
     client: none

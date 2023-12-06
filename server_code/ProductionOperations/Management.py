@@ -157,10 +157,11 @@ def remove_bin_only_from_purgatory(bin):
 def get_open_bins_dropdown():
   open_bin_rows = app_tables.bins.search(bin_status='open')
   if len(open_bin_rows) == 0:
-    return None #This is currently an uncaught case
+    return [('No Empty Bins', 'No Empty Bins')]
   else:
     open_bin_rows = [(row['bin'], row['bin']) for row in open_bin_rows]
     open_bin_rows.append(('(Select Bin)', '(Select Bin)'))
+    return open_bin_rows
 
 @anvil.server.callable
 def purg_all_items_to_new_bin(user, role, new_bin, primary_bin):

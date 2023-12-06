@@ -7,25 +7,27 @@ from anvil.tables import app_tables
 import anvil.server
 
 import json
-# from ..LowLevelInterfaces import AWSInterface
-
-
-
 
 @anvil.server.callable
 def get_make_dropdown():
   results = app_tables.tv_makes.search()
-  return [(row['make'], row['make']) for row in results]
+  result_list = [(row['make'], row['make']) for row in results]
+  result_list.append(('(Select Make)', '(Select Make)'))
+  return result_list
 
 @anvil.server.callable
 def get_year_dropdown():
   results = app_tables.years.search()
-  return [(str(row['year']), row['year']) for row in results]
+  result_list = [(str(row['year']), row['year']) for row in results]
+  result_list.append(('(Select Year)', '(Select Year)'))
+  return result_list
 
 @anvil.server.callable
 def get_size_dropdown():
   results = app_tables.tv_sizes.search()
-  return [(row['size'], row['size']) for row in results]
+  result_list = [(row['size'], row['size']) for row in results]
+  result_list.append(('(Select Size)', '(Select Size)'))
+  return result_list
 
 ########## Data Retrievals from Page Interactions #############
 @anvil.server.callable
@@ -60,6 +62,22 @@ def add_s3_key_to_item(item_id, raw_qr_source):
   obj_key = anvil.server.call('get_s3_obj_key', raw_qr_source)
   item_row = app_tables.items.get(item_id=item_id)
   item_row['s3_object_key'] = obj_key
+
+###### Check for auto fixing, and move it there id needed ##########
+
+@anvil.server.callable
+def get_auto_fixes_by_sku():
+  fix_bin_rows = app_tables.bins.search(auto_needs_fixed=True)
+  return [row['sku'] for row in fix_bin_rows]
+
+@anvil.server.callable
+def set_item_to_needs_fixed(item_id):
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(status='Needs Fixed')
+  
+
+
+
 
 
 # @anvil.server.background_task

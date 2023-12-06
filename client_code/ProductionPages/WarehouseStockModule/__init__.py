@@ -338,7 +338,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 
   
 
-##### ON UNDO LAST ITEM ###########
+# #### ON UNDO LAST ITEM ###########
 
 #   def purgatory_btn_click(self, **event_args):
 #     """This method is called when the button is clicked"""

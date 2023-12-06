@@ -25,13 +25,19 @@ class IdModule(IdModuleTemplate):
     self.current_user = current_user
     self.current_role = current_role
     self.make_dropdown.items = anvil.server.call('get_make_dropdown')
+    self.make_dropdown.selected_value = '(Select Make)'
     self.year_dropdown.items = anvil.server.call('get_year_dropdown')
+    self.year_dropdown.selected_value = '(Select Year)'
     self.size_dropdown.items = anvil.server.call('get_size_dropdown')
+    self.size_dropdown.selected_value = '(Select Size)'
+    self.needs_fixed_skus = anvil.server.call('get_auto_fixes_by_sku')
     self.launch_pdt_explr_btn.enabled = False
     self.create_item_btn.enabled = False
     self.update_holding_area_count()
     self.selected_product = None
     self.id_hold_count_output.content = anvil.server.call('get_id_holding_count')
+    self.nf_label_panel.visible = False
+    self.nf = False
 
 
 ######## Helpers ######################################
@@ -45,7 +51,15 @@ class IdModule(IdModuleTemplate):
     code = ''.join(random.choice(chars) for _ in range(len))
     today = datetime.datetime.now().strftime('%m-%d-%Y')
     return today + "__" + code
-    
+
+  def check_nf_list(self):
+    needs_fixed_skus = self.needs_fixed_skus
+    if self.selected_product['sku'] in needs_fixed_skus:
+      self.nf_label_panel.visible = True
+      return True
+    else:
+      self.nf_label_panel.visible = False
+      return False
 
 
 
@@ -57,15 +71,36 @@ class IdModule(IdModuleTemplate):
     self.truck_scan_output.content = truck
     self.truck_code_input.enabled = False
 
+  def box_defined(self):
+    if not self.truck_code_input.text:
+      return False
+    elif not self.supplier_scan_output.content:
+      return False
+    elif not self.truck_code_input.text:
+      return False
+    elif self.make_dropdown.selected_value == '(Select Make)':
+      return False
+    elif not self.model_input_bx.text:
+      return False
+    elif self.year_dropdown.selected_value == '(Select Year)':
+      return False
+    elif self.size_dropdown.selected_value == '(Select Size)':
+      return False
+    else:
+      return True
+
   def lock_box_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.make_dropdown.enabled = False
-    self.model_input_bx.enabled = False
-    self.year_dropdown.enabled = False
-    self.size_dropdown.enabled = False
-    self.box_id = self.generate_unique_box_id() #make this its own table
-    self.launch_pdt_explr_btn.enabled = True
-    self.create_item_btn.enabled = True
+    if self.box_defined():
+      self.make_dropdown.enabled = False
+      self.model_input_bx.enabled = False
+      self.year_dropdown.enabled = False
+      self.size_dropdown.enabled = False
+      self.box_id = self.generate_unique_box_id() #make this its own table
+      self.launch_pdt_explr_btn.enabled = True
+    else:
+      anvil.alert('All Truck and TV fields must be filled out before generating labels.', 
+                  buttons=['CLOSE'], title="All Fields Required.")
 
   def reset_bx_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -74,13 +109,13 @@ class IdModule(IdModuleTemplate):
     self.supplier_scan_output.content = None
     self.truck_scan_output.content = None
     self.make_dropdown.enabled = True
-    self.make_dropdown.selected_value = None
+    self.make_dropdown.selected_value = '(Select Make)'
     self.model_input_bx.text = None
     self.model_input_bx.enabled = True
     self.year_dropdown.enabled = True
-    self.year_dropdown.selected_value = None
+    self.year_dropdown.selected_value = '(Select Year)'
     self.size_dropdown.enabled = True
-    self.size_dropdown.selected_value = None
+    self.size_dropdown.selected_value = '(Select Size)'
 
   def launch_pdt_explr_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -91,10 +126,17 @@ class IdModule(IdModuleTemplate):
                             title="Select Product", 
                             large=True)
     if not self.selected_product:
-      pass
+      self.create_item_btn.enabled = False
+      self.create_barcode_button.enabled = False
     else:
       self.selected_product_display.text = self.selected_product['sku']
+      self.create_item_btn.enabled = True
+      self.create_barcode_button.enabled = True
+      self.nf = self.check_nf_list()
+      
+      
 
+  
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.create_item_btn.enabled = False
@@ -164,6 +206,22 @@ class IdModule(IdModuleTemplate):
                                                        self.current_role)
 
     self.create_item_btn.enabled = True
+    if self.nf:
+      anvil.alert("""Item must be fixed before stocking. 
+      Please label this item, then move it to the Needs Fixed Area""", buttons=['OK'], 
+                  title= 'Item Needs Fixed Before Stocking!')
+      #set item to Needs fixed
+      anvil.server.call_s('set_item_to_needs_fixed', item_id)
+      
+      #Update history
+      history_update_task = cf.add_event_to_item_history(item_id, 
+                                                        'Needs Fixed', 
+                                                        'ItemFixBySku', 
+                                                        'SYSTEM BOT')
+      self.nf = False
+    else:
+      n = Notification("Item Created!", style='success', timeout=1)
+      n.show()
 
 
 ##### Holding Area Logic (and events) #############

@@ -44,7 +44,7 @@ class ActionPanel(ActionPanelTemplate):
     self.update_purgatory()
     #Provide loaded success screen
     n_2 = Notification('Loading Complete! You may close this window', 
-                       title='Action Panel Loaded', style='success', timeout=5)
+                       title='Action Panel Loaded', style='success', timeout=1)
     n_2.show()
   
       # Any code you write here will run before the form opens.
@@ -159,6 +159,7 @@ class ActionPanel(ActionPanelTemplate):
       self.no_pending_items_panel.visible = True
     else:
       self.nf_items_repeater.visible = True
+      self.nf_items_repeater.items = needs_fixed_items
       self.no_pending_items_panel.visible = False
 
   # move to bin logic
@@ -193,6 +194,7 @@ class ActionPanel(ActionPanelTemplate):
                           self.current_user, 
                           self.current_role, 
                           item_id)
+      self.get_needs_fixed_panel()
 
 ########### Purgatory Logic ###################
 # Initialize/Update purgatory
