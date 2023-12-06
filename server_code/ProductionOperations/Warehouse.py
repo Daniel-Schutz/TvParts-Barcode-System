@@ -140,7 +140,7 @@ def fetch_new_order(user):
 
 @anvil.server.callable
 def link_order_to_table_section(user, order, table):
-  open_section = get_next_open_section(table)
+  open_section = anvil.server.call('get_next_open_section', table)
   if not open_section:
     return None
   else:
