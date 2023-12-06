@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - name: card_1
-  properties: {role: card}
+  properties: {role: card, background: '#b1f7f2'}
   type: ColumnPanel
   layout_properties: {grid_position: 'DRRSLW,ZMKZUZ'}
   components:
@@ -22,16 +22,21 @@ components:
       properties: {text: '', icon: 'fa:qrcode', font_size: 28}
       type: Label
       layout_properties: {}
-    - name: text_box_1
+    - name: scan_input
       properties: {}
       type: TextBox
-      layout_properties: {width: 630.3125}
+      layout_properties: {width: 611.88621875}
+    - name: clear_btn
+      properties: {text: clear, role: primary-color, align: right, background: '#0000ff'}
+      type: Button
+      layout_properties: {}
   - name: cancel_btn
-    properties: {text: primary_color_1, role: primary-color}
+    properties: {text: cancel, role: primary-color, icon: 'fa:close', font_size: 20,
+      background: 'theme:Gray 300'}
     type: Button
     layout_properties: {grid_position: 'PMJMEW,PHKZZP'}
   - name: get_box_btn
-    properties: {text: Recall box, role: primary-color}
+    properties: {text: Recall box, role: primary-color, icon: 'fa:dropbox', font_size: 20}
     type: Button
     layout_properties: {grid_position: 'PMJMEW,KJCOVO'}
 is_package: true
