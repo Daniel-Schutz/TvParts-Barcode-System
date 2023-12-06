@@ -26,7 +26,7 @@ def get_id_holding_count():
 
 @anvil.server.callable
 def set_id_holding_count(count):
-  setting_row = app_tables.management_settings.get(setting_title='ID Holding Count')
+  setting_row = app_tables.management_settings.get(setting_title='Id Holding Count')
   setting_row.update(num_response=count)
 
 

@@ -90,7 +90,10 @@ class IdModule(IdModuleTemplate):
     self.selected_product = alert(product_explorer, 
                             title="Select Product", 
                             large=True)
-    self.selected_product_display.text = self.selected_product['sku']
+    if not self.selected_product:
+      pass
+    else:
+      self.selected_product_display.text = self.selected_product['sku']
 
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
