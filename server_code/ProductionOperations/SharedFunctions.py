@@ -76,6 +76,10 @@ def close_table(table_no, status):
 
 @anvil.server.callable
 def close_order_in_db(order_no, status):
+  anvil.server.launch_background_task('close_order_in_db_bk', order_no, status)
+
+@anvil.server.background_task
+def close_order_in_db_bk(order_no, status):
   closed_order_row = app_tables.openorders.get(order_no=order_no)
   closed_order_row.update(reserved_by='', reserved_status='Pending', status=status)
 
@@ -147,6 +151,10 @@ def restock_linked_item(f_id, user, user_role):
 
 @anvil.server.callable
 def reset_order(order_no):
+  anvil.server.launch_background_task('reset_order_bk', order_no)
+
+@anvil.server.background_task
+def reset_order_bk(order_no):
   order_row = app_tables.openorders.get(order_no=order_no)
   order_row.update(status='New', 
                    table_no='(Not Set)', 
@@ -159,6 +167,10 @@ def reset_order(order_no):
 # fully removes the order and fulfillments from the system
 @anvil.server.callable
 def delete_order(order_no):
+  anvil.server.launch_background_task('delete_order_bk', order_no)
+
+@anvil.server.background_task
+def delete_order_bk(order_no):
   section_row = app_tables.table_sections.get(order=str(order_no))
   section_row.update(order='', current_user='')
   #delete rows of orders and fulfillments

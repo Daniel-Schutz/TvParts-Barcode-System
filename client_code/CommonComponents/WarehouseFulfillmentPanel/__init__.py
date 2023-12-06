@@ -69,8 +69,10 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     fulfillment_id = self.item['fulfillment_id']
     anvil.server.call_s('link_item_to_fulfillment', 
                       fulfillment_id,
-                      item_id, self.current_user)
-    cf.add_event_to_item_history(item_id, 'Picked', self.current_user, self.current_role)
+                      item_id, 
+                        self.current_user, 
+                        self.current_role)
+    #cf.add_event_to_item_history(item_id, 'Picked', self.current_user, self.current_role)
     self.switch_to_scanned_view()
     self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)
 

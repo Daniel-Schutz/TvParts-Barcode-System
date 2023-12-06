@@ -21,6 +21,10 @@ def get_roles_dropdown():
 ########### Send Side Functions ##########################
 @anvil.server.callable
 def create_message(user_from, role_from, role_to, message_body, associated_part):
+  anvil.server.launch_background_task('create_message_bk', user_from, role_from, role_to, message_body, associated_part)
+  
+@anvil.server.background_task
+def create_message_bk(user_from, role_from, role_to, message_body, associated_part):
   app_tables.messages.add_row(
     user_from=user_from,
     role_from=role_from,

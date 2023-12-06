@@ -160,7 +160,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.forced_finish_visibility()
       return None
     else:
-      n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
+      n = Notification("Grabbing next order, just a moment.", style='info', timeout=10, title="New Order Loading")
       n.show()
       self.current_order = anvil.server.call_s('fetch_new_order', self.current_user)
       self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])
@@ -235,6 +235,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
                           buttons=['YES', 'CANCEL'], 
                           large=True, Title = "Out of Stock?")
     if confirm == "YES":
+      n = Notification("updating...", style='info')
+      n.show()
       anvil.server.call('set_fulfillment_status', fulfillment_id, 'No Stock')
       open_section = anvil.server.call('get_next_open_section', 'WHH1') #hardcoded table name here
       move_item = anvil.alert(f"Please move Order to Holding Table {open_section['table']}, \
@@ -256,17 +258,14 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],
                        open_section['table'], open_section['section'])
       #Start fresh
-      self.fetch_new_order()
-      self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
-                                                      holding_type='Warehouse Hold', 
-                                                      dept="Warehouse")
-      self.num_na_orders.output = len(self.needs_attention_orders)
+      self.fetch_new_order()      
       self.refresh_needs_attention_area()
 
   def refresh_needs_attention_area(self):
     self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
                                                     holding_type='Warehouse Hold', 
                                                     dept='Warehouse')
+    self.num_na_orders.output = len(self.needs_attention_orders)
     if not self.needs_attention_orders:
       self.num_na_orders.content = 0
       self.no_pending_panel.visible = True

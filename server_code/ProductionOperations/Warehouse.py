@@ -199,11 +199,11 @@ def mark_no_stock(fulfillment_id):
 
 
 @anvil.server.callable
-def link_item_to_fulfillment(fulfillment_id, item_id, user):
+def link_item_to_fulfillment(fulfillment_id, item_id, user, role):
   f_row = app_tables.openfulfillments.get(fulfillment_id=fulfillment_id)
   f_row.update(item_id=item_id, status='Picked')
   order_no = f_row['order_no']
-  anvil.server.launch_background_task('update_item_with_fulfillment', order_no, item_id, user)
+  anvil.server.launch_background_task('update_item_with_fulfillment', order_no, item_id, user, role)
 
 @anvil.server.background_task
 def update_item_with_fulfillment(order_no, item_id, user, role): #need to add the user and role everywhere this is called
