@@ -27,6 +27,7 @@ class TeardownModule(TeardownModuleTemplate):
     self.current_role = current_role
     self.supplier_dropdown.items = suppliers
     self.supplier_dropdown.selected_value = "Unknown Supplier"
+    self.qr_img_url = None
 
   def mock_get_suppliers(self):
     supplier_tuples = anvil.server.call('get_supplier_dropdown')
@@ -55,12 +56,14 @@ class TeardownModule(TeardownModuleTemplate):
 
   def print_barcode(self):
     #pdf = anvil.server.call('fetch_and_return_image', self.qr_image.source)
+    # test_source = "data:image/png;base64,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"
     # html="""
     # <img src={image_url}>
-    # """.format(image_url=self.qr_image.source)
+    # """.format(image_url=test_source)
     # print(html)
     # js.call('printPage', html)
-    js.call('printPage', self.qr_image.source)
+    print("Image URL:", self.qr_img_url)
+    js.call('printPage', self.qr_img_url)
     # data_url = anvil.server.call('get_image_as_data_url', self.qr_image.source)
     # js.call('printPage', data_url)
 
@@ -111,6 +114,7 @@ class TeardownModule(TeardownModuleTemplate):
       
       #Get presigned url
       img_source = anvil.server.call('get_s3_image_url', s3_source)
+      self.qr_img_url = img_source
       self.qr_image.source = img_source
   
 
@@ -152,6 +156,7 @@ class TeardownModule(TeardownModuleTemplate):
     truck = self.truck_id.text
     qr_img_url = anvil.server.call('generate_qr_code', 
                                               truck=truck)
+    self.qr_img_url = qr_img_url
     self.qr_image.source = qr_img_url
 
     #TODO: Move all of this to a background function
