@@ -44,7 +44,7 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
       if bin:
         bins_str += f"{counter}: sku:{[skus_list[counter]]} | bin: {bin}\n"
       # counter += 1
-    if bin_str == '':
+    if bins_str == '':
       return None
       
     n = Notification(f"Items have been restocked in the system. \

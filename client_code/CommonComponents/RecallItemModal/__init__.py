@@ -6,6 +6,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+import json
+
 class RecallItemModal(RecallItemModalTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -34,5 +36,7 @@ class RecallItemModal(RecallItemModalTemplate):
   def cancel_btn_click(self, **event_args):
     self.raise_event('x-close-alert', value=None)
 
-  def
+  def recall_btn_click(self, **event_args):
+    item_id = json.loads(self.scan_input.text)['item_id']
+    self.raise_event('x-close-alert', value=item_id)
     

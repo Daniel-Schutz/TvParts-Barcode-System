@@ -45,6 +45,7 @@ unique_ids:
     CommonComponents.ProductExplorer: '1700071294867706119227155.6307'
     ProductionPages.ShippingModule: '1700460598122589509378190.7428'
     ProductionPages.TestingModule: '1700460237105509159040423.9019'
+    CommonComponents.CreateSupplierModal: '1701914502363443998582656.87396'
     CommonComponents.SingleProductListing: '1700090046094770445370570.6528'
     CommonComponents.NeedsAttentionInnerChild: '1700952032019452868653957.7638'
     ManagementPages.ControlPanel: '170098156680768844959643.39265'
