@@ -10,7 +10,7 @@ import anvil.media
 import time
 
 from ...CommonComponents.SingleSelect_modal import SingleSelect_modal
-#from ...CommonComponents.SingleSelectRepeaterTemplate import SingleSelectRepeaterTemplate
+from ...CommonComponents.CreateSupplierModal import CreateSupplierModal
 
 import uuid
 import datetime
@@ -92,20 +92,16 @@ class TeardownModule(TeardownModuleTemplate):
       buttons=[], 
       large=True
     )
-    self.truck_id.text = truck_id
-
-    
-    s3_source = anvil.server.call('search_rows', 
-                      'trucks', 
-                      column_name='truck_id', 
-                      value=truck_id)[0]['s3_object_key']
-    
-    #Get presigned url
-    img_source = anvil.server.call('get_s3_image_url', s3_source)
-    
-
-    
-    self.qr_image.source = img_source
+    if truck_id:
+      self.truck_id.text = truck_id
+      s3_source = anvil.server.call('search_rows', 
+                        'trucks', 
+                        column_name='truck_id', 
+                        value=truck_id)[0]['s3_object_key']
+      
+      #Get presigned url
+      img_source = anvil.server.call('get_s3_image_url', s3_source)
+      self.qr_image.source = img_source
   
 
 
@@ -167,13 +163,15 @@ class TeardownModule(TeardownModuleTemplate):
 
   def add_supplier_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    modal_form = single_input_modal(label_text="Enter new supplier name:")
-    new_supplier_name = anvil.alert(modal_form, title="New Supplier", buttons=[], 
-                                    large=True, dismissible=False)
+    modal_form = CreateSupplierModal()
+    new_supplier_name = anvil.alert(modal_form,
+                                    large=True, dismissible=False, title='Create New Supplier')
+    print(new_supplier_name)
     if new_supplier_name:
-      self.create_new_supplier(new_supplier_name)
-      self.mock_get_suppliers()
-      self.supplier_dropdown.selected_value = new_supplier_name
+      if not type(new_supplier_name) == bool:
+        self.create_new_supplier(new_supplier_name)
+        self.mock_get_suppliers()
+        self.supplier_dropdown.selected_value = new_supplier_name
     
     
     

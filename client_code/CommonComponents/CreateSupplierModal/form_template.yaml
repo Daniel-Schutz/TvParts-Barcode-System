@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - name: card_1
-  properties: {role: card, background: '#b1f7f2'}
+  properties: {role: card, background: '#e5ffe6'}
   type: ColumnPanel
   layout_properties: {grid_position: 'XDFCGV,LADUBU'}
   components:
@@ -14,7 +14,7 @@ components:
     type: FlowPanel
     layout_properties: {grid_position: 'WQRXNH,JPGOXL'}
     components:
-    - name: item_label
+    - name: supplier_label
       properties: {text: 'Input Supplier Name:'}
       type: Label
       layout_properties: {}
@@ -26,13 +26,16 @@ components:
       properties: {text: clear, role: primary-color, align: right, background: '#0000ff'}
       type: Button
       layout_properties: {}
+      event_bindings: {click: clear_btn_click}
   - name: cancel_btn
     properties: {text: cancel, role: primary-color, icon: 'fa:close', font_size: 20,
       background: 'theme:Gray 300'}
     type: Button
     layout_properties: {grid_position: 'PMJMEW,PHKZZP'}
+    event_bindings: {click: cancel_btn_click}
   - name: create_supplier_btn
     properties: {text: create supplier, role: primary-color, icon: 'fa:user', font_size: 20}
     type: Button
     layout_properties: {grid_position: 'PMJMEW,KJCOVO'}
+    event_bindings: {click: create_supplier_click}
 is_package: true
