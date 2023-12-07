@@ -156,4 +156,5 @@ components:
         only way? Consider talking to Issac before doing this.'}
     type: Button
     layout_properties: {grid_position: 'YCQONH,RUTEYC'}
+    event_bindings: {click: edit_datatables_btn_click}
 is_package: true

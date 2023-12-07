@@ -21,10 +21,10 @@ class PurgatoryBinPanel(PurgatoryBinPanelTemplate):
 
 #Raise events for button presses, we don't deal with logic in here
   def remove_from_purgatory_btn_click(self, **event_args):
-    self.parent.raise_event('x-purg-remove-bin-only', bin=self.item(bin))
+    self.parent.raise_event('x-purg-remove-bin-only', bin=self.item['bin'])
 
   def move_all_to_bin_btn_click(self, **event_args):
-    self.parent.raise_event('x-purg-move-all-items', bin=self.item(bin))
+    self.parent.raise_event('x-purg-move-all-items', bin=self.item['bin'])
 
   def toss_all_items_btn_click(self, **event_args):
-    self.parent.raise_event('x-purg-toss-all-items', bin=self.item(bin))
+    self.parent.raise_event('x-purg-toss-all-items', bin=self.item['bin'])

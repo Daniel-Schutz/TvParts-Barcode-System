@@ -371,4 +371,33 @@ def get_col_names_for_dd(table_name):
 @anvil.server.callable
 def get_col_type_dict_for_mapping(table_name):
   columns = get_cols_from_table(table_name)
-  return {k:v for k,v in (col['name'], col['type'])}
+  return {col['name']:col['type'] for col in columns}
+
+@anvil.server.callable
+def get_num_compare_dd():
+  num_compare_dict = {
+    'Greater Than': '>',
+    'Greater or Equal To': '>=',
+    'Equal To': '=',
+    'Less Than': '<',
+    'Less or Equal To': '<='
+  }
+  default_val = ('(Select Condition)', '(Select Condition)')
+  cond_choices = list(num_compare_dict.keys())
+  cond_tups = [(k,k) for k in cond_choices]
+  cond_tups.append(default_val)
+  return cond_tups
+
+@anvil.server.callable
+def get_string_compare_dd():
+  string_compare_dict = {
+    'Contains': 'contains',
+    'Equal To': 'equals',
+    'Does Not Contain': 'does not contain',
+    'Not Equal To': 'not equal to',
+  }
+  default_val = ('(Select Condition)', '(Select Condition)')
+  cond_choices = list(string_compare_dict.keys())
+  cond_tups = [(k,k) for k in cond_choices]
+  cond_tups.append(default_val)
+  return cond_tups

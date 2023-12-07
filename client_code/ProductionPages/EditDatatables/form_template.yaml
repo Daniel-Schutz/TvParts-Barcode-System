@@ -20,6 +20,7 @@ components:
     properties: {text: reset search, role: primary-color}
     type: Button
     layout_properties: {grid_position: 'CEAVSW,VHLJOC'}
+    event_bindings: {click: reset_search_click}
   - name: card_2
     properties: {role: card, background: '#d1fffe'}
     type: ColumnPanel
@@ -38,6 +39,7 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 255.65625}
+        event_bindings: {change: select_table_change}
     - name: num_results_panel
       properties: {align: right}
       type: FlowPanel
@@ -59,10 +61,11 @@ components:
         properties: {text: 'Column to Modify:'}
         type: Label
         layout_properties: {}
-      - name: select_table_dd_copy
+      - name: select_col_dd
         properties: {}
         type: DropDown
         layout_properties: {width: 245.36303125}
+        event_bindings: {change: select_col_dd_change}
       - name: column_datatype_out
         properties: {}
         type: RichText
@@ -72,7 +75,7 @@ components:
       layout_properties: {grid_position: 'HIOXXG,LUAAEU'}
       components:
       - name: flow_panel_2
-        properties: {align: center}
+        properties: {align: center, tooltip: Only change values where the data meets these constraints. Use this to filter down to a specific row or group of rows for editing}
         type: FlowPanel
         layout_properties: {grid_position: 'JGEPXN,WMDOYZ'}
         components:
@@ -87,7 +90,8 @@ components:
             add up to 3 conditions. If you need more, contact Autonomi.'}
         type: Button
         layout_properties: {grid_position: 'UKTYXI,QUBGKH'}
-      - name: filt_conditon_1_panel
+        event_bindings: {click: add_condition_btn_click}
+      - name: filt_condition_1_panel
         properties: {}
         type: FlowPanel
         layout_properties: {grid_position: 'GKWLNB,SESVRW'}
@@ -100,6 +104,7 @@ components:
           properties: {}
           type: DropDown
           layout_properties: {width: 192.07775}
+          event_bindings: {change: filt_col_dd_1_change}
         - name: filt_1_dtype_out
           properties: {}
           type: RichText
@@ -113,7 +118,7 @@ components:
         - name: query_1_date_input
           properties: {}
           type: DatePicker
-      - name: filt_conditon_2_panel
+      - name: filt_condition_2_panel
         properties: {}
         type: FlowPanel
         layout_properties: {grid_position: 'DMGKZW,PVVDJB'}
@@ -139,13 +144,13 @@ components:
         - name: query_2_date_input
           properties: {}
           type: DatePicker
-      - name: filt_conditon_2_panel_copy
+      - name: filt_condition_3_panel
         properties: {}
         type: FlowPanel
         layout_properties: {grid_position: 'FQKTAS,ZZVIVH'}
         components:
         - name: condition_3_col_label
-          properties: {text: 'Condition 2:'}
+          properties: {text: 'Condition 3:'}
           type: Label
           layout_properties: {}
         - name: filt_col_dd_3

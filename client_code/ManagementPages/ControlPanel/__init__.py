@@ -121,4 +121,4 @@ class ControlPanel(ControlPanelTemplate):
                           title='Edit Datatables - Are you Sure?', 
                           large=True, buttons=['EDIT DATATABLES', 'CANCEL'])
     if confirm == 'EDIT DATATABLES':
-      anvil.alert(EditDatatables()) #all use of the modal comes from its own logic
+      anvil.alert(EditDatatables(), large=True) #all use of the modal comes from its own logic
