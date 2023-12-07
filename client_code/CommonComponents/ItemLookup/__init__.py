@@ -13,6 +13,7 @@ class ItemLookup(ItemLookupTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.view_product_button.enabled = False
 
     # Any code you write here will run before the form opens.
 
@@ -22,35 +23,36 @@ class ItemLookup(ItemLookupTemplate):
     self.img_output.source = this_item['img_source']
     self.item_id_output.content = this_item['item_id']
     self.stored_bin_output.content = this_item['stored_bin']
-    self.lifecycle_status_output.content = this_item['lifecycle_status']
-    self.testing_status_output.content = this_item['testing_status']
-    self.order_output.content = this_item['order_id']
+    self.lifecycle_status_output.content = this_item['status']
+    self.order_output.content = this_item['order_no']
     self.supplier_output.content = this_item['supplier']
     self.truck_output.content = this_item['truck']
     self.make_output.content = this_item['make']
     self.year_output.content = this_item['year']
     self.size_output.content = this_item['size']
-    self.created_on_output.content = this_item['created_date']
-    self.created_by_output.content = this_item['created_by']
-    self.verified_on_output.content = this_item['verified_date']
+    self.created_on_output.content = this_item['identified_on']
+    self.created_by_output.content = this_item['identified_by']
+    self.verified_on_output.content = this_item['verified_on']
     self.verified_by_output.content = this_item['verified_by']
-    self.picked_on_output.content = this_item['picked_date']
+    self.picked_on_output.content = this_item['picked_on']
     self.picked_by_output.content = this_item['picked_by']
-    self.placed_on_output.content = this_item['placed_date']
-    self.placed_by_output.content = this_item['placed_by']
-    self.tested_on_output.content = this_item['tested_date']
+    self.binned_on_output.content = this_item['binned_on']
+    self.binned_by_output.content = this_item['binned_by']
+    self.tested_on_output.content = this_item['tested_on']
     self.tested_by_output.content = this_item['tested_by']
-    self.packed_on_output.content = this_item['packed_date']
+    self.packed_on_output.content = this_item['packed_on']
     self.tested_by_output.content = this_item['packed_by']
     self.item_history_output.content = this_item['history']
+    self.view_product_button.enabled = True
+    self.scanned_item_input.enabled = False
+    self.lookup_by_id_input.enabled = False
 
   def clear_all_values(self):
     self.product_name_output.content = None
-    self.item_id_output.content = None
     self.img_output.source = None
+    self.item_id_output.content = None
     self.stored_bin_output.content = None
     self.lifecycle_status_output.content = None
-    self.testing_status_output.content = None
     self.order_output.content = None
     self.supplier_output.content = None
     self.truck_output.content = None
@@ -63,13 +65,18 @@ class ItemLookup(ItemLookupTemplate):
     self.verified_by_output.content = None
     self.picked_on_output.content = None
     self.picked_by_output.content = None
-    self.placed_on_output.content = None
-    self.placed_by_output.content = None
+    self.binned_on_output.content = None
+    self.binned_by_output.content = None
     self.tested_on_output.content = None
     self.tested_by_output.content = None
     self.packed_on_output.content = None
     self.tested_by_output.content = None
     self.item_history_output.content = None
+    self.view_product_button.enabled = False
+    self.scanned_item_input.enabled = True
+    self.lookup_by_id_input.enabled = True
+    self.scanned_item_input.text = None
+    self.lookup_by_id_input.text = None
 
   
 
@@ -78,12 +85,18 @@ class ItemLookup(ItemLookupTemplate):
     """This method is called when the user presses Enter in this text box"""
     self.lookup_by_id_input.enabled = False
     self.scanned_item_input.enabled = False
-    input_dict = json.loads(self.scanned_item_input.text)
-    item_id = input_dict['item_id']
-    self.scanned_item_input.text = item_id
-    item_dict = anvil.server.call('get_row_from_dynamo', 
-                                  'unique_item', 
-                                  item_id)
+
+    #validate the item scan
+    try:
+      val_item = json.loads(self.scanned_item_input.text)
+      check = val_item['item_id']
+    except:
+      n = Notification("This is not a valid item scan!", style='danger')
+      n.show()
+      self.clear_all_values()
+      return None
+      
+    item_dict = anvil.server.call('get_item_from_scan', self.scanned_item_input.text)
     self.display_all_values(item_dict)
 
   def id_lookup_btn_click(self, **event_args):
@@ -91,9 +104,7 @@ class ItemLookup(ItemLookupTemplate):
     self.lookup_by_id_input.enabled = False
     self.scanned_item_input.enabled = False
     item_id = self.lookup_by_id_input.text
-    item_dict = anvil.server.call('get_row_from_dynamo', 
-                                  'unique_item', 
-                                  item_id)
+    item_dict = anvil.server.call('get_item_row_by_item_id', item_id)
     if not item_dict:
       anvil.alert("Item id does not exists. Please check and try again")
     else:
@@ -108,7 +119,8 @@ class ItemLookup(ItemLookupTemplate):
   def view_product_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     product_sku = self.item_id_output.content.split("__")[0] #assumes __ as id separator
-    product_dict = anvil.server.call('get_product_by_sku')
+    product_dict = anvil.server.call('get_product_by_sku', product_sku)
 
     #Need to reform single product modal for this to work - see gpt
     single_product_modal = SingleProductListing(item=product_dict)
+    anvil.alert(single_product_modal, large=True)

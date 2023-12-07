@@ -262,7 +262,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       self.reset_place_part_visibility()
 
 
-  def purg_primary_bin_btn(self):
+  def purg_primary_bin_btn_click(self, **event_args):
     primary_bin = self.primary_bin_output.content
     confirm = anvil.alert(f"Confirm add bin {primary_bin} to Purgatory?", 
                           title=f"Add {primary_bin} to Purgatory?", 

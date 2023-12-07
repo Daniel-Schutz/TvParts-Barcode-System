@@ -22,6 +22,7 @@ class RoleNavigation(RoleNavigationTemplate):
     self.init_messages()
     self.selected_color = '#236F65'
     self.open_color = '#3FA498'
+    self.msg_inbox_repeater.set_event_handler('x-refresh-messages', self.refresh_messages)
 
     # Any code you write here will run before the form opens.
 
@@ -183,5 +184,6 @@ class RoleNavigation(RoleNavigationTemplate):
       self.msg_inbox_repeater.visible = True
       self.inbox_clear_card.visible = False
 
-
+  def refresh_messages(self, **event_args):
+    self.load_messages_btn_click()
     

@@ -50,11 +50,12 @@ components:
         type: Label
         layout_properties: {}
       - name: message_text
-        properties: {height: 32, enabled: false, text: ''}
-        type: TextArea
-        layout_properties: {width: 463}
+        properties: {}
+        type: RichText
         data_bindings:
-        - {property: text, code: 'self.item[''message_body'']', writeback: false}
+        - {property: content, code: 'self.item[''message_body'']', writeback: false}
+        layout_properties: {expand: true}
+        components: []
     - name: flow_panel_1
       properties: {}
       type: FlowPanel
@@ -66,14 +67,12 @@ components:
         data_bindings:
         - {property: visible, code: 'self.item[''associated_part''] is not None',
           writeback: false}
-      - name: item_detail_text
-        properties: {height: 32, enabled: false, text: ''}
-        type: TextArea
-        layout_properties: {width: 459}
+      - name: item_detail_content
+        properties: {}
+        type: RichText
         data_bindings:
-        - {property: text, code: 'self.item[''associated_part'']', writeback: false}
-        - {property: visible, code: 'self.item[''associated_part''] is not None',
-          writeback: false}
+        - {property: content, code: 'self.item[''associated_part'']', writeback: false}
+        layout_properties: {expand: true}
       - name: column_panel_2
         properties: {}
         type: ColumnPanel

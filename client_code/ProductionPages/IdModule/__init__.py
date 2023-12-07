@@ -10,6 +10,7 @@ import anvil.media
 
 from ...CommonComponents.ProductExplorer import ProductExplorer
 from ...CommonComponents import CommonFunctions as cf
+from ...CommonComponents.RecallItemModal import RecallItemModal
 
 import datetime
 import time
@@ -38,6 +39,8 @@ class IdModule(IdModuleTemplate):
     self.id_hold_count_output.content = anvil.server.call('get_id_holding_count')
     self.nf_label_panel.visible = False
     self.nf = False
+    self.box_id = None
+    self.qr_img_url = None
 
 
 ######## Helpers ######################################
@@ -122,20 +125,20 @@ class IdModule(IdModuleTemplate):
   def recall_box_btn_click(self, **event_args):
     item_id = anvil.alert(RecallItemModal(), 
                           dismissible=False, 
-                          large=True, 
-                          title="Recall Box for Previous Item")
+                          large=True, buttons=[])
     if item_id:
-      item_dict = anvil.server.call('get_full_item_from_id', item_id)
-      self.truck_code_input.text = "(Retrieved from Recall)"
-      self.truck_code_input.enabled = False
-      self.supplier_scan_output.content = item_dict['supplier']
-      self.truck_scan_output.content = item_dict['truck']
-      self.make_dropdown.selected_value = item_dict['make']
-      self.model_input_bx.text = item_dict['model']
-      self.year_dropdown.selected_value = item_dict['year']
-      self.size_dropdown.selected_value = item_dict['size']
-      self.box_id = item_dict['box_id']
-      self.lock_box_btn_click()
+      if type(item_id) != bool:
+        item_dict = anvil.server.call('get_item_row_by_item_id', item_id)
+        self.truck_code_input.text = "(Retrieved from Recall)"
+        self.truck_code_input.enabled = False
+        self.supplier_scan_output.content = item_dict['supplier']
+        self.truck_scan_output.content = item_dict['truck']
+        self.make_dropdown.selected_value = item_dict['make']
+        self.model_input_bx.text = item_dict['model']
+        self.year_dropdown.selected_value = item_dict['year']
+        self.size_dropdown.selected_value = item_dict['size']
+        self.box_id = item_dict['box_id']
+        self.lock_box_btn_click()
 
   def launch_pdt_explr_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -211,6 +214,7 @@ class IdModule(IdModuleTemplate):
                                       bin=bin, 
                                       os_bins=os_bins,
                                       cross_refs=cross_refs)
+    self.qr_img_url = raw_source_url
     self.qr_image.source = raw_source_url
     self.system_id_display.text = item_id
 
@@ -242,6 +246,11 @@ class IdModule(IdModuleTemplate):
     else:
       n = Notification("Item Created!", style='success', timeout=1)
       n.show()
+
+  def print_barcode_click(self, **event_args):
+    print("Image URL:", self.qr_img_url)
+    js.call('printPage', self.qr_img_url)
+    
 
 
 ##### Holding Area Logic (and events) #############

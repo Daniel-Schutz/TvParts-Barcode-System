@@ -24,6 +24,10 @@ def get_item_from_scan(scan_json_str):
   return item_row
 
 @anvil.server.callable
+def get_item_row_by_item_id(item_id):
+  return app_tables.items.get(item_id=item_id)
+
+@anvil.server.callable
 def get_truck_from_scan(truck_json_str):
   scan_dict = json.loads(scan_json_str)
   truck_id = scan_dict['truck_id']

@@ -34,6 +34,7 @@ components:
         properties: {text: recall box from scan, role: primary-color, background: '#66fcff'}
         type: Button
         layout_properties: {}
+        event_bindings: {click: recall_box_btn_click}
       - name: reset_bx_btn
         properties: {text: start new box, role: primary-color, align: right}
         type: Button
@@ -198,6 +199,10 @@ components:
       type: Button
       layout_properties: {grid_position: 'LWQHVX,VGOTRM'}
       event_bindings: {click: create_item_btn_click}
+  - name: print_js_logic
+    properties: {}
+    type: form:print_js_logic
+    layout_properties: {grid_position: 'WLSCCS,NYUYCX'}
   - name: card_1
     properties: {role: null}
     type: ColumnPanel
@@ -244,7 +249,7 @@ components:
       background: '#00a803', icon: 'fa:file'}
     type: Button
     layout_properties: {grid_position: 'TEEDVJ,SYQUUP'}
-    event_bindings: {}
+    event_bindings: {click: print_barcode_click}
 - name: spacer_1
   properties: {height: 15.953125}
   type: Spacer

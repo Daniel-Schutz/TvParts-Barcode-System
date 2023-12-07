@@ -228,37 +228,49 @@ components:
       event_bindings: {click: clear_place_input_btn_click}
   - name: primary_bin_panel
     properties: {}
-    type: FlowPanel
-    layout_properties: {grid_position: ''}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LYFNUQ,PVIMYO'}
     components:
-    - name: primary_bin_label
-      properties: {role: headline, text: 'Primary Bin:', font_size: 24}
-      type: Label
-      layout_properties: {}
-    - name: primary_bin_output
-      properties: {font_size: 24}
-      type: RichText
-      layout_properties: {}
-    - name: bin_primary_btn
-      properties: {text: add to stock, role: primary-color, font_size: 16}
-      type: Button
-      layout_properties: {}
-      event_bindings: {click: add_to_stock_primary_btn_click}
-    - name: spacer_2
-      properties: {height: 32}
-      type: Spacer
-      layout_properties: {width: 71.35546875}
-    - name: purg_primary_bin_btn
-      properties: {text: Assign bin to purgatory, role: primary-color, background: '#ff6464',
-        font_size: 16, tooltip: ''}
-      type: Button
-      layout_properties: {}
-    - name: other_bins_btn
-      properties: {text: other bins..., role: primary-color, background: 'theme:Gray
-          600', font_size: 16}
-      type: Button
-      layout_properties: {}
-      event_bindings: {click: other_bins_btn_click}
+    - name: primary_bin_in_panel
+      properties: {align: center}
+      type: FlowPanel
+      layout_properties: {grid_position: 'JAXKGB,NPEIQB'}
+      components:
+      - name: primary_bin_label
+        properties: {role: headline, text: 'Primary Bin:', font_size: 24}
+        type: Label
+        layout_properties: {}
+      - name: primary_bin_output
+        properties: {font_size: 24}
+        type: RichText
+        layout_properties: {}
+    - name: flow_panel_3
+      properties: {align: center}
+      type: FlowPanel
+      layout_properties: {grid_position: 'ZOFQKW,TFOASG'}
+      components:
+      - name: other_bins_btn
+        properties: {text: other bins..., role: primary-color, background: 'theme:Gray
+            600', font_size: 16}
+        type: Button
+        event_bindings: {click: other_bins_btn_click}
+      - name: spacer_3_copy
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 67.51953125}
+      - name: bin_primary_btn
+        properties: {text: add to stock, role: primary-color, font_size: 16}
+        type: Button
+        event_bindings: {click: add_to_stock_primary_btn_click}
+      - name: spacer_4_copy
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 55.79301875}
+      - name: purg_primary_bin_btn
+        properties: {text: Assign bin to purgatory, role: primary-color, background: '#ff6464',
+          font_size: 16, tooltip: ''}
+        type: Button
+        event_bindings: {click: purg_primary_bin_btn_click}
   - name: other_bins_panel
     properties: {role: null}
     type: ColumnPanel

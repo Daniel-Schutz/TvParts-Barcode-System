@@ -139,24 +139,10 @@ components:
             type: RichText
             data_bindings:
             - {property: content, code: 'self.item[''type'']', writeback: false}
-        - name: flow_panel_6_copy_1
-          properties: {}
-          type: FlowPanel
-          layout_properties: {grid_position: 'EEKAVN,JTDRUG'}
-          components:
-          - name: testing_status_label
-            properties: {text: 'Testing Status:', align: right, underline: false}
-            type: Label
-            layout_properties: {}
-          - name: testing_status_output
-            properties: {}
-            type: RichText
-            data_bindings:
-            - {property: content, code: 'self.item[''shopify_qty'']', writeback: false}
         - name: flow_panel_6_copy_1_copy_1
           properties: {}
           type: FlowPanel
-          layout_properties: {grid_position: 'GHCFSS,DNPPFJ'}
+          layout_properties: {grid_position: 'EEKAVN,RBZRJJ'}
           components:
           - name: order_label
             properties: {text: 'Order Number:', align: right, underline: false}
@@ -371,11 +357,6 @@ components:
         - name: picked_on_output
           properties: {}
           type: RichText
-      - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_2_copy_2
-        properties: {role: null}
-        type: ColumnPanel
-        layout_properties: {grid_position: 'SFLQYU,HRWJLC'}
-        components: []
     - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_1
       properties: {role: null}
       type: ColumnPanel
@@ -424,7 +405,7 @@ components:
           properties: {text: 'Placed On:'}
           type: Label
           layout_properties: {}
-        - name: placed_on_output
+        - name: binned_on_output
           properties: {}
           type: RichText
       - name: flow_panel_2_copy_1_copy_1_copy_1_copy_2_copy_2_copy_2
@@ -436,7 +417,7 @@ components:
           properties: {text: 'Placed By:'}
           type: Label
           layout_properties: {}
-        - name: placed_by_output
+        - name: binned_by_output
           properties: {}
           type: RichText
     - name: card_3_copy_1_copy_1_copy_1_copy_2_copy_2_copy_1

@@ -8,9 +8,8 @@ import anvil.server
 
 @anvil.server.callable
 def get_product_by_sku(input_sku):
-  results = app_tables.products.search(sku=q.like(f"{input_sku}"))
-  disassemble = [row for row in results[:5]]
-  return disassemble[0]
+  result_row = app_tables.products.get(sku=input_sku)
+  return result_row
 
 @anvil.server.callable
 def get_type_dropdown():

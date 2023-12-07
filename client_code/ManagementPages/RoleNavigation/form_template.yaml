@@ -82,6 +82,7 @@ components:
       properties: {text: load messages, role: primary-color, align: right}
       type: Button
       layout_properties: {}
+      event_bindings: {click: load_messages_btn_click}
   - name: msg_inbox_repeater
     properties: {item_template: CommonComponents.RecieveMsgTemplate}
     type: RepeatingPanel

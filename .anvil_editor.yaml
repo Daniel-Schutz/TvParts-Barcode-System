@@ -38,6 +38,7 @@ unique_ids:
     CommonComponents.TestOrderPanel.ItemTemplate7: '1700459276708417119511989.83344'
     CommonComponents.WarehouseFulfillmentPanel: '1700445250149683768902776.628'
     CommonComponents.ShipSingleItemPanel: '170046053332994522460703.8595'
+    CommonComponents.SingleProductItemListing: '1701927793237466082917197.94946'
     CommonComponents.PurgatoryBinPanel: '1701505115538806827830509.5'
     CommonComponents.ProductExplorer.ItemTemplate5: '1700096749931301291327106.4324'
     CommonComponents.TableSelection: '1700533589430808277482161.3043'
