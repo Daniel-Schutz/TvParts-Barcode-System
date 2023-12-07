@@ -8,6 +8,7 @@ unique_ids:
     ProductionPages.IdModule: '170000507259398509353460.43266'
     CommonComponents.TestOrderPanel: '1700455161166427349918219.5533'
     CommonComponents.RecieveMessages.ItemTemplate1: '1699751480946530053801209.2628'
+    CommonComponents.QRPrintTemplate: '1701916974347159485765921.11685'
     CommonComponents.SelectBinModal: '1701539571938968090267388.1932'
     CommonComponents.RecallItemModal: '17018930487763116304974.023487'
     CommonComponents.NeedsAttentionReplaceModal: '170095458001415408997061.834517'

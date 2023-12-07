@@ -17,6 +17,7 @@ import datetime
 import time
 import json
 
+
 class TeardownModule(TeardownModuleTemplate):
   def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
@@ -53,9 +54,9 @@ class TeardownModule(TeardownModuleTemplate):
     pass
 
   def print_barcode(self):
-    #print(self.qr_image.source)
-    #js.window.printImage(self.qr_image.source)
-    anvil.media.print_media(self.qr_image.source)
+    pdf = anvil.server.call('fetch_and_return_image', self.qr_image.source)
+    print("got thie pdf!")
+    print(pdf)
 
 ######## Create Truck Id helper functions ###############
 

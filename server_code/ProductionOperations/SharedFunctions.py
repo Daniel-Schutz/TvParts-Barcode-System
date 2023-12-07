@@ -5,8 +5,13 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import anvil.http
+import anvil.media
 
 from datetime import datetime
+from anvil.pdf import PDFRenderer
+
+
 
 @anvil.server.callable
 def get_next_order(user, table_no, search_status, new_status): 
@@ -282,3 +287,15 @@ def get_all_bin_rows():
 @anvil.server.callable
 def get_all_product_rows():
   return app_tables.products.search()
+
+
+######### Printing the Labels ############
+# @anvil.server.callable
+# def create_qr_pdf(source):
+#   media_object = anvil.pdf.render_form('CommonComponents.QRPrintTemplate', source, name='qr_label')
+#   return media_object
+
+@anvil.server.callable
+def fetch_and_return_image(source):
+  pdf = PDFRenderer(page_size=(5, 5)).render_form('CommonComponents.QRPrintTemplate', source)
+  return pdf
