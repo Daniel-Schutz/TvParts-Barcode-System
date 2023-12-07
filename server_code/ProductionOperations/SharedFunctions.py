@@ -267,6 +267,8 @@ def create_select_bin_dropdown(bin_list):
 @anvil.server.callable
 def get_all_bins_from_primary(primary_bin):
   primary_row = app_tables.bins.get(bin=primary_bin)
+  if not primary_row:
+    return None
   sku = primary_row['sku']
   bin_rows = app_tables.bins.search(sku=sku)
   return [row['bin'] for row in bin_rows]
