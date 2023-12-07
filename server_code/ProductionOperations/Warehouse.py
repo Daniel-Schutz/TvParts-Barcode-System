@@ -78,6 +78,8 @@ def update_item_on_verify_bk(user, role, item_id):
 def get_other_bins_dd(primary_bin):
   other_bins_list = anvil.server.call('get_all_bins_from_primary', primary_bin)
   default_val = ("(Select Bin)", "(Select Bin)")
+  if not other_bins_list:
+    return [default_val]
   bin_tups = [(bin, bin) for bin in other_bins_list]
   bin_tups.append(default_val)
   return bin_tups
@@ -102,7 +104,7 @@ def add_bin_to_purgatory(user, role, bin, item_id, item_id_delimiter="__"):
                                product_name=product_row['product_name'], 
                                purgatory_count=0, 
                                sku=sku)
-  add_item_to_purgatory(user, role, item_id)
+  add_item_to_purgatory(user, role, bin, item_id)
 
 @anvil.server.callable
 def add_item_to_purgatory(user, role, bin, item_id, item_id_delimiter="__"):

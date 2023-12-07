@@ -278,6 +278,9 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                         role=self.current_role, 
                         bin=primary_bin, 
                         item_id=self.place_item_id)
+      n_2 = Notification('Bin added to purgatory!', style='success')
+      n_2.show()
+      self.reset_place_part_visibility()
     
       
 

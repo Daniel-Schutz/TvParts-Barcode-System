@@ -152,10 +152,12 @@ components:
       properties: {text: bins, role: primary-color}
       type: Button
       layout_properties: {grid_position: 'SXNURM,RFUIKV'}
+      event_bindings: {click: purgatory_bins_view}
     - name: purgatory_items_btn
       properties: {text: items, role: primary-color}
       type: Button
       layout_properties: {grid_position: 'SXNURM,HPZXOQ'}
+      event_bindings: {click: purgatory_items_view}
     - name: bins_purgatory_spacer
       properties: {height: 5.140625}
       type: Spacer

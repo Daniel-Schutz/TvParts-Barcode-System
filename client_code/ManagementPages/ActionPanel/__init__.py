@@ -221,7 +221,7 @@ class ActionPanel(ActionPanelTemplate):
       self.purgatory_bins_view()
 
 # Visibility and master buttons
-  def purgatory_bins_view(self):
+  def purgatory_bins_view(self, **event_args):
     self.purgatory_bins_btn.background = "#236F65"
     self.purgatory_items_btn.background = "#3FA498"
     self.bins_purgatory_repeater.visible = True
@@ -230,7 +230,7 @@ class ActionPanel(ActionPanelTemplate):
     self.items_purgatory_spacer.visible = False
     self.no_purgatory_panel.visible = False
     
-  def purgatory_items_view(self):
+  def purgatory_items_view(self, **event_args):
     self.purgatory_bins_btn.background = "#3FA498"
     self.purgatory_items_btn.background = "#236F65"
     self.bins_purgatory_repeater.visible = False
