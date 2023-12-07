@@ -92,84 +92,123 @@ components:
         layout_properties: {grid_position: 'UKTYXI,QUBGKH'}
         event_bindings: {click: add_condition_btn_click}
       - name: filt_condition_1_panel
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'GKWLNB,SESVRW'}
+        properties: {role: null}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'FJDZHX,OASHFM'}
         components:
-        - name: condition_1_col_label
-          properties: {text: 'Condition 1:'}
-          type: Label
-          layout_properties: {}
-        - name: filt_col_dd_1
+        - name: filt_condition_1_panel_select
           properties: {}
-          type: DropDown
-          layout_properties: {width: 192.07775}
-          event_bindings: {change: filt_col_dd_1_change}
-        - name: filt_1_dtype_out
-          properties: {}
-          type: RichText
+          type: FlowPanel
+          layout_properties: {grid_position: 'DEXZWA,TIZKRW'}
+          components:
+          - name: condition_1_col_label
+            properties: {text: 'Condition 1:'}
+            type: Label
+            layout_properties: {}
+          - name: filt_col_dd_1
+            properties: {}
+            type: DropDown
+            layout_properties: {width: 192.07775, expand: true}
+            event_bindings: {change: filt_col_dd_1_change}
+          - name: filt_1_dtype_out
+            properties: {}
+            type: RichText
         - name: query_dd
-          properties: {}
+          properties: {align: center}
           type: DropDown
-          layout_properties: {width: 127.812625}
-        - name: query_1_text_input
-          properties: {}
-          type: TextBox
-        - name: query_1_date_input
-          properties: {}
-          type: DatePicker
+          layout_properties: {grid_position: 'HMFXMY,LCAQDN'}
+        - name: filt_condition_1_panel_constrain
+          properties: {align: center}
+          type: FlowPanel
+          layout_properties: {grid_position: 'QYJNDF,WBNMGE'}
+          components:
+          - name: query_1_text_input
+            properties: {}
+            type: TextBox
+            layout_properties: {width: 251.5}
+          - name: query_1_date_input
+            properties: {}
+            type: DatePicker
       - name: filt_condition_2_panel
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'DMGKZW,PVVDJB'}
+        properties: {role: null}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'VXYQIJ,HISINU'}
         components:
-        - name: condition_2_col_label
-          properties: {text: 'Condition 2:'}
-          type: Label
-          layout_properties: {}
-        - name: filt_col_dd_2
+        - name: filt_condition_2_panel_in
           properties: {}
-          type: DropDown
-          layout_properties: {width: 192.07775}
-        - name: filt_2_dtype_out
-          properties: {}
-          type: RichText
+          type: FlowPanel
+          layout_properties: {grid_position: 'WIWCLM,YGZGBL'}
+          components:
+          - name: condition_2_col_label
+            properties: {text: 'Condition 2:'}
+            type: Label
+            layout_properties: {}
+          - name: filt_col_dd_2
+            properties: {}
+            type: DropDown
+            layout_properties: {width: 192.07775, expand: true}
+            event_bindings: {change: filt_col_dd_2_change}
+          - name: filt_2_dtype_out
+            properties: {}
+            type: RichText
         - name: query2_dd
-          properties: {}
+          properties: {align: center}
           type: DropDown
-          layout_properties: {width: 127.812625}
-        - name: query_2_text_input
-          properties: {}
-          type: TextBox
-        - name: query_2_date_input
-          properties: {}
-          type: DatePicker
+          layout_properties: {grid_position: 'IFALGP,SWUZDW'}
+        - name: filt_condition_2_panel_in2
+          properties: {align: center}
+          type: FlowPanel
+          layout_properties: {grid_position: 'NKACJF,ZSSGLQ'}
+          components:
+          - name: query_2_text_input
+            properties: {}
+            type: TextBox
+          - name: query_2_date_input
+            properties: {}
+            type: DatePicker
       - name: filt_condition_3_panel
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'FQKTAS,ZZVIVH'}
+        properties: {role: card}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'REGEKM,EFXAYD'}
         components:
-        - name: condition_3_col_label
-          properties: {text: 'Condition 3:'}
-          type: Label
-          layout_properties: {}
-        - name: filt_col_dd_3
+        - name: filt_condition_3_panel_in
           properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'BEQTIS,OJYEAI'}
+          components:
+          - name: condition_3_col_label
+            properties: {text: 'Condition 3:'}
+            type: Label
+            layout_properties: {}
+          - name: filt_col_dd_3
+            properties: {}
+            type: DropDown
+            layout_properties: {width: 192.07775, expand: true}
+            event_bindings: {change: filt_col_dd_3_change}
+          - name: filt_3_dtype_out
+            properties: {}
+            type: RichText
+        - name: query3_dd
+          properties: {align: center}
           type: DropDown
-          layout_properties: {width: 192.07775}
-        - name: filt_3_dtype_out
-          properties: {}
-          type: RichText
-        - name: query3_dd_copy
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 127.812625}
-        - name: query_3_text_input
-          properties: {}
-          type: TextBox
-        - name: query_3_date_input
-          properties: {}
-          type: DatePicker
+          layout_properties: {grid_position: 'IREBXC,TGPYWG'}
+        - name: filt_condition_3_panel_in2
+          properties: {align: center}
+          type: FlowPanel
+          layout_properties: {grid_position: 'RKEBRO,BWRGFG'}
+          components:
+          - name: query_3_text_input
+            properties: {}
+            type: TextBox
+          - name: query_3_date_input
+            properties: {}
+            type: DatePicker
+      - name: lock_conditions_btn
+        properties: {text: lock conditions, role: primary-color, tooltip: You must lock conditions before editing the datatables,
+          background: '#6196ff', icon: 'fa:lock', font_size: 16}
+        type: Button
+        layout_properties: {grid_position: 'ZXPWTG,FUTFWX'}
+        event_bindings: {click: add_condition_btn_click}
     - name: set_value_panel
       properties: {}
       type: FlowPanel

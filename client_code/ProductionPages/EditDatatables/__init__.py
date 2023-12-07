@@ -110,7 +110,7 @@ class EditDatatables(EditDatatablesTemplate):
       self.query_1_text_input.visible = False
       self.query_1_date_input.visible = False
     else:
-      self.filt_1_dtype_out.content = self.col_type_map[self.select_col_dd.selected_value]
+      self.filt_1_dtype_out.content = self.col_type_map[self.filt_col_dd_1.selected_value]
       if self.filt_1_dtype_out.content == 'string':
         self.query_dd.items = self.string_dropdown_options
         self.query_dd.selected_value = "(Select Condition)"
@@ -127,6 +127,56 @@ class EditDatatables(EditDatatablesTemplate):
         elif self.filt_1_dtype_out.content == 'datetime':
           self.query_1_text_input.visible = False
           self.query_1_date_input.visible = True
+
+  def filter_box_2_column_select_vis(self):
+    if self.filt_col_dd_2.selected_value == '(Select Column)':
+      self.filt_2_dtype_out.content = '(Select Column)'
+      self.query2_dd.visible = False
+      self.query_2_text_input.visible = False
+      self.query_2_date_input.visible = False
+    else:
+      self.filt_2_dtype_out.content = self.col_type_map[self.filt_col_dd_2.selected_value]
+      if self.filt_2_dtype_out.content == 'string':
+        self.query2_dd.items = self.string_dropdown_options
+        self.query2_dd.selected_value = "(Select Condition)"
+        self.query2_dd.visible = True
+        self.query_2_text_input.visible = True
+        self.query_2_date_input.visible = False
+      else:
+        self.query2_dd.items = self.num_dropdown_options
+        self.query2_dd.selected_value = "(Select Condition)"
+        self.query2_dd.visible = True
+        if self.filt_2_dtype_out.content == 'number':
+          self.query_2_text_input.visible = True
+          self.query_2_date_input.visible = False        
+        elif self.filt_2_dtype_out.content == 'datetime':
+          self.query_2_text_input.visible = False
+          self.query_2_date_input.visible = True
+
+  def filter_box_3_column_select_vis(self):
+    if self.filt_col_dd_3.selected_value == '(Select Column)':
+      self.filt_3_dtype_out.content = '(Select Column)'
+      self.query3_dd.visible = False
+      self.query_3_text_input.visible = False
+      self.query_3_date_input.visible = False
+    else:
+      self.filt_3_dtype_out.content = self.col_type_map[self.filt_col_dd_3.selected_value]
+      if self.filt_3_dtype_out.content == 'string':
+        self.query3_dd.items = self.string_dropdown_options
+        self.query3_dd.selected_value = "(Select Condition)"
+        self.query3_dd.visible = True
+        self.query_3_text_input.visible = True
+        self.query_3_date_input.visible = False
+      else:
+        self.query3_dd.items = self.num_dropdown_options
+        self.query3_dd.selected_value = "(Select Condition)"
+        self.query3_dd.visible = True
+        if self.filt_3_dtype_out.content == 'number':
+          self.query_3_text_input.visible = True
+          self.query_3_date_input.visible = False        
+        elif self.filt_3_dtype_out.content == 'datetime':
+          self.query_3_text_input.visible = False
+          self.query_3_date_input.visible = True
 
 ###################################################
 ###### Data Type/Data Validation & Dropdowns ######
@@ -167,7 +217,11 @@ class EditDatatables(EditDatatablesTemplate):
   def filt_col_dd_1_change(self, **event_args):
     self.filter_box_1_column_select_vis()
 
-    
+  def filt_col_dd_2_change(self, **event_args):
+    self.filter_box_2_column_select_vis()    
+
+  def filt_col_dd_3_change(self, **event_args):
+    self.filter_box_3_column_select_vis()    
 
 ###################################################
 ###### Database Interaction #######################
