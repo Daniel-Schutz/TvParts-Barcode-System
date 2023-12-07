@@ -167,7 +167,7 @@ components:
             properties: {}
             type: DatePicker
       - name: filt_condition_3_panel
-        properties: {role: card}
+        properties: {role: null}
         type: ColumnPanel
         layout_properties: {grid_position: 'REGEKM,EFXAYD'}
         components:
