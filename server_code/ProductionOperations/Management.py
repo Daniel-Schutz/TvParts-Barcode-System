@@ -5,6 +5,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+from anvil.tables.query import greater_than, less_than, like, ilike, greater_than_or_equal_to, less_than_or_equal_to
+
 
 from datetime import datetime
 import pandas as pd
@@ -377,10 +379,8 @@ def get_col_type_dict_for_mapping(table_name):
 def get_num_compare_dd():
   num_compare_dict = {
     'Greater Than': '>',
-    'Greater or Equal To': '>=',
     'Equal To': '=',
     'Less Than': '<',
-    'Less or Equal To': '<='
   }
   default_val = ('(Select Condition)', '(Select Condition)')
   cond_choices = list(num_compare_dict.keys())
@@ -393,11 +393,47 @@ def get_string_compare_dd():
   string_compare_dict = {
     'Contains': 'contains',
     'Equal To': 'equals',
-    'Does Not Contain': 'does not contain',
-    'Not Equal To': 'not equal to',
+    #'Does Not Contain': 'does not contain',
+    # 'Not Equal To': 'not equal to',
   }
   default_val = ('(Select Condition)', '(Select Condition)')
   cond_choices = list(string_compare_dict.keys())
   cond_tups = [(k,k) for k in cond_choices]
   cond_tups.append(default_val)
   return cond_tups
+
+@anvil.server.callable
+def query_test():
+  query_dict = {'sku': ilike('%4%'), 'bin_type': ilike('standard')}
+  return app_tables.bins.search(q.all_of(**query_dict))
+
+@anvil.server.callable
+def get_filtered_data(table_name, filters): #filters is a list of dicts with keys 'column_name', 'comparison', 'value'
+  table=getattr(app_tables, table_name)
+  query_conditions = []
+
+  # Mapping of comparison methods to Anvil query functions
+  comparison_methods = {
+      'Greater Than': greater_than,
+      'Greater or Equal To': greater_than_or_equal_to,
+      'Less Than': less_than,
+      'Less or Equal To': less_than_or_equal_to,
+      'Equal To': ilike,
+      'Contains': ilike,  # Using 'like' for 'contains' (for string columns)
+  }
+  
+  
+  # Construct query conditions
+  query_dict = {}
+  for filter_cond in filters:
+    column_name = filter_cond.get('column_name')
+    comparison = filter_cond.get('comparison')
+    value = filter_cond.get('value')
+    compare_func = comparison_methods[comparison]
+    if comparison == 'Contains':
+      query_dict[column_name] = compare_func(f"%{value}%")
+    else:
+      query_dict[column_name] = compare_func(value)
+
+  result = table.search(**query_dict)
+  return result

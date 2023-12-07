@@ -178,6 +178,42 @@ class EditDatatables(EditDatatablesTemplate):
           self.query_3_text_input.visible = False
           self.query_3_date_input.visible = True
 
+  def locked_conditions_vis(self):
+    self.filt_col_dd_1.enabled = False
+    self.filt_1_dtype_out.enabled = False
+    self.query_dd.enabled = False
+    self.query_1_text_input.enabled = False
+    self.query_1_date_input.enabled = False
+    self.filt_col_dd_2.enabled = False
+    self.filt_2_dtype_out.enabled = False
+    self.query2_dd.enabled = False
+    self.query_2_text_input.enabled = False
+    self.query_2_date_input.enabled = False
+    self.filt_col_dd_3.enabled = False
+    self.filt_3_dtype_out.enabled = False
+    self.query3_dd.enabled = False
+    self.query_3_text_input.enabled = False
+    self.query_3_date_input.enabled = False
+
+  def unlocked_conditions_vis(self):
+    self.filt_col_dd_1.enabled = True
+    self.filt_1_dtype_out.enabled = True
+    self.query_dd.enabled = True
+    self.query_1_text_input.enabled = True
+    self.query_1_date_input.enabled = True
+    self.filt_col_dd_2.enabled = True
+    self.filt_2_dtype_out.enabled = True
+    self.query2_dd.enabled = True
+    self.query_2_text_input.enabled = True
+    self.query_2_date_input.enabled = True
+    self.filt_col_dd_3.enabled = True
+    self.filt_3_dtype_out.enabled = True
+    self.query3_dd.enabled = True
+    self.query_3_text_input.enabled = True
+    self.query_3_date_input.enabled = True
+
+  
+
 ###################################################
 ###### Data Type/Data Validation & Dropdowns ######
   def _get_column_dd_for_table(self):
@@ -221,7 +257,11 @@ class EditDatatables(EditDatatablesTemplate):
     self.filter_box_2_column_select_vis()    
 
   def filt_col_dd_3_change(self, **event_args):
-    self.filter_box_3_column_select_vis()    
+    self.filter_box_3_column_select_vis()
+
+  def lock_conditions_btn_click(self, **event_args):
+    self.locked_conditions_vis()
 
 ###################################################
 ###### Database Interaction #######################
+
