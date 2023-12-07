@@ -9,7 +9,11 @@ import anvil.http
 import anvil.media
 
 from datetime import datetime
-from anvil.pdf import PDFRenderer
+# from anvil.pdf import PDFRenderer
+
+import base64
+# import anvil.http
+import anvil.js
 
 
 
@@ -299,3 +303,15 @@ def get_all_product_rows():
 def fetch_and_return_image(source):
   pdf = PDFRenderer(page_size=(5, 5)).render_form('CommonComponents.QRPrintTemplate', source)
   return pdf
+
+@anvil.server.callable
+def get_image_as_data_url(image_url):
+  # Fetch the image data from the URL
+  response = anvil.http.request(image_url, method="GET", binary=True)
+
+  if response.status_code == 200:
+    # Convert the response content to a base64-encoded data URL
+    base64_image = base64.b64encode(response.content).decode('utf-8')
+    return f"data:image/png;base64,{base64_image}"
+  else:
+    raise Exception("Failed to load image")

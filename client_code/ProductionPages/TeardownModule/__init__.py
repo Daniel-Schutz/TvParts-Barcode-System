@@ -54,9 +54,18 @@ class TeardownModule(TeardownModuleTemplate):
     pass
 
   def print_barcode(self):
-    pdf = anvil.server.call('fetch_and_return_image', self.qr_image.source)
-    print("got thie pdf!")
-    print(pdf)
+    #pdf = anvil.server.call('fetch_and_return_image', self.qr_image.source)
+    # html="""
+    # <img src={image_url}>
+    # """.format(image_url=self.qr_image.source)
+    # print(html)
+    # js.call('printPage', html)
+    js.call('printPage', self.qr_image.source)
+    # data_url = anvil.server.call('get_image_as_data_url', self.qr_image.source)
+    # js.call('printPage', data_url)
+
+    # print("got thie pdf!")
+    # print(pdf)
 
 ######## Create Truck Id helper functions ###############
 

@@ -77,6 +77,10 @@ components:
         properties: {}
         type: Image
         layout_properties: {grid_position: 'EMDZHT,HBUTNG'}
+    - name: print_js_logic
+      properties: {}
+      type: form:print_js_logic
+      layout_properties: {grid_position: 'CYXHAG,JIOYMA'}
     - name: spacer_1
       properties: {height: 32}
       type: Spacer

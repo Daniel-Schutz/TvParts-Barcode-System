@@ -1,0 +1,35 @@
+container:
+  type: HtmlTemplate
+  properties: {html: "<!-- <script>\n  function printPage(imageUrl) {\n    var printWindow\
+      \ = window.open('_blank');\n    var htmlContent = '<iframe style=\"width:100%;height:100%;\"\
+      \ frameborder=\"0\" src=\"' + imageUrl + '\"></iframe>';\n\n    printWindow.document.open();\n\
+      \    printWindow.document.write(htmlContent);\n    printWindow.document.close();\n\
+      \n    printWindow.onload = function() {\n      setTimeout(function() {\n   \
+      \     printWindow.focus();\n        printWindow.print();\n        printWindow.close();\n\
+      \      }, 500); // Adjust the timeout as needed\n    };\n  }\n</script> -->\n\
+      \n<!-- <script>\n  function printPage(dataUrl) {\n    var printWindow = window.open('_blank');\n\
+      \    printWindow.document.open();\n    printWindow.document.write('<html><head><title>Print</title></head><body>');\n\
+      \    printWindow.document.write('<img src=\"' + dataUrl + '\">');\n    printWindow.document.write('</body></html>');\n\
+      \    printWindow.document.close();\n    printWindow.onload = function() {\n\
+      \      printWindow.print();\n      printWindow.close();\n    }\n  }\n</script>\
+      \ -->\n\n<script>\n  function printPage(imageUrl) {\n    var printWindow = window.open('_blank');\n\
+      \    printWindow.document.open();\n    printWindow.document.write('<html><head><title>Print</title></head><body>');\n\
+      \    printWindow.document.write('<img src=\"' + imageUrl + '\">');\n    printWindow.document.write('</body></html>');\n\
+      \    printWindow.document.close();\n    setTimeout(function() {\n      printWindow.print();\n\
+      \      printWindow.close();\n    }, 3000); // Delay in milliseconds\n  }\n</script>\n\
+      \n<!-- <script>\n  function printPage(html){\n    var printWindow = window.open('_blank');\n\
+      \    printWindow.document.open('text/html');\n    printWindow.document.write(html);\n\
+      \    printWindow.print();\n\tprintWindow.close();\n  }\n</script> -->\n\n<!--\
+      \ <script>\n  function printPage(imageUrl) {\n    var printWindow = window.open('_blank');\n\
+      \    var image = new Image();\n\n    image.onload = function() {\n      printWindow.document.open('text/html');\n\
+      \      printWindow.document.write('<html><head><title>Print</title></head><body>');\n\
+      \      printWindow.document.write('<img src=\"' + imageUrl + '\">');\n     \
+      \ printWindow.document.write('</body></html>');\n      printWindow.document.close();\
+      \ // close the document so it's ready for printing\n      printWindow.focus();\
+      \ // focus on the new window to ensure the print dialog pops up\n      printWindow.print();\n\
+      \      printWindow.close();\n    };\n\n    image.src = imageUrl; // this will\
+      \ load the image and trigger the onload event\n  }\n</script> -->"}
+components: []
+is_package: true
+custom_component: true
+toolbox_item: {title: print_logic}
