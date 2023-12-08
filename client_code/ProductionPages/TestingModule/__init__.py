@@ -248,7 +248,6 @@ class TestingModule(TestingModuleTemplate):
     anvil.server.call('set_f_status_by_item_id', 
                       item_id=self.target_f['item_id'], 
                       status='Tested')
-    # self.update_fulfillments()
     self.check_complete()
     pass
     
