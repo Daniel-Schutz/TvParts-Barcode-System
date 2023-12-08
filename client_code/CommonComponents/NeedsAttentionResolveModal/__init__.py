@@ -119,7 +119,7 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
       
     
 ########## Move to Tray Logic #####################
-  def move_to_tray(self):
+  def move_to_tray(self, **event_args):
     tray_modal = anvil.alert(MovetoTray(user=self.current_user, role=self.user_role, order_no=self.current_order), 
                              large=True, buttons=['CANCEL'])
     if tray_modal == 'CANCEL':

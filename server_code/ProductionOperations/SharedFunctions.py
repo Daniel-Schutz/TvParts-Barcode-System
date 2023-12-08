@@ -191,7 +191,7 @@ def remove_fulfillment_by_item_id(item_id, user, user_role):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(status='Binned', order_no='')
   anvil.server.launch_background_task('add_history_to_item_bk', 
-                                      f_row['item_id'], 
+                                      item_id, 
                                       'Binned', 
                                       user, 
                                       user_role)  

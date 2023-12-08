@@ -232,19 +232,21 @@ def update_item_with_fulfillment(order_no, item_id, user, role): #need to add th
 @anvil.server.callable
 def get_open_trays_for_dd():
   open_tray_rows = app_tables.tables.search(type='Tray', status="Open")
-  default_val = ("(Select Tray), (Select Tray)")
+  default_val = ("(Select Tray)", "(Select Tray)")
   open_tray_tup_list = [(row['table'], row['table']) for row in open_tray_rows]
   open_tray_tup_list.append(default_val)
   return open_tray_tup_list
 
 @anvil.server.callable
-def move_order_to_tray(order_no, tray):
-  old_section_row = app_tables.table_sections.get(order=order_no)
-  old_section_row.update(current_user='', order=order_no)
+def move_order_to_tray(order_no, tray, status):
+  old_section_row = app_tables.table_sections.get(order=str(order_no))
+  old_section_row.update(current_user='', order='')
   tray_table_row = app_tables.tables.get(table=tray)
-  tray_table_row['status'] = 'Picking'
-  new_section_row = app_tables.table_sections.search(table=tray)[0] #we are assuming trays are 1 item entities now
-  new_section_row.update(order=order_no)
+  tray_table_row['status'] = status
+  order_row = app_tables.openorders.get(order_no=order_no)
+  order_row.update(table_no=tray, section='A') #always "A", because Trays are 1-item entities
+  new_section_row = app_tables.table_sections.search(table=tray)[0]
+  new_section_row.update(order=str(order_no))
 
 ####### Trays above tables logic ############
 # @anvil.server.callable

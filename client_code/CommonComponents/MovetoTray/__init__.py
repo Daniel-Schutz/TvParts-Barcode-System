@@ -20,12 +20,12 @@ class MovetoTray(MovetoTrayTemplate):
 
 #### Respond to button push ####
   def move_to_tray_btn_click(self, **event_args):
-    tray = self.tray_picker_dropdown.selected_value()
+    tray = self.tray_picker_dropdown.selected_value
     if tray == '(Select Tray)':
       n_1 = Notification("You must select a proper tray.", style='danger')
       n_1.show()
       return None
-    anvil.server.call('move_order_to_tray', self.current_order, tray)
+    anvil.server.call('move_order_to_tray', self.current_order, tray, 'Picking')
     # n = Notification("Order has been moved into fulfillment in the system. Place the order on the Tray to await processing.",
     #                 title='Order Moved!', style='success')
     # n.show()

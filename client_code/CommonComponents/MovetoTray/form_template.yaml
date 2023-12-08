@@ -25,4 +25,5 @@ components:
     properties: {text: move to tray, role: primary-color}
     type: Button
     layout_properties: {grid_position: 'UAAFTS,JKTIYT'}
+    event_bindings: {click: move_to_tray_btn_click}
 is_package: true

@@ -36,4 +36,5 @@ components:
     properties: {text: Move to tray, role: primary-color, icon: 'fa:play', font_size: 20}
     type: Button
     layout_properties: {grid_position: 'UZTXEB,KZMTDG'}
+    event_bindings: {click: move_to_tray}
 is_package: true

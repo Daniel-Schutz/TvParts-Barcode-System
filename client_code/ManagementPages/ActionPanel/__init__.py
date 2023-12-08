@@ -67,7 +67,7 @@ class ActionPanel(ActionPanelTemplate):
                   style='success', timeout=2)
       n.show()
       self.id_hold_count_input.text = None
-      self.get_id_holding_count(self)
+      self.get_id_holding_count()
       self.set_id_hold_count_btn.enabled = True
       
     except:
