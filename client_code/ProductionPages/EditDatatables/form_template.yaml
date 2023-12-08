@@ -203,6 +203,7 @@ components:
           - name: query_3_date_input
             properties: {}
             type: DatePicker
+            event_bindings: {change: query_3_date_input_change}
       - name: lock_conditions_btn
         properties: {text: lock conditions, role: primary-color, tooltip: You must lock conditions before editing the datatables,
           background: '#6196ff', icon: 'fa:lock', font_size: 16}

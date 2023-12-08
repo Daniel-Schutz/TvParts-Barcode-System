@@ -379,8 +379,10 @@ def get_col_type_dict_for_mapping(table_name):
 def get_num_compare_dd():
   num_compare_dict = {
     'Greater Than': '>',
+    'Greater or Equal To': '>=',
     'Equal To': '=',
     'Less Than': '<',
+    'Less or Equal To': "<="
   }
   default_val = ('(Select Condition)', '(Select Condition)')
   cond_choices = list(num_compare_dict.keys())
@@ -402,10 +404,10 @@ def get_string_compare_dd():
   cond_tups.append(default_val)
   return cond_tups
 
-@anvil.server.callable
-def query_test():
-  query_dict = {'sku': ilike('%4%'), 'bin_type': ilike('standard')}
-  return app_tables.bins.search(q.all_of(**query_dict))
+# @anvil.server.callable
+# def query_test():
+#   query_dict = {'sku': ilike('%4%'), 'bin_type': ilike('standard')}
+#   return app_tables.bins.search(q.all_of(**query_dict))
 
 @anvil.server.callable
 def get_filtered_data(table_name, filters): #filters is a list of dicts with keys 'column_name', 'comparison', 'value'
@@ -422,7 +424,6 @@ def get_filtered_data(table_name, filters): #filters is a list of dicts with key
       'Contains': ilike,  # Using 'like' for 'contains' (for string columns)
   }
   
-  
   # Construct query conditions
   query_dict = {}
   for filter_cond in filters:
@@ -436,4 +437,26 @@ def get_filtered_data(table_name, filters): #filters is a list of dicts with key
       query_dict[column_name] = compare_func(value)
 
   result = table.search(**query_dict)
-  return result
+  id_list = [row.get_id() for row in result] #return row ids for the edit
+  return id_list
+
+@anvil.server.callable
+def update_table_from_row_ids(table_name, column, value, id_list):
+  anvil.server.launch_background_task('update_table_from_row_ids_bk', 
+                                      table_name, 
+                                      column, 
+                                      value, 
+                                      id_list)
+
+@anvil.server.background_task
+def update_table_from_row_ids_bk(table_name, column, value, id_list):
+  table=getattr(app_tables, table_name)
+  for row_id in id_list:
+    row = table.get_by_id(row_id)
+    if row:
+      row[column_name] = value
+
+@anvil.server.callable
+def get_all_rows_by_table_name(table_name):
+  table=getattr(app_tables, table_name)
+  return table.search()

@@ -6,7 +6,7 @@ container:
       \      printWindow.document.write('<img src=\"' + imageUrl + '\">');\n     \
       \ printWindow.document.write('</body></html>');\n      printWindow.document.close();\n\
       \n      setTimeout(function() {\n        printWindow.print();\n        printWindow.close();\n\
-      \      }, 500);\n    };\n\n    img.onerror = function(event) {\n      // Display\
+      \      }, 100);\n    };\n\n    img.onerror = function(event) {\n      // Display\
       \ error details in the new window\n      var errorHtml = \"<p>Error loading\
       \ image: \" + event.type + \"</p>\";\n      if (event.target && event.target.src)\
       \ {\n        errorHtml += \"<p>Image URL: \" + event.target.src + \"</p>\";\n\

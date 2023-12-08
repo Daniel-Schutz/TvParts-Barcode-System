@@ -14,6 +14,7 @@ class EditDatatables(EditDatatablesTemplate):
     self.select_table_dd.selected_value = '(Select Table)'
     self.col_tups = None
     self.col_type_map = None
+    self.id_list = None #row_ids from query
     self.string_dropdown_options = anvil.server.call('get_string_compare_dd')
     self.num_dropdown_options = anvil.server.call('get_num_compare_dd')
     self.init_visibility()
@@ -194,6 +195,7 @@ class EditDatatables(EditDatatablesTemplate):
     self.query3_dd.enabled = False
     self.query_3_text_input.enabled = False
     self.query_3_date_input.enabled = False
+    
 
   def unlocked_conditions_vis(self):
     self.filt_col_dd_1.enabled = True
@@ -211,7 +213,15 @@ class EditDatatables(EditDatatablesTemplate):
     self.query3_dd.enabled = True
     self.query_3_text_input.enabled = True
     self.query_3_date_input.enabled = True
+    self.set_value_panel.visible = False
 
+  def set_val_entry_vis(self):
+    if self.column_datatype_out.content == 'datetime':
+      self.new_value_text_input.visible = True
+      self.new_value_date_input.visible = False
+    else:
+      self.new_value_text_input.visible = False
+      self.new_value_date_input.visible = True
   
 
 ###################################################
@@ -232,6 +242,75 @@ class EditDatatables(EditDatatablesTemplate):
     self.filt_col_dd_3.selected_value = '(Select Column)'
     pass
 
+# ############ Helpers ############################# #
+  def create_filters(self):
+    filters = []
+    if self.filt_col_dd_3.selected_value != '(Select Column)':
+      col = self.filt_col_dd_3.selected_value
+      query_type = self.query3_dd.selected_value
+      text_val = self.query_3_text_input.text
+      date_val = self.query_3_date_input.date
+      
+      if self.filt_3_dtype_out.content == 'datetime':
+        filters.append({
+          'column_name': col,
+          'comparison': query_type,
+          'value': text_val
+        })
+      else:
+        filters.append({
+          'column_name': col,
+          'comparison': query_type,
+          'value': date_val
+        })
+        
+    if self.filt_col_dd_2.selected_value != '(Select Column)':
+      col = self.filt_col_dd_2.selected_value
+      query_type = self.query2_dd.selected_value
+      text_val = self.query_2_text_input.text
+      date_val = self.query_2_date_input.date
+      
+      if self.filt_2_dtype_out.content == 'datetime':
+        filters.append({
+          'column_name': col,
+          'comparison': query_type,
+          'value': text_val
+        })
+      else:
+        filters.append({
+          'column_name': col,
+          'comparison': query_type,
+          'value': date_val
+        })
+
+    if self.filt_col_dd_1.selected_value != '(Select Column)':
+      col = self.filt_col_dd_1.selected_value
+      query_type = self.query1_dd.selected_value
+      text_val = self.query_1_text_input.text
+      date_val = self.query_1_date_input.date
+      
+      if self.filt_1_dtype_out.content == 'datetime':
+        filters.append({
+          'column_name': col,
+          'comparison': query_type,
+          'value': text_val
+        })
+      else:
+        filters.append({
+          'column_name': col,
+          'comparison': query_type,
+          'value': date_val
+        })
+    if filters == []:
+      return None
+    else:
+      return filters
+
+  def get_row_ids_from_filters(self, filters):
+    table = self.select_table_dd.selected_value
+    id_list = anvil.server.call('get_filtered_data', table, filters)
+# ################################################## #
+  
 
 ####################################################
 ########## On Change/On Click Events ###############
@@ -261,7 +340,59 @@ class EditDatatables(EditDatatablesTemplate):
 
   def lock_conditions_btn_click(self, **event_args):
     self.locked_conditions_vis()
+    n = Notification('Searching table, please wait a moment. Set options will become available upon load.', 
+                     style='success', timeout=5)
+    n.show()
+    filters = self.create_filters()
+    id_list = self.get_row_ids_from_filters(filters)
+    self.id_list = id_list
+    self.no_results_output = len(id_list)
+    self.set_value_panel.visible = True
+    self.set_val_entry_vis()
+
+  def set_value_btn_click(self):
+    if self.column_datatype_out.content == 'datetime':
+      if not self.new_value_date_input.date:
+        n = Notification('You must input a date! Use 1/1/1900 as a filler if needed.',
+                         style='danger')
+        n.show()
+        return 
+      else:
+        confirm = anvil.alert("This action cannot be reversed. Ok to continue?", 
+                              buttons=['SET NEW VALUES', 'CANCEL'], large=True,
+                              title='Edit Datatable - Final Confirmation')
+        if confirm == 'SET NEW VALUES':
+          table_name = self.select_table_dd.selected_value
+          column = self.select_col_dd.selected_value
+          value = self.new_value_date_input.date
+          id_list = self.id_list
+          anvil.server.call('update_table_from_row_ids', table_name, column, value, id_list)
+          n = Notification('Data updating! (Background Process)', style='success')
+          n.show()
+          self.raise_event('x-close-modal', value=None)
+          pass
+    else:
+      if not self.new_value_text_input.text:
+        n = Notification('You must input a value!',
+                         style='danger')
+        n.show()
+        return 
+      else:
+        confirm = anvil.alert("This action cannot be reversed. Ok to continue?", 
+                              buttons=['SET NEW VALUES', 'CANCEL'], large=True,
+                              title='Edit Datatable - Final Confirmation')
+        if confirm == 'SET NEW VALUES':
+          table_name = self.select_table_dd.selected_value
+          column = self.select_col_dd.selected_value
+          value = self.new_value_text_input.text
+          id_list = self.id_list
+          anvil.server.call('update_table_from_row_ids', table_name, column, value, id_list)
+          n = Notification('Data updating! (Background Process)', style='success')
+          n.show()
+          self.raise_event('x-close-modal', value=None)
+          pass
 
 ###################################################
 ###### Database Interaction #######################
+
 

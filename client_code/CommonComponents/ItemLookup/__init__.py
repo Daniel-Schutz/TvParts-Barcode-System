@@ -43,9 +43,13 @@ class ItemLookup(ItemLookupTemplate):
     self.packed_on_output.content = this_item['packed_on']
     self.tested_by_output.content = this_item['packed_by']
     self.item_history_output.content = this_item['history']
+    self.qr_img_url = anvil.server.call('get_s3_image_url', 
+                                        this_item['s3_object_key'])
+    self.qr_image.source = self.qr_img_url
     self.view_product_button.enabled = True
     self.scanned_item_input.enabled = False
     self.lookup_by_id_input.enabled = False
+    self.create_barcode_button.enabled = True
 
   def clear_all_values(self):
     self.product_name_output.content = None
@@ -77,6 +81,9 @@ class ItemLookup(ItemLookupTemplate):
     self.lookup_by_id_input.enabled = True
     self.scanned_item_input.text = None
     self.lookup_by_id_input.text = None
+    self.qr_img_url = None
+    self.qr_image.source = None
+    self.create_barcode_button.enabled = False
 
   
 
@@ -107,6 +114,7 @@ class ItemLookup(ItemLookupTemplate):
     item_dict = anvil.server.call('get_item_row_by_item_id', item_id)
     if not item_dict:
       anvil.alert("Item id does not exists. Please check and try again")
+      self.clear_all_values()
     else:
       self.display_all_values(item_dict)
 
@@ -124,3 +132,7 @@ class ItemLookup(ItemLookupTemplate):
     #Need to reform single product modal for this to work - see gpt
     single_product_modal = SingleProductListing(item=product_dict)
     anvil.alert(single_product_modal, large=True)
+
+  def print_barcode(self, **event_args):
+    #print("Image URL:", self.qr_img_url)
+    js.call('printPage', self.qr_img_url)
