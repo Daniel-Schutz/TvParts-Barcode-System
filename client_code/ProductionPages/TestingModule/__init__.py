@@ -183,6 +183,7 @@ class TestingModule(TestingModuleTemplate):
       print("no open sections in fetch new order")
       return None
     self.current_section = self.current_order['section']
+    self.init_order_card_content()
     self.update_fulfillment_display()
     return "Continue"
 
