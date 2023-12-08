@@ -172,9 +172,19 @@ def get_product_row_by_name(product_name):
 def get_product_row_by_sku(in_sku):
   return app_tables.products.get(sku=in_sku)
 
-  #potentially do this if we want to lookup table sections directly by current user. Right now is extraneous
-  # closed_section_row = app_tables.table_sections.get(order=order_no)
-  # closed_section_row.update(current_user='')
+def revert_order_to_new(order_no):
+  order_row = app_tables.openorders.get(order_no=order_no)
+  order_row.update(status='New', reserved_by='', reserved_status='Open', table_no='', section='')
+  section_row = app_tables.table_sections.get(order_no=str(order_no))
+  section_row.update(order='')
+
+@anvil.server.callable
+def force_close_pick_table(user):
+  picking_row = app_tables.openorders.get(reserved_by=user)
+  if picking_row:
+    order_no = picking_row['order_no']
+    revert_order_to_new(order_no)
+  
 
 
 @anvil.server.callable

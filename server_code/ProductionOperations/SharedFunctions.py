@@ -126,12 +126,11 @@ def get_needs_attention_orders(holding_type, dept):
 
 @anvil.server.callable
 def get_all_needs_attention_orders():
-  search_results = app_tables.table_sections.search(type=q.any_of('Warehouse Hold', 'Testing Hold', 'Shipping Hold'), order=q.not_(''))
+  search_results = app_tables.openorders.search(table_no=q.any_of('WHH1', 'TH1', 'SH1'))
   if len(search_results) == 0:
     return None
   else:
-    contained_orders = [int(row['order']) for row in search_results] #Need to update order d_type in shopify interface
-    order_records = app_tables.openorders.search(order_no=q.any_of(*contained_orders))
+    return search_results
 
 @anvil.server.callable
 def set_fulfillment_status(fulfillment_id, status):
@@ -187,7 +186,6 @@ def delete_order_bk(order_no):
   anvil.server.launch_background_task('delete_rows_bk', 'openfulfillments', 'order_no', order_no)
 
 #Removes a singular fulfillment from the system
-@anvil.server.callable
 def remove_fulfillment_by_item_id(item_id, user, user_role):
   anvil.server.call('delete_rows', 'openfulfillments', 'item_id', item_id)
   item_row = app_tables.items.get(item_id=item_id)
@@ -197,6 +195,15 @@ def remove_fulfillment_by_item_id(item_id, user, user_role):
                                       'Binned', 
                                       user, 
                                       user_role)  
+
+@anvil.server.callable
+def remove_fulfillment_by_f_id(f_id, user, user_role):
+  f_row = app_tables.openfulfillments.get(fulfillment_id=f_id)
+  if f_row['item_id'] != "":
+    item_id = f_row['item_id']
+    remove_fulfillment_by_item_id(item_id, user, user_role)
+  else:
+    f_row.delete()
 
 @anvil.server.callable
 def get_sku_from_f_id(fulfillment_id):

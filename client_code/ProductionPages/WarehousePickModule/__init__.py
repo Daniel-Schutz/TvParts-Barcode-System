@@ -17,7 +17,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     #   component.set_event_handler('x-change-focus-to-next', self.change_focus)
     # self.set_event_handler('x-order-picked', self.finish_order)
     self.fulfillment_repeating_panel.set_event_handler('x-change-focus-to-next', self.change_focus)
-    self.fulfillment_repeating_panel.set_event_handler('x-wh-needs-attention', self.move_to_holding)
+    self.fulfillment_repeating_panel.set_event_handler('x-wh-no-stock', self.move_to_holding_no_stock)
+    self.fulfillment_repeating_panel.set_event_handler('x-wh-needs-attention', self.move_to_holding_needs_attention)
     self.current_user = current_user
     self.current_role = current_role
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -220,6 +221,10 @@ class WarehousePickModule(WarehousePickModuleTemplate):
                                 title= f'Move {order_no}to Holding Area')
           if confirm:
             anvil.server.call('move_order_to_holding_area', order_no, hold_table, hold_section)
+
+      # return the currently displayed order to new status, if it exists
+      anvil.server.call('force_close_pick_table', self.current_user)
+      
     #close out the table itself too
     n = Notification("Table complete! please take table to testing and press continue.", style='success', title='Move Table to Testing', timeout=5)
     n.show()
@@ -229,7 +234,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 ##### Needs Attention Panel ############
   #responds to fulfillment repeater buttons
-  def move_to_holding(self, sku, fulfillment_id, **event_args):
+  def move_to_holding_no_stock(self, sku, fulfillment_id, **event_args):
     print("Made it to the move_to_holding event.")
     confirm = anvil.alert(f"Confirm: {sku} is not in stock?", 
                           buttons=['YES', 'CANCEL'], 
@@ -253,6 +258,38 @@ class WarehousePickModule(WarehousePickModuleTemplate):
                         'Management',
                         #'Test Message for holding',
                        f'NEEDS ATTENTION: {sku} marked as out of stock in warehouse. Blocking order {self.current_order["order_no"]}.',
+                       sku)
+      #Order to Holding Area
+      anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],
+                       open_section['table'], open_section['section'])
+      #Start fresh
+      self.fetch_new_order()      
+      self.refresh_needs_attention_area()
+
+  def move_to_holding_needs_attention(self, sku, fulfillment_id, **event_args):
+    print("Made it to the move_to_holding event - Needs Attention.")
+    confirm = anvil.alert(f"Confirm: {sku} needs management attentiom?", 
+                          buttons=['YES', 'CANCEL'], 
+                          large=True, Title = "Needs attention?")
+    if confirm == "YES":
+      n = Notification("updating...", style='info')
+      n.show()
+      anvil.server.call('set_fulfillment_status', fulfillment_id, 'Needs Attention')
+      open_section = anvil.server.call('get_next_open_section', 'WHH1') #hardcoded table name here
+      move_item = anvil.alert(f"Please move Order to Holding Table {open_section['table']}, \
+      Section: {open_section['section']}", buttons=['OK'], large=True,
+                title="Move Item to Holding.")
+      #Message for Management
+      # print("user", self.current_user)
+      # print("role", self.current_role)
+      # print("sku", sku)
+      # print("order", self.current_order)
+      anvil.server.call('create_message', 
+                        self.current_user,
+                        self.current_role, 
+                        'Management',
+                        #'Test Message for holding',
+                       f'NEEDS ATTENTION: {sku} marked as needs attention - other in the Warehouse. Blocking order {self.current_order["order_no"]}.',
                        sku)
       #Order to Holding Area
       anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],

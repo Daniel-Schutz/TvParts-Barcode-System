@@ -93,7 +93,7 @@ class ActionPanel(ActionPanelTemplate):
       self.no_pending_items_panel.visible = True
       self.na_orders_repeater.visible = False
     else:
-      self.no_pending_items_panel.visible = False
+      self.no_pending_orders_panel.visible = False
       self.na_orders_repeater.items = all_na_orders
       self.na_orders_repeater.visible = True
       

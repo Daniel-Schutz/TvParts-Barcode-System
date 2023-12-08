@@ -11,7 +11,7 @@ from ..NeedsAttentionReplaceModal import NeedsAttentionReplaceModal
 from ..MovetoTray import MovetoTray
 
 class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
-  def __init__(self, order_no, repeater_items, user, role, dept, **properties):
+  def __init__(self, order_no, repeater_items, user, role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.fulfillments_repeater.items = repeater_items
@@ -19,7 +19,6 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
     self.headline.text = f"Resolve Order {order_no}"
     self.current_user = user
     self.user_role = role
-    self.dept = dept
 
     #handle item logic within the modal
     self.fulfillments_repeater.set_event_handler('x-remove-item-btn', self.remove_fulfillment)
@@ -94,10 +93,15 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
                        title='Partial No-Stock: Removing Product from Order', style='warning',
                       timeout=5)
       n.show()
-      anvil.server.call('remove_fulfillment_by_item_id', 
-                        item_id,
+      anvil.server.call('remove_fulfillment_by_f_id', 
+                        fulfillment_id, 
                         self.current_user, 
                         self.user_role)
+      # remove fulfillment by fulfillment id
+      # anvil.server.call('remove_fulfillment_by_item_id', 
+      #                   item_id,
+      #                   self.current_user, 
+      #                   self.user_role)
       self.fulfillments_repeater.items = anvil.server.call('load_current_fulfillments', 
                                                            self.current_order)
       

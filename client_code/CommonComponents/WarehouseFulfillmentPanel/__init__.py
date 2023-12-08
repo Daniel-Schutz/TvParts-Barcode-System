@@ -65,6 +65,13 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
 ######### EVENTS ####################################
   def item_scan_pressed_enter(self, **event_args):
     item_id = json.loads(self.item_scan_input.text)['item_id']
+    item_sku = item_id.split("__")[0]
+    if item_sku != self.sku_output.content:
+      confirm = anvil.alert(f"WARNING: Scanned sku does not match order sku. Ok to proceed?", 
+                  title='SKU Mismatch Notice', buttons=['LINK ITEM', 'CANCEL'], large=True)
+      if confirm != 'LINK ITEM':
+        self.item_scan_input.text = None
+        return
     self.item_id_output.content = item_id
     fulfillment_id = self.item['fulfillment_id']
     anvil.server.call_s('link_item_to_fulfillment', 
@@ -81,7 +88,7 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     self.switch_to_empty_view()
 
   def no_stock_btn_click(self, **event_args):
-    self.parent.raise_event('x-wh-needs-attention', 
+    self.parent.raise_event('x-wh-no-stock', 
                             sku=self.sku_output.content, 
                             fulfillment_id = self.item['fulfillment_id'])
     print("raised event in no stock")

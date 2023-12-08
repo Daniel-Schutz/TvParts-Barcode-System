@@ -19,7 +19,6 @@ class NeedsAttentionOrdersPanel(NeedsAttentionOrdersPanelTemplate):
     self.customer_name_output.content = self.item['customer_name']
     self.price_output.content = self.item['total_price']
     self.no_items_output.content = self.item['total_items']
-    self.dept = self.item['dept']
     self.current_user = anvil.server.call('get_user_full_name')
     self.current_role = anvil.server.call('get_user_role')
 
@@ -41,7 +40,7 @@ class NeedsAttentionOrdersPanel(NeedsAttentionOrdersPanelTemplate):
                                                             repeater_items=fulfillments, 
                                                             user=self.current_user, 
                                                             role=self.current_role, 
-                                                            dept=self.dept), 
+                                                            ), 
                                 large=True, 
                                 title="Resolve Order Menu")
     elif access == 'Denied':
