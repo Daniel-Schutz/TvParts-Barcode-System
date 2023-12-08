@@ -20,6 +20,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.mode = 'verify'
     self.verify_part_btn.enabled = False
     self.place_part_card.visible=False
+    self.purgatory_bins = anvil.server.call_s('get_bins_in_purgatory')
 
     #If disabled, assumes that items are placed in their primary bin location upon placement scan
     self.require_bin_to_place = False #come back and edit this when looking at full functionality
@@ -195,7 +196,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.item_code_place_input.enabled = False
     
     #get the primary bin location  & purgatory rows
-    purgatory_bins = anvil.server.call_s('get_bins_in_purgatory')
+    purgatory_bins = self.purgatory_bins
     item_scan = self.item_code_place_input.text
     self.place_item_id = json.loads(item_scan)['item_id']
     
@@ -250,7 +251,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 
   def new_bin_btn_click(self, **event_args):
     #Can put an admin code here too if needed
-    selected_bin = anvil.alert(SelectBinModal())
+    primary_bin = self.primary_bin_output.content
+    selected_bin = anvil.alert(SelectBinModal(primary_bin=primary_bin, mode='open_bins'), 
+                               large=True, 
+                               buttons=[])
     if selected_bin:
       part_number = self.place_item_id.split('__')[0]
       anvil.server.call('add_new_bin_for_item', 
@@ -278,6 +282,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                         role=self.current_role, 
                         bin=primary_bin, 
                         item_id=self.place_item_id)
+      self.purgatory_bins = anvil.server.call('get_bins_in_purgatory')
       n_2 = Notification('Bin added to purgatory!', style='success')
       n_2.show()
       self.reset_place_part_visibility()

@@ -22,10 +22,10 @@ components:
       properties: {}
       type: DropDown
       layout_properties: {width: 543.77734375}
-      event_bindings: {change: bin_drop_down_changed(}
+      event_bindings: {change: bin_drop_down_changed}
     - name: set_bin_btn
       properties: {text: Submit, role: primary-color, align: right}
       type: Button
       layout_properties: {}
-      event_bindings: {click: button_submit_click}
+      event_bindings: {click: set_bin_btn_click}
 is_package: true

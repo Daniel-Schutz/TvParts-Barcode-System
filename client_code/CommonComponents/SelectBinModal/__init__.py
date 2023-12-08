@@ -30,12 +30,12 @@ class SelectBinModal(SelectBinModalTemplate):
                                                  bin_list)
 
 # Get bin dropdown based on open bins available
-  def get_os_bin_dropdown(self):
+  def get_open_bin_dropdown(self):
     self.bin_drop_down.items = anvil.server.call('get_open_bins_dropdown')
 
 # Only show submit when a valid value is chosen
   def bin_drop_down_changed(self, **event_args):
-    if bin_drop_down.selected_value == '(Select Bin)':
+    if self.bin_drop_down.selected_value == '(Select Bin)':
       self.set_bin_btn.visible = False
     else:
       self.set_bin_btn.visible = True

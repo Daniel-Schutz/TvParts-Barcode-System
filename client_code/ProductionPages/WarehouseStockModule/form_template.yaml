@@ -316,6 +316,7 @@ components:
         properties: {text: new bin, role: primary-color, background: '#6464ff', font_size: 16,
           align: right}
         type: Button
+        event_bindings: {click: new_bin_btn_click}
 - name: spacer_1
   properties: {height: 10}
   type: Spacer

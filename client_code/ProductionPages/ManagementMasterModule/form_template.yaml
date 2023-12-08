@@ -31,7 +31,7 @@ components:
       layout_properties: {}
       event_bindings: {click: dashboard_btn_click}
     - name: role_nav_btn
-      properties: {text: Role Naviagtion, role: primary-color}
+      properties: {text: Role NaviGAtion, role: primary-color}
       type: Button
       layout_properties: {}
       event_bindings: {click: role_nav_btn_click}

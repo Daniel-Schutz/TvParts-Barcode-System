@@ -317,3 +317,14 @@ def get_image_as_data_url(image_url):
     return f"data:image/png;base64,{base64_image}"
   else:
     raise Exception("Failed to load image")
+
+@anvil.server.callable
+def get_open_bins_dropdown():
+  open_bin_rows = app_tables.bins.search(bin_status='open')
+  if len(open_bin_rows) == 0:
+    return [('No Empty Bins', 'No Empty Bins')]
+  else:
+    open_bin_rows = [(row['bin'], row['bin']) for row in open_bin_rows]
+    open_bin_rows.append(('(Select Bin)', '(Select Bin)'))
+    open_bin_rows.sort()
+    return open_bin_rows

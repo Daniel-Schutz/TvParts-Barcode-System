@@ -23,16 +23,15 @@ components:
       properties: {text: Identification, role: primary-color}
       type: Button
       event_bindings: {click: id_btn_click}
+    - name: warehouse_stock_role_btn
+      properties: {text: warehouse stock, role: primary-color}
+      type: Button
+      event_bindings: {click: wh_stock_btn_click}
     - name: warehouse_pick_role_btn
       properties: {text: warehouse Pick, role: primary-color}
       type: Button
       layout_properties: {}
       event_bindings: {click: wh_pick_btn_click}
-    - name: warehouse_stock_role_btn
-      properties: {text: warehouse stock, role: primary-color}
-      type: Button
-      layout_properties: {}
-      event_bindings: {click: wh_stock_btn_click}
     - name: testing_role_btn
       properties: {text: testing, role: primary-color}
       type: Button
