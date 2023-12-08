@@ -265,7 +265,6 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
                                                     holding_type='Warehouse Hold', 
                                                     dept='Warehouse')
-    self.num_na_orders.output = len(self.needs_attention_orders)
     if not self.needs_attention_orders:
       self.num_na_orders.content = 0
       self.no_pending_panel.visible = True
