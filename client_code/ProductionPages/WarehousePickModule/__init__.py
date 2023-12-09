@@ -195,7 +195,11 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def finish_order(self):
     n = Notification(f"Order {self.current_order['order_no']} complete! Loading Next Open Order.", style='success', title="Order Complete!", timeout=5)
     n.show()
-    anvil.server.call_s('close_order_in_db', self.current_order['order_no'], 'Picked')
+    anvil.server.call_s('close_order_in_db', 
+                        self.current_user, 
+                        self.current_role, 
+                        self.current_order['order_no'], 
+                        'Picked')
     self.fetch_new_order()
     self.set_order_card_content()
 

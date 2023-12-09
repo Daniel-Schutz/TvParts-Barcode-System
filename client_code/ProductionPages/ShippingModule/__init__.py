@@ -235,11 +235,16 @@ class ShippingModule(ShippingModuleTemplate):
 # Close Orders when they are complete
   def close_order(self):
     order_no = self.current_order['order_no']
-    anvil.server.call('pack_order_and_fulfillments', 
+    anvil.server.call('close_order_in_db', 
+                      self.current_user, 
+                      self.current_role, 
+                      self.current_order, 
+                      status='Sold')
+    anvil.server.call('pack_order_and_fulfillments', #probably need to convert to bk
                       user=self.current_user, 
                       role=self.current_role, 
                       order_no=order_no)
-    anvil.server.call('remove_order_from_table', 
+    anvil.server.call('remove_order_from_table', #probably need to convert to bk 
                       order_no=order_no)
 
 # ##### Button Events - Initial Visibility #############

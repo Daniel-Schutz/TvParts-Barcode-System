@@ -84,13 +84,24 @@ def close_table(table_no, status):
     row['current_user'] = ''
 
 @anvil.server.callable
-def close_order_in_db(order_no, status):
-  anvil.server.launch_background_task('close_order_in_db_bk', order_no, status)
+def close_order_in_db(user, role, order_no, status):
+  anvil.server.launch_background_task('close_order_in_db_bk', user, role, order_no, status)
 
 @anvil.server.background_task
-def close_order_in_db_bk(order_no, status):
+def close_order_in_db_bk(user, role, order_no, status):
   closed_order_row = app_tables.openorders.get(order_no=order_no)
   closed_order_row.update(reserved_by='', reserved_status='Pending', status=status)
+  f_rows = app_tables.openfulfillments.search(order_no=order_no)
+  for row in f_rows:
+    item_id = row['item_id']
+    item_row = app_tables.items.get(item_id=item_id)
+    item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
+    anvil.server.launch_background_task('add_history_to_item_bk', 
+                                        item_id=item_id, 
+                                        item_status='Tested', 
+                                        user_full_name=user, 
+                                        user_role=role)
+  #Add item update stuff here
 
 
 ####### Trays above tables logic ############
