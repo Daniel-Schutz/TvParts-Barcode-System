@@ -221,7 +221,7 @@ class TestingModule(TestingModuleTemplate):
 # Close Orders when they are complete
   def close_order(self):
     order_no = self.current_order['order_no']
-    anvil.server.call('close_order_in_db',
+    anvil.server.call('close_order_in_db_sync',
                       user=self.current_user,
                       role=self.current_role,
                       order_no=order_no, 

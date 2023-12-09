@@ -126,7 +126,7 @@ class ShippingModule(ShippingModuleTemplate):
 
 # ######### Lifecycle DB Helper Functions ########################
   def update_fulfillments(self):
-    self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', 
+    self.current_fulfillments = anvil.server.call('load_current_fulfillments', 
                                                   self.current_order['order_no'])
     self.fulfillments_repeater.items = self.current_fulfillments
 
@@ -196,6 +196,7 @@ class ShippingModule(ShippingModuleTemplate):
       self.forced_finish_visibility()
       print("no open sections in fetch new order, end of table")
       return None
+      
     self.current_section = self.current_order['section']
     self.update_fulfillment_display()
     return "Continue"
@@ -213,6 +214,7 @@ class ShippingModule(ShippingModuleTemplate):
     self.this_item_id = scan_dict['item_id']
     for f in self.current_fulfillments:
       if f['item_id'] == self.this_item_id:
+        print("item_id for fulfillment and self are in sync.")
         self.target_f = f
         break
     if not self.target_f:
