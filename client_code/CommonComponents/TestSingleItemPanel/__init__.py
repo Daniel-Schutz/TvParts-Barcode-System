@@ -10,7 +10,7 @@ class TestSingleItemPanel(TestSingleItemPanelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.item_id_label.text = self.item['item_id']
+    self.item_id_label.content = self.item['item_id']
     self.set_event_handler('x-mark-passed-item', self.mark_passed)
     self.set_event_handler('x-mark-failed-item', self.mark_failed)
     self.set_event_handler('x-test-needs-attention', self.mark_needs_attention)

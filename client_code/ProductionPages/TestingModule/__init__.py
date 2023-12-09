@@ -173,18 +173,18 @@ class TestingModule(TestingModuleTemplate):
     n = Notification("Grabbing next order, just a moment.", style='info', timeout=5, title="New Order Loading")
     n.show()
     print(self.current_table)
-    self.current_order = anvil.server.call_s('get_next_order', 
+    self.current_order = anvil.server.call('get_next_order', 
                                              self.current_user, 
                                              self.current_table, 
                                              "Picked", 
                                              "Testing")
-    print(f"New order is {self.current_order['order_no']}")
     if not self.current_order:
       n = Notification("Table complete! please take table to Shipping and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
       print("no new sections in fetch new order")
       return None
+    print(f"New order is {self.current_order['order_no']}")
     self.current_section = self.current_order['section']
     self.init_order_card_content()
     self.update_fulfillment_display()
@@ -213,9 +213,9 @@ class TestingModule(TestingModuleTemplate):
       self.sku_output.content = self.target_f['sku']
       self.name_content.content = self.target_f['product_name']
       self.item_id_output.content = self.target_f['item_id']
-      self.enable_buttons()
       self.product_img_output.source = anvil.server.call_s('get_img_source_from_sku', 
                                                            sku=self.target_f['sku'])
+      self.enable_buttons()
       
 
 # Close Orders when they are complete
@@ -266,8 +266,11 @@ class TestingModule(TestingModuleTemplate):
                                                        item_id=self.target_f['item_id'])
     self.move_to_holding_failed(item_id=self.target_f['item_id'], 
                                 fulfillment_id=self.target_f['fulfillment_id'])
-    
-    pass #This kicks off the whole needs attention flow, so we'll come back to it
+    anvil.server.call('update_item_row', #note that update_item_row is a generic background process
+                      user=self.current_user, 
+                      role=self.current_role, 
+                      item_id=self.target_f['item_id'], 
+                      status='Failed QA')
 
   def finish_table_btn_click(self, **event_args):
     n = Notification("Closing Table, please wait...")
@@ -297,6 +300,15 @@ class TestingModule(TestingModuleTemplate):
       anvil.server.call('create_message', 
                         self.current_user, 
                         self.current_role, 
+                        'Warehouse',
+                        #'Test Message for holding',
+                       f'''FAILED TEST: Item {item_id} marked as failed at testing. 
+                       Blocking order {self.current_order["order_no"]}. 
+                       Please provide {self.current_user} with a replacement item as soon as possible.''',
+                       item_id)
+      anvil.server.call('create_message', 
+                        self.current_user, 
+                        self.current_role, 
                         'Management',
                         #'Test Message for holding',
                        f'FAILED TEST: Item {item_id} marked as failed at testing. Notice has been sent to warehouse to replace. Blocking order {self.current_order["order_no"]}.',
@@ -305,9 +317,11 @@ class TestingModule(TestingModuleTemplate):
       anvil.server.call('move_order_to_holding_area', self.current_order['order_no'],
                        open_section['table'], open_section['section'])
       #Start fresh
-      self.fetch_new_order()
+      more_orders = self.fetch_new_order()
+      if not more_orders:
+        pass #and logic for closing out the tale here
       self.init_order_card_content()
-      self.needs_attention_orders = anvil.server.call('get_needs_attention_items', 
+      self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
                                                       holding_type='Testing Hold', 
                                                       dept='Testing')
       self.num_na_orders.output = len(self.needs_attention_orders)

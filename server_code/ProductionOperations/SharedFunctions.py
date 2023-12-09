@@ -98,10 +98,9 @@ def close_order_in_db_bk(user, role, order_no, status):
     item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
     anvil.server.launch_background_task('add_history_to_item_bk', 
                                         item_id=item_id, 
-                                        item_status='Tested', 
+                                        item_status=status, 
                                         user_full_name=user, 
                                         user_role=role)
-  #Add item update stuff here
 
 
 ####### Trays above tables logic ############
@@ -346,3 +345,19 @@ def get_open_bins_dropdown():
     open_bin_rows.append(('(Select Bin)', '(Select Bin)'))
     open_bin_rows.sort()
     return open_bin_rows
+
+@anvil.server.callable
+def update_item_row(user, role, item_id, status):
+  anvil.server.launch_background_task('update_item_row_bk', user, role, item_id, status)
+
+
+@anvil.server.background_task
+def update_item_row_bk(user, role, item_id, status):
+  item_id = row['item_id']
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status=status, 
+                                      user_full_name=user, 
+                                      user_role=role)

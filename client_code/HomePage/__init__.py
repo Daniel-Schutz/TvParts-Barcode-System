@@ -151,7 +151,6 @@ class HomePage(HomePageTemplate):
     item_lookup_modal = ItemLookup()
     selected_value = anvil.alert(
       item_lookup_modal,
-      title="Item",
       buttons=["CLOSE"],
       large=True
     ) 
