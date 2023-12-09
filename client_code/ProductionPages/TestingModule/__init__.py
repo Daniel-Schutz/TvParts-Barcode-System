@@ -135,8 +135,10 @@ class TestingModule(TestingModuleTemplate):
       self.init_order_card_content()
       self.item_scan_input.focus()
     else:
+      self.init_order_card_content()
       self.update_fulfillments()
       self.clear_scan_btn_click()
+      self.item_scan_input.focus()
       
 
 ########## Lifecycle DB Functions ###############################
@@ -176,11 +178,12 @@ class TestingModule(TestingModuleTemplate):
                                              self.current_table, 
                                              "Picked", 
                                              "Testing")
+    print(f"New order is {self.current_order['order_no']}")
     if not self.current_order:
       n = Notification("Table complete! please take table to Shipping and press continue.", style='success')
       n.show()
       self.forced_finish_visibility()
-      print("no open sections in fetch new order")
+      print("no new sections in fetch new order")
       return None
     self.current_section = self.current_order['section']
     self.init_order_card_content()
