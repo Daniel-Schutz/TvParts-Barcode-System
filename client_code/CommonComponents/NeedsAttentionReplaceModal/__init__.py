@@ -73,14 +73,15 @@ class NeedsAttentionReplaceModal(NeedsAttentionReplaceModalTemplate):
   def done_btn_click(self, **event_args):
     destiny = self.replacement_reason_dropdown.selected_value
     new_item_id = self.new_item_id_output.text
+    f_status = anvil.server.call('get_f_status_from_item_id', self.prev_item_id)
     anvil.server.call('replace_item_on_fulfillment', 
                       self.prev_item_id, 
                       new_item_id, 
                       destiny, 
                       self.current_user, 
                       self.user_role, 
-                      'Picked')
-    self.raise_event('x-close-alert', value=new_item_id)
+                      f_status) #this works because fulfillments only have absolute statuses
+    self.raise_event('x-close-alert', value=new_item_id) #make sure this doesn't close the under modal
     
 
 

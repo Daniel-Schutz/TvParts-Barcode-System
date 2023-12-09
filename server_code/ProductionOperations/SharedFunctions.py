@@ -241,6 +241,11 @@ def get_f_id_from_item_id(item_id):
   return f_row['fulfillment_id']
 
 @anvil.server.callable
+def get_f_status_from_item_id(item_id):
+  f_row = app_tables.openfulfillments.get(item_id=item_id)
+  return f_row['status']
+
+@anvil.server.callable
 def set_f_status_from_item_id(item_id, status):
   f_row = app_tables.openfulfillments.get(item_id=item_id)
   f_row.update(status=status)
