@@ -24,7 +24,11 @@ class ShipSingleItemPanel(ShipSingleItemPanelTemplate):
 # Change display on the panel when the right item is scanned
   def on_item_scanned(self, item_id, **event_args):
     if item_id == self.item['item_id']:
+      print("Setting fulfillment to Packed.")
       self.waiting_label.visible = False
       self.ready_label.visible = True
       self.main_card.background = '#EEEEEE'
       anvil.server.call_s('set_f_status_by_item_id', item_id, "Packed")
+      # Take care of item updates from the main form to capture user and role 
+      # (we are doing this instead of adding the user and role to the repeater.items
+      self.parent.raise_event('x-update-item-in-bk', item_id=item_id)

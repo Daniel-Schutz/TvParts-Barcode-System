@@ -16,7 +16,7 @@ def remove_order_from_table(order_no):
   order_row.update(reserved_by='', reserved_status='Finished', table_no='', section='')
 
 @anvil.server.callable
-def pack_order_and_fulfillments(user, role, order_no):
+def pack_order_and_fulfillments(user, role, order_no): #probably an opp to save time here with bk tasks
   #get order row, set status to packed
   order_row = app_tables.openorders.get(order_no=order_no)
   order_row.update(status='Packed', reserved_by=user, reserved_status='Finished', table_no='', section='') #finished status used for deletion when table completes
@@ -25,10 +25,11 @@ def pack_order_and_fulfillments(user, role, order_no):
   #for each fulfillment row, set fulfillment to packed, and item status to packed
   for row in f_rows:
     row.update(status='Packed')
+    item_id = row['item_id']
     anvil.server.launch_background_task('update_items_sold_bk', 
                                         user, 
                                         role, 
-                                        order_no)
+                                        item_id)
   #add history for each item
   pass
 
@@ -36,11 +37,11 @@ def pack_order_and_fulfillments(user, role, order_no):
 def update_items_sold_bk(user, role, item_id):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(packed_on=datetime.now(), packed_by=user, status='Sold')
-  anvil.server.launch_background_task('add_history_to_item_bk', 
-                                      item_id, 
-                                      'Sold', 
-                                      user, 
-                                      role)
+  # anvil.server.launch_background_task('add_history_to_item_bk', #already taken care of in generic history updater
+  #                                     item_id, 
+  #                                     'Sold', 
+  #                                     user, 
+  #                                     role)
 
 @anvil.server.callable
 def remove_packed_orders_from_system(user): 

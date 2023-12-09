@@ -110,7 +110,7 @@ def close_order_in_db_bk(user, role, order_no, status):
   for row in f_rows:
     item_id = row['item_id']
     item_row = app_tables.items.get(item_id=item_id)
-    item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
+    item_row.update(status=status, tested_by=user, tested_on=datetime.now())
     anvil.server.launch_background_task('add_history_to_item_bk', 
                                         item_id=item_id, 
                                         item_status=status, 
@@ -365,12 +365,10 @@ def get_open_bins_dropdown():
 def update_item_row(user, role, item_id, status):
   anvil.server.launch_background_task('update_item_row_bk', user, role, item_id, status)
 
-
 @anvil.server.background_task
 def update_item_row_bk(user, role, item_id, status):
-  item_id = row['item_id']
   item_row = app_tables.items.get(item_id=item_id)
-  item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
+  item_row.update(status=status, tested_by=user, tested_on=datetime.now())
   anvil.server.launch_background_task('add_history_to_item_bk', 
                                       item_id=item_id, 
                                       item_status=status, 

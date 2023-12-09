@@ -14,6 +14,7 @@ class ShippingModule(ShippingModuleTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.fulfillments_repeater.set_event_handler('x-ship-needs-attention', self.needs_attention)
+    self.fulfillments_repeater.set_event_handler("x-update-item-in-bk", self.item_update_bk)
     self.current_user = current_user
     self.current_role = current_role
     self.current_table = anvil.server.call('get_current_table', self.current_user)
@@ -132,7 +133,10 @@ class ShippingModule(ShippingModuleTemplate):
 
   def pack_order(self, **event_args):
     complete = True
+    self.current_fulfillments = anvil.server.call('load_current_fulfillments', 
+                                                  self.current_order['order_no']) #catch the update
     for f in self.current_fulfillments:
+      print(f['status'])
       if f['status'] != 'Packed':
         n = Notification('''All items must be scanned to Pack the Order. 
         Please scan the remaining item(s). If items are not found or have an issue.
@@ -153,7 +157,16 @@ class ShippingModule(ShippingModuleTemplate):
       self.clear_scan()
       self.update_fulfillments()
 
-  #Remove the order from the table once it's shipped
+  #Update items on each scan
+  def item_update_bk(self, item_id, **event_args):
+    print("Trigged the item background update")
+    anvil.server.call("update_item_row", 
+                      user=self.current_user, 
+                      role=self.current_role, 
+                      item_id=item_id, 
+                      status='Packed')
+
+  # Remove the order from the table once it's shipped
   def remove_order_from_table(self):
     order_no = self.current_order['order_no']
     anvil.server.call_s('remove_order_from_table', order_no=order_no)
@@ -229,8 +242,8 @@ class ShippingModule(ShippingModuleTemplate):
       self.item_id_output.content = self.target_f['item_id']
       self.product_img_output.source = anvil.server.call('get_img_source_from_sku', 
                                                            sku=self.target_f['sku'])
-      self.update_fulfillment_display()
       self.fulfillments_repeater.raise_event_on_children('x-item_scanned', item_id=self.target_f['item_id'])
+      # self.update_fulfillment_display()
       
       
 
@@ -240,7 +253,7 @@ class ShippingModule(ShippingModuleTemplate):
     anvil.server.call('close_order_in_db', 
                       self.current_user, 
                       self.current_role, 
-                      self.current_order, 
+                      self.current_order['order_no'], 
                       status='Sold')
     anvil.server.call('pack_order_and_fulfillments', #probably need to convert to bk
                       user=self.current_user, 
