@@ -262,7 +262,7 @@ db_schema:
     server: full
     columns:
     - name: item_id
-      admin_ui: {width: 200, order: 0}
+      admin_ui: {order: 0, width: 262}
       type: string
     - name: product_name
       admin_ui: {width: 200, order: 1}
