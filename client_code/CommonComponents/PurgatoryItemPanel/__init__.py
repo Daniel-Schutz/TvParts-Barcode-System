@@ -19,8 +19,8 @@ class PurgatoryItemPanel(PurgatoryItemPanelTemplate):
   def move_to_bin_btn_click(self, **event_args):
     self.parent.raise_event('x-purg-move-single-item', 
                             primary_bin=self.item['primary_bin'], 
-                            item_id=item['item_id'])
+                            item_id=self.item['item_id'])
 
   def toss_btn_click(self, **event_args):
     self.parent.raise_event('x-purg-toss-single-item',
-                            item_id=item['item_id'])
+                            item_id=self.item['item_id'])

@@ -295,7 +295,7 @@ class ActionPanel(ActionPanelTemplate):
 
   def purg_move_single_item_to_bin(self, primary_bin, item_id, **event_args):
     print('caught the purg move item event')
-    new_bin = anvil.alert(SelectBinModal(primary_bin=primary_bin), 
+    new_bin = anvil.alert(SelectBinModal(primary_bin=primary_bin, mode='registered'), 
                           large=True)
     if not new_bin:
       pass #take no action if the modal is closed without seletion

@@ -155,8 +155,6 @@ def remove_bin_only_from_purgatory(bin):
   delete_row = app_tables.purgatory.get(bin=bin)
   delete_row.delete()
 
-
-
 @anvil.server.callable
 def purg_all_items_to_new_bin(user, role, new_bin, primary_bin):
   purg_row = app_tables.purgatory.get(bin=primary_bin)
@@ -168,7 +166,6 @@ def purg_all_items_to_new_bin(user, role, new_bin, primary_bin):
   for item_row in items_to_move:
     item_row.update(status='binned', stored_bin=new_bin, binned_on=datetime.now(), binned_by=user)
     anvil.server.launch_background_task('add_history_to_item_bk', item_row['item_id'], 'Binned', user, role)
-  pass
 
 @anvil.server.callable
 def purg_toss_all_items(user, role, primary_bin):
