@@ -16,8 +16,10 @@ class SelectBinModal(SelectBinModalTemplate):
       self.get_os_bin_dropdown()
     elif mode == 'open_bins':
       self.get_open_bin_dropdown()
+    elif mode == 'registered':
+      self.get_any_bin_dropdown()
     else:
-      raise ValueError("Bin Modal operating mode must be 'os_bins' or 'open_bins'")
+      raise ValueError("Bin Modal operating mode must be in ['os_bins', 'open_bins', 'registered']")
     self.bin_drop_down.selected_value = '(Select Bin)'
 
     # Any code you write here will run before the form opens.
@@ -32,6 +34,12 @@ class SelectBinModal(SelectBinModalTemplate):
 # Get bin dropdown based on open bins available
   def get_open_bin_dropdown(self):
     self.bin_drop_down.items = anvil.server.call('get_open_bins_dropdown')
+
+# Get bin dropdown for any bins registered in the system
+  def get_any_bin_dropdown(self):
+    bin_list = anvil.server.call('get_all_registered_bins', self.primary_bin)
+    self.bin_drop_down.items = anvil.server.call('create_select_bin_dropdown', 
+                                              bin_list)
 
 # Only show submit when a valid value is chosen
   def bin_drop_down_changed(self, **event_args):

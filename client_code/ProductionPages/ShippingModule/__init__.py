@@ -259,7 +259,7 @@ class ShippingModule(ShippingModuleTemplate):
                       user=self.current_user, 
                       role=self.current_role, 
                       order_no=order_no)
-    anvil.server.call('remove_order_from_table', #probably need to convert to bk 
+    anvil.server.call('remove_order_from_table', 
                       order_no=order_no)
 
 # ##### Button Events - Initial Visibility #############
@@ -291,9 +291,12 @@ class ShippingModule(ShippingModuleTemplate):
   def finish_table_btn_click(self, **event_args):
     n = Notification("Closing Table, please wait...")
     anvil.server.call('close_table', self.current_table, status='Open')
-    #Add a call to delete the order and its fulfillments from the orders and fulfillments tables
+    #call to delete the order and its fulfillments from the orders and fulfillments tables
+    anvil.server.call('close_table_and_remove_orders', 
+                      self.current_table, 
+                      'Open', 
+                      self.current_user)
     #anvil.server.call('remove_packed_orders_from_system', user=self.current_user)
-    
     self.initial_visibility()
     self.get_table_dropdown()
 

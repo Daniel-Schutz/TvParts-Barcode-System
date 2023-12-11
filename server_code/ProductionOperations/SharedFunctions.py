@@ -311,6 +311,13 @@ def get_all_bins_from_primary(primary_bin):
   return [row['bin'] for row in bin_rows]
 
 @anvil.server.callable
+def get_all_registered_bins(primary_bin):
+  primary_row = app_tables.bins.get(bin=primary_bin)
+  sku = primary_row['sku']
+  bin_rows = app_tables.bins.search(sku=sku)
+  return [row['bin'] for row in bin_rows]
+
+@anvil.server.callable
 def bin_and_update_item(user, role, item_id, bin_num):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(status='Binned', binned_by=user, binned_on=datetime.now(), stored_bin=bin_num)
@@ -372,8 +379,12 @@ def update_item_row(user, role, item_id, status):
 
 @anvil.server.background_task
 def update_item_row_bk(user, role, item_id, status):
+  now = datetime.now()
   item_row = app_tables.items.get(item_id=item_id)
-  item_row.update(status=status, tested_by=user, tested_on=datetime.now())
+  if status == 'Tested':
+    item_row.update(status=status, tested_by=user, tested_on=datetime.now())
+  elif status == 'Packed':
+    item_row.update(status=status, packed_by=user, packed_on=datetime.now())
   anvil.server.launch_background_task('add_history_to_item_bk', 
                                       item_id=item_id, 
                                       item_status=status, 

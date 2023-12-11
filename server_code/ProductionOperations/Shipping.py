@@ -10,6 +10,10 @@ from datetime import datetime
 
 @anvil.server.callable
 def remove_order_from_table(order_no):
+  anvil.server.launch_background_task('remove_order_from_table_bk', order_no)
+
+@anvil.server.background_task
+def remove_order_from_table_bk(order_no):
   table_sec_row = app_tables.table_sections.get(order=str(order_no))
   table_sec_row.update(order='')
   order_row = app_tables.openorders.get(order_no=order_no)
@@ -37,22 +41,28 @@ def pack_order_and_fulfillments(user, role, order_no): #probably an opp to save 
 def update_items_sold_bk(user, role, item_id):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(packed_on=datetime.now(), packed_by=user, status='Sold')
-  # anvil.server.launch_background_task('add_history_to_item_bk', #already taken care of in generic history updater
-  #                                     item_id, 
-  #                                     'Sold', 
-  #                                     user, 
-  #                                     role)
+
 
 @anvil.server.callable
-def remove_packed_orders_from_system(user): 
-  #we use user to make sure only orders on the table they packed get deleted
-  #we also make this background process so it doesn't affect UX
-  anvil.server.launch_background_task('remove_packed_orders_from_system_bk')
+def close_table_and_remove_orders(table_no, status, user):
+  order_rows = app_tables.openorders.search(reserved_status='Finished', table_no=table_no)
+  order_no_list = [row['order_no'] for row in order_rows]
+  anvil.server.launch_background_task('remove_packed_orders_from_system_bk', user, order_no_list)
+  table_row = app_tables.tables.get(table=table_no)
+  table_row.update(current_user='', status=status)
+  section_rows = app_tables.table_sections.search(table=table_no)
+  for row in section_rows:
+    row['current_user'] = ''
+
+# @anvil.server.callable
+# def remove_packed_orders_from_system(user): 
+#   #we use user to make sure only orders on the table they packed get deleted
+#   #we also make this background process so it doesn't affect UX
+#   anvil.server.launch_background_task('remove_packed_orders_from_system_bk')
 
 @anvil.server.background_task
-def remove_packed_orders_from_system_bk(user):
-  finished_orders = app_tables.openorders.search(reserved_status='Finished', reserved_by=user)
-  for order in reserved_orders:
-    anvil.server.call('delete_rows', 'openfulfillments', 'order_no', order['order_no'])
-    anvil.server.call('delete_rows', 'openorders', 'order_no', order['order_no'])
+def remove_packed_orders_from_system_bk(user, order_no_list):
+  for order_no in order_no_list:
+    anvil.server.call('delete_rows', 'openfulfillments', 'order_no', order_no)
+    anvil.server.call('delete_rows', 'openorders', 'order_no', order_no)
     

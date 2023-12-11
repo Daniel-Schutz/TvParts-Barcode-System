@@ -11,6 +11,9 @@ import pandas as pd
 import json
 
 #Note: Get s3 Image URL (presigned url from oject key) already exists in AWSInterface
+@anvil.server.callable
+def get_all_rows_from_bins():
+    return app_tables.bins.search()
 
 @anvil.server.callable
 def get_all_rows_from_products():
