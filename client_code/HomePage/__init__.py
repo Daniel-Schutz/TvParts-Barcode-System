@@ -98,11 +98,11 @@ class HomePage(HomePageTemplate):
 
 ######## HOME PAGE EVENTS ############################  
 
-  def settings_link_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    if anvil.server.call('check_admin'):
-      get_open_form().content_panel.clear()
-      get_open_form().content_panel.add_component(AdminSettings())
+  # def settings_link_click(self, **event_args):
+  #   """This method is called when the link is clicked"""
+  #   if anvil.server.call('check_admin'):
+  #     get_open_form().content_panel.clear()
+  #     get_open_form().content_panel.add_component(AdminSettings())
 
   def sign_out_link_click(self, **event_args):
     """This method is called when the link is clicked"""
