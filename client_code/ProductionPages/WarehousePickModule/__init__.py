@@ -305,7 +305,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def refresh_needs_attention_area(self):
     self.needs_attention_orders = anvil.server.call('get_{needs_attention_orders', 
                                                     holding_type='Warehouse Hold', 
-                                                    dept='Warehouse')}
+                                                    dept='Warehouse')
     
     if not self.needs_attention_orders:
       self.num_na_orders.content = 0
