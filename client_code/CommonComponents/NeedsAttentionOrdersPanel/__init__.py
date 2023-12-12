@@ -43,6 +43,7 @@ class NeedsAttentionOrdersPanel(NeedsAttentionOrdersPanelTemplate):
                                                             ), 
                                 large=True, 
                                 title="Resolve Order Menu")
+      self.parent.raise_event('x-refresh-needs-attention')
     elif access == 'Denied':
       n = Notification("Admin Passcode was incorrect!", 
                        style='danger', title='Wrong Password',

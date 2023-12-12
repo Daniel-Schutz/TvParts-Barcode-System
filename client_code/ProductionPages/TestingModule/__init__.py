@@ -124,6 +124,7 @@ class TestingModule(TestingModuleTemplate):
     complete = True
     for f in self.current_fulfillments:
       if f['status'] != 'Tested':
+        print("hit fulfillments aren't done.")
         complete = False
         break
     if complete:
@@ -149,14 +150,6 @@ class TestingModule(TestingModuleTemplate):
     self.current_table = anvil.server.call('claim_selected_table', 
                                            user=self.current_user, 
                                            table_no=selected_table)
-    #self.fetch_new_order()
-
-  # def get_new_table(self):
-  #   n = Notification("Claiming new table...", style='success')
-  #   self.current_table = anvil.server.call_s('claim_table', 
-  #                                           self.current_user, 
-  #                                             "Testing")
-  #   self.fetch_new_order()
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
@@ -318,8 +311,11 @@ class TestingModule(TestingModuleTemplate):
                        open_section['table'], open_section['section'])
       #Start fresh
       more_orders = self.fetch_new_order()
+      self.clear_scan_btn_click()
+      self.update_fulfillments()
       if not more_orders:
-        pass #and logic for closing out the tale here
+        self.forced_finish_visibility()
+        return None
       self.init_order_card_content()
       self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
                                                       holding_type='Testing Hold', 

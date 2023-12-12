@@ -17,6 +17,9 @@ class ActionPanel(ActionPanelTemplate):
     self.purgatory_bins = ''
     self.purgatory_items = ''
 
+    #allow needs attention area to reset on resolution
+    self.na_orders_repeater.set_event_handler('x-refresh-needs-attention', self.refresh_needs_attention)
+
     #set event listeners for NF repeater logic
     self.nf_items_repeater.set_event_handler('x-nf-move-to-bin', 
                                              self.nf_move_item_to_bin)
@@ -149,6 +152,11 @@ class ActionPanel(ActionPanelTemplate):
       self.no_pending_items_panel.visible = False
       self.na_orders_repeater.items = all_na_orders
       self.na_orders_repeater.visible = True
+
+  def refresh_needs_attention(self, **event_args):
+    n = Notification('Resetting Needs Attention Panel, please wait a moment....')
+    n.show()
+    self.orders_na_all()
 
 
 ####### Needs Fixed Display ################
