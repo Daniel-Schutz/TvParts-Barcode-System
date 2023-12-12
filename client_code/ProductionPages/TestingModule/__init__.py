@@ -186,8 +186,8 @@ class TestingModule(TestingModuleTemplate):
       return None
     print(f"New order is {self.current_order['order_no']}")
     self.current_section = self.current_order['section']
-    self.init_order_card_content()
     self.update_fulfillment_display()
+    self.init_order_card_content()
     return "Continue"
 
 # Update the fulfillments after a scan has been marked
