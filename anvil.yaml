@@ -20,14 +20,14 @@ services:
 startup: {type: form, module: HomePage}
 package_name: Booking_App_Template
 allow_embedding: false
-name: SnapQode QR Code System
+name: TvParts Inventory Master
 runtime_options:
   version: 2
   client_version: '3'
   server_version: python3-full
   server_spec: null
   server_spec_disabled: {requirements: '', base: python310-datascience}
-metadata: {title: SnapQode, logo_img: 'asset:tvbot_square.png'}
+metadata: {title: TvParts Barcode System, logo_img: 'asset:tvbot_square.png'}
 startup_form: null
 native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\"\
     >\n<link href=\"https://fonts.googleapis.com/css2?family=Satisfy&display=swap\"\
