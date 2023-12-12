@@ -128,7 +128,7 @@ def get_pending_trays(status):
     default = ("Select Table", "Select Table")
     pending_trays_vals = [(row['table'], row['table']) for row in pending_trays]
     pending_trays_vals.append(default)
-    return pending_trays
+    return pending_trays_vals
 
 
 ############ Holding Areas ##############
