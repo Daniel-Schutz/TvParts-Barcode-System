@@ -54,47 +54,53 @@ class HomePage(HomePageTemplate):
         
 
   def role_navigation(self):
-    user = self.current_user
-    user_role = self.user_role
-    if user_role is not None:
-      self.role_router()
-    else:
-      self.content_panel.add_component(ChooseRole(), full_width_row=True)
+    try:
+      user = self.current_user
+      user_role = self.user_role
+      if user_role is not None:
+        self.role_router()
+      else:
+        self.content_panel.add_component(ChooseRole(), full_width_row=True)
+    except:
+      self.show_links()
     
   def role_router(self):
-    current_user = self.current_user
-    current_role = self.user_role
-    if current_role == "Teardown":
-      from ..ProductionPages.TeardownModule import TeardownModule
-      self.content_panel.add_component(TeardownModule(current_user=current_user,
-                                                      current_role=current_role), 
-                                       full_width_row=True)
-    elif current_role == 'ID':
-      from ..ProductionPages.IdModule import IdModule
-      self.content_panel.add_component(IdModule(current_user=current_user,
-                                                      current_role=current_role),
-                                       full_width_row=True)
-    elif current_role == 'Warehouse':
-      from ..ProductionPages.WarehousePickModule import WarehousePickModule
-      from ..ProductionPages.WarehouseStockModule import WarehouseStockModule
-      self.content_panel.add_component(WarehouseStockModule(current_user=current_user,
-                                                      current_role=current_role),
-                                       full_width_row=True)
-    elif current_role == 'Testing':
-      from ..ProductionPages.TestingModule import TestingModule
-      self.content_panel.add_component(TestingModule(current_user=current_user,
-                                                      current_role=current_role),
-                                       full_width_row=True)
-    elif current_role == 'Shipping':
-      from ..ProductionPages.ShippingModule import ShippingModule
-      self.content_panel.add_component(ShippingModule(current_user=current_user,
-                                                      current_role=current_role),
-                                       full_width_row=True)
-    elif current_role == 'Management':
-      from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
-      self.content_panel.add_component(ManagementMasterModule(current_user=current_user,
-                                                      current_role=current_role),
-                                       full_width_row=True)
+    try:
+      current_user = self.current_user
+      current_role = self.user_role
+      if current_role == "Teardown":
+        from ..ProductionPages.TeardownModule import TeardownModule
+        self.content_panel.add_component(TeardownModule(current_user=current_user,
+                                                        current_role=current_role), 
+                                        full_width_row=True)
+      elif current_role == 'ID':
+        from ..ProductionPages.IdModule import IdModule
+        self.content_panel.add_component(IdModule(current_user=current_user,
+                                                        current_role=current_role),
+                                        full_width_row=True)
+      elif current_role == 'Warehouse':
+        from ..ProductionPages.WarehousePickModule import WarehousePickModule
+        from ..ProductionPages.WarehouseStockModule import WarehouseStockModule
+        self.content_panel.add_component(WarehouseStockModule(current_user=current_user,
+                                                        current_role=current_role),
+                                        full_width_row=True)
+      elif current_role == 'Testing':
+        from ..ProductionPages.TestingModule import TestingModule
+        self.content_panel.add_component(TestingModule(current_user=current_user,
+                                                        current_role=current_role),
+                                        full_width_row=True)
+      elif current_role == 'Shipping':
+        from ..ProductionPages.ShippingModule import ShippingModule
+        self.content_panel.add_component(ShippingModule(current_user=current_user,
+                                                        current_role=current_role),
+                                        full_width_row=True)
+      elif current_role == 'Management':
+        from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
+        self.content_panel.add_component(ManagementMasterModule(current_user=current_user,
+                                                        current_role=current_role),
+                                        full_width_row=True)
+    except:
+      pass
 
 ######## HOME PAGE EVENTS ############################  
 
