@@ -390,3 +390,7 @@ def update_item_row_bk(user, role, item_id, status):
                                       item_status=status, 
                                       user_full_name=user, 
                                       user_role=role)
+
+@anvil.server.callable
+def get_prod_row_by_sku(sku):
+  return app_tables.products.get(sku=sku)

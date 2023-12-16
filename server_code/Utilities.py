@@ -31,3 +31,10 @@ def update_settings_table(key, value):
 @anvil.server.callable
 def check_user_exists(email):
   return bool(app_tables.users.get(email=email))
+
+@anvil.server.callable
+def create_dataframe_from_table(table_name):
+    table = getattr(app_tables, table_name)
+    rows_list = [{column: getattr(row, column) for column in row} for row in table.search()]
+    df = pd.DataFrame(rows_list)
+    return df
