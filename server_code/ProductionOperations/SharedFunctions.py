@@ -42,7 +42,7 @@ def get_current_table(user):
 
 @anvil.server.callable
 def get_open_tables(status):
-  response = app_tables.tables.search(status=status)
+  response = app_tables.tables.search(status=status, type='Standard')
   open_tables = [(row['table'], row['table']) for row in response]
   open_tables.append(('(Select Table)', '(Select Table)'))
   return open_tables
