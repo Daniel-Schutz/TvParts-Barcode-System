@@ -73,12 +73,6 @@ def add_history_to_item_bk(item_id, item_status, user_full_name, user_role):
     new_history  = current_history + "\n\n" + new_message
     current_item['history'] = new_history
 
-@anvil.server.callable
-def get_admin_settings():
-  admin_pull = app_tables.adminsettings.search()
-  admin_settings_dict = [row for row in admin_pull][0]
-  return admin_settings_dict
-
 
 @anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
