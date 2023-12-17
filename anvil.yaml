@@ -147,6 +147,9 @@ db_schema:
     - name: s3_object_key
       admin_ui: {width: 200, order: 8}
       type: string
+    - name: item_tossed_count
+      admin_ui: {width: 200, order: 7}
+      type: number
     title: trucks
   itemholdingtables:
     client: none
