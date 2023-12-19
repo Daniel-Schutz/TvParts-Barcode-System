@@ -17,7 +17,10 @@ def get_user_role():
 @anvil.server.callable
 def get_user_full_name():
   user = anvil.users.get_user()
-  return user['first_name'] + " " + user['last_name']
+  if user['first_name'] is not None and user['last_name'] is not None:
+    return user['first_name'] + " " + user['last_name']
+  else:
+    return None
 
 #Check User First Name
 @anvil.server.callable

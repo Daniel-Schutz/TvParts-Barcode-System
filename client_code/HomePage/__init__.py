@@ -54,6 +54,7 @@ class HomePage(HomePageTemplate):
     try:
       user = self.current_user
       user_role = self.user_role
+      print(user_role)
       if user_role is not None:
         self.role_router()
       else:
@@ -116,8 +117,10 @@ class HomePage(HomePageTemplate):
   def sign_in_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     anvil.users.login_with_form()
+
+
     self.role_navigation()
-    self.show_links()
+    # self.show_links()
     #open_form('HomePage')
 
 

@@ -55,6 +55,8 @@ class ChooseRole(ChooseRoleTemplate):
       force_retry = True
     if force_retry:
       anvil.alert("All values required.")
+      
+    
     
 
 
