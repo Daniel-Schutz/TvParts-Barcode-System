@@ -9,7 +9,5 @@ import anvil.server
 #Module Imports
 from . import Common
 from . import UserTable
-from . import MockTable
 from . import MessageTable
-from . import SupplierTable
 
