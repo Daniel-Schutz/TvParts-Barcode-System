@@ -36,6 +36,7 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 357.8359375}
+        event_bindings: {change: select_role_dropdown_change}
     - name: flow_panel_1_copy
       properties: {}
       type: FlowPanel
@@ -49,6 +50,7 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 357.8359375}
+        event_bindings: {change: select_role_dropdown_copy_change}
       - name: spacer_2
         properties: {height: 32}
         type: Spacer
@@ -61,6 +63,7 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 225.15234375}
+        event_bindings: {change: comp_type_dropdown_change}
     - name: flow_panel_1_copy_copy
       properties: {}
       type: FlowPanel
@@ -74,6 +77,7 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 357.8359375}
+        event_bindings: {change: categorize_by_dropdown_change}
     - name: flow_panel_1_copy_copy_copy_2
       properties: {}
       type: FlowPanel
@@ -87,9 +91,11 @@ components:
         properties: {}
         type: DropDown
         layout_properties: {width: 309.66803125}
+        event_bindings: {change: time_period_quick_dropdown_change}
       - name: date_picker_1
         properties: {}
         type: DatePicker
+        event_bindings: {change: date_picker_1_change}
     - name: flow_panel_1_copy_copy_copy_2_copy
       properties: {}
       type: FlowPanel

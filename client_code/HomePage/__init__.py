@@ -12,7 +12,6 @@ from ..CommonComponents.RecieveMessages import RecieveMessages
 from ..CommonComponents.ProductExplorer import ProductExplorer
 from ..CommonComponents.ItemLookup import ItemLookup
 
-from ..ProductionPages.Temp_ServerTest import Temp_ServerTest
 
 # from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
 # from ..ProductionPages.TeardownModule import TeardownModule
@@ -44,13 +43,11 @@ class HomePage(HomePageTemplate):
     if user:
       self.sign_out_link.visible = True
       self.sign_in_link.visible = False
-      #self.test_area.visible = True
       self.send_message_btn.visible = True
       self.role_home_btn.visible = True
       self.recieved_msgs_btn.visible = True
       self.product_explorer_btn.visible = True
       self.lookup_by_scan_btn.visible = True
-      print(f"test_area visibility set to: {self.test_area.visible}")
         
 
   def role_navigation(self):
@@ -134,12 +131,7 @@ class HomePage(HomePageTemplate):
       large=True
     )
     self.update_notifications()
-    
-  def test_area_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    self.content_panel.clear()
-    self.content_panel.add_component(Temp_ServerTest(), full_width_row=True)
-
+  
   def product_explorer_click(self, **event_args):
     """This method is called when the link is clicked"""
     product_explorer_modal = ProductExplorer()

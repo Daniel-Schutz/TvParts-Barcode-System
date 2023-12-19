@@ -26,7 +26,11 @@ runtime_options:
   client_version: '3'
   server_version: python3-full
   server_spec: null
-  server_spec_disabled: {requirements: '', base: python310-datascience}
+  server_spec_disabled: {requirements: 'pandas==2.1.0rc0
+
+      location==0.0.7
+
+      location)', base: python310-minimal}
 metadata: {title: TvParts Barcode System, logo_img: 'asset:tvbot_square.png'}
 startup_form: null
 native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\"\
