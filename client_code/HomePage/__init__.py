@@ -78,7 +78,7 @@ class HomePage(HomePageTemplate):
         self.content_panel.add_component(TeardownModule(current_user=current_user,
                                                         current_role=current_role), 
                                         full_width_row=True)
-      elif current_role == 'ID':
+      elif current_role == 'Id':
         from ..ProductionPages.IdModule import IdModule
         self.content_panel.add_component(IdModule(current_user=current_user,
                                                         current_role=current_role),
