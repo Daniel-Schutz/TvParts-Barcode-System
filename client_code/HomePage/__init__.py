@@ -23,6 +23,8 @@ from ..CommonComponents.ItemLookup import ItemLookup
 
 class HomePage(HomePageTemplate):
   def __init__(self, **properties):
+    self.current_user = None
+    self.user_role = None
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # anvil.server.events.message_update += self.message_update_handler
@@ -52,14 +54,19 @@ class HomePage(HomePageTemplate):
 
   def role_navigation(self):
     try:
+      if anvil.users.get_user():
+        self.current_user = anvil.server.call('get_user_full_name')
+        self.user_role = anvil.server.call('get_user_role')
       user = self.current_user
       user_role = self.user_role
-      print(user_role)
+      print("dentro",user_role, user)
       if user_role is not None:
         self.role_router()
       else:
         self.content_panel.add_component(ChooseRole(), full_width_row=True)
+        self.show_links()
     except:
+      self.content_panel.add_component(ChooseRole(), full_width_row=True)
       self.show_links()
     
   def role_router(self):
@@ -120,7 +127,7 @@ class HomePage(HomePageTemplate):
 
 
     self.role_navigation()
-    # self.show_links()
+    self.show_links()
     #open_form('HomePage')
 
 
