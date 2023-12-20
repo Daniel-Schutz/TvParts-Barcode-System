@@ -33,9 +33,6 @@ class ChooseRole(ChooseRoleTemplate):
     """This method is called when this radio button is selected"""
     self.selected_role = 'Shipping'
 
-  def cs_button_clicked(self, **event_args):
-    """This method is called when this radio button is selected"""
-    self.selected_role = 'Customer Service'
 
   def submit_button_click(self, **event_args):
     """This method is called when the button is clicked"""
