@@ -50,6 +50,7 @@ class EditDatatables(EditDatatablesTemplate):
 
   def table_selected_visibility(self):
     table = self.select_table_dd.selected_value
+    table = table.lower()
     self.select_table_dd.enabled = False
     self.no_results_output.content = anvil.server.call('get_table_len', table)
     self.num_results_panel.visible = True
@@ -228,6 +229,7 @@ class EditDatatables(EditDatatablesTemplate):
 ###### Data Type/Data Validation & Dropdowns ######
   def _get_column_dd_for_table(self):
     table = self.select_table_dd.selected_value
+    table = table.lower()
     self.col_tups = anvil.server.call('get_col_names_for_dd', table)
     self.col_type_map= anvil.server.call('get_col_type_dict_for_mapping', table)
     self.select_col_dd.items = self.col_tups
@@ -308,6 +310,7 @@ class EditDatatables(EditDatatablesTemplate):
 
   def get_row_ids_from_filters(self, filters):
     table = self.select_table_dd.selected_value
+    table = table.lower()
     id_list = anvil.server.call('get_filtered_data', table, filters)
 # ################################################## #
   
@@ -363,6 +366,7 @@ class EditDatatables(EditDatatablesTemplate):
                               title='Edit Datatable - Final Confirmation')
         if confirm == 'SET NEW VALUES':
           table_name = self.select_table_dd.selected_value
+          table_name = table_name.lower()
           column = self.select_col_dd.selected_value
           value = self.new_value_date_input.date
           id_list = self.id_list
@@ -383,6 +387,7 @@ class EditDatatables(EditDatatablesTemplate):
                               title='Edit Datatable - Final Confirmation')
         if confirm == 'SET NEW VALUES':
           table_name = self.select_table_dd.selected_value
+          table_name = table_name.lower()
           column = self.select_col_dd.selected_value
           value = self.new_value_text_input.text
           id_list = self.id_list

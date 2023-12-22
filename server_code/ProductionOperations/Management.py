@@ -348,6 +348,7 @@ def get_cols_from_table(table_name):
 
 @anvil.server.callable
 def get_table_len(table_name):
+  print(app_tables.roles)
   table=getattr(app_tables, table_name)
   len_table = len(table.search())
   return len_table
