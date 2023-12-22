@@ -226,6 +226,7 @@ components:
       - name: new_value_text_input
         properties: {}
         type: TextBox
+        event_bindings: {pressed_enter: new_value_text_input_pressed_enter}
       - name: new_value_date_input
         properties: {}
         type: DatePicker
@@ -234,7 +235,7 @@ components:
         type: FlowPanel
         components:
         - name: set_value_submit_btn
-          properties: {text: DELETE VALUE, role: primary-color, font_size: 20, align: center,
+          properties: {text: DELETE ROW, role: primary-color, font_size: 20, align: center,
             background: '#00db04', bold: true, icon: 'fa:warning', tooltip: This cannot be undone!}
           type: Button
           layout_properties: {}
