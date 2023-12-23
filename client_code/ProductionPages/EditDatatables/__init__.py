@@ -26,6 +26,7 @@ class EditDatatables(EditDatatablesTemplate):
 ###### Visibility Settings #######################
   def init_visibility(self):
     #self.select_table_dd.selected_value = '(Select Table)'
+    self.set_value_submit_btn_copy_2.visible = False
     self.select_table_dd.enabled = True
     self.num_results_panel.visible = False
     self.no_results_output.content = None
@@ -56,6 +57,7 @@ class EditDatatables(EditDatatablesTemplate):
     self.num_results_panel.visible = True
     self._get_column_dd_for_table()
     self.col_to_modify_panel.visible = True
+    self.set_value_submit_btn_copy_2.visible = True
 
   def modify_col_selected_visibility(self):
     if self.select_col_dd.selected_value == '(Select Column)':
@@ -287,7 +289,7 @@ class EditDatatables(EditDatatablesTemplate):
 
     if self.filt_col_dd_1.selected_value != '(Select Column)':
       col = self.filt_col_dd_1.selected_value
-      query_type = self.query1_dd.selected_value
+      query_type = self.query_dd.selected_value
       text_val = self.query_1_text_input.text
       date_val = self.query_1_date_input.date
       
@@ -402,6 +404,10 @@ class EditDatatables(EditDatatablesTemplate):
 
   def new_value_text_input_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
+    pass
+
+  def set_value_submit_btn_copy_2_click(self, **event_args):
+    """This method is called when the button is clicked"""
     pass
 
 

@@ -424,7 +424,7 @@ def get_filtered_data(table_name, filters): #filters is a list of dicts with key
     if comparison == 'Contains':
       query_dict[column_name] = compare_func(f"%{value}%")
     else:
-      query_dict[column_name] = compare_func(value)
+      query_dict[column_name] = compare_func(str(value))
 
   result = table.search(**query_dict)
   id_list = [row.get_id() for row in result] #return row ids for the edit

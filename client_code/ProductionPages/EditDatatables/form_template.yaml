@@ -45,6 +45,7 @@ components:
         background: '#00db04', bold: true, icon: 'fa:warning', tooltip: This cannot be undone!}
       type: Button
       layout_properties: {grid_position: 'LUXTOX,FQSSLW GHWFUM,JAMULV'}
+      event_bindings: {click: set_value_submit_btn_copy_2_click}
     - name: num_results_panel
       properties: {align: right}
       type: FlowPanel
@@ -131,6 +132,7 @@ components:
             properties: {}
             type: TextBox
             layout_properties: {width: 251.5}
+            event_bindings: {pressed_enter: query_1_text_input_pressed_enter}
           - name: query_1_date_input
             properties: {}
             type: DatePicker
