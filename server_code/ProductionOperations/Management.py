@@ -417,6 +417,7 @@ def get_filtered_data(table_name, filters): #filters is a list of dicts with key
   # Construct query conditions
   query_dict = {}
   for filter_cond in filters:
+    print(filter_cond)
     column_name = filter_cond.get('column_name')
     comparison = filter_cond.get('comparison')
     value = filter_cond.get('value')
@@ -424,8 +425,8 @@ def get_filtered_data(table_name, filters): #filters is a list of dicts with key
     if comparison == 'Contains':
       query_dict[column_name] = compare_func(f"%{value}%")
     else:
-      query_dict[column_name] = compare_func(str(value))
-
+      query_dict[column_name] = ilike(value)
+      print(query_dict)
   result = table.search(**query_dict)
   id_list = [row.get_id() for row in result] #return row ids for the edit
   return id_list

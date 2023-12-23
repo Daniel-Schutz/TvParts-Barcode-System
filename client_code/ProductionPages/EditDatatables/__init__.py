@@ -314,7 +314,7 @@ class EditDatatables(EditDatatablesTemplate):
   def get_row_ids_from_filters(self, filters):
     table = self.select_table_dd.selected_value
     table = table.lower()
-    print()
+    print(table)
     id_list = anvil.server.call('get_filtered_data', table, filters)
 # ################################################## #
   
