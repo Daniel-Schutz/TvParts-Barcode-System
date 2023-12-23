@@ -219,7 +219,7 @@ class EditDatatables(EditDatatablesTemplate):
     self.set_value_panel.visible = False
 
   def set_val_entry_vis(self):
-    if self.column_datatype_out.content == 'datetime':
+    if self.column_datatype_out.content != 'datetime':
       self.new_value_text_input.visible = True
       self.new_value_date_input.visible = False
     else:
@@ -314,8 +314,8 @@ class EditDatatables(EditDatatablesTemplate):
   def get_row_ids_from_filters(self, filters):
     table = self.select_table_dd.selected_value
     table = table.lower()
-    print(table)
     id_list = anvil.server.call('get_filtered_data', table, filters)
+    return id_list
 # ################################################## #
   
 
@@ -353,11 +353,11 @@ class EditDatatables(EditDatatablesTemplate):
     filters = self.create_filters()
     id_list = self.get_row_ids_from_filters(filters)
     self.id_list = id_list
-    self.no_results_output = len(id_list)
+    self.no_results_output.content = len(id_list)
     self.set_value_panel.visible = True
     self.set_val_entry_vis()
 
-  def set_value_btn_click(self):
+  def set_value_btn_click(self,**event_args):
     if self.column_datatype_out.content == 'datetime':
       if not self.new_value_date_input.date:
         n = Notification('You must input a date! Use 1/1/1900 as a filler if needed.',

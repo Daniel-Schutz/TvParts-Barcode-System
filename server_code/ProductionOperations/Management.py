@@ -425,10 +425,11 @@ def get_filtered_data(table_name, filters): #filters is a list of dicts with key
     if comparison == 'Contains':
       query_dict[column_name] = compare_func(f"%{value}%")
     else:
-      query_dict[column_name] = ilike(value)
+      query_dict[column_name] = compare_func(f"%{value}%")
       print(query_dict)
   result = table.search(**query_dict)
-  id_list = [row.get_id() for row in result] #return row ids for the edit
+  id_list = [str(row.get_id()) for row in result] #return row ids for the edit
+  print(id_list)
   return id_list
 
 @anvil.server.callable
@@ -445,7 +446,7 @@ def update_table_from_row_ids_bk(table_name, column, value, id_list):
   for row_id in id_list:
     row = table.get_by_id(row_id)
     if row:
-      row[column_name] = value
+      row[column] = value
 
 @anvil.server.callable
 def get_all_rows_by_table_name(table_name):

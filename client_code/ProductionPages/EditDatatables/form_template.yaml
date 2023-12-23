@@ -245,5 +245,6 @@ components:
           properties: {text: set value, role: primary-color, font_size: 20, align: center,
             background: '#00db04', bold: true, icon: 'fa:warning', tooltip: This cannot be undone!}
           type: Button
+          event_bindings: {click: set_value_btn_click}
         layout_properties: {width: 657.844}
 is_package: true
