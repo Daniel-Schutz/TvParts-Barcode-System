@@ -254,18 +254,18 @@ class EditDatatables(EditDatatablesTemplate):
       query_type = self.query3_dd.selected_value
       text_val = self.query_3_text_input.text
       date_val = self.query_3_date_input.date
-      
+      print("entrou1")
       if self.filt_3_dtype_out.content == 'datetime':
         filters.append({
           'column_name': col,
           'comparison': query_type,
-          'value': text_val
+          'value': date_val
         })
       else:
         filters.append({
           'column_name': col,
           'comparison': query_type,
-          'value': date_val
+          'value': text_val
         })
         
     if self.filt_col_dd_2.selected_value != '(Select Column)':
@@ -273,37 +273,38 @@ class EditDatatables(EditDatatablesTemplate):
       query_type = self.query2_dd.selected_value
       text_val = self.query_2_text_input.text
       date_val = self.query_2_date_input.date
-      
+      print("entrou2")
       if self.filt_2_dtype_out.content == 'datetime':
         filters.append({
           'column_name': col,
           'comparison': query_type,
-          'value': text_val
+          'value': date_val
         })
       else:
         filters.append({
           'column_name': col,
           'comparison': query_type,
-          'value': date_val
+          'value': text_val
         })
 
     if self.filt_col_dd_1.selected_value != '(Select Column)':
       col = self.filt_col_dd_1.selected_value
       query_type = self.query_dd.selected_value
       text_val = self.query_1_text_input.text
+      print("entrou3")
       date_val = self.query_1_date_input.date
-      
+      print(self.query_1_text_input.text)
       if self.filt_1_dtype_out.content == 'datetime':
         filters.append({
           'column_name': col,
           'comparison': query_type,
-          'value': text_val
+          'value': date_val
         })
       else:
         filters.append({
           'column_name': col,
           'comparison': query_type,
-          'value': date_val
+          'value': text_val
         })
     if filters == []:
       return None
@@ -313,6 +314,7 @@ class EditDatatables(EditDatatablesTemplate):
   def get_row_ids_from_filters(self, filters):
     table = self.select_table_dd.selected_value
     table = table.lower()
+    print()
     id_list = anvil.server.call('get_filtered_data', table, filters)
 # ################################################## #
   
