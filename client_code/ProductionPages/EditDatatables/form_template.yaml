@@ -237,10 +237,11 @@ components:
         type: FlowPanel
         components:
         - name: set_value_submit_btn
-          properties: {text: DELETE ROW, role: primary-color, font_size: 20, align: center,
+          properties: {text: DELETE ROWS, role: primary-color, font_size: 20, align: center,
             background: '#00db04', bold: true, icon: 'fa:warning', tooltip: This cannot be undone!}
           type: Button
           layout_properties: {}
+          event_bindings: {click: set_value_submit_btn_click}
         - name: set_value_submit_btn_copy
           properties: {text: set value, role: primary-color, font_size: 20, align: center,
             background: '#00db04', bold: true, icon: 'fa:warning', tooltip: This cannot be undone!}

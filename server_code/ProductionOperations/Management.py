@@ -452,3 +452,9 @@ def update_table_from_row_ids_bk(table_name, column, value, id_list):
 def get_all_rows_by_table_name(table_name):
   table=getattr(app_tables, table_name)
   return table.search()
+
+@anvil.server.callable
+def delete_rows_by_id(table_name, id_list):
+  table=getattr(app_tables, table_name)
+  for id in id_list:
+    table.items.remove(id)
