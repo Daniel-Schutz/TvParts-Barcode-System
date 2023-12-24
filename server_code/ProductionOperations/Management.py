@@ -193,7 +193,7 @@ def get_full_roles_dropdown():
 @anvil.server.callable
 def get_users_dropdown():
   def get_full_name(row):
-    return row['first_name'] + " " + row['last_name']
+    return str(row['first_name']) + " " + str(row['last_name'])
   default_val = ('(Select User)', '(Select User)')
   all_user_rows = app_tables.users.search()
   user_tups = [(get_full_name(row), row['email']) for row in all_user_rows]
@@ -457,4 +457,4 @@ def get_all_rows_by_table_name(table_name):
 def delete_rows_by_id(table_name, id_list):
   table=getattr(app_tables, table_name)
   for id in id_list:
-    table.items.remove(id)
+    table.remove(id)

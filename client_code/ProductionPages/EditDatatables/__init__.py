@@ -407,44 +407,20 @@ class EditDatatables(EditDatatablesTemplate):
   def set_value_submit_btn_copy_2_click(self, **event_args):
     """This method is called when the button is clicked"""
     pass
- def set_value_btn_click(self,**event_args):
+    
+  def set_value_submit_btn_click(self,**event_args):
         confirm = anvil.alert("This action cannot be reversed. Ok to continue?", 
                               buttons=['DELETE ROWS', 'CANCEL'], large=True,
                               title='Edit Datatable - Final Confirmation')
         if confirm == 'DELETE ROWS':
           table_name = self.select_table_dd.selected_value
           table_name = table_name.lower()
-          column = self.select_col_dd.selected_value
-          value = self.new_value_date_input.date
           id_list = self.id_list
-          anvil.server.call('update_table_from_row_ids', table_name, column, value, id_list)
-          n = Notification('Data updating! (Background Process)', style='success')
+          anvil.server.call('delete_rows_by_id', table_name, id_list)
+          n = Notification('Data updating!', style='success')
           n.show()
           self.raise_event('x-close-modal', value=None)
           pass
-    else:
-      if not self.new_value_text_input.text:
-        n = Notification('You must input a value!',
-                         style='danger')
-        n.show()
-        return 
-      else:
-        confirm = anvil.alert("This action cannot be reversed. Ok to continue?", 
-                              buttons=['SET NEW VALUES', 'CANCEL'], large=True,
-                              title='Edit Datatable - Final Confirmation')
-        if confirm == 'SET NEW VALUES':
-          table_name = self.select_table_dd.selected_value
-          table_name = table_name.lower()
-          column = self.select_col_dd.selected_value
-          value = self.new_value_text_input.text
-          id_list = self.id_list
-          anvil.server.call('update_table_from_row_ids', table_name, column, value, id_list)
-          n = Notification('Data updating! (Background Process)', style='success')
-          n.show()
-          self.raise_event('x-close-modal', value=None)
-          pass
-  def set_value_submit_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    delete_rows_by_id
+    
 
 
