@@ -417,7 +417,7 @@ class EditDatatables(EditDatatablesTemplate):
           table_name = table_name.lower()
           id_list = self.id_list
           anvil.server.call('delete_rows_by_id', table_name, id_list)
-          n = Notification('Data updating!', style='success')
+          n = Notification('Data deleted!', style='success')
           n.show()
           self.raise_event('x-close-modal', value=None)
           pass
