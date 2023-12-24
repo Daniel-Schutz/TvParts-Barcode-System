@@ -21,17 +21,10 @@ def add_event_to_item_history(item_id, item_status, user_full_name, user_role):
                            user_full_name, 
                            user_role)
 
-def get_id_from_scan(scan_input_str, mode='product'):
-  scan_dict = json.loads(scan_input_str)
-  if mode == 'product':
-    sku = scan_dict['item_id'].split("__")[0] #assumes __ separator in item_id
-    return sku
-  elif mode == 'item':
-    item_id = scan_dict['item_id']
-    return item_id
-  else:
-    print('Error in C.CommonFunctions - mode for get_id_from_scan must be "product" or "item". Returned None.')
-    return None
+def get_sku_from_scan(item_id):
+  table_name = "items"
+  sku = anvil.server.call('get_sku_from_scan',table_name, item_id)
+  return sku
 
 def get_full_product_from_scan(scan_input_str):
   sku = get_id_from_scan(scan_input_str, mode='product')

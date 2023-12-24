@@ -126,3 +126,16 @@ def delete_rows_bk(table_name, column_name, value):
     table = getattr(app_tables, table_name)
     for row in table.search(**{column_name: value}):
         row.delete()
+
+@anvil.server.callable
+def get_sku_from_scan(table_name, item_id):
+    """
+     get_sku_from_scan.
+    """
+    table = getattr(app_tables, table_name)
+    row = table.get(item_id=item_id)
+    if row:
+      sku_value = row['sku']
+      return sku_value
+    else:
+      return None
