@@ -457,4 +457,8 @@ def get_all_rows_by_table_name(table_name):
 def delete_rows_by_id(table_name, id_list):
   table=getattr(app_tables, table_name)
   for id in id_list:
-    table.remove(id)
+    rows = [row for row in table.search() if row.get_id() == id]
+
+    # Remove the row if found
+    if rows:
+        rows[0].delete()
