@@ -13,6 +13,7 @@ from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.RecallItemModal import RecallItemModal
 
 import datetime
+import pytz
 import time
 import json
 import random
@@ -52,7 +53,10 @@ class IdModule(IdModuleTemplate):
   def generate_unique_box_id(self, len=4):
     chars = string.ascii_letters + string.digits
     code = ''.join(random.choice(chars) for _ in range(len))
-    today = datetime.datetime.now().strftime('%m-%d-%Y')
+    current_time = datetime.datetime.now()
+    desired_timezone = pytz.timezone('US/Central')  # Fuso horário central dos EUA
+    current_time = current_time.astimezone(desired_timezone)
+    today = current_time.strftime('%m-%d-%Y')
     return today + "__" + code
 
   def check_nf_list(self):
@@ -164,6 +168,11 @@ class IdModule(IdModuleTemplate):
     """This method is called when the button is clicked"""
     self.create_item_btn.enabled = False
     current_time = datetime.datetime.now()
+    desired_timezone = pytz.timezone('US/Central') 
+    current_time = current_time.astimezone(desired_timezone)
+  
+    date_1900 = datetime.datetime(1900, 1, 1) 
+    date_1900_with_timezone = desired_timezone.localize(date_1900)
 
     item_info_dict = {
       'product_name': self.selected_product['product_name'],
@@ -186,15 +195,15 @@ class IdModule(IdModuleTemplate):
       'identified_on': current_time,
       'identified_by': self.current_user,
       'verified_by': '',
-      'verified_on': datetime.datetime(1900, 1, 1), #placeholder date
+      'verified_on': date_1900_with_timezone, #placeholder date
       'binned_by': '',
-      'binned_on': datetime.datetime(1900, 1, 1),
+      'binned_on': date_1900_with_timezone,
       'picked_by': '',
-      'picked_on': datetime.datetime(1900, 1, 1),
+      'picked_on': date_1900_with_timezone,
       'tested_by': '',
-      'tested_on': datetime.datetime(1900, 1, 1),
+      'tested_on': date_1900_with_timezone,
       'packed_by': '',
-      'packed_on': datetime.datetime(1900, 1, 1),
+      'packed_on': date_1900_with_timezone,
       'order_no': '',
       's3_object_key': '',
       'history': '',
