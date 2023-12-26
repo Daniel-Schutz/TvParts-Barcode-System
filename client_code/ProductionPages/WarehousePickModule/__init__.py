@@ -329,9 +329,6 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     else:
       self.fulfillment_repeating_panel.items = self.current_fulfillments
 
-  def stock_mode_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    new_form = WarehouseStockModule(self.current_user,self.current_role)
-    new_form.show()
-    pass
+
+  
     
