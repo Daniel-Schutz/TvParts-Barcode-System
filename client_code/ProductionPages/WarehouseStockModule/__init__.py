@@ -5,7 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from ..WarehousePickModule import WarehousePickModule
 from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.SelectBinModal import SelectBinModal
 from datetime import datetime
@@ -286,7 +286,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       n_2 = Notification('Bin added to purgatory!', style='success')
       n_2.show()
       self.reset_place_part_visibility()
-    
+
+
       
 
 

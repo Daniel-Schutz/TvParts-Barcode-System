@@ -330,4 +330,5 @@ components:
   properties: {text: go to pick mode, role: primary-color, font_size: 23}
   type: Button
   layout_properties: {grid_position: 'LUSTXN,PKJPLQ', row_background: '#fcff33'}
+  event_bindings: {click: pick_mode_button_click}
 is_package: true

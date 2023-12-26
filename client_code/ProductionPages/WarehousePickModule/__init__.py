@@ -5,7 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from ..WarehouseStockModule import WarehouseStockModule
 from ...CommonComponents import CommonFunctions as cf
 from datetime import datetime
 
@@ -328,4 +328,10 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.finish_table()
     else:
       self.fulfillment_repeating_panel.items = self.current_fulfillments
+
+  def stock_mode_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    new_form = WarehouseStockModule(self.current_user,self.current_role)
+    new_form.show()
+    pass
     
