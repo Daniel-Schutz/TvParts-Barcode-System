@@ -9,6 +9,7 @@ from anvil.tables.query import greater_than, less_than, like, ilike, greater_tha
 
 
 from datetime import datetime
+import pytz
 import pandas as pd
 
 ##############################################################
@@ -44,8 +45,14 @@ def cut_open_dfs_by_date(orders_df, fulfullments_df, days_away=7):
 
 def get_all_open_orders():
   def str_to_program_time(datetime_str):
-    no_tz_str = '-'.join(datetime_str.split("-")[:3])
-    return datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
+      no_tz_str = '-'.join(datetime_str.split("-")[:3])
+      naive_datetime = datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
+      original_timezone = pytz.timezone('UTC')
+      target_timezone =  pytz.timezone('US/Central')  
+      localized_datetime = original_timezone.localize(naive_datetime)
+      converted_datetime = localized_datetime.astimezone(target_timezone)
+      return converted_datetime
+    
   open_orders = anvil.server.call('get_open_orders_from_shopify')
   order_records = []
   fulfillment_records = []
@@ -218,7 +225,12 @@ def build_upload_records_bk(records, table_name):
 def get_open_orders_from_shopify():
   def str_to_program_time(datetime_str):
       no_tz_str = '-'.join(datetime_str.split("-")[:3])
-      return datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
+      naive_datetime = datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
+      original_timezone = pytz.timezone('UTC')
+      target_timezone =  pytz.timezone('US/Central')  
+      localized_datetime = original_timezone.localize(naive_datetime)
+      converted_datetime = localized_datetime.astimezone(target_timezone)
+      return converted_datetime
   open_orders = anvil.server.call('get_open_orders_from_shopify')
   order_records = []
   fulfillment_records = []
