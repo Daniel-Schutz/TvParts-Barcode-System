@@ -27,8 +27,13 @@ def create_truck(truck_id, truck_created):
   app_tables.mocktrucks.add_row(truck_id = truck_id, truck_created=truck_created)
 
 
+
 @anvil.server.callable
-def update_item_count():
+def update_item_count_():
+  anvil.server.launch_background_task('update_item_count_bk')
+
+@anvil.server.background_task
+def update_item_count_bk():
   truck_ids = app_tables.trucks.search()
   for row in truck_ids:
     truck_id = row['truck_id']
@@ -46,7 +51,7 @@ def update_item_count():
       truck_row['item_sold_count'] = item_sold_count
       truck_row['item_return_count'] = item_return_count
       truck_row['item_defect_count'] = item_defect_count
-      print(item_system_count)
+      truck_row['item_tossed_count'] = item_tossed_count
       truck_row.update()
     else:
       print(f" {truck_id} not found on table 'trucks'")

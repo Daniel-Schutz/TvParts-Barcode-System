@@ -220,10 +220,7 @@ class IdModule(IdModuleTemplate):
     
     #Image Url directly from qr maker.
     raw_source_url = anvil.server.call('generate_qr_code', 
-                                      item_id=item_id, 
-                                      bin=bin, 
-                                      os_bins=os_bins,
-                                      cross_refs=cross_refs)
+                                      item_id=item_id)
     self.qr_img_url = raw_source_url
     self.qr_image.source = raw_source_url
     self.system_id_display.text = item_id
