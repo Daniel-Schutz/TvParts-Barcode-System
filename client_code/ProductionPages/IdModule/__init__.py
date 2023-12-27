@@ -13,7 +13,6 @@ from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.RecallItemModal import RecallItemModal
 
 import datetime
-import pytz
 import time
 import json
 import random
@@ -51,6 +50,7 @@ class IdModule(IdModuleTemplate):
     return sku + "__" + code
 
   def generate_unique_box_id(self, len=4):
+    import pytz
     chars = string.ascii_letters + string.digits
     code = ''.join(random.choice(chars) for _ in range(len))
     current_time = datetime.datetime.now()
@@ -166,6 +166,7 @@ class IdModule(IdModuleTemplate):
   
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
+    import pytz
     self.create_item_btn.enabled = False
     current_time = datetime.datetime.now()
     desired_timezone = pytz.timezone('US/Central') 
@@ -281,4 +282,4 @@ class IdModule(IdModuleTemplate):
       n.show()
       self.qr_image.source = None
       self.update_holding_area_count()
-      
+

@@ -83,8 +83,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
   def item_code_input_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     self.item_code_input.enabled = False
-    product_sku = cf.get_id_from_scan(self.item_code_input.text)
-    item_id = cf.get_id_from_scan(self.item_code_input.text, mode='item')
+    product_sku = cf.get_sku_from_scan(self.item_code_input.text)
+    item_id = self.item_code_input.text
     self.verify_item_id = item_id #saving for item update calls
     product_dict = anvil.server.call('get_product_by_sku', 
                                      product_sku)
