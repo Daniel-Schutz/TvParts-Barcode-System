@@ -98,7 +98,11 @@ def update_rows(table_name, search_column, search_value, target_column, new_valu
     """
     Set all values of target_column to new_value where search_column equals search_value.
     """
-    anvil.server.launch_background_task('update_rows_bk')
+    anvil.server.launch_background_task('update_rows_bk',table_name, 
+                                        search_column, 
+                                        search_value, 
+                                        target_column, 
+                                        new_value)
 
 @anvil.server.background_task
 def update_rows_bk(table_name, search_column, search_value, target_column, new_value):

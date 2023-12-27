@@ -74,7 +74,7 @@ class TeardownModule(TeardownModuleTemplate):
           pre_text = word.replace(")", "").replace("(", "")[:3]
           # Concatenate to new_str (no need to use join here)
           new_str += pre_text.upper()  # assuming you want uppercase letters
-      print(current_truck_count)  
+    
       new_count = current_truck_count + 1
       # Format the new truck ID with the incremented count
       truck_id = f"{new_str}_{new_count}"
