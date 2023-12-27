@@ -105,6 +105,7 @@ class TeardownModule(TeardownModuleTemplate):
       img_source = anvil.server.call('get_s3_image_url', s3_source)
       self.qr_img_url = img_source
       self.qr_image.source = img_source
+      anvil.server.call('update_item_count')
   
 
 
@@ -137,6 +138,7 @@ class TeardownModule(TeardownModuleTemplate):
       #anvil.confirm("New Truck has been generated.")
       time.sleep(0.5)
       self.create_qr(new_truck_id)
+      anvil.server.call('update_item_count')
       
 
   #This is manually invoked, as it depends on UUID Generation

@@ -26,26 +26,29 @@ def get_unique_trucks():
 def create_truck(truck_id, truck_created):
   app_tables.mocktrucks.add_row(truck_id = truck_id, truck_created=truck_created)
 
+
 @anvil.server.callable
-def update_item_count(trucks_table, items_table):
-  truck_ids = app_tables.trucks_table.get_column('truck_id')
-  print(truck_ids)
-  for truck_id in truck_ids:
-    result_rows = app_tables.items_table.search(truck=truck_id)
+def update_item_count():
+  truck_ids = app_tables.trucks.search()
+  for row in truck_ids:
+    truck_id = row['truck_id']
+    result_rows = app_tables.items.search(truck=truck_id)
     item_system_count = len(result_rows)
     item_sold_count = len([item for item in result_rows if item['status'] == 'Sold'])
     item_return_count = len([item for item in result_rows if item['status'] == 'Returned'])
-    item_defect_count = len([item for item in items_for_truck if 'Needs Fixed' in item['history']])
-
-    truck_row = app_tables.trucks_table.get(truck_id=truck_id)
+    item_defect_count = len([item for item in result_rows if 'Needs Fixed' in item['history']])
+    item_tossed_count = len([item for item in result_rows if item['status'] == 'Returned'])
+  
+    truck_row = app_tables.trucks.get(truck_id=truck_id)
 
     if truck_row is not None:
-        truck_row['item_system_count'] = num_rows
-        truck_row.save()
-        print(f"Campo 'item_system_count' atualizado para {num_rows} para o caminhão {truck_id}")
+      truck_row['item_system_count'] = item_system_count
+      truck_row['item_sold_count'] = item_sold_count
+      truck_row['item_return_count'] = item_return_count
+      truck_row['item_defect_count'] = item_defect_count
+      print(item_system_count)
+      truck_row.update()
     else:
-        print(f"Caminhão com ID {truck_id} não encontrado na tabela 'trucks'")
+      print(f" {truck_id} not found on table 'trucks'")
+
     
-    # Obtendo o número de linhas correspondentes
-    num_rows = len(count)
-    print(f"O número de linhas na tabela 'items' para o caminhão {truck_id} é: {num_rows}")
