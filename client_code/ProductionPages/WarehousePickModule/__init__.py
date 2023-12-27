@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+
 from ...CommonComponents import CommonFunctions as cf
 from datetime import datetime
 
@@ -327,7 +328,4 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.finish_table()
     else:
       self.fulfillment_repeating_panel.items = self.current_fulfillments
-
-
-  
     

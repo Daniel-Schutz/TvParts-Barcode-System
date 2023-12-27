@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+
 from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.SelectBinModal import SelectBinModal
 from datetime import datetime
@@ -82,8 +83,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
   def item_code_input_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     self.item_code_input.enabled = False
-    product_sku = cf.get_sku_from_scan(self.item_code_input.text)
-    item_id = self.item_code_input.text
+    product_sku = cf.get_id_from_scan(self.item_code_input.text)
+    item_id = cf.get_id_from_scan(self.item_code_input.text, mode='item')
     self.verify_item_id = item_id #saving for item update calls
     product_dict = anvil.server.call('get_product_by_sku', 
                                      product_sku)
@@ -285,8 +286,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       n_2 = Notification('Bin added to purgatory!', style='success')
       n_2.show()
       self.reset_place_part_visibility()
-
-
+    
       
 
 
