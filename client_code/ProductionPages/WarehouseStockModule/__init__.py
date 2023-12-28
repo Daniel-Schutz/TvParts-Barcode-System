@@ -161,7 +161,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     
     product = anvil.server.call('get_product_by_sku',self.sku_output.content)
     part_info = anvil.server.call('get_part_info_from_shopify', product['product_id'])
-    print(part_info)
+    inventory_quantity = part_info['variants'][0]['inventory_quantity']
+    inventory_quantity = inventory_quantity + 1
+    #update shopify
+    #update table
     self.reset_selection()
 
 
