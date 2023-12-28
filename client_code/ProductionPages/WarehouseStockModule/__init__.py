@@ -141,7 +141,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     """This method is called when the button is clicked"""
     current_user = self.current_user
     current_time = datetime.now()
-    anvil.server.call('update_item_on_verify', 
+    status = anvil.server.call('update_item_on_verify', 
                       self.current_user, 
                       self.current_role, 
                       self.verify_item_id) #updates history as well
@@ -149,10 +149,15 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     #Console log for developer
     print(f"Item {self.verify_item_id} marked as Verified.")
 
+    if status == 'Needs Fixed':
+      n = Notification(f"Item {self.verify_item_id} Needs Fixed! Put the item on the needs fixed table", 
+                     style='success', title='Needs Fixed', timeout=1)
+      n.show()
+    else:
     #Notice for Warehouse Employee
-    n = Notification(f"Item {self.verify_item_id} verified!", 
+      n = Notification(f"Item {self.verify_item_id} verified!", 
                      style='success', title='Part Verified', timeout=1)
-    n.show()
+      n.show()
     self.reset_selection()
 
 

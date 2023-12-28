@@ -58,20 +58,45 @@ def update_item_on_misid_bk(user, role, item_id):
 
 @anvil.server.callable
 def update_item_on_verify(user, role, item_id):
-  anvil.server.launch_background_task('update_item_on_verify_bk', user, role, item_id)
-
-@anvil.server.background_task
-def update_item_on_verify_bk(user, role, item_id):
+  sku_needs_fixed_list =  [
+    "A2094419A",
+    "BN44-00787A",
+    "A2229070A",
+    "BN44-00874C",
+    "A2072545A",
+    "BN44-00874D",
+    "A-5042-804-A",
+    "BN44-00874E",
+    "A2094434A",
+    "BN44-00874F",
+    "A2170503A",
+    "BN94-11439A",
+    "A2170502A",
+    "LT-70MAW795-POWER",
+    "A2072564C",
+    "100012588-power",
+    "A2094368A",
+    "A2072555C",
+    "A2165797A"
+  ]
   item_row = app_tables.items.get(item_id=item_id)
+  if item_row['sku'] in sku_needs_fixed_list:
+    status = 'Needs Fixed'
+    item_status = 'Needs Fixed'
+  else:
+    status='Misidentified'
+    item_status='Verified'
   current_time = datetime.now()
-  item_row.update(status='Misidentified', 
+  item_row.update(status=status, 
                   verified_by=user, 
                   verified_on=current_time)
   anvil.server.launch_background_task('add_history_to_item_bk', 
                                       item_id=item_id, 
-                                      item_status='Verified', 
+                                      item_status=item_status, 
                                       user_full_name=user, 
                                       user_role=role)
+  return status
+
 
 
 @anvil.server.callable
