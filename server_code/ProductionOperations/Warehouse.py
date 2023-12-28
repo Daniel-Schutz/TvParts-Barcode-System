@@ -28,7 +28,11 @@ def update_item_on_binned(user, role, item_id, bin):
 @anvil.server.background_task
 def update_item_on_binned_bk(user, role, item_id, bin):
   item_row = app_tables.items.get(item_id=item_id)
-  current_time = datetime.now()
+  import pytz
+  current_time = datetime.datetime.now()
+  desired_timezone = pytz.timezone('US/Central')  
+  current_time = current_time.astimezone(desired_timezone)
+
   item_row.update(status='Binned', 
                   stored_bin=bin, 
                   binned_by=user, 
@@ -46,7 +50,10 @@ def update_item_on_misid(user, role, item_id):
 @anvil.server.background_task
 def update_item_on_misid_bk(user, role, item_id):
   item_row = app_tables.items.get(item_id=item_id)
-  current_time = datetime.now()
+  import pytz
+  current_time = datetime.datetime.now()
+  desired_timezone = pytz.timezone('US/Central')  
+  current_time = current_time.astimezone(desired_timezone)
   item_row.update(status='Misidentified', 
                   verified_by=user, 
                   verified_on=current_time)
@@ -86,7 +93,10 @@ def update_item_on_verify(user, role, item_id):
   else:
     status='Misidentified'
     item_status='Verified'
-  current_time = datetime.now()
+  import pytz
+  current_time = datetime.datetime.now()
+  desired_timezone = pytz.timezone('US/Central')  
+  current_time = current_time.astimezone(desired_timezone)
   item_row.update(status=status, 
                   verified_by=user, 
                   verified_on=current_time)
@@ -245,7 +255,11 @@ def link_item_to_fulfillment(fulfillment_id, item_id, user, role):
 @anvil.server.background_task
 def update_item_with_fulfillment(order_no, item_id, user, role): #need to add the user and role everywhere this is called
   item_row = app_tables.items.get(item_id=item_id)
-  item_row.update(order_no=str(order_no), picked_by=user, picked_on=datetime.now(), status='Picked')
+  import pytz
+  current_time = datetime.datetime.now()
+  desired_timezone = pytz.timezone('US/Central')  
+  current_time = current_time.astimezone(desired_timezone)
+  item_row.update(order_no=str(order_no), picked_by=user, picked_on=current_time, status='Picked')
   anvil.server.launch_background_task('add_history_to_item_bk', 
                                       item_id=item_id, 
                                       item_status='Picked', 
