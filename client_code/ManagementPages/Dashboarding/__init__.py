@@ -39,3 +39,7 @@ class Dashboarding(DashboardingTemplate):
     """This method is called when the selected date changes"""
     print("test")
     pass
+
+  def generate_analysis_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass

@@ -22,6 +22,13 @@ def get_open_orders_from_shopify():
   raw_open_orders = shop.get_all_open_orders(paginate=True)
   return raw_open_orders
 
+@anvil.server.callable
+def get_part_info_from_shopify(product_id):
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  part_info = shop.get_product_details(product_id)
+  return part_info
+
 
 class ShopifyInterface:
     

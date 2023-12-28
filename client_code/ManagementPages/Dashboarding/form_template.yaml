@@ -198,6 +198,7 @@ components:
       properties: {text: generate analysis, role: primary-color, align: center}
       type: Button
       layout_properties: {grid_position: 'VVRWMJ,XGTMSO'}
+      event_bindings: {click: generate_analysis_btn_click}
   - name: display_card
     properties: {role: card}
     type: ColumnPanel

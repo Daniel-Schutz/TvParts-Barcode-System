@@ -158,6 +158,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       n = Notification(f"Item {self.verify_item_id} verified!", 
                      style='success', title='Part Verified', timeout=1)
       n.show()
+    
+    product = anvil.server.call('get_product_by_sku',self.sku_output.content)
+    part_info = anvil.server.call('get_part_info_from_shopify', product['product_id'])
+    print(part_info)
     self.reset_selection()
 
 
