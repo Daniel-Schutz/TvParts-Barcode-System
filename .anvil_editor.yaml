@@ -62,6 +62,7 @@ unique_ids:
   server_modules:
     ProductionOperations.SharedFunctions: '170104788916962096989089.83641'
     DataTables.ProductTable: '1699843012192638094364581.0051'
+    ManagementOperations: '1704140699036198473003851.38956'
     DataTables.MessageTable: '1699744731839960993406177.7355'
     LowLevelInterfaces.GenerateQRCode: '1699661406410151368247332.17514'
     ProductionOperations: '1700146913012820737777708.8689'
