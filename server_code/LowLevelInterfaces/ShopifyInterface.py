@@ -30,6 +30,14 @@ def get_part_info_from_shopify(product_id):
   return part_info
 
 
+@anvil.server.callable
+def update_product_inventory_quantity(product_id, new_inventory_quantity):
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  shop.update_product_inventory_quantity(product_id,new_inventory_quantity)
+
+
+
 class ShopifyInterface:
     
     def __init__(self, shop_key):
@@ -125,5 +133,27 @@ class ShopifyInterface:
             if metafield['key'] == 'bin_number':
                 return metafield['value']
         return "(No Bin Assigned)"
+
+
+    def update_product_inventory_quantity(self, product_id, new_inventory_quantity):
+            url = self.base_url + f'products/{product_id}.json'
+            payload = {
+                "product": {
+                    "id": product_id,
+                    "variants": [
+                        {
+                            "inventory_quantity": new_inventory_quantity
+                        }
+                    ]
+                }
+            }
+            payload = json.dumps(payload)
+    
+            response = requests.put(url, data=payload, headers=self.auth_headers)
+    
+            if response.ok:
+                print(f"Inventory quantity updated successfully for product {product_id}")
+            else:
+                print(f"Failed to update inventory quantity for product {product_id}: {response.text}")
 ######################################################################
 
