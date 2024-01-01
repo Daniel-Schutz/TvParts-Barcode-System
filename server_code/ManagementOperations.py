@@ -6,6 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 from datetime import datetime
+from datetime import timedelta
 
 ###########  Supplier Metrics ###########
 @anvil.server.callable
@@ -79,7 +80,7 @@ def count_items_per_model():
 
 
 @anvil.server.callable
-def average_time_new_to_packed():
+def average_holding_time():
     items = app_tables.items.search()
     status_changes = []
     
@@ -89,22 +90,66 @@ def average_time_new_to_packed():
         for entry in history:
             if 'updated item status to New' in entry:
                 new_time = entry.split('on ')[1].strip().rstrip('.')
-  
                 timestamps.append(new_time)
             elif 'updated item status to Packed' in entry:
                 packed_time = entry.split('on ')[1].strip().rstrip('.')
                 timestamps.append(packed_time)
         
         if len(timestamps) == 2:
-          print(timestamps)
-          time_diff = 1
+          format = "%m/%d/%Y at %I:%M:%S %p "
+          date1 = datetime.strptime(timestamps[0], format)
+          date2 = datetime.strptime(timestamps[1], format)
+          
+          time_diff = date2 - date1
           status_changes.append(time_diff)
     
     if status_changes:
-        avg_time = sum(status_changes) / len(status_changes)
-        return avg_time / 3600  # Convertendo para horas (opcional)
+        # Calculating the average
+        total_timedelta = sum(status_changes, timedelta())
+        average_timedelta = total_timedelta / len(status_changes)
+
+        # Convert timedelta to a string representation
+        average_timedelta_str = str(average_timedelta)
+
+        return average_timedelta_str
     else:
-        return 0  # Retorna 0 se não houver itens que tenham passado por esses status
+        return 0  
+
+@anvil.server.callable
+def average_time_to_fulfill():
+    items = app_tables.items.search()
+    status_changes = []
+    
+    for item in items:
+        history = item['history'].split('\n')
+        timestamps = []
+        for entry in history:
+            if 'updated item status to Picked' in entry:
+                new_time = entry.split('on ')[1].strip().rstrip('.')
+                timestamps.append(new_time)
+            elif 'updated item status to Packed' in entry:
+                packed_time = entry.split('on ')[1].strip().rstrip('.')
+                timestamps.append(packed_time)
+        
+        if len(timestamps) == 2:
+          format = "%m/%d/%Y at %I:%M:%S %p "
+          date1 = datetime.strptime(timestamps[0], format)
+          date2 = datetime.strptime(timestamps[1], format)
+          
+          time_diff = date2 - date1
+          status_changes.append(time_diff)
+    
+    if status_changes:
+        # Calculating the average
+        total_timedelta = sum(status_changes, timedelta())
+        average_timedelta = total_timedelta / len(status_changes)
+
+        # Convert timedelta to a string representation
+        average_timedelta_str = str(average_timedelta)
+
+        return average_timedelta_str
+    else:
+        return 0        
   
 
 ###########  Employee Metrics ###########
