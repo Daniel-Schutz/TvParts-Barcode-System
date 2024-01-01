@@ -10,6 +10,27 @@ from datetime import timedelta
 
 ###########  Supplier Metrics ###########
 @anvil.server.callable
+def revenue_by_supplier_and_date(start_date, end_date):
+
+    revenue_by_supplier = {}
+
+    suppliers = app_tables.items.get_column('supplier', distinct=True)
+
+    for supplier in suppliers:
+        sold_items = app_tables.items.search(
+            (app_tables.items.status == 'Sold') &
+            (app_tables.items.supplier == supplier) &
+            (app_tables.items.packed_on >= start_date) &
+            (app_tables.items.packed_on <= end_date)
+        )
+
+        total_revenue = sum(item['sale_price'] for item in sold_items)
+        revenue_by_supplier[supplier] = total_revenue
+    
+    return revenue_by_supplier
+
+
+@anvil.server.callable
 def tossed_rate_per_truck():
     trucks = app_tables.trucks.search()
     tossed_rate = {}
