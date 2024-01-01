@@ -14,15 +14,25 @@ def revenue_by_supplier_and_date(start_date, end_date):
 
     revenue_by_supplier = {}
 
-    suppliers = app_tables.items.get_column('supplier', distinct=True)
+        
+    all_items = app_tables.items.search()
+    
+
+    unique_suppliers = set()
+
+    for item in all_items:
+        unique_suppliers.add(item['supplier'])
+    
+    suppliers = list(unique_suppliers)
 
     for supplier in suppliers:
-        sold_items = app_tables.items.search(
-            (app_tables.items.status == 'Sold') &
-            (app_tables.items.supplier == supplier) &
-            (app_tables.items.packed_on >= start_date) &
-            (app_tables.items.packed_on <= end_date)
-        )
+        kwargs = {'status': "Sold", 'supplier': supplier}
+        sold_items = app_tables.items.search(**kwargs)
+        for r in sold_items:
+          print(r['status'])
+
+      #verificar se ta entre as datas desejadas
+      #salvar na lista
 
         total_revenue = sum(item['sale_price'] for item in sold_items)
         revenue_by_supplier[supplier] = total_revenue
