@@ -5,6 +5,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+from datetime import datetime
 
 ###########  Supplier Metrics ###########
 @anvil.server.callable
@@ -20,11 +21,8 @@ def tossed_rate_per_truck():
           if total_count == 0:
             tossed_rate[truck_name] = 0
           else:
-            
-            
-              
-
-    
+            tossed_rate[truck_name] = (tossed_count/total_count)*100
+          
     return tossed_rate
   
 @anvil.server.callable
@@ -77,9 +75,37 @@ def count_items_per_model():
     return model_count
 
 
-  
-
 ###########  Product Metrics ###########
+
+
+@anvil.server.callable
+def average_time_new_to_packed():
+    items = app_tables.items.search()
+    status_changes = []
+    
+    for item in items:
+        history = item['history'].split('\n')
+        timestamps = []
+        for entry in history:
+            if 'updated item status to New' in entry:
+                new_time = entry.split('on ')[1].strip().rstrip('.')
+  
+                timestamps.append(new_time)
+            elif 'updated item status to Packed' in entry:
+                packed_time = entry.split('on ')[1].strip().rstrip('.')
+                timestamps.append(packed_time)
+        
+        if len(timestamps) == 2:
+          print(timestamps)
+          time_diff = 1
+          status_changes.append(time_diff)
+    
+    if status_changes:
+        avg_time = sum(status_changes) / len(status_changes)
+        return avg_time / 3600  # Convertendo para horas (opcional)
+    else:
+        return 0  # Retorna 0 se não houver itens que tenham passado por esses status
+  
 
 ###########  Employee Metrics ###########
 
