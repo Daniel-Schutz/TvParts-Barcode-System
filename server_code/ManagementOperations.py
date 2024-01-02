@@ -250,12 +250,10 @@ def average_time_to_fulfill():
 @anvil.server.callable
 def misidentified_rate_per_product():
     items = list(app_tables.items.search(tables.order_by("sku", ascending=False)))
-    print
     misidentified_rate = {}
     first_sku = items[0]['sku']
     last_item_id = items[-1]
     last_item_id = last_item_id['item_id']
-    print(first_sku)
     items_count = 0
     misidentified_count = 0
   
