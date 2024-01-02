@@ -251,19 +251,25 @@ def average_time_to_fulfill():
 def misidentified_rate_per_product():
     items = app_tables.items.search(tables.order_by("sku", ascending=False))
     misidentified_rate = {}
+    first_sku = items[0]['sku']
+    print(first_sku)
+    items_count = 0
+    misidentified_count = 0
+  
     
     for item in items:
-        print(item['sku'])
-        tossed_count = truck['item_tossed_count']
-        total_count = truck['item_system_count']
-        truck_name = truck['truck_id']
-        if tossed_count is not None and total_count is not None:
-          if total_count == 0:
-            tossed_rate[truck_name] = 0
-          else:
-            tossed_rate[truck_name] = (tossed_count/total_count)*100
-          
-    return tossed_rate
+        if item['sku'] != first_sku:
+          misidentified_rate[first_sku] = (misidentified_count/items_count)*100
+          first_sku = item['sku']
+          items_count = 0
+          misidentified_count = 0
+        items_count +=1
+        if item['status'] == 'Misidentified':
+          misidentified_count += 1
+
+        #verify if is the last item
+        if item['sku']
+    return misidentified_rate
 
 ###########  Employee Metrics ###########
 
