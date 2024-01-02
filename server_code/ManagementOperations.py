@@ -39,13 +39,14 @@ def revenue_by_supplier_and_date(start_date, end_date):
         
         for row in items:
           if row['packed_on'] is None:
-            print("")
+            print("entr")
             continue
           date_to_check = datetime.strptime(str(row['packed_on']), "%Y-%m-%d %H:%M:%S.%f%z")
           date_to_check = date_to_check.astimezone(desired_timezone)
           print(start_date,end_date,date_to_check)
           if start_date <= date_to_check <= end_date:
             sold_items.append(row)
+          print("passou")  
 
         if len(sold_items) == 0:
           revenue_by_supplier[supplier] = 0
@@ -54,6 +55,53 @@ def revenue_by_supplier_and_date(start_date, end_date):
           revenue_by_supplier[supplier] = total_revenue
     
     return revenue_by_supplier
+
+
+@anvil.server.callable
+def revenue_by_truck_and_date(start_date, end_date):
+    import pytz
+
+    revenue_by_truck = {}
+    
+        
+    all_items = app_tables.items.search()
+    
+
+    unique_trucks = set()
+
+    for item in all_items:
+        unique_truck.add(item['truck'])
+    
+    truck = list(unique_trucks)
+    print(trucks)
+   # Define the timezone
+    desired_timezone = pytz.timezone('America/Chicago')
+    start_date = datetime.strptime(str(start_date), "%m/%d/%Y")
+    end_date = datetime.strptime(str(end_date), "%m/%d/%Y")
+    start_date = desired_timezone.localize(start_date)
+    end_date = desired_timezone.localize(end_date)
+    for truck in trucks:
+        sold_items = []
+        kwargs = {'status': "Sold", 'truck': truck}
+        items = app_tables.items.search(**kwargs)
+        
+        for row in items:
+          if row['packed_on'] is None:
+            continue
+          date_to_check = datetime.strptime(str(row['packed_on']), "%Y-%m-%d %H:%M:%S.%f%z")
+          date_to_check = date_to_check.astimezone(desired_timezone)
+          print(start_date,end_date,date_to_check)
+          if start_date <= date_to_check <= end_date:
+            sold_items.append(row)
+    
+
+        if len(sold_items) == 0:
+          revenue_by_truck[truck] = 0
+        else:
+          total_revenue = sum(item['sale_price'] for item in sold_items)
+          revenue_by_truck[truck] = total_revenue
+    
+    return revenue_by_truck
 
 
 @anvil.server.callable
@@ -197,7 +245,24 @@ def average_time_to_fulfill():
         return average_timedelta_str
     else:
         return 0        
-  
+
+
+@anvil.server.callable
+def misidentified_rate_per_product():
+    items = app_tables.items.search()
+    misidentified_rate = {}
+    
+    for truck in trucks:
+        tossed_count = truck['item_tossed_count']
+        total_count = truck['item_system_count']
+        truck_name = truck['truck_id']
+        if tossed_count is not None and total_count is not None:
+          if total_count == 0:
+            tossed_rate[truck_name] = 0
+          else:
+            tossed_rate[truck_name] = (tossed_count/total_count)*100
+          
+    return tossed_rate
 
 ###########  Employee Metrics ###########
 
