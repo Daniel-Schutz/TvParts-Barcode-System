@@ -11,6 +11,7 @@ from datetime import timedelta
 ###########  Supplier Metrics ###########
 @anvil.server.callable
 def revenue_by_supplier_and_date(start_date, end_date):
+  #NOT WORKING
     import pytz
 
     revenue_by_supplier = {}
@@ -59,6 +60,7 @@ def revenue_by_supplier_and_date(start_date, end_date):
 
 @anvil.server.callable
 def revenue_by_truck_and_date(start_date, end_date):
+    #NOT WORKING
     import pytz
 
     revenue_by_truck = {}
