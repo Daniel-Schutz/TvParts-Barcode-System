@@ -41,7 +41,7 @@ class Dashboarding(DashboardingTemplate):
     pass
 
   def generate_analysis_btn_click(self, **event_args):
-    years = anvil.server.call('misidentified_rate_per_product')
+    years = anvil.server.call('total_order_volume_per_customer')
     print(years)
     """This method is called when the button is clicked"""
     pass

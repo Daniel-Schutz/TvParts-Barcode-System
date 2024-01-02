@@ -277,6 +277,99 @@ def misidentified_rate_per_product():
           
     return misidentified_rate
 
+
+
+  
 ###########  Employee Metrics ###########
 
+@anvil.server.callable
+def misidentified_rate_per_employee():
+  # Getting the 'items' table
+  items = app_tables.items.search()
+  
+  # Filtering the Misidentified items
+  misidentified_items = [item for item in items if item['status'] == 'Misidentified']
+  
+  # Creating a dictionary to store counts per employee
+  misidentified_count = {}
+  misidentified_percentage = {}
+  
+  # Counting Misidentified items per employee
+  for item in misidentified_items:
+      verified_by = item['verified_by']
+      if verified_by not in misidentified_count:
+          misidentified_count[verified_by] = 1
+      else:
+          misidentified_count[verified_by] += 1
+  
+  # Calculating the percentage of Misidentified items per employee
+  total_verified_items = {}  # Dictionary to store total verified items per employee
+  
+  # Counting total verified items per employee
+  for item in items:
+      verified_by = item['verified_by']
+      if verified_by not in total_verified_items:
+          total_verified_items[verified_by] = 1
+      else:
+          total_verified_items[verified_by] += 1
+  
+  # Calculating misidentified percentage and storing in dictionary
+  for employee, count in misidentified_count.items():
+      total_count = total_verified_items.get(employee, 0)
+      misidentified_percentage[employee] = (count / total_count) * 100 if total_count != 0 else 0
+  
+  # Merging count and percentage into a single dictionary
+  employee_misidentified = {employee: {'count': misidentified_count.get(employee, 0), 'percentage': misidentified_percentage.get(employee, 0)} for employee in set(misidentified_count) | set(misidentified_percentage)}
+
+  return employee_misidentified
+
+ 
+
+
 ###########  Customer Metrics ###########
+
+
+@anvil.server.callable
+def repeat_purchase_rate():
+  # Get the 'openorders' table
+  open_orders = app_tables.openorders.search()
+  
+  # Create a dictionary to store order count per customer
+  order_count_per_customer = {}
+  
+  # Count orders per customer
+  for order in open_orders:
+      customer_name = order['customer_name']
+      if customer_name not in order_count_per_customer:
+          order_count_per_customer[customer_name] = 1
+      else:
+          order_count_per_customer[customer_name] += 1
+  
+  # Calculate the number of customers with multiple orders
+  customers_with_multiple_orders = sum(1 for count in order_count_per_customer.values() if count > 1)
+  # Calculate the total number of unique customers
+  total_unique_customers = len(order_count_per_customer)
+  
+  # Calculate the Repeat Purchase Rate
+  repeat_purchase_rate = customers_with_multiple_orders / total_unique_customers if total_unique_customers > 0 else 0
+  
+  repeat_purchase_rate = repeat_purchase_rate * 100
+  return repeat_purchase_rate
+
+@anvil.server.callable
+def total_order_volume_per_customer():
+  # Get the 'openorders' table
+  open_orders = app_tables.openorders.search()
+  
+  # Create a dictionary to store order count per customer
+  order_count_per_customer = {}
+  
+  # Count orders per customer
+  for order in open_orders:
+      customer_name = order['customer_name']
+      if customer_name not in order_count_per_customer:
+          order_count_per_customer[customer_name] = 1
+      else:
+          order_count_per_customer[customer_name] += 1
+  
+  return order_count_per_customer
