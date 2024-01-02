@@ -280,6 +280,56 @@ def misidentified_rate_per_product():
     return misidentified_rate
 
 
+@anvil.server.callable
+def needs_attention_rate():
+    items = app_tables.items.search(tables.order_by("sku", ascending=False))
+    needs_attention_count = {}
+    total_count = {}
+    
+    for item in items:
+        sku = item['sku']
+        history = item['history']
+        
+        if sku not in needs_attention_count:
+            needs_attention_count[sku] = 0
+        
+        if sku not in total_count:
+            total_count[sku] = 0
+        
+        total_count[sku] += 1
+        
+        if 'updated item status to Needs Attention' in history:
+            needs_attention_count[sku] += 1
+    needs_attention_rate = {}
+    for sku in needs_attention_count:
+        needs_attention_rate[sku] = (needs_attention_count[sku] / total_count[sku])*100 if total_count[sku] > 0 else 0
+    
+    return needs_attention_rate
+
+def testing_failure_rate():
+    items = app_tables.items.search(tables.order_by("sku", ascending=False))
+    testing_failure_count = {}
+    total_count = {}
+    
+    for item in items:
+        sku = item['sku']
+        history = item['history']
+        
+        if sku not in testing_failure_count:
+            testing_failure_count[sku] = 0
+        
+        if sku not in total_count:
+            total_count[sku] = 0
+        
+        total_count[sku] += 1
+        
+        if 'updated item status to Failed QA' in history:
+            testing_failure_count[sku] += 1
+    testing_failure_rate = {}
+    for sku in testing_failure_count:
+        testing_failure_rate[sku] = (testing_failure_count[sku] / total_count[sku])*100 if total_count[sku] > 0 else 0
+    
+    return testing_failure_rate
 
   
 ###########  Employee Metrics ###########
@@ -324,6 +374,38 @@ def misidentified_rate_per_employee():
   employee_misidentified = {employee: {'count': misidentified_count.get(employee, 0), 'percentage': misidentified_percentage.get(employee, 0)} for employee in set(misidentified_count) | set(misidentified_percentage)}
 
   return employee_misidentified
+
+
+@anvil.server.callable
+def needs_attention_rate_per_employee():
+  # Getting the 'items' table
+  items = app_tables.items.search()
+
+  needs_attention_count = {}
+  total_count = {}
+  
+  for item in items:
+      history = item['history']
+      lines = history.split('\n')  # Separar as linhas do histórico
+      for line in lines:
+          employee = line.split('(')[0].strip()  # Extrair o nome do funcionário
+          if employee not in needs_attention_count:
+              needs_attention_count[employee] = 0
+          
+          if employee not in total_count:
+              total_count[employee] = 0
+          
+          total_count[employee] += 1
+          
+          if 'updated item status to Needs Attention' in line:
+              needs_attention_count[employee] += 1
+  
+  needs_attention_rate = {}
+  for employee in needs_attention_count:
+      needs_attention_rate[employee] = (needs_attention_count[employee] / total_count[employee])*100 if total_count[employee] > 0 else 0
+  
+  return needs_attention_rate
+
 
  
 
