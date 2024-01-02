@@ -249,10 +249,11 @@ def average_time_to_fulfill():
 
 @anvil.server.callable
 def misidentified_rate_per_product():
-    items = app_tables.items.search()
+    items = app_tables.items.search(tables.order_by("sku", ascending=False))
     misidentified_rate = {}
     
-    for truck in trucks:
+    for item in items:
+        print(item['sku'])
         tossed_count = truck['item_tossed_count']
         total_count = truck['item_system_count']
         truck_name = truck['truck_id']
