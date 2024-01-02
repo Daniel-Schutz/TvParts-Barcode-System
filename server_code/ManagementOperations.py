@@ -11,9 +11,10 @@ from datetime import timedelta
 ###########  Supplier Metrics ###########
 @anvil.server.callable
 def revenue_by_supplier_and_date(start_date, end_date):
+    import pytz
 
     revenue_by_supplier = {}
-
+    
         
     all_items = app_tables.items.search()
     
@@ -24,18 +25,33 @@ def revenue_by_supplier_and_date(start_date, end_date):
         unique_suppliers.add(item['supplier'])
     
     suppliers = list(unique_suppliers)
-
+    print(suppliers)
+   # Define the timezone
+    desired_timezone = pytz.timezone('America/Chicago')
+    start_date = datetime.strptime(str(start_date), "%m/%d/%Y")
+    end_date = datetime.strptime(str(end_date), "%m/%d/%Y")
+    start_date = desired_timezone.localize(start_date)
+    end_date = desired_timezone.localize(end_date)
     for supplier in suppliers:
+        sold_items = []
         kwargs = {'status': "Sold", 'supplier': supplier}
-        sold_items = app_tables.items.search(**kwargs)
-        for r in sold_items:
-          print(r['status'])
+        items = app_tables.items.search(**kwargs)
+        
+        for row in items:
+          if row['packed_on'] is None:
+            print("")
+            continue
+          date_to_check = datetime.strptime(str(row['packed_on']), "%Y-%m-%d %H:%M:%S.%f%z")
+          date_to_check = date_to_check.astimezone(desired_timezone)
+          print(start_date,end_date,date_to_check)
+          if start_date <= date_to_check <= end_date:
+            sold_items.append(row)
 
-      #verificar se ta entre as datas desejadas
-      #salvar na lista
-
-        total_revenue = sum(item['sale_price'] for item in sold_items)
-        revenue_by_supplier[supplier] = total_revenue
+        if len(sold_items) == 0:
+          revenue_by_supplier[supplier] = 0
+        else:
+          total_revenue = sum(item['sale_price'] for item in sold_items)
+          revenue_by_supplier[supplier] = total_revenue
     
     return revenue_by_supplier
 
