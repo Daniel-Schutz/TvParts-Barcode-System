@@ -33,7 +33,7 @@ components:
       properties: {text: Customer panel, role: primary-color}
       type: Button
       layout_properties: {}
-      event_bindings: {click: customer_pan_btn_click}
+      event_bindings: {click: customer_panel_btn_click}
   - name: spacer_1
     properties: {height: 5.796875}
     type: Spacer

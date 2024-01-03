@@ -64,4 +64,5 @@ class Dashboarding(DashboardingTemplate):
     self.employee_panel_btn.role = 'primary-color'
     self.customer_panel_btn.role = 'raised'
     pass
-    
+
+

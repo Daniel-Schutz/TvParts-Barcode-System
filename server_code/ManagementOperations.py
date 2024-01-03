@@ -305,7 +305,8 @@ def needs_attention_rate():
         needs_attention_rate[sku] = (needs_attention_count[sku] / total_count[sku])*100 if total_count[sku] > 0 else 0
     
     return needs_attention_rate
-
+  
+@anvil.server.callable
 def testing_failure_rate():
     items = app_tables.items.search(tables.order_by("sku", ascending=False))
     testing_failure_count = {}
@@ -402,7 +403,7 @@ def needs_attention_rate_per_employee():
   
   needs_attention_rate = {}
   for employee in needs_attention_count:
-      needs_attention_rate[employee] = (needs_attention_count[employee] / total_count[employee])*100 if total_count[employee] > 0 else 0
+      needs_attention_rate[employee] = ((needs_attention_count[employee] / total_count[employee])*100) if total_count[employee] > 0 else 0
   
   return needs_attention_rate
 

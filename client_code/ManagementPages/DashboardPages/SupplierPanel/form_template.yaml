@@ -18,6 +18,24 @@ components:
       properties: {text: Revenue dashboards, align: center, bold: false, font_size: 19}
       type: Label
       layout_properties: {grid_position: 'CVCUBB,OZPUPE'}
+    - name: start_date_label
+      properties: {text: Start date}
+      type: Label
+      layout_properties: {grid_position: 'GEUAOX,QJHTBH'}
+    - name: query_1_date_input_copy
+      properties: {placeholder: ''}
+      type: DatePicker
+      layout_properties: {grid_position: 'GEUAOX,ALODWE'}
+      event_bindings: {change: query_1_date_input_copy_change}
+    - name: end_datelabel
+      properties: {text: End date}
+      type: Label
+      layout_properties: {grid_position: 'GEOCRI,NPLMOY'}
+    - name: query_1_date_input
+      properties: {}
+      type: DatePicker
+      layout_properties: {grid_position: 'GEOCRI,XEUZMG'}
+      event_bindings: {change: query_1_date_input_change}
     - name: card_5_copy_copy
       properties: {role: card, col_widths: '{}'}
       type: ColumnPanel
@@ -86,7 +104,7 @@ components:
     - name: card_5_copy_copy_3
       properties: {role: card, col_widths: '{}'}
       type: ColumnPanel
-      layout_properties: {grid_position: 'PGZXXX,JUSZXB'}
+      layout_properties: {grid_position: 'PGZXXX,PXBEJO'}
       components:
       - name: label_13_copy_copy_3
         properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
@@ -128,8 +146,7 @@ components:
     layout_properties: {grid_position: 'SDVPQI,DBAPQV'}
     components:
     - name: user_role_label_copy_2_copy
-      properties: {text: Defect Rate per Truck/Supplier, align: center, bold: false,
-        font_size: 19}
+      properties: {text: Tossed Rate per Truck, align: center, bold: false, font_size: 19}
       type: Label
       layout_properties: {grid_position: 'YVMYGS,VDMDYA'}
     - name: card_5_copy_copy_4

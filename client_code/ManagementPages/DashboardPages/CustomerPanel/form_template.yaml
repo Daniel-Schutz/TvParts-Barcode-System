@@ -6,7 +6,7 @@ components:
   layout_properties: {grid_position: 'UFXVSX,SQVUCV'}
   components:
   - name: header
-    properties: {role: headline, align: center, text: Management Control Panel}
+    properties: {role: headline, align: center, text: Customer dashboard}
     type: Label
     layout_properties: {grid_position: 'HNBPWJ,MAKVMQ'}
   - name: card_2
@@ -14,99 +14,31 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'TUVVNF,GUVIXO'}
     components:
-    - name: user_role_label
-      properties: {text: Change User Role, align: center, bold: false, font_size: 19}
-      type: Label
-      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
-    - name: flow_panel_1_copy
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'UVRKFD,GVGKPK'}
+    - name: card_5_copy_copy
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'ECRMNP,LUUEIQ'}
       components:
-      - name: user_role_label_copy
-        properties: {text: 'Assign User:'}
+      - name: label_13_copy_copy
+        properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: Total Order volume per customer, font_size: null, font: '',
+          spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+          background: '', bold: false, underline: false, icon: ''}
         type: Label
-        layout_properties: {}
-      - name: select_user_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 271.11346875000004}
-        event_bindings: {change: on_assigned_user_change}
-    - name: flow_panel_1
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'UVRKFD,HGFKUA'}
-      components:
-      - name: user_role_label_copy_copy
-        properties: {text: 'To Role:'}
-        type: Label
-      - name: select_role_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 288.28106249999996}
-        event_bindings: {change: on_assigned_role_change}
-    - name: assign_new_role_btn
-      properties: {text: assign role, role: primary-color}
-      type: Button
-      layout_properties: {grid_position: 'GKIXQT,SRZAJP'}
-      event_bindings: {click: assign_role_btn_click}
-  - name: spacer_1
-    properties: {height: 5.796875}
-    type: Spacer
-    layout_properties: {grid_position: 'CMOOID,MOXBMN', row_background: 'theme:Primary
-        700'}
-  - name: card_2_copy
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'DKVLWV,FLOJSF'}
-    components:
-    - name: user_role_label_copy_2
-      properties: {text: Manage Open Orders, align: center, bold: false, font_size: 19}
+        layout_properties: {grid_position: 'BSYYHT,YOUOSY'}
+      - name: plot_customer
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+    - name: repeat_rate_label
+      properties: {text: Repeat Purchase Rate}
       type: Label
-      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
-    - name: refresh_orders_btn
-      properties: {text: refresh open orders, role: primary-color}
-      type: Button
-      layout_properties: {grid_position: 'UVRKFD,SLCSGT'}
-      event_bindings: {click: refresh_open_orders_btn_click}
-    - name: clear_orders_button
-      properties: {text: clear open orders, role: primary-color, align: center}
-      type: Button
-      layout_properties: {grid_position: 'UVRKFD,BGKQMY'}
-      event_bindings: {click: clear_open_order_btn_click}
-  - name: spacer_1_copy
-    properties: {height: 5.796875}
-    type: Spacer
-    layout_properties: {grid_position: 'THCZOD,ZRIYWX', row_background: 'theme:Secondary
-        500'}
-  - name: card_2_copy_copy
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'SDVPQI,DBAPQV'}
-    components:
-    - name: user_role_label_copy_2_copy
-      properties: {text: Set Admin Passcode (For Needs Attention), align: center,
-        bold: false, font_size: 19}
-      type: Label
-      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
-    - name: flow_panel_2
+      layout_properties: {grid_position: 'FSFHTK,OLRIZG'}
+    - name: repeat_rate_output
       properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'UVRKFD,WLIMFV'}
-      components:
-      - name: admin_passcode_label
-        properties: {text: 'Admin Passcode:'}
-        type: Label
-        layout_properties: {}
-      - name: admin_passcode_input
-        properties: {}
-        type: TextBox
-        layout_properties: {width: 269.08165625000004}
-    - name: set_admin_pass_btn
-      properties: {text: set passcode, role: primary-color, align: center}
-      type: Button
-      layout_properties: {grid_position: 'UVRKFD,BGKQMY'}
-      event_bindings: {click: set_admin_pass_btn_click}
+      type: RichText
+      layout_properties: {grid_position: 'FSFHTK,VOMXHO'}
   - name: spacer_1_copy_copy_copy
     properties: {height: 8.62109375, visible: false}
     type: Spacer
