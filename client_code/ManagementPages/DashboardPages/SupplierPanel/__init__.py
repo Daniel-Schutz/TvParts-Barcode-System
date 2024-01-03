@@ -17,19 +17,22 @@ class SupplierPanel(SupplierPanelTemplate):
     
     end_date = datetime.now().strftime("%m/%d/%Y")
     start_date = '01/01/1900'
-    '''revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
-    bar_chart_plot_2_copy_copy = go.Bar(
-        x=list(parts_by_year.keys()),
-        y=list(parts_by_year.values())
-    )
-    self.plot_2_copy_copy.data =  [bar_chart_plot_2_copy_copy]'''
+
+    ###### UNCOMMENT HERE TO RUN AND ON CHANGE EVENTS TOO ########
     
-    '''revenue_by_truck = anvil.server.call('revenue_by_truck_and_date',start_date,end_date)
-    bar_chart_plot_2_copy_copy_2 = go.Bar(
-        x=list(parts_by_year.keys()),
-        y=list(parts_by_year.values())
-    )
-    self.plot_2_copy_copy_2.data =  [bar_chartplot_2_copy_copy_2]'''
+    # revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
+    # bar_chart_plot_2_copy_copy = go.Bar(
+    #     x=list(parts_by_year.keys()),
+    #     y=list(parts_by_year.values())
+    # )
+    # self.plot_2_copy_copy.data =  [bar_chart_plot_2_copy_copy]
+    
+    # revenue_by_truck = anvil.server.call('revenue_by_truck_and_date',start_date,end_date)
+    # bar_chart_plot_2_copy_copy_2 = go.Bar(
+    #     x=list(parts_by_year.keys()),
+    #     y=list(parts_by_year.values())
+    # )
+    # self.plot_2_copy_copy_2.data =  [bar_chartplot_2_copy_copy_2]
     
     parts_by_year = anvil.server.call('count_items_per_year')
     bar_chart_plot_2_copy = go.Bar(
@@ -65,36 +68,40 @@ class SupplierPanel(SupplierPanelTemplate):
     """This method is called when the selected date changes"""
     end_date = self.query_1_date_input.date
     start_date = self.query_1_date_input_copy.date
-    '''revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
-    bar_chart_plot_2_copy_copy = go.Bar(
-        x=list(parts_by_year.keys()),
-        y=list(parts_by_year.values())
-    )
-    self.plot_2_copy_copy.data =  [bar_chart_plot_2_copy_copy]'''
+    ###### UNCOMMENT HERE TO RUN AND ON CHANGE EVENTS TOO ########
     
-    '''revenue_by_truck = anvil.server.call('revenue_by_truck_and_date',start_date,end_date)
-    bar_chart_plot_2_copy_copy_2 = go.Bar(
-        x=list(parts_by_year.keys()),
-        y=list(parts_by_year.values())
-    )
-    self.plot_2_copy_copy_2.data =  [bar_chartplot_2_copy_copy_2]'''
+    # revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
+    # bar_chart_plot_2_copy_copy = go.Bar(
+    #     x=list(parts_by_year.keys()),
+    #     y=list(parts_by_year.values())
+    # )
+    # self.plot_2_copy_copy.data =  [bar_chart_plot_2_copy_copy]
+    
+    # revenue_by_truck = anvil.server.call('revenue_by_truck_and_date',start_date,end_date)
+    # bar_chart_plot_2_copy_copy_2 = go.Bar(
+    #     x=list(parts_by_year.keys()),
+    #     y=list(parts_by_year.values())
+    # )
+    # self.plot_2_copy_copy_2.data =  [bar_chartplot_2_copy_copy_2]
     pass
 
   def query_1_date_input_change(self, **event_args):
     """This method is called when the selected date changes"""
     end_date = datetime.now().strftime("%m/%d/%Y")
     start_date = '01/01/1900'
-    '''revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
-    bar_chart_plot_2_copy_copy = go.Bar(
-        x=list(parts_by_year.keys()),
-        y=list(parts_by_year.values())
-    )
-    self.plot_2_copy_copy.data =  [bar_chart_plot_2_copy_copy]'''
     
-    '''revenue_by_truck = anvil.server.call('revenue_by_truck_and_date',start_date,end_date)
-    bar_chart_plot_2_copy_copy_2 = go.Bar(
-        x=list(parts_by_year.keys()),
-        y=list(parts_by_year.values())
-    )
-    self.plot_2_copy_copy_2.data =  [bar_chartplot_2_copy_copy_2]'''
+    ###### UNCOMMENT HERE TO RUN AND ON init too ########
+    # revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
+    # bar_chart_plot_2_copy_copy = go.Bar(
+    #     x=list(parts_by_year.keys()),
+    #     y=list(parts_by_year.values())
+    # )
+    # self.plot_2_copy_copy.data =  [bar_chart_plot_2_copy_copy]
+    
+    # revenue_by_truck = anvil.server.call('revenue_by_truck_and_date',start_date,end_date)
+    # bar_chart_plot_2_copy_copy_2 = go.Bar(
+    #     x=list(parts_by_year.keys()),
+    #     y=list(parts_by_year.values())
+    # )
+    # self.plot_2_copy_copy_2.data =  [bar_chartplot_2_copy_copy_2]
     pass
