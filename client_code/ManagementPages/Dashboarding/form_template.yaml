@@ -9,202 +9,37 @@ components:
     properties: {role: headline, align: center, text: Management Dashboarding, tooltip: Note that role selection will affect message inbox.}
     type: Label
     layout_properties: {grid_position: 'HNBPWJ,MAKVMQ'}
-  - name: saved_analyses_btn
-    properties: {text: saved analyses, role: primary-color, align: right}
-    type: Button
-    layout_properties: {grid_position: 'IMCEAK,SQYXDP'}
-  - name: card_2_copy
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'DKVLWV,FLOJSF'}
+  - name: flow_panel_1
+    properties: {align: center}
+    type: FlowPanel
+    layout_properties: {grid_position: 'FIOTLS,XGGPGW'}
     components:
-    - name: user_role_label_copy_2
-      properties: {text: Create Dashboard, align: center, bold: false, font_size: 32,
-        underline: true}
-      type: Label
-      layout_properties: {grid_position: 'VMZTSC,MPBWMH'}
-    - name: flow_panel_1
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'OLDQTF,KSQRGP'}
-      components:
-      - name: select_table_label
-        properties: {text: Select Data Table}
-        type: Label
-        layout_properties: {}
-      - name: select_role_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 357.8359375}
-        event_bindings: {change: select_role_dropdown_change}
-    - name: flow_panel_1_copy
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'SHVHIT,YDVCSY'}
-      components:
-      - name: compare_label
-        properties: {text: 'Compare:'}
-        type: Label
-        layout_properties: {}
-      - name: select_role_dropdown_copy
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 357.8359375}
-        event_bindings: {change: select_role_dropdown_copy_change}
-      - name: spacer_2
-        properties: {height: 32}
-        type: Spacer
-        layout_properties: {width: 27.1484375}
-      - name: compare_type_label
-        properties: {text: 'Comparison Type:'}
-        type: Label
-        layout_properties: {}
-      - name: comp_type_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 225.15234375}
-        event_bindings: {change: comp_type_dropdown_change}
-    - name: flow_panel_1_copy_copy
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'NIZXPF,EZKQAH'}
-      components:
-      - name: categorize_label
-        properties: {text: 'Categorize By:'}
-        type: Label
-        layout_properties: {}
-      - name: categorize_by_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 357.8359375}
-        event_bindings: {change: categorize_by_dropdown_change}
-    - name: flow_panel_1_copy_copy_copy_2
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'MCSQXL,RELCDK'}
-      components:
-      - name: time_period_selector
-        properties: {text: Select Time Period}
-        type: Label
-        layout_properties: {}
-      - name: time_period_quick_dropdown
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 309.66803125}
-        event_bindings: {change: time_period_quick_dropdown_change}
-      - name: date_picker_1
-        properties: {}
-        type: DatePicker
-        event_bindings: {change: date_picker_1_change}
-    - name: flow_panel_1_copy_copy_copy_2_copy
-      properties: {}
-      type: FlowPanel
-      layout_properties: {grid_position: 'BWOXLX,RPSQCT'}
-      components:
-      - name: resolution_selector_label
-        properties: {text: 'Select Resolution:'}
-        type: Label
-        layout_properties: {}
-      - name: time_period_quick_dropdown_copy
-        properties: {}
-        type: DropDown
-        layout_properties: {width: 309.66803125}
-    - name: spacer_3
-      properties: {height: 15.6796875}
-      type: Spacer
-      layout_properties: {grid_position: 'RAWKYK,RLHUAI', row_background: '#000000'}
-    - name: card_2
-      properties: {role: card, background: '#c8ffc8'}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'VWTKMQ,SFZWHC', row_background: ''}
-      components:
-      - name: filter_header
-        properties: {role: headline, align: center, text: 'But only for data that
-            meets the following constraints:'}
-        type: Label
-        layout_properties: {grid_position: 'UVKERF,KRPVYB'}
-      - name: flow_panel_1_copy_copy_copy
-        properties: {}
-        type: FlowPanel
-        components:
-        - name: filter_by_label
-          properties: {text: 'Filter 1:'}
-          type: Label
-          layout_properties: {}
-        - name: categorize_by_dropdown_copy
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 357.8359375}
-        - name: categorize_by_dropdown_copy_copy
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 80.17965}
-        - name: text_box_1
-          properties: {}
-          type: TextBox
-          layout_properties: {width: 261.42578125}
-        layout_properties: {grid_position: 'VIIFCI,VYIRIK'}
-      - name: and_or_dd_1
-        properties: {}
-        type: DropDown
-        layout_properties: {grid_position: 'LXQFXX,SVXJYY'}
-      - name: flow_panel_1_copy_copy_copy_copy
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'RIKJCR,UHIXID'}
-        components:
-        - name: filter_by_2_label
-          properties: {text: 'Filter 2:'}
-          type: Label
-          layout_properties: {}
-        - name: categorize_by_dropdown_copy_copy_2
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 357.8359375}
-        - name: categorize_by_dropdown_copy_copy_copy
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 80.17965}
-        - name: text_box_1_copy
-          properties: {}
-          type: TextBox
-          layout_properties: {width: 261.42578125}
-      - name: and_or_dd_1_copy
-        properties: {}
-        type: DropDown
-        layout_properties: {grid_position: 'JFCEMR,RPWBJG'}
-      - name: flow_panel_1_copy_copy_copy_copy_copy
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'PVQDJN,YCDQSQ'}
-        components:
-        - name: filter_by_3_label
-          properties: {text: 'Filter 3:'}
-          type: Label
-          layout_properties: {}
-        - name: categorize_by_dropdown_copy_copy_2_copy
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 357.8359375}
-        - name: categorize_by_dropdown_copy_copy_copy_copy
-          properties: {}
-          type: DropDown
-          layout_properties: {width: 80.17965}
-        - name: text_box_1_copy_copy
-          properties: {}
-          type: TextBox
-          layout_properties: {width: 261.42578125}
-    - name: generate_analysis_btn
-      properties: {text: generate analysis, role: primary-color, align: center}
+    - name: supplier_panel_btn
+      properties: {text: Supplier panel, role: primary-color}
       type: Button
-      layout_properties: {grid_position: 'VVRWMJ,XGTMSO'}
-      event_bindings: {click: generate_analysis_btn_click}
-  - name: display_card
-    properties: {role: card}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'VWCFYL,JVGZCW'}
+      layout_properties: {}
+      event_bindings: {click: control_panel_btn_click}
+    - name: product_panel_btn
+      properties: {text: product panel, role: primary-color}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: action_panel_btn_click}
+    - name: employee_panel_btn
+      properties: {text: Employee Panel, role: primary-color}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: dashboard_btn_click}
+    - name: customer_panel_btn
+      properties: {text: Customer panel, role: primary-color}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: role_nav_btn_click}
   - name: spacer_1
     properties: {height: 5.796875}
     type: Spacer
     layout_properties: {grid_position: 'MTFANQ,JSHUSA', row_background: '#000000'}
+- name: main_content_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'DLAKDV,VYZKTY'}
 is_package: true

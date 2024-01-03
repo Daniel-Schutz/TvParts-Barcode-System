@@ -1,4 +1,4 @@
-from ._anvil_designer import DashboardingTemplate
+from ._anvil_designer import Dashboarding_archiveTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-class Dashboarding(DashboardingTemplate):
+class Dashboarding_archive(Dashboarding_archiveTemplate):
   def __init__(self, current_user, current_role, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -45,15 +45,3 @@ class Dashboarding(DashboardingTemplate):
     print(years)
     """This method is called when the button is clicked"""
     pass
-
-  def control_panel_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
-self.main_content_panel.clear()
-    self.main_content_panel.add_component(ControlPanel(current_user=self.current_user, 
-                                                      current_role=self.current_role), 
-                                          full_width_row=True)
-    self.control_panel_btn.role = 'raised'
-    self.action_panel_btn.role = 'primary-color'
-    self.dashboard_btn.role = 'primary-color'
-    self.role_nav_btn.role = 'primary-color'
