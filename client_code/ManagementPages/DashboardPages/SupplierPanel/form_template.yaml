@@ -1,0 +1,150 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: card, background: '#dcdcff'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'UFXVSX,SQVUCV'}
+  components:
+  - name: header
+    properties: {role: headline, align: center, text: Supplier dashboard}
+    type: Label
+    layout_properties: {grid_position: 'HNBPWJ,MAKVMQ'}
+  - name: card_2
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'TUVVNF,GUVIXO'}
+    components:
+    - name: user_role_label_copy_2_copy_2
+      properties: {text: Revenue dashboards, align: center, bold: false, font_size: 19}
+      type: Label
+      layout_properties: {grid_position: 'CVCUBB,OZPUPE'}
+    - name: card_5_copy_copy
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'ECRMNP,LUUEIQ'}
+      components:
+      - name: label_13_copy_copy
+        properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: By supplier, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        type: Label
+        layout_properties: {grid_position: 'BSYYHT,YOUOSY'}
+      - name: plot_2_copy_copy
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+    - name: card_5_copy_copy_2
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'ECRMNP,BQDFKU'}
+      components:
+      - name: label_13_copy_copy_2
+        properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: By truck, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        type: Label
+        layout_properties: {grid_position: 'NNDSER,RCPRGZ'}
+      - name: plot_2_copy_copy_2
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+  - name: spacer_1
+    properties: {height: 5.796875}
+    type: Spacer
+    layout_properties: {grid_position: 'CMOOID,MOXBMN', row_background: 'theme:Primary
+        700'}
+  - name: card_2_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'BEIMJR,OLFWUS'}
+    components:
+    - name: user_role_label_copy_2
+      properties: {text: Parts dashboards, align: center, bold: false, font_size: 19}
+      type: Label
+      layout_properties: {grid_position: 'UXOXWJ,OFAOKS'}
+    - name: card_5_copy
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'PGZXXX,TZPUYT'}
+      components:
+      - name: label_13_copy
+        properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: By year, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        type: Label
+        layout_properties: {grid_position: 'NNDSER,RCPRGZ'}
+      - name: plot_2_copy
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+    - name: card_5_copy_copy_3
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'PGZXXX,JUSZXB'}
+      components:
+      - name: label_13_copy_copy_3
+        properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: By brand, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        type: Label
+        layout_properties: {grid_position: 'NNDSER,RCPRGZ'}
+      - name: plot_2_copy_copy_3
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+    - name: card_5
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'PGZXXX,IMHAXF'}
+      components:
+      - name: label_13
+        properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: By model, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        type: Label
+        layout_properties: {grid_position: 'GWVJAD,LZUUCU'}
+      - name: plot_2
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+  - name: spacer_1_copy
+    properties: {height: 5.796875}
+    type: Spacer
+    layout_properties: {grid_position: 'THCZOD,ZRIYWX', row_background: 'theme:Secondary
+        500'}
+  - name: card_2_copy_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'SDVPQI,DBAPQV'}
+    components:
+    - name: user_role_label_copy_2_copy
+      properties: {text: Defect Rate per Truck/Supplier, align: center, bold: false,
+        font_size: 19}
+      type: Label
+      layout_properties: {grid_position: 'YVMYGS,VDMDYA'}
+    - name: card_5_copy_copy_4
+      properties: {role: card, col_widths: '{}'}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'EZADDS,HHMDJE'}
+      components:
+      - name: plot_2_copy_copy_4
+        properties: {spacing_above: small, spacing_below: small, height: '370', visible: true,
+          tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'HLFJOM,CDHIEY'}
+  - name: spacer_1_copy_copy_copy
+    properties: {height: 8.62109375, visible: false}
+    type: Spacer
+    layout_properties: {grid_position: 'LMHNLQ,EEXEUH', row_background: 'theme:Secondary
+        700'}
+is_package: true
