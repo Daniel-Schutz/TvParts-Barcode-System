@@ -328,4 +328,13 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.finish_table()
     else:
       self.fulfillment_repeating_panel.items = self.current_fulfillments
+
+  def stock_mode_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    from ..WarehouseStockModule import WarehouseStockModule
+        
+    get_open_form().content_panel.clear()
+    get_open_form().content_panel.add_component(WarehouseStockModule(current_user=self.current_user, current_role=self.current_role),
+                                        full_width_row=True)
+    pass
     

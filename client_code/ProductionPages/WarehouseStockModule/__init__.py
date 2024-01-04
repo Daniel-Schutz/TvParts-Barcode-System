@@ -298,6 +298,15 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       n_2 = Notification('Bin added to purgatory!', style='success')
       n_2.show()
       self.reset_place_part_visibility()
+
+  def pick_mode_button_click(self, **event_args):
+      """This method is called when the button is clicked"""
+      from ..WarehousePickModule import WarehousePickModule
+        
+      get_open_form().content_panel.clear()
+      get_open_form().content_panel.add_component(WarehousePickModule(current_user=self.current_user, current_role=self.current_role),
+                                        full_width_row=True)
+ 
     
       
 
