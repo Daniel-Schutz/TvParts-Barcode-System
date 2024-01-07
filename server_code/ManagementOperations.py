@@ -111,7 +111,7 @@ def tossed_rate_per_truck():
       if total_count == 0:
         tossed_rate[truck_name] = 0
       else:
-        tossed_rate[truck_name] = (tossed_count/total_count)*100
+        tossed_rate[truck_name] = (tossed_count/total_count)
 
   return tossed_rate
 
@@ -254,7 +254,7 @@ def misidentified_rate_per_product():
 
   for item in items:
     if item['sku'] != first_sku:
-      misidentified_rate[first_sku] = (misidentified_count/items_count)*100
+      misidentified_rate[first_sku] = (misidentified_count/items_count)
       first_sku = item['sku']
       items_count = 0
       misidentified_count = 0
@@ -264,7 +264,7 @@ def misidentified_rate_per_product():
 
     #verify if is the last item
     if item['item_id'] == last_item_id:
-      misidentified_rate[first_sku] = (misidentified_count/items_count)*100
+      misidentified_rate[first_sku] = (misidentified_count/items_count)
       first_sku = item['sku']
       items_count = 0
       misidentified_count = 0
@@ -294,7 +294,7 @@ def needs_attention_rate():
       needs_attention_count[sku] += 1
   needs_attention_rate = {}
   for sku in needs_attention_count:
-    needs_attention_rate[sku] = (needs_attention_count[sku] / total_count[sku])*100 if total_count[sku] > 0 else 0
+    needs_attention_rate[sku] = (needs_attention_count[sku] / total_count[sku]) if total_count[sku] > 0 else 0
 
   return needs_attention_rate
 
@@ -320,7 +320,7 @@ def testing_failure_rate():
       testing_failure_count[sku] += 1
   testing_failure_rate = {}
   for sku in testing_failure_count:
-    testing_failure_rate[sku] = (testing_failure_count[sku] / total_count[sku])*100 if total_count[sku] > 0 else 0
+    testing_failure_rate[sku] = (testing_failure_count[sku] / total_count[sku]) if total_count[sku] > 0 else 0
 
   return testing_failure_rate
 
@@ -361,7 +361,7 @@ def misidentified_rate_per_employee():
   # Calculating misidentified percentage and storing in dictionary
   for employee, count in misidentified_count.items():
     total_count = total_verified_items.get(employee, 0)
-    misidentified_percentage[employee] = (count / total_count) * 100 if total_count != 0 else 0
+    misidentified_percentage[employee] = (count / total_count) if total_count != 0 else 0
 
   # Merging count and percentage into a single dictionary
   employee_misidentified = {employee: {'count': misidentified_count.get(employee, 0), 'percentage': misidentified_percentage.get(employee, 0)} for employee in set(misidentified_count) | set(misidentified_percentage)}
@@ -395,7 +395,7 @@ def needs_attention_rate_per_employee():
 
   needs_attention_rate = {}
   for employee in needs_attention_count:
-    needs_attention_rate[employee] = ((needs_attention_count[employee] / total_count[employee])*100) if total_count[employee] > 0 else 0
+    needs_attention_rate[employee] = ((needs_attention_count[employee] / total_count[employee])) if total_count[employee] > 0 else 0
 
   return needs_attention_rate
 
@@ -430,7 +430,6 @@ def repeat_purchase_rate():
   # Calculate the Repeat Purchase Rate
   repeat_purchase_rate = customers_with_multiple_orders / total_unique_customers if total_unique_customers > 0 else 0
 
-  repeat_purchase_rate = repeat_purchase_rate * 100
   return repeat_purchase_rate
 
 @anvil.server.callable
