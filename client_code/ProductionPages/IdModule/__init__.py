@@ -264,8 +264,8 @@ class IdModule(IdModuleTemplate):
     date_1900_with_timezone = date_1900 
 
     item_info_dict = {
-      'item_id': self.model_input_bx_copy.text,
-      'sku':'',
+      'item_id': self.generate_unique_item_id(self.model_input_bx_copy.text),
+      'sku':self.model_input_bx_copy.text,
       'img_source': '',
       'primary_bin': '',
       'stored_bin': '',
