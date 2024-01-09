@@ -338,6 +338,9 @@ class IdModule(IdModuleTemplate):
       n = Notification("Item Created!", style='success', timeout=1)
       n.show()
 
+    self.create_barcode_button.enabled = True
+      
+
   def print_barcode_click(self, **event_args):
     print("Image URL:", self.qr_img_url)
     js.call('printPage', self.qr_img_url)
