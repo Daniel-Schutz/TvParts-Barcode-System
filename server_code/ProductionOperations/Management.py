@@ -223,6 +223,7 @@ def build_upload_records_bk(records, table_name):
     print(f"{end} records of {len(records)} uploaded.")
 
 def get_open_orders_from_shopify():
+  print("entrou")
   def str_to_program_time(datetime_str):
       no_tz_str = '-'.join(datetime_str.split("-")[:3])
       naive_datetime = datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
@@ -291,12 +292,13 @@ def refresh_pick_batch(orders_df, fulfillments_df):
   build_upload_records_bk(added_fulfillment_records, 'openfulfillments')
 
 @anvil.server.background_task
-def refresh_orders_and_fulfillments_bk():
+def refresh_orders_and_fulfillments():
   orders_df, fulfillments_df = get_open_orders_from_shopify()
   refresh_pick_batch(orders_df, fulfillments_df)
 
 @anvil.server.callable
 def refresh_orders_and_fulfillment():
+  print('here')
   anvil.server.launch_background_task('refresh_orders_and_fulfillments_bk')
 
 #easy delete module
