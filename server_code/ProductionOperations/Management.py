@@ -8,8 +8,7 @@ import anvil.server
 from anvil.tables.query import greater_than, less_than, like, ilike, greater_than_or_equal_to, less_than_or_equal_to
 
 
-from datetime import datetime
-import pytz
+import datetime
 import pandas as pd
 import uuid
 
@@ -48,11 +47,7 @@ def get_all_open_orders():
   def str_to_program_time(datetime_str):
       no_tz_str = '-'.join(datetime_str.split("-")[:3])
       naive_datetime = datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
-      original_timezone = pytz.timezone('UTC')
-      target_timezone =  pytz.timezone('US/Central')  
-      localized_datetime = original_timezone.localize(naive_datetime)
-      converted_datetime = localized_datetime.astimezone(target_timezone)
-      return converted_datetime
+      return naive_datetime
     
   open_orders = anvil.server.call('get_open_orders_from_shopify')
   order_records = []
@@ -228,11 +223,7 @@ def get_open_orders_from_shopify():
   def str_to_program_time(datetime_str):
       no_tz_str = '-'.join(datetime_str.split("-")[:3])
       naive_datetime = datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
-      original_timezone = pytz.timezone('UTC')
-      target_timezone =  pytz.timezone('US/Central')  
-      localized_datetime = original_timezone.localize(naive_datetime)
-      converted_datetime = localized_datetime.astimezone(target_timezone)
-      return converted_datetime
+      return  naive_datetime
   open_orders = anvil.server.call('get_open_orders_from_shopify')
   order_records = []
   fulfillment_records = []

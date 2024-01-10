@@ -190,8 +190,7 @@ class TestingModule(TestingModuleTemplate):
 
 # This whole system is scan driven. self.target_f is the fulfillment linked to the scanned item
   def item_scan_input_pressed_enter(self, **event_args):
-    scan_dict = json.loads(self.item_scan_input.text)
-    self.this_item_id = scan_dict['item_id']
+    self.this_item_id = self.item_scan_input.text 
     for f in self.current_fulfillments:
       if f['item_id'] == self.this_item_id:
         self.target_f = f

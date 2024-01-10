@@ -64,7 +64,7 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
 
 ######### EVENTS ####################################
   def item_scan_pressed_enter(self, **event_args):
-    item_id = json.loads(self.item_scan_input.text)['item_id']
+    item_id = self.item_scan_input.text
     item_sku = item_id.split("__")[0]
     if item_sku != self.sku_output.content:
       confirm = anvil.alert(f"WARNING: Scanned sku does not match order sku. Ok to proceed?", 

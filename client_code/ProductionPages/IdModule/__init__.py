@@ -50,12 +50,9 @@ class IdModule(IdModuleTemplate):
     return sku + "__" + code
 
   def generate_unique_box_id(self, len=4):
-    import pytz
     chars = string.ascii_letters + string.digits
     code = ''.join(random.choice(chars) for _ in range(len))
     current_time = datetime.datetime.now()
-    desired_timezone = pytz.timezone('US/Central')  # Fuso horário central dos EUA
-    current_time = current_time.astimezone(desired_timezone)
     today = current_time.strftime('%m-%d-%Y')
     return today + "__" + code
 
@@ -166,14 +163,11 @@ class IdModule(IdModuleTemplate):
   
   def create_item_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    import pytz
     self.create_item_btn.enabled = False
     current_time = datetime.datetime.now()
-    desired_timezone = pytz.timezone('US/Central') 
-    current_time = current_time.astimezone(desired_timezone)
   
     date_1900 = datetime.datetime(1900, 1, 1) 
-    date_1900_with_timezone = desired_timezone.localize(date_1900)
+    date_1900_with_timezone =  date_1900
 
     item_info_dict = {
       'product_name': self.selected_product['product_name'],

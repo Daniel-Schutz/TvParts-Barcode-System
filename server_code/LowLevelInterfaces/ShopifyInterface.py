@@ -136,24 +136,35 @@ class ShopifyInterface:
 
 
     def update_product_inventory_quantity(self, product_id, new_inventory_quantity):
-            url = self.base_url + f'products/{product_id}.json'
+        url = f"{self.base_url}products/{product_id}.json"
+        headers = {"Content-Type": "application/json", **self.auth_headers}
+
+        # Get current product data
+        response = requests.get(url, headers=headers)
+
+        if response.ok:
+            product_data = response.json().get("product", {})
+            variant_id = product_data['variants'][0]['id']
+            print(product_data)
+            print(new_inventory_quantity)
             payload = {
-                "product": {
-                    "id": product_id,
-                    "variants": [
-                        {
-                            "inventory_quantity": new_inventory_quantity
-                        }
-                    ]
-                }
+            "variant": {
+                "id": variant_id,
+                "inventory_quantity": new_inventory_quantity
             }
-            payload = json.dumps(payload)
-    
-            response = requests.put(url, data=payload, headers=self.auth_headers)
-    
+        }
+
+
+            # Send updated data
+            endpoint = f"{self.base_url}variants/{variant_id}.json"
+            response = requests.put(endpoint, json=payload, headers=headers)
+
             if response.ok:
                 print(f"Inventory quantity updated successfully for product {product_id}")
-            else:
-                print(f"Failed to update inventory quantity for product {product_id}: {response.text}")
+                return
+
+        print(f"Failed to update inventory quantity for product {product_id}: {response.text}")
+
+
 ######################################################################
 

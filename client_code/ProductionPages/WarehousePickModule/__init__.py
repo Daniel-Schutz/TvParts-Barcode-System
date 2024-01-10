@@ -272,7 +272,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
   def move_to_holding_needs_attention(self, sku, fulfillment_id, **event_args):
     print("Made it to the move_to_holding event - Needs Attention.")
-    confirm = anvil.alert(f"Confirm: {sku} needs management attentiom?", 
+    confirm = anvil.alert(f"Confirm: {sku} needs management attention?", 
                           buttons=['YES', 'CANCEL'], 
                           large=True, Title = "Needs attention?")
     if confirm == "YES":

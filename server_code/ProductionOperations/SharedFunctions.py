@@ -91,12 +91,13 @@ def close_order_in_db_sync(user, role, order_no, status):
   for row in f_rows:
     item_id = row['item_id']
     item_row = app_tables.items.get(item_id=item_id)
-    item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
-    anvil.server.launch_background_task('add_history_to_item_bk', 
-                                        item_id=item_id, 
-                                        item_status=status, 
-                                        user_full_name=user, 
-                                        user_role=role)
+    if item_row is not None:
+      item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
+      anvil.server.launch_background_task('add_history_to_item_bk', 
+                                          item_id=item_id, 
+                                          item_status=status, 
+                                          user_full_name=user, 
+                                          user_role=role)
     
 @anvil.server.callable
 def close_order_in_db(user, role, order_no, status):

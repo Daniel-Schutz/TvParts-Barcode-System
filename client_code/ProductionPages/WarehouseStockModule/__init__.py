@@ -9,7 +9,6 @@ from anvil.tables import app_tables
 from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.SelectBinModal import SelectBinModal
 from datetime import datetime
-import json
 
 class WarehouseStockModule(WarehouseStockModuleTemplate):
   def __init__(self, current_user, current_role, **properties):
@@ -164,7 +163,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     inventory_quantity = part_info['variants'][0]['inventory_quantity']
     inventory_quantity = inventory_quantity + 1
     anvil.server.call('update_product_inventory_quantity',product['product_id'],inventory_quantity)
-    anvil.server.call( update_rows, 'products', 'sku', self.sku_output.content, shopify_qty,inventory_quantity)
+    anvil.server.call( 'update_rows', 'products', 'sku', self.sku_output.content, 'shopify_qty',inventory_quantity)
     self.reset_selection()
 
 
@@ -210,7 +209,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     #get the primary bin location  & purgatory rows
     purgatory_bins = self.purgatory_bins
     item_scan = self.item_code_place_input.text
-    self.place_item_id = json.loads(item_scan)['item_id']
+    self.place_item_id = item_scan
     
     #maybe add validation at this row for item scans later on
     primary_bin = anvil.server.call('get_primary_bin_from_item_scan', 
