@@ -220,6 +220,7 @@ def build_upload_records_bk(section_records, table_name):
   for start in range(0, len(records), batch_size):
     end = start + batch_size
     batch = records[start:end]
+    print("nome",table_name)
     anvil.server.call('import_full_table_to_anvil', table_name , batch)
     print(f"{end} records of {len(records)} uploaded.")
 

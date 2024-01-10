@@ -77,9 +77,10 @@ def add_history_to_item_bk(item_id, item_status, user_full_name, user_role):
 @anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
     table = getattr(app_tables, table_name)
-    print(records)
+    print(record)
     for record in records:
-        table.add_row(**record)
+       
+        table.add_row(record)
 
 @anvil.server.callable
 def add_row_to_table(table_name, **kwargs):
