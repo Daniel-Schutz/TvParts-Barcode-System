@@ -12,7 +12,7 @@ class RecallItemModal(RecallItemModalTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.cancel_btn.visible = False
+    self.cancel_btn.visible = True
     self.get_box_btn.visible = False
     self.clear_btn.visible = False
     self.scan_input.focus()
