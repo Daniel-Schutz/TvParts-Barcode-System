@@ -29,7 +29,7 @@ def create_truck(truck_id, truck_created):
 
 
 @anvil.server.callable
-def update_item_count_():
+def update_item_count():
   anvil.server.launch_background_task('update_item_count_bk')
 
 @anvil.server.background_task

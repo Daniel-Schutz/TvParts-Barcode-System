@@ -37,6 +37,6 @@ class RecallItemModal(RecallItemModalTemplate):
     self.raise_event('x-close-alert', value=None)
 
   def recall_btn_click(self, **event_args):
-    item_id = json.loads(self.scan_input.text)['item_id']
+    item_id = self.scan_input.text
     self.raise_event('x-close-alert', value=item_id)
     
