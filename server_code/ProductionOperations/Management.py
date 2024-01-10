@@ -11,6 +11,7 @@ from anvil.tables.query import greater_than, less_than, like, ilike, greater_tha
 from datetime import datetime
 import pytz
 import pandas as pd
+import uuid
 
 ##############################################################
 ######################### Action Panel #######################
