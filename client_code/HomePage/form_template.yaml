@@ -104,6 +104,10 @@ components:
     layout_properties: {grid_position: 'PNYSKF,BACDON'}
     event_bindings: {click: sign_out_link_click}
     components: []
+  - name: current_user_output
+    properties: {font_size: 16, align: center}
+    type: RichText
+    layout_properties: {grid_position: 'AOHZJS,YGWTYQ'}
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
     text: TvParts Barcode System, font_size: null, font: Times, spacing_above: small,
