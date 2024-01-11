@@ -18,4 +18,6 @@ class SingleProductListing(SingleProductListingTemplate):
     """This method is called when the button is clicked"""
     print("read the button click")
     print(self.item['sku'])
+    n = Notification(f"The selected product is: {self.item['sku']}", style='info')
+    n.show()
     self.parent.raise_event('x-product-selected', product=self.item)
