@@ -24,13 +24,12 @@ name: TvParts Inventory Master
 runtime_options:
   version: 2
   client_version: '3'
-  server_version: python3-full
+  server_version: python3-sandbox
   server_spec: {base: python310-standard}
-  server_spec_disabled: {requirements: 'pandas==2.1.0rc0
+  server_spec_disabled: {base: python310-standard, requirements: 'pandas
 
-      location==0.0.7
-
-      location)', base: python310-minimal}
+      location'}
+  server_persist: true
 metadata: {title: TvParts Barcode System, logo_img: 'asset:tvbot_square.png'}
 startup_form: null
 native_deps: {head_html: "<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\"\
