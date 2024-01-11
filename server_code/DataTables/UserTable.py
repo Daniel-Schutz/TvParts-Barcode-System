@@ -33,7 +33,7 @@ def get_user_first_name():
 def get_user_last_name():
   user = anvil.users.get_user()
   return user['last_name']
-
+ 
 #Set User Role from Role Page
 @anvil.server.callable
 def set_user_role(role):
