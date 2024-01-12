@@ -5,6 +5,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import re
 
 @anvil.server.callable
 def get_product_by_sku(input_sku):
@@ -60,13 +61,11 @@ def run_product_explorer_query(product_name_t,
     type_query = "%"
   else:
     type_query = product_type_t
-
-  print(product_description_query)
-  
   
   # Execute the search with the combined query
   results = app_tables.products.search(product_name = q.ilike(product_name_query), 
                                        sku = q.ilike(sku_query),
+                                       description= q.ilike(product_description_query),
                                        type = q.ilike(type_query)
                                       )
   
@@ -82,4 +81,13 @@ def update_description():
 def update_description_bk():
   products = app_tables.products.search()
   for row in products:
-    row.update(description='')
+    if row['product_id'] is not None:
+      part_info = anvil.server.call('get_part_info_from_shopify',row['product_id'])
+      if part_info is not None:
+        raw_description = part_info['body_html']
+        if raw_description is not None:
+          description = re.sub(r'<.*?>|\n', '', raw_description)
+          row.update(description=description)  
+    
+
+

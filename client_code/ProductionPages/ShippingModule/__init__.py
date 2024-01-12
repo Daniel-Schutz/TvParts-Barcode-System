@@ -223,7 +223,8 @@ class ShippingModule(ShippingModuleTemplate):
   def item_scan_input_pressed_enter(self, **event_args):
     #self.item_scan_input.enabled = False
     time.sleep(1) #wait for the item to finish inputting
-    self.this_item_id = self.item_scan_input.text
+    item_scan = json.loads(self.item_scan_input.text)
+    self.this_item_id = item_scan.get('item_id')
     for f in self.current_fulfillments:
       if f['item_id'] == self.this_item_id:
         print("item_id for fulfillment and self are in sync.")
