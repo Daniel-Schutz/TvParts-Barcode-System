@@ -103,6 +103,11 @@ class HomePage(HomePageTemplate):
         from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
         self.content_panel.add_component(ManagementMasterModule(current_user=current_user,
                                                         current_role=current_role),
+                                        full_width_row=True)      
+      elif current_role == 'Issac':
+        from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
+        self.content_panel.add_component(ManagementMasterModule(current_user=current_user,
+                                                        current_role=current_role),
                                         full_width_row=True)
     except:
       pass
