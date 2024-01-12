@@ -40,7 +40,12 @@ class ProductExplorer(ProductExplorerTemplate):
     elif self.sku_exact_radio.selected:
       sku_search_type = self.sku_exact_radio.value
 
-
+    product_description = self.product_desc_txbx.text
+    if self.desc_contains_radio_copy.selected:
+      desc_search_type = self.desc_contains_radio_copy.value
+    elif self.desc_exact_radio_copy.selected:
+       desc_search_type = self.desc_exact_radio_copy.value
+      
     if self.type_dropdown.selected_value:
       type = self.type_dropdown.selected_value
     else:
@@ -51,6 +56,8 @@ class ProductExplorer(ProductExplorerTemplate):
                                           product_name_search_type, 
                                           sku, 
                                           sku_search_type, 
+                                          product_description,
+                                          desc_search_type,
                                           type)
     self.num_results_display.text = len(matching_products)
     self.matching_products = matching_products
@@ -63,10 +70,13 @@ class ProductExplorer(ProductExplorerTemplate):
   def reset_search(self, **event_args):
     self.name_contains_radio.selected = True
     self.sku_contains_radio.selected = True
+    self.desc_contains_radio_copy = True
     self.type_dropdown.selected_value = 'All Types'
     self.product_name_txbx.text = None
     self.product_sku_txbx.text = None
+    self.product_desc_txbx = None
     self.num_results_display.text = None
+    
 
 
 ############# EVENTS #######################################  

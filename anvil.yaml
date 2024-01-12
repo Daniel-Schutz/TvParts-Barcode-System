@@ -86,6 +86,9 @@ db_schema:
     - name: cross_refs
       admin_ui: {width: 200, order: 7.5}
       type: string
+    - name: description
+      admin_ui: {width: 200, order: 8.5}
+      type: string
     title: products
   quickmessages:
     client: none

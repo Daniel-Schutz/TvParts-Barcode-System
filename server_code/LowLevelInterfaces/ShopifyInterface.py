@@ -51,7 +51,7 @@ class ShopifyInterface:
         }
         self.pagination_wait_time = 0.33 #Prevent rate limiting
 
-        
+       
 ########### Pagination Helper function ########################
     def paginate_through_shopify(self, url, headers):
         items = []

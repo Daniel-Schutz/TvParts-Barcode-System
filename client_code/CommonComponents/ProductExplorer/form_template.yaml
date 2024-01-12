@@ -31,7 +31,8 @@ components:
         type: Spacer
         layout_properties: {width: 72}
       - name: name_exact_radio
-        properties: {text: Equals, align: right, group_name: name_query_type, value: Equals}
+        properties: {text: Equals, align: right, group_name: name_query_type, value: Equals,
+          selected: true}
         type: RadioButton
         layout_properties: {}
       - name: name_contains_radio
@@ -52,17 +53,46 @@ components:
         properties: {}
         type: TextBox
         layout_properties: {width: 505.5}
+        event_bindings: {}
       - name: spacer_1_copy_1
         properties: {height: 32}
         type: Spacer
         layout_properties: {width: 81}
       - name: sku_exact_radio
-        properties: {text: Equals, align: right, group_name: sku_query_type, value: Equals}
+        properties: {text: Equals, align: right, group_name: sku_query_type, value: Equals,
+          selected: true}
         type: RadioButton
         layout_properties: {}
       - name: sku_contains_radio
         properties: {text: Contains, align: right, group_name: sku_query_type, selected: true,
           value: Contains}
+        type: RadioButton
+        layout_properties: {}
+    - name: flow_panel_1_copy_1_copy
+      properties: {visible: true}
+      type: FlowPanel
+      layout_properties: {grid_position: 'BJFKRI,WJPTPO'}
+      components:
+      - name: desc_label_copy
+        properties: {text: 'Product Description:'}
+        type: Label
+        layout_properties: {}
+      - name: product_desc_txbx
+        properties: {}
+        type: TextBox
+        layout_properties: {width: 505.5}
+      - name: spacer_1_copy_1_copy
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {width: 35}
+      - name: desc_exact_radio_copy
+        properties: {text: Equals, align: right, group_name: sku_query_type, value: Equals,
+          selected: true}
+        type: RadioButton
+        layout_properties: {}
+      - name: desc_contains_radio_copy
+        properties: {text: Contains, align: right, group_name: sku_query_type, selected: true,
+          value: Contains, visible: true, enabled: true}
         type: RadioButton
         layout_properties: {}
     - name: flow_panel_3

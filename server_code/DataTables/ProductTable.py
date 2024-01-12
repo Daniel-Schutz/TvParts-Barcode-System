@@ -23,7 +23,9 @@ def get_type_dropdown():
 @anvil.server.callable
 def run_product_explorer_query(product_name_t, 
                                product_name_search_type, 
-                               sku_t, sku_search_type, 
+                               sku_t, sku_search_type,
+                               product_description_t,
+                               desc_search_type,
                                product_type_t):
   query_conditions = []
     
@@ -43,16 +45,29 @@ def run_product_explorer_query(product_name_t,
       sku_query = sku_t
   else:
     sku_query = "%"
+
+                                 
+  if product_description_t:
+    if desc_search_type == 'Contains':
+      product_description_query = f"%{product_description_t}%"
+    else:
+       product_description_query = product_description_t
+  else:
+    product_description_query = "%"
+    
   
   if product_type_t == 'All Types':
     type_query = "%"
   else:
     type_query = product_type_t
+
+
   
   
   # Execute the search with the combined query
   results = app_tables.products.search(product_name = q.ilike(product_name_query), 
                                        sku = q.ilike(sku_query),
+                                       description = q.ilike(product_description_query),
                                        type = q.ilike(type_query)
                                       )
   
