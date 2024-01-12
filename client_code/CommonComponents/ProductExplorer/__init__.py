@@ -44,7 +44,7 @@ class ProductExplorer(ProductExplorerTemplate):
     if self.desc_contains_radio_copy.selected:
       desc_search_type = self.desc_contains_radio_copy.value
     elif self.desc_exact_radio_copy.selected:
-       desc_search_type = self.desc_exact_radio_copy.value
+      desc_search_type = self.desc_exact_radio_copy.value
       
     if self.type_dropdown.selected_value:
       type = self.type_dropdown.selected_value
