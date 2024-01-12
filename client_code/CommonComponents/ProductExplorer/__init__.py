@@ -33,6 +33,11 @@ class ProductExplorer(ProductExplorerTemplate):
       product_name_search_type = self.name_contains_radio.value #which is "Contains"
     elif self.name_exact_radio.selected:
       product_name_search_type = self.name_exact_radio.value #which is "Contains"
+
+  #Issac - had to add these defaults to make the functions work
+    # desc_search_type = 'Contains'
+    # sku_search_type = 'Contains'
+    # product_name_search_type = 'Contains'
     
     sku = self.product_sku_txbx.text
     if self.sku_contains_radio.selected:
