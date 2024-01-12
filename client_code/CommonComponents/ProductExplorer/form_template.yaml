@@ -86,12 +86,12 @@ components:
         type: Spacer
         layout_properties: {width: 35}
       - name: desc_exact_radio_copy
-        properties: {text: Equals, align: right, group_name: sku_query_type, value: Equals,
+        properties: {text: Equals, align: right, group_name: description_type, value: Equals,
           selected: true}
         type: RadioButton
         layout_properties: {}
       - name: desc_contains_radio_copy
-        properties: {text: Contains, align: right, group_name: sku_query_type, selected: true,
+        properties: {text: Contains, align: right, group_name: description_type, selected: true,
           value: Contains, visible: true, enabled: true}
         type: RadioButton
         layout_properties: {}
