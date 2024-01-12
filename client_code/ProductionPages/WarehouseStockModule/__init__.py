@@ -215,7 +215,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     
     #maybe add validation at this row for item scans later on
     primary_bin = anvil.server.call('get_primary_bin_from_item_scan', 
-                                    self.item_code_place_input.text)
+                                    self.place_item_id)
 
     #Purgatory Handling
     if primary_bin in purgatory_bins:
