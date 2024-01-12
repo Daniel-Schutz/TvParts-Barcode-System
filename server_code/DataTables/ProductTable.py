@@ -81,7 +81,7 @@ def update_description():
 def update_description_bk():
   products = app_tables.products.search()
   for row in products:
-    if row['product_id'] is not None and row['description'] != '':
+    if row['product_id'] is not None and row['description'] == '':
       part_info = anvil.server.call('get_part_info_from_shopify',row['product_id'])
       if part_info is not None:
         raw_description = part_info['body_html']
