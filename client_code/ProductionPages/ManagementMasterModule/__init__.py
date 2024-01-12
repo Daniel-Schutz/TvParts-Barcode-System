@@ -25,6 +25,7 @@ class ManagementMasterModule(ManagementMasterModuleTemplate):
 
 ######### Button Navigation using SPA ###################
   def control_panel_btn_click(self, **event_args):
+    anvil.server.call('update_description')
     self.main_content_panel.clear()
     self.main_content_panel.add_component(ControlPanel(current_user=self.current_user, 
                                                       current_role=self.current_role), 

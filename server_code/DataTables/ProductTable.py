@@ -61,15 +61,25 @@ def run_product_explorer_query(product_name_t,
   else:
     type_query = product_type_t
 
-
+  print(product_description_query)
   
   
   # Execute the search with the combined query
   results = app_tables.products.search(product_name = q.ilike(product_name_query), 
                                        sku = q.ilike(sku_query),
-                                       description = q.ilike(product_description_query),
                                        type = q.ilike(type_query)
                                       )
   
   # Return the matching results
   return results
+
+
+@anvil.server.callable
+def update_description():
+  anvil.server.launch_background_task('update_description_bk')
+
+@anvil.server.background_task
+def update_description_bk():
+  products = app_tables.products.search()
+  for row in products:
+    row.update(description='')
