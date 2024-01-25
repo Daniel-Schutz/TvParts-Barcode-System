@@ -9,7 +9,7 @@ import re
 
 @anvil.server.callable
 def get_product_by_sku(input_sku):
-  print("imputsku",input_sku)
+  print("input sku", input_sku)
   result_row = app_tables.products.search(sku=input_sku)
   return result_row[0]
 

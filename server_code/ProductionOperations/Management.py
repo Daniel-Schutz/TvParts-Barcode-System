@@ -480,3 +480,20 @@ def delete_rows_by_id(table_name, id_list):
     # Remove the row if found
     if rows:
         rows[0].delete()
+
+
+@anvil.server.callable
+def sync_all_inventory_qty():
+  anvil.server.launch_background_task('sync_all_inventory_qty_bk')
+
+@anvil.server.background_task
+def sync_all_inventory_qty_bk():
+  products = anvil.server.call('get_all_product_rows')
+  for product in products:
+    p_id = product['product_id']
+    try:
+      shopify_qty = anvil.server.call("get_shopify_product_qty", p_id)
+      product['shopify_qty'] = shopify_qty
+    except:
+      print(f"{product['sku']} not found in Shopify.")
+    

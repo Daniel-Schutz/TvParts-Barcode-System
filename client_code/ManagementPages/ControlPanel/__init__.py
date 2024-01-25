@@ -91,6 +91,7 @@ class ControlPanel(ControlPanelTemplate):
                        style='warning', timeout=1)
       n.show()
     else:
+      passcode = self.admin_passcode_input.text
       anvil.server.call('set_admin_passcode', passcode)
       n = Notification("Passcode updated!", 
                        style='success', timeout=2)
@@ -122,3 +123,14 @@ class ControlPanel(ControlPanelTemplate):
                           large=True, buttons=['EDIT DATATABLES', 'CANCEL'])
     if confirm == 'EDIT DATATABLES':
       anvil.alert(EditDatatables(), large=True) #all use of the modal comes from its own logic
+
+###### Sync Inventory Button ###########
+  def sync_inv_btn_click(self, **event_args):
+    confirm = anvil.alert("Proceed to update all inventory from Shopify?", 
+                          title="Sync all Inventory?", 
+                          buttons=["SYNC INVENTORY", "CANCEL"], 
+                          dismissible=False, 
+                          large=True, 
+                          role='warning')
+    if confirm == "SYNC INVENTORY":
+      anvil.server.call('sync_all_inventory_qty')

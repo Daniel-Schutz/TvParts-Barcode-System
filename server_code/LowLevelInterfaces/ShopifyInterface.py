@@ -34,8 +34,22 @@ def get_part_info_from_shopify(product_id):
 def update_product_inventory_quantity(product_id, new_inventory_quantity):
   shop_key = anvil.secrets.get_secret('shopify_admin_key')
   shop = ShopifyInterface(shop_key)
-  shop.update_product_inventory_quantity(product_id,new_inventory_quantity)
+  shop.update_product_inventory_quantity(product_id, new_inventory_quantity)
 
+@anvil.server.callable
+def get_all_products(paginate=True):
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  all_products = shop.get_all_products(paginate)
+  return all_products
+
+@anvil.server.callable
+def get_shopify_product_qty(product_id):
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  product_info = shop.get_product_details(product_id)
+  return product_info['variants'][0]['inventory_quantity']
+  
 
 
 class ShopifyInterface:
