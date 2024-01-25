@@ -40,29 +40,34 @@ def generate_product_qr_code(wait_time=0, **kwargs):
   api_url = 'https://quickchart.io/qr'
   params = {
   'text': json_str,
-  'size': 150, #1 sq inch
-  'centerImageUrl': 'https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0799%2F7915%2F1633%2Ffiles%2F20231108_075153_clipped_rev_1.png%3Fv%3D1699452203',
-  'centerImageSizeRatio':0.3
+  'size': 150, #1 sq ,
+  'centerImageUrl': 'https://cdn-icons-png.flaticon.com/512/1389/1389246.png'
   }
   response = requests.get(api_url, params=params)
   if response.status_code == 200:
+    print(response.url)
     return response.url
+   
   else:
     wait_time += wait_time
     if wait_time > 3:
       raise Exception("Api Error at Generate QR Code.")
 
 
-@anvil.server.callable
+@anvil.server.background_task
 def add_qr_products_bk():
     products = app_tables.products.search()
     for product in products:
-        raw_source_url = anvil.server.call('generate_qr_code', 
+        raw_source_url = anvil.server.call('generate_product_qr_code', 
                                             sku=product['sku'])
         s3_obj_key = anvil.server.call('get_s3_obj_key', raw_source_url)
-        s3_img_url = anvil.server.call('get_s3_image_url', s3_obj_key)
-        print(s3_img_url)
-        break
+        product.update(s3_object_key=s3_obj_key)
+        print("updated")
+
+@anvil.server.callable
+def add_qr_products():
+  anvil.server.launch_background_task('add_qr_products_bk')
+        
 
 
        

@@ -24,8 +24,7 @@ class ManagementMasterModule(ManagementMasterModuleTemplate):
     # Any code you write here will run before the form opens.
 
 ######### Button Navigation using SPA ###################
-  def control_panel_btn_click(self, **event_args):
-    anvil.server.call('add_qr_products_bk') 
+  def control_panel_btn_click(self, **event_args): 
     #anvil.server.call('update_description') just testing
     self.main_content_panel.clear()
     self.main_content_panel.add_component(ControlPanel(current_user=self.current_user, 
