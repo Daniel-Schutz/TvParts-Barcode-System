@@ -318,3 +318,7 @@ def tray_complete(order_no):
       return False
   return True
 
+@anvil.server.callable
+def get_all_fulfillments():
+  return app_tables.openfulfillments.search()
+
