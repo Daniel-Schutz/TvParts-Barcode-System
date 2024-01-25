@@ -38,17 +38,17 @@ class ActionPanel(ActionPanelTemplate):
                                                     self.purg_toss_single_item)
     
     #Init all repeaters
-    n_1 = Notification("Action Panel Loading. This requires a large amount of data, so please wait a moment...", 
-                       title="Getting Action Panel", style='info', timeout=10)
-    n_1.show()
+    # n_1 = Notification("Action Panel Loading. This requires a large amount of data, so please wait a moment...", 
+    #                    title="Getting Action Panel", style='info', timeout=10)
+    # n_1.show()
     self.get_id_holding_count()
     self.orders_na_all()
     self.get_needs_fixed_panel()
     self.update_purgatory()
     #Provide loaded success screen
-    n_2 = Notification('Loading Complete! You may close this window', 
-                       title='Action Panel Loaded', style='success', timeout=1)
-    n_2.show()
+    # n_2 = Notification('Loading Complete! You may close this window', 
+    #                    title='Action Panel Loaded', style='success', timeout=1)
+    # n_2.show()
   
       # Any code you write here will run before the form opens.
 

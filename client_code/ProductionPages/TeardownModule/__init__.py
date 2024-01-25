@@ -11,6 +11,7 @@ import time
 
 from ...CommonComponents.SingleSelect_modal import SingleSelect_modal
 from ...CommonComponents.CreateSupplierModal import CreateSupplierModal
+from ...CommonComponents.CreateTruckModal import CreateTruckModal
 
 import uuid
 import datetime
@@ -76,9 +77,15 @@ class TeardownModule(TeardownModuleTemplate):
           new_str += pre_text.upper()  # assuming you want uppercase letters
     
       new_count = current_truck_count + 1
-      # Format the new truck ID with the incremented count
-      truck_id = f"{new_str}_{new_count}"
-      return new_count, truck_id
+      new_truck = anvil.alert(CreateTruckModal(), large=True)
+      if not new_truck:
+        n = Notification("New Truck Creation Cancelled!")
+        n.show()
+        pass
+      else:
+        truck_id = f"{new_str}_{new_truck}"
+        return new_count, truck_id
+      
       
 ######### COMPONENT EVENTS ############################    
   def continue_truck_btn_click(self, **event_args):
