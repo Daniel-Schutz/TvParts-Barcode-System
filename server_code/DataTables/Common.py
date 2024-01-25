@@ -77,12 +77,15 @@ def add_history_to_item_bk(item_id, item_status, user_full_name, user_role):
 @anvil.server.callable
 def import_full_table_to_anvil(table_name, records):
     table = getattr(app_tables, table_name)
+    print(f"printing from in the import! - {table_name}")
     for record in records:
-        if table_name == 'openorders':
-          record.pop(0)
-          record.append('') 
-          table.add_row(order_no=record[0], created=record[1],status=record[2],customer_name=record[3],email=record[4],phone=record[5],address=record[6],table_no=record[7],section=record[8],total_price=record[9],total_items=record[10],reserved_status=record[11],reserved_by=record[12],notes=record[13])
-       
+      print(record)
+      table.add_row(**record)
+      # if table_name == 'openorders':
+      #   record.pop(0)
+      #   record.append('') 
+      #   table.add_row(order_no=record[0], created=record[1], status=record[2], customer_name=record[3], email=record[4],phone=record[5],address=record[6],table_no=record[7],section=record[8],total_price=record[9],total_items=record[10],reserved_status=record[11],reserved_by=record[12],notes=record[13])
+    print(f"{table_name} complete!")
         
 
 @anvil.server.callable

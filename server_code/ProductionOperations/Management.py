@@ -7,7 +7,7 @@ from anvil.tables import app_tables
 import anvil.server
 from anvil.tables.query import greater_than, less_than, like, ilike, greater_than_or_equal_to, less_than_or_equal_to
 
-
+from dateutil import parser as dparse
 import datetime
 import pandas as pd
 import uuid
@@ -42,6 +42,7 @@ def cut_open_dfs_by_date(orders_df, fulfullments_df, days_away=7):
   order_no_list = orders_df['order_no'].to_list()
   fulfillments_df = fulfullments_df[fulfullments_df['order_no'].isin(order_no_list)]
   return orders_df, fulfillments_df
+
 
 def get_all_open_orders():
   def str_to_program_time(datetime_str):
@@ -167,7 +168,7 @@ def purg_all_items_to_new_bin(user, role, new_bin, primary_bin):
   new_bin_row.update(bin_status='filled', sku=sku)
   items_to_move = app_tables.items.search(sku=sku, status='Purgatory')
   for item_row in items_to_move:
-    item_row.update(status='binned', stored_bin=new_bin, binned_on=datetime.now(), binned_by=user)
+    item_row.update(status='binned', stored_bin=new_bin, binned_on=datetime.datetime.now(), binned_by=user)
     anvil.server.launch_background_task('add_history_to_item_bk', item_row['item_id'], 'Binned', user, role)
 
 @anvil.server.callable
@@ -215,22 +216,26 @@ def build_upload_records_bk(section_records, table_name):
   for start in range(0, len(records), batch_size):
     end = start + batch_size
     batch = records[start:end]
-    print("nome",table_name)
-    anvil.server.call('import_full_table_to_anvil', table_name , batch)
+    #print("bulk upload table name:", table_name)
+    anvil.server.call('import_full_table_to_anvil', table_name, batch)
     print(f"{end} records of {len(records)} uploaded.")
-
-def get_open_orders_from_shopify():
+    
+@anvil.server.callable
+def get_open_orders_mgmt():
   def str_to_program_time(datetime_str):
       no_tz_str = '-'.join(datetime_str.split("-")[:3])
-      naive_datetime = datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
+      naive_datetime = datetime.datetime.strptime(no_tz_str, '%Y-%m-%dT%H:%M:%S')
       return  naive_datetime
   open_orders = anvil.server.call('get_open_orders_from_shopify')
   order_records = []
   fulfillment_records = []
+  n = 0
   for order in open_orders:
+    n = n+1
     this_order_dict = {}
     this_order_dict['order_no'] = order['order_number'] #make order number a string here when rebuilding DBs
-    this_order_dict['created'] = order['created_at']
+    #print(f"Order number {order['order_number']} processing!")
+    this_order_dict['created'] = dparse.parse(order['created_at'])
     this_order_dict['status'] = 'New'
     this_order_dict['customer_name'] = order['shipping_address']['name'] if order['shipping_address'] else '(Not Provided)'
     this_order_dict['email'] = order['contact_email']
@@ -264,10 +269,14 @@ def get_open_orders_from_shopify():
         fulfillment_records.append(this_fulfillment_dict)
   orders_df = pd.DataFrame(order_records)
   fulfillments_df = pd.DataFrame(fulfillment_records)
-  orders_df['created'] = orders_df['created'].apply(str_to_program_time)
-  return orders_df, fulfillments_df
+  #orders_df['created'] = orders_df['created'].apply(str_to_program_time)
+  #return orders_df, fulfillments_df
+  return order_records, fulfillment_records
 
-def refresh_pick_batch(orders_df, fulfillments_df):  
+@anvil.server.callable
+def refresh_pick_batch(order_records, fulfillment_records):
+  orders_df = pd.DataFrame(order_records)
+  fulfillments_df = pd.DataFrame(fulfillment_records)
   #Step 1: Remove all orders/fulfillments that have been packed
   for row in app_tables.openorders.search(status='Packed'):
     row.delete()
@@ -277,15 +286,19 @@ def refresh_pick_batch(orders_df, fulfillments_df):
   existing_orders = [row['order_no'] for row in app_tables.openorders.search()]
   added_orders_df = orders_df[~orders_df['order_no'].isin(existing_orders)]
   added_fulfillments_df = fulfillments_df[~fulfillments_df['order_no'].isin(existing_orders)]
+  print(f"Length added_fulfillments_df = {len(added_fulfillments_df)}")
   #Step 3: Add remaining Orders/fulfillments to Anvil
-  added_order_records = added_orders_df.to_records()
-  added_fulfillment_records = added_fulfillments_df.to_records()
+  added_order_records = added_orders_df.to_dict(orient='records')
+  print('\n')
+  print(added_order_records[:2])
+  print('\n')
+  added_fulfillment_records = added_fulfillments_df.to_dict(orient='records')
   build_upload_records_bk(added_order_records, 'openorders')
   build_upload_records_bk(added_fulfillment_records, 'openfulfillments')
 
 @anvil.server.background_task
 def refresh_orders_and_fulfillments_bk():
-  orders_df, fulfillments_df = get_open_orders_from_shopify()
+  orders_df, fulfillments_df = get_open_orders_mgmt()
   refresh_pick_batch(orders_df, fulfillments_df)
 
 @anvil.server.callable
