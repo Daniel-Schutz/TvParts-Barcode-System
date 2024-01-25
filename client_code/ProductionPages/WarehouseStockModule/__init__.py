@@ -204,6 +204,9 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                       self.current_role,
                       self.place_item_id, 
                       bin)
+
+    #Update inventory (additive)
+    anvil.server.call('update_inv_qty_by_item', self.place_item_id)
   
   def item_code_place_input_pressed_enter(self, **event_args):  
     self.item_code_place_input.enabled = False

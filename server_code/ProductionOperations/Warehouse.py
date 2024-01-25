@@ -41,6 +41,20 @@ def update_item_on_binned_bk(user, role, item_id, bin):
                                       user_role=role)
 
 @anvil.server.callable
+def update_inv_qty_by_item(item_id):
+  anvil.server.launch_background_task('update_inv_qty_by_item_bk', item_id)
+  pass
+
+@anvil.server.background_task
+def update_inv_qty_by_item_bk(item_id):
+  item_row = app_tables.items.get(item_id=item_id)
+  #Update Inventory Quantity in Shopify
+  product_row = app_table.products.get(sku=item_row['sku'])
+  current_inv = anvil.server.call('get_shopify_product_qty', product_id=product_row['product_id'])
+  new_inv = int(current_inv) + 1
+  anvil.server.call('update_product_inventory_quantity', product_row['product_id'], new_inv)
+
+@anvil.server.callable
 def update_item_on_misid(user, role, item_id):
   anvil.server.launch_background_task('update_item_on_misid_bk', user, role, item_id)
 
