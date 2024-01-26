@@ -45,7 +45,6 @@ def generate_product_qr_code(wait_time=0, **kwargs):
   }
   response = requests.get(api_url, params=params)
   if response.status_code == 200:
-    print(response.url)
     return response.url
    
   else:
@@ -56,13 +55,15 @@ def generate_product_qr_code(wait_time=0, **kwargs):
 
 @anvil.server.background_task
 def add_qr_products_bk():
-    products = app_tables.products.search()
+    products = app_tables.products.search(s3_object_key=None)
     for product in products:
-        raw_source_url = anvil.server.call('generate_product_qr_code', 
-                                            sku=product['sku'])
-        s3_obj_key = anvil.server.call('get_s3_obj_key', raw_source_url)
-        product.update(s3_object_key=s3_obj_key)
-        print("updated")
+        if product['sku'] is not None:
+          raw_source_url = anvil.server.call('generate_product_qr_code', 
+                                              sku=product['sku'])
+          s3_obj_key = anvil.server.call('get_s3_obj_key', raw_source_url)
+          print(s3_obj_key)
+          product.update(s3_object_key=s3_obj_key)
+          print("updated")
 
 @anvil.server.callable
 def add_qr_products():
