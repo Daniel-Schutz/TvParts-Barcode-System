@@ -434,6 +434,23 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     print("Image URL:", self.qr_img_url)
     js.call('printPage', self.qr_img_url)
 
+
+
+  def clear_scan_btn_copy_click(self, **event_args):
+    self.product_code_input.enabled = True
+    self.product_code_input.text = None
+    self.product_name_output_copy.content = None
+    self.product_img_copy.source = None
+    self.sku_output_copy.content = None
+    self.bin_output_copy.content = None
+    self.type_output_copy.content = None
+    self.inventory_output_copy.content = None
+    self.os_bins_output_copy.content = None
+    self.crs_output_copy.content = None
+    self.card_4.visible = False
+    self.create_item_btn_copy.enabled = False
+
+
     
       
 
