@@ -5,6 +5,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from anvil import js
+import anvil.media
 
 class SingleProductListing(SingleProductListingTemplate):
   def __init__(self, **properties):
@@ -23,3 +25,9 @@ class SingleProductListing(SingleProductListingTemplate):
     n = Notification(f"The selected product is: {self.item['sku']}", style='info')
     n.show()
     self.parent.raise_event('x-product-selected', product=self.item)
+
+  def print_product_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    print("Image URL:", self.item['qr_code_url'])
+    js.call('printPage', self.item['qr_code_url'])
+

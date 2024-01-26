@@ -5,7 +5,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from anvil import js
+import anvil.media
 import math
 
 class ProductExplorer(ProductExplorerTemplate):
