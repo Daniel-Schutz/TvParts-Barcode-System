@@ -6,7 +6,9 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-
+import random
+import string
+import uuid
 from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.SelectBinModal import SelectBinModal
 from datetime import datetime
@@ -22,6 +24,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.place_part_card.visible=False
     self.create_item_card.visible=False
     self.purgatory_bins = anvil.server.call_s('get_bins_in_purgatory')
+    self.card_4.visible=False
 
     #If disabled, assumes that items are placed in their primary bin location upon placement scan
     self.require_bin_to_place = False #come back and edit this when looking at full functionality
@@ -356,16 +359,16 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
   def create_item_btn_copy_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.create_item_btn_copy.enabled = False
-    current_time = datetime.datetime.now()
-    date_1900 = datetime.datetime(1900, 1, 1) 
+    current_time = datetime.now()
+    date_1900 = datetime(1900, 1, 1) 
     date_1900_with_timezone =  date_1900
     product_scan = json.loads(self.product_code_input.text)
     selected_product = anvil.server.call('get_product_by_sku', 
                                      product_scan['sku'])
     item_info_dict = {
       'product_name': selected_product['product_name'],
-      'item_id': self.generate_unique_item_id(selected_product_display.text),
-      'sku': selected_product_display.text,
+      'item_id': self.generate_unique_item_id(product_scan['sku']),
+      'sku': product_scan['sku'],
       'img_source': selected_product['img_source_url'],
       'primary_bin': selected_product['bin'],
       'stored_bin': '',
@@ -376,10 +379,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       'supplier': '',
       'truck':'',
       'box_id':'',
-      'make': 'self.make_dropdown.selected_value',
-      'model': self.model_input_bx.text,
-      'year': self.year_dropdown.selected_value,
-      'size': self.size_dropdown.selected_value,
+      'make': '',
+      'model': '',
+      'year': None,
+      'size': '',
       'identified_on': current_time,
       'identified_by': self.current_user,
       'verified_by': '',
@@ -411,7 +414,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.qr_img_url = raw_source_url
     self.qr_image.source = raw_source_url
     self.system_id_display.text = item_id
-
+    self.card_4.visible=True
     #Add the item to the datatable
     anvil.server.call('process_new_item', 
                       item_info_dict, 
@@ -440,6 +443,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     else:
       n = Notification("Item Created!", style='success', timeout=1)
       n.show()
+
+  def print_barcode_click(self, **event_args):
+    print("Image URL:", self.qr_img_url)
+    js.call('printPage', self.qr_img_url)
 
     
       
