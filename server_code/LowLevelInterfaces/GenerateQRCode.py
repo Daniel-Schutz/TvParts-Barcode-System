@@ -70,5 +70,10 @@ def add_qr_products():
   anvil.server.launch_background_task('add_qr_products_bk')
         
 
-
+@anvil.server.callable
+def add_product_qr_url(s3_obj_key):
+  product = app_tables.products.get(s3_object_key=s3_obj_key)
+  img_url = anvil.server.call('get_s3_image_url',s3_obj_key)
+  product.update(qr_code_url=img_url)
+  
        

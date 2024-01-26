@@ -65,7 +65,11 @@ class ProductExplorer(ProductExplorerTemplate):
                                           desc_search_type,
                                           type)
     self.num_results_display.text = len(matching_products)
+    for product in matching_products:
+      anvil.server.call('add_product_qr_url',product['s3_object_key'])
+
     self.matching_products = matching_products
+ 
 
     #Pagination variables
     self.max_pages = math.ceil(len(self.matching_products)/self.page_size)
