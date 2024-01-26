@@ -10,6 +10,10 @@ components:
   type: FlowPanel
   layout_properties: {grid_position: ''}
   components:
+  - name: create_item_btn
+    properties: {text: Create item, role: secondary-color, align: right}
+    type: Button
+    event_bindings: {click: create_item_btn_click}
   - name: verify_part_btn
     properties: {text: verify part, role: secondary-color, align: right}
     type: Button
@@ -317,6 +321,175 @@ components:
           align: right}
         type: Button
         event_bindings: {click: new_bin_btn_click}
+- name: create_item_card
+  properties: {role: card, background: '#d6fffa'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'VPNNRI,EUHALD'}
+  components:
+  - name: verification_header_copy
+    properties: {role: headline, text: Create item, align: center, underline: true}
+    type: Label
+    layout_properties: {grid_position: 'NLFONY,AQXEIV'}
+  - name: flow_panel_1_copy_1_copy
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'BGQRAF,SHUHCX'}
+    components:
+    - name: step_1_head_copy_1_copy
+      properties: {role: headline, text: 'Scan product:'}
+      type: Label
+      layout_properties: {}
+    - name: qr_icon_copy_1_copy
+      properties: {icon: 'fa:qrcode', font_size: 33, bold: true}
+      type: Label
+      layout_properties: {}
+    - name: product_code_input
+      properties: {}
+      type: TextBox
+      layout_properties: {width: 550.5}
+      event_bindings: {pressed_enter: product_code_input_pressed_enter}
+    - name: clear_scan_btn_copy
+      properties: {text: clear scan, role: primary-color}
+      type: Button
+      layout_properties: {}
+      event_bindings: {click: clear_scan_btn_click}
+  - name: card_1_copy_1_copy
+    properties: {role: null}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'DQGKIT,CECFWI'}
+    components:
+    - name: flow_panel_2_copy_2_copy
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'PLIFWR,CIHTZP'}
+      components:
+      - name: flow_panel_1_copy_2_copy
+        properties: {}
+        type: FlowPanel
+        components:
+        - name: product_img_copy
+          properties: {height: 174}
+          type: Image
+          layout_properties: {width: 176}
+          data_bindings:
+          - {property: source, code: 'self.item[''img_source_url'']', writeback: false}
+      - name: column_panel_1_copy_1_copy
+        properties: {}
+        type: ColumnPanel
+        layout_properties: {width: 505}
+        components:
+        - name: flow_panel_3_copy_1_copy
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'ZMOBSC,KWMTMM'}
+          components:
+          - name: product_name_label_copy
+            properties: {text: 'Name:', bold: true, underline: true}
+            type: Label
+            layout_properties: {}
+          - name: product_name_output_copy
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''product_name'']', writeback: false}
+            layout_properties: {expand: true}
+        - name: flow_panel_3_copy_1_copy_1_copy
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'UYUIRO,EAOMWK'}
+          components:
+          - name: sku_label_copy
+            properties: {text: 'SKU:', underline: true}
+            type: Label
+          - name: sku_output_copy
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''sku'']', writeback: false}
+        - name: flow_panel_5_copy_1_copy
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'UYUIRO,JBSVGG'}
+          components:
+          - name: bin_label_copy
+            properties: {text: 'Bin:', underline: true}
+            type: Label
+          - name: bin_output_copy
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''bin'']', writeback: false}
+        - name: flow_panel_3_copy_1_copy_1_copy_1_copy
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'EEKAVN,GSPTPX'}
+          components:
+          - name: type_label_copy
+            properties: {text: 'Type:', underline: true}
+            type: Label
+            layout_properties: {}
+          - name: type_output_copy
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''type'']', writeback: false}
+        - name: flow_panel_6_copy_1_copy
+          properties: {}
+          type: FlowPanel
+          layout_properties: {grid_position: 'EEKAVN,JTDRUG'}
+          components:
+          - name: inventory_label_copy
+            properties: {text: 'Inventory:', align: right, underline: true}
+            type: Label
+          - name: inventory_output_copy
+            properties: {}
+            type: RichText
+            data_bindings:
+            - {property: content, code: 'self.item[''shopify_qty'']', writeback: false}
+    - name: card_2_copy_1_copy
+      properties: {role: null}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'DSMBKH,IMIXCG'}
+      components:
+      - name: flow_panel_4_copy_1_copy
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'VUCOVM,LRWEDQ'}
+        components:
+        - name: os_bins_label_copy
+          properties: {text: 'Overstock Bins:', underline: true}
+          type: Label
+          layout_properties: {}
+        - name: os_bins_output_copy
+          properties: {}
+          type: RichText
+          data_bindings:
+          - {property: content, code: 'self.item[''os_bins'']', writeback: false}
+      - name: flow_panel_4_copy_1_copy_1_copy
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'TFDWHP,ROFUTH'}
+        components:
+        - name: crs_label_copy
+          properties: {text: 'Cross References:', underline: true}
+          type: Label
+          layout_properties: {}
+        - name: crs_output_copy
+          properties: {}
+          type: RichText
+          layout_properties: {expand: true}
+          data_bindings:
+          - {property: content, code: 'self.item[''cross_refs'']', writeback: false}
+        - name: card_3_copy_1_copy_1_copy
+          properties: {role: null}
+          type: ColumnPanel
+          layout_properties: {width: 390}
+          components:
+          - name: create_item_btn_copy
+            properties: {text: Create item, role: primary-color, icon: ''}
+            type: Button
+            layout_properties: {grid_position: 'IHYKYI,VJVTSP'}
+            event_bindings: {click: create_item_btn_copy_click}
 - name: spacer_1
   properties: {height: 10}
   type: Spacer

@@ -71,7 +71,7 @@ class ProductExplorer(ProductExplorerTemplate):
 
     self.matching_products = matching_products
  
-
+    
     #Pagination variables
     self.max_pages = math.ceil(len(self.matching_products)/self.page_size)
     self.ttl_pg_lbl.text = self.max_pages

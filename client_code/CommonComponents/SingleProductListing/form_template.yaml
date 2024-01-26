@@ -23,11 +23,11 @@ components:
       type: FlowPanel
       components:
       - name: image_1
-        properties: {height: 182, source: img_url}
+        properties: {height: 182, source: ''}
         type: Image
         layout_properties: {width: 332}
         data_bindings:
-        - {property: source, code: 'self.item[''qr_code_url'']', writeback: false}
+        - {property: source, code: 'self.item[''qr_code_url'''']', writeback: false}
     - name: column_panel_1
       properties: {col_widths: '{"HANGTI":40,"CGMNMO":20}'}
       type: ColumnPanel

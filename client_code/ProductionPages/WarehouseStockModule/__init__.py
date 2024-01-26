@@ -20,6 +20,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.mode = 'verify'
     self.verify_part_btn.enabled = False
     self.place_part_card.visible=False
+    self.create_item_card.visible=False
     self.purgatory_bins = anvil.server.call_s('get_bins_in_purgatory')
 
     #If disabled, assumes that items are placed in their primary bin location upon placement scan
@@ -63,6 +64,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.place_part_btn.role = 'primary-color'
     self.verify_part_card.visible = True
     self.place_part_card.visible = False
+    self.create_item_btn.role = 'secondary-color'
+    self.create_item_card.visible = False
 
   def place_part_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -72,6 +75,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.place_part_btn.role = 'secondary-color'
     self.verify_part_card.visible = False
     self.place_part_card.visible = True
+    self.create_item_btn.role = 'secondary-color'
+    self.create_item_card.visible = False
     self.reset_place_part_visibility()
     # if not self.require_bin_to_place:
     #   self.bin_panel.visible = False
@@ -310,7 +315,132 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
       get_open_form().content_panel.clear()
       get_open_form().content_panel.add_component(WarehousePickModule(current_user=self.current_user, current_role=self.current_role),
                                         full_width_row=True)
- 
+
+  def create_item_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.verify_part_btn.enabled = True
+    self.place_part_btn.enabled = True
+    self.verify_part_btn.role = 'secondary-color'
+    self.place_part_btn.role = 'secondary-color'
+    self.create_item_btn.role = 'primary-color'
+    self.verify_part_card.visible = False
+    self.place_part_card.visible = False
+    self.create_item_card.visible = True
+    pass
+
+  def product_code_input_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.product_code_input.enabled = False
+    product_scan = json.loads(self.product_code_input.text)
+    product_dict = anvil.server.call('get_product_by_sku', 
+                                     product_scan['sku'])
+    self.product_name_output_copy.content = product_dict['product_name']
+    self.product_img_copy.source = product_dict['img_source_url']
+    self.sku_output_copy.content = product_dict['sku']
+    self.bin_output_copy.content = product_dict['bin']
+    self.type_output_copy.content = product_dict['type']
+    self.inventory_output_copy.content = product_dict['shopify_qty']
+    self.os_bins_output_copy.content = product_dict['os_bins']
+    self.crs_output_copy.content = product_dict['cross_refs']
+
+    self.create_item_btn_copy.enabled = True
+    self.create_item_btn_copy.tooltipe = None
+    self.product_code_input.focus()
+
+
+  def generate_unique_item_id(self, sku, len=6):
+      chars = string.ascii_letters + string.digits
+      code = ''.join(random.choice(chars) for _ in range(len))
+      return sku + "__" + code
+
+  def create_item_btn_copy_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.create_item_btn_copy.enabled = False
+    current_time = datetime.datetime.now()
+    date_1900 = datetime.datetime(1900, 1, 1) 
+    date_1900_with_timezone =  date_1900
+    product_scan = json.loads(self.product_code_input.text)
+    selected_product = anvil.server.call('get_product_by_sku', 
+                                     product_scan['sku'])
+    item_info_dict = {
+      'product_name': selected_product['product_name'],
+      'item_id': self.generate_unique_item_id(selected_product_display.text),
+      'sku': selected_product_display.text,
+      'img_source': selected_product['img_source_url'],
+      'primary_bin': selected_product['bin'],
+      'stored_bin': '',
+      'status': "New",
+      'os_bins': selected_product['os_bins'],
+      'cross_refs': selected_product['cross_refs'],
+      #Set all other information for item DB entry
+      'supplier': '',
+      'truck':'',
+      'box_id':'',
+      'make': 'self.make_dropdown.selected_value',
+      'model': self.model_input_bx.text,
+      'year': self.year_dropdown.selected_value,
+      'size': self.size_dropdown.selected_value,
+      'identified_on': current_time,
+      'identified_by': self.current_user,
+      'verified_by': '',
+      'verified_on': date_1900_with_timezone, #placeholder date
+      'binned_by': '',
+      'binned_on': date_1900_with_timezone,
+      'picked_by': '',
+      'picked_on': date_1900_with_timezone,
+      'tested_by': '',
+      'tested_on': date_1900_with_timezone,
+      'packed_by': '',
+      'packed_on': date_1900_with_timezone,
+      'order_no': '',
+      's3_object_key': '',
+      'history': '',
+      'sale_price': selected_product['price']
+    }
+
+    #Create the qr_code with only important information
+    item_id = item_info_dict['item_id']
+    bin = item_info_dict['primary_bin']
+    os_bins = item_info_dict['os_bins']
+    cross_refs = item_info_dict['cross_refs']
+    item_status = 'New'
+    
+    #Image Url directly from qr maker.
+    raw_source_url = anvil.server.call('generate_qr_code', 
+                                      item_id=item_id)
+    self.qr_img_url = raw_source_url
+    self.qr_image.source = raw_source_url
+    self.system_id_display.text = item_id
+
+    #Add the item to the datatable
+    anvil.server.call('process_new_item', 
+                      item_info_dict, 
+                      raw_source_url)
+
+    #Update history
+    history_update_task = cf.add_event_to_item_history(item_id, 
+                                                       item_status, 
+                                                       self.current_user, 
+                                                       self.current_role)
+
+    self.create_item_btn.enabled = True
+    if self.nf:
+      anvil.alert("""Item must be fixed before stocking. 
+      Please label this item, then move it to the Needs Fixed Area""", buttons=['OK'], 
+                  title= 'Item Needs Fixed Before Stocking!')
+      #set item to Needs fixed
+      anvil.server.call_s('set_item_to_needs_fixed', item_id)
+      
+      #Update history
+      history_update_task = cf.add_event_to_item_history(item_id, 
+                                                        'Needs Fixed', 
+                                                        'ItemFixBySku', 
+                                                        'SYSTEM BOT')
+      self.nf = False
+    else:
+      n = Notification("Item Created!", style='success', timeout=1)
+      n.show()
+
     
       
 
