@@ -25,7 +25,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     self.create_item_card.visible=False
     self.purgatory_bins = anvil.server.call_s('get_bins_in_purgatory')
     self.card_4.visible=False
-
+    self.create_item_btn_copy.enabled = False
     #If disabled, assumes that items are placed in their primary bin location upon placement scan
     self.require_bin_to_place = False #come back and edit this when looking at full functionality
     self.verify_item_id = None
@@ -427,22 +427,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                                                        self.current_role)
 
     self.create_item_btn.enabled = True
-    if self.nf:
-      anvil.alert("""Item must be fixed before stocking. 
-      Please label this item, then move it to the Needs Fixed Area""", buttons=['OK'], 
-                  title= 'Item Needs Fixed Before Stocking!')
-      #set item to Needs fixed
-      anvil.server.call_s('set_item_to_needs_fixed', item_id)
-      
-      #Update history
-      history_update_task = cf.add_event_to_item_history(item_id, 
-                                                        'Needs Fixed', 
-                                                        'ItemFixBySku', 
-                                                        'SYSTEM BOT')
-      self.nf = False
-    else:
-      n = Notification("Item Created!", style='success', timeout=1)
-      n.show()
+    n = Notification("Item Created!", style='success', timeout=1)
+    n.show()
 
   def print_barcode_click(self, **event_args):
     print("Image URL:", self.qr_img_url)

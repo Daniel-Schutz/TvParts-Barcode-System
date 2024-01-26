@@ -27,7 +27,7 @@ components:
         type: Image
         layout_properties: {width: 332}
         data_bindings:
-        - {property: source, code: 'self.item[''qr_code_url'''']', writeback: false}
+        - {property: source, code: 'self.item[''qr_code_url'']', writeback: false}
     - name: column_panel_1
       properties: {col_widths: '{"HANGTI":40,"CGMNMO":20}'}
       type: ColumnPanel
@@ -110,6 +110,9 @@ components:
           type: RichText
           data_bindings:
           - {property: content, code: 'self.item[''shopify_qty'']', writeback: false}
+    - name: print_js_logic_1
+      properties: {}
+      type: form:print_js_logic
   - name: spacer
     properties: {}
     type: Label

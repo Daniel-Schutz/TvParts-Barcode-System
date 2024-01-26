@@ -65,10 +65,9 @@ class ProductExplorer(ProductExplorerTemplate):
                                           product_description,
                                           desc_search_type,
                                           type)
+    
+ 
     self.num_results_display.text = len(matching_products)
-    for product in matching_products:
-      anvil.server.call('add_product_qr_url',product['s3_object_key'])
-
     self.matching_products = matching_products
  
     

@@ -68,7 +68,14 @@ def run_product_explorer_query(product_name_t,
                                        description= q.ilike(product_description_query),
                                        type = q.ilike(type_query)
                                       )
-  
+  for result in results:
+    anvil.server.call('add_product_qr_url',result['s3_object_key'])
+
+  results = app_tables.products.search(product_name = q.ilike(product_name_query), 
+                                       sku = q.ilike(sku_query),
+                                       description= q.ilike(product_description_query),
+                                       type = q.ilike(type_query)
+                                      )                          
   # Return the matching results
   return results
 
