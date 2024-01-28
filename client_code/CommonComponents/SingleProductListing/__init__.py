@@ -11,9 +11,10 @@ import anvil.media
 class SingleProductListing(SingleProductListingTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    
+    self.print_product_btn.visible = False
+    self.image_1.visible = False
     self.init_components(**properties)
-    print("test",self.item['qr_code_url'])
+   
     
     # Any code you write here will run before the form opens.
 
@@ -30,4 +31,14 @@ class SingleProductListing(SingleProductListingTemplate):
     """This method is called when the button is clicked"""
     print("Image URL:", self.item['qr_code_url'])
     js.call('printPage', self.item['qr_code_url'])
+
+  def generate_label_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    print( self.sku_content)
+    row = anvil.server.call('get_product_row_by_sku',self.sku_content)
+    img_url = anvil.server.call('get_s3_image_url',s3_obj_key)
+    self.image_1.source = img_url
+    self.print_product_btn.visible = True
+    self.image_1.visible = True
+    pass
 

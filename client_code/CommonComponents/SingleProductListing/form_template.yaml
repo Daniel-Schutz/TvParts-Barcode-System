@@ -26,13 +26,21 @@ components:
         properties: {height: 182, source: ''}
         type: Image
         layout_properties: {width: 332}
-        data_bindings:
-        - {property: source, code: 'self.item[''qr_code_url'']', writeback: false}
+        data_bindings: []
     - name: column_panel_1
-      properties: {col_widths: '{"HANGTI":40,"CGMNMO":20}'}
+      properties: {col_widths: '{"HANGTI":35,"CGMNMO":20,"PFBROB":10,"WBCEMO":25}'}
       type: ColumnPanel
       layout_properties: {width: 587}
       components:
+      - name: label_2
+        properties: {}
+        type: Label
+        layout_properties: {grid_position: 'BXPXUZ,PFBROB'}
+      - name: generate_label_btn
+        properties: {text: Generate label, role: primary-color, icon: 'fa:file-text'}
+        type: Button
+        layout_properties: {grid_position: 'BXPXUZ,WBCEMO'}
+        event_bindings: {click: generate_label_btn_click}
       - name: label_1
         properties: {}
         type: Label
