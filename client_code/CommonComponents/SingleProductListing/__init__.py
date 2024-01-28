@@ -34,11 +34,11 @@ class SingleProductListing(SingleProductListingTemplate):
 
   def generate_label_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    print( self.sku_content)
-    row = anvil.server.call('get_product_row_by_sku',self.sku_content)
+    row = anvil.server.call('get_product_row_by_sku',self.item['sku'])
+    s3_obj_key = row['s3_object_key']
     img_url = anvil.server.call('get_s3_image_url',s3_obj_key)
     self.image_1.source = img_url
     self.print_product_btn.visible = True
     self.image_1.visible = True
-    pass
+
 

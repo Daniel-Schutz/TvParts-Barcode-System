@@ -28,9 +28,9 @@ components:
         layout_properties: {width: 332}
         data_bindings: []
     - name: column_panel_1
-      properties: {col_widths: '{"HANGTI":35,"CGMNMO":20,"PFBROB":10,"WBCEMO":25}'}
+      properties: {col_widths: '{"HANGTI":30,"CGMNMO":20,"PFBROB":15,"WBCEMO":25}'}
       type: ColumnPanel
-      layout_properties: {width: 587}
+      layout_properties: {width: 535.4413969726562}
       components:
       - name: label_2
         properties: {}
