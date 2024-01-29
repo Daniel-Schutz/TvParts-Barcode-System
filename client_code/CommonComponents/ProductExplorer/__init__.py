@@ -79,12 +79,17 @@ class ProductExplorer(ProductExplorerTemplate):
   def reset_search(self, **event_args):
     self.name_contains_radio.selected = True
     self.sku_contains_radio.selected = True
-    self.desc_contains_radio_copy = True
+    self.desc_contains_radio_copy.selected = True
     self.type_dropdown.selected_value = 'All Types'
     self.product_name_txbx.text = None
     self.product_sku_txbx.text = None
-    self.product_desc_txbx = None
+    self.product_desc_txbx.text = None
     self.num_results_display.text = None
+    self.matching_products = []
+    self.ttl_pg_lbl.text = 0
+    self.num_results_display.text = 0
+    self.max_pages = 0
+    self.load_page_data()
     
 
 

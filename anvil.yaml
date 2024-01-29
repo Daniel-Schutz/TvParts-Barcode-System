@@ -92,9 +92,6 @@ db_schema:
     - name: s3_object_key
       admin_ui: {width: 200, order: 9.5}
       type: string
-    - name: qr_code_url
-      admin_ui: {width: 200, order: 10.5}
-      type: string
     title: products
   quickmessages:
     client: none

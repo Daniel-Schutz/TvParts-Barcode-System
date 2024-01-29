@@ -29,8 +29,8 @@ class SingleProductListing(SingleProductListingTemplate):
 
   def print_product_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    print("Image URL:", self.item['qr_code_url'])
-    js.call('printPage', self.item['qr_code_url'])
+    print("Image URL:",self.img_url)
+    js.call('printPage', self.img_url)
 
   def generate_label_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -38,6 +38,7 @@ class SingleProductListing(SingleProductListingTemplate):
     s3_obj_key = row['s3_object_key']
     img_url = anvil.server.call('get_s3_image_url',s3_obj_key)
     self.image_1.source = img_url
+    self.img_url = img_url
     self.print_product_btn.visible = True
     self.image_1.visible = True
 
