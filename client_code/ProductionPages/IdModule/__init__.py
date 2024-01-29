@@ -130,16 +130,19 @@ class IdModule(IdModuleTemplate):
     if item_id:
       if type(item_id) != bool:
         item_dict = anvil.server.call('get_item_row_by_item_id', item_id)
-        self.truck_code_input.text = "(Retrieved from Recall)"
-        self.truck_code_input.enabled = False
-        self.supplier_scan_output.content = item_dict['supplier']
-        self.truck_scan_output.content = item_dict['truck']
-        self.make_dropdown.selected_value = item_dict['make']
-        self.model_input_bx.text = item_dict['model']
-        self.year_dropdown.selected_value = item_dict['year']
-        self.size_dropdown.selected_value = item_dict['size']
-        self.box_id = item_dict['box_id']
-        self.lock_box_btn_click()
+        if not item_dict:
+          anvil.alert("Item not found!", role='danger')
+        else:
+          self.truck_code_input.text = "(Retrieved from Recall)"
+          self.truck_code_input.enabled = False
+          self.supplier_scan_output.content = item_dict['supplier']
+          self.truck_scan_output.content = item_dict['truck']
+          self.make_dropdown.selected_value = item_dict['make']
+          self.model_input_bx.text = item_dict['model']
+          self.year_dropdown.selected_value = item_dict['year']
+          self.size_dropdown.selected_value = item_dict['size']
+          self.box_id = item_dict['box_id']
+          self.lock_box_btn_click()
 
   def launch_pdt_explr_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
