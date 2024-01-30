@@ -121,6 +121,7 @@ class TestingModule(TestingModuleTemplate):
     self.fulfillments_repeater.items = self.current_fulfillments
 
   def check_complete(self):
+    self.update_fulfillments()
     complete = True
     for f in self.current_fulfillments:
       if f['status'] != 'Tested':
@@ -157,7 +158,10 @@ class TestingModule(TestingModuleTemplate):
     n.show()
     self.current_order = anvil.server.call_s('load_current_order', self.current_user, status='Testing')
     if not self.current_order:
-      self.fetch_new_order()
+      next_order = self.fetch_new_order()
+    if not next_order:
+      self.finish_table_btn_click()
+      return None
     self.current_section = self.current_order['section']
     self.update_fulfillments()
 
@@ -208,6 +212,7 @@ class TestingModule(TestingModuleTemplate):
       self.item_id_output.content = self.target_f['item_id']
       self.product_img_output.source = anvil.server.call_s('get_img_source_from_sku', 
                                                            sku=self.target_f['sku'])
+      print(self.target_f)
       self.enable_buttons()
       
 
@@ -313,10 +318,10 @@ class TestingModule(TestingModuleTemplate):
       #Start fresh
       more_orders = self.fetch_new_order()
       self.clear_scan_btn_click()
-      self.update_fulfillments()
       if not more_orders:
         self.forced_finish_visibility()
         return None
+      self.update_fulfillments()
       self.init_order_card_content()
       self.needs_attention_orders = anvil.server.call('get_needs_attention_orders', 
                                                       holding_type='Testing Hold', 
