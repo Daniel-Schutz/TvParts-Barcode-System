@@ -99,7 +99,7 @@ def update_item_on_verify(user, role, item_id):
     status = 'Needs Fixed'
     item_status = 'Needs Fixed'
   else:
-    status='Misidentified'
+    status='Verified'
     item_status='Verified'
   current_time = datetime.now()
   item_row.update(status=status, 
