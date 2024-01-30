@@ -170,7 +170,7 @@ class ShopifyInterface:
 
 
             # Send updated data
-            endpoint = f"{self.base_url}variants/{variant_id}.json"
+            endpoint = f"{self.base_url}variants/{variant_id}"
             response = requests.put(endpoint, json=payload, headers=headers)
 
             if response.ok:

@@ -130,12 +130,13 @@ class WarehousePickModule(WarehousePickModuleTemplate):
   def change_focus(self, **event_args):
     #print('GOT THE EVENT HANDLER. In change focus. Event args are:', event_args)
     self.component_idx += 1
+    print(self.component_idx)
     all_picked = self.all_picked_check()
     if not all_picked:
       components = self.fulfillment_repeating_panel.get_components()
       components[self.component_idx].item_scan_input.focus()
     else:
-      #print('The system recognized all orders have been picked')
+      print('The system recognized all orders have been picked')
       self.finish_order()
     
 

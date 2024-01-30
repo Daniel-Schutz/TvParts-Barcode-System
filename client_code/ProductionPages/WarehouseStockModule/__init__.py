@@ -209,11 +209,12 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 # ######### Place Part Events ########################
 # Helper for major update events
   def _place_item_updates(self, bin):
+    print('HERE is the BIN: ', bin)
     anvil.server.call('update_item_on_binned', 
-                      self.current_user, 
-                      self.current_role,
-                      self.place_item_id, 
-                      bin)
+                      user=self.current_user, 
+                      role=self.current_role,
+                      item_id=self.place_item_id, 
+                      bin=bin)
 
     #Update inventory (additive)
     anvil.server.call('update_inv_qty_by_item', self.place_item_id)

@@ -23,10 +23,11 @@ def get_primary_bin_from_item_scan(item_scan_str, item_id_delimiter='__'):
 
 @anvil.server.callable
 def update_item_on_binned(user, role, item_id, bin):
-  anvil.server.launch_background_task('update_item_on_binned_bk', user, item_id, bin)
+  anvil.server.launch_background_task('update_item_on_binned_bk', user, role, item_id, bin)
 
 @anvil.server.background_task
 def update_item_on_binned_bk(user, role, item_id, bin):
+  print("THIS IS THE BIN FROM Backgroud:", bin)
   item_row = app_tables.items.get(item_id=item_id)
   current_time = datetime.now()
 
