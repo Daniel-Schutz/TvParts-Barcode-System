@@ -218,7 +218,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     #Update inventory (additive)
     anvil.server.call('update_inv_qty_by_item', self.place_item_id)
   
-  def item_code_place_input_pressed_enter(self, **event_args):  
+  def item_code_place_input_pressed_enter(self, **event_args):
+    time.sleep(1)
     self.item_code_place_input.enabled = False
     
     #get the primary bin location  & purgatory rows
