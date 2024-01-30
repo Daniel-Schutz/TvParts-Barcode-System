@@ -65,8 +65,6 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
 
 ######### EVENTS ####################################
   def item_scan_pressed_enter(self, **event_args):
-    time.sleep(1)
-    self.item_scan_input.enabled = False
     item_scan = json.loads(self.item_scan_input.text)
     item_id = item_scan.get('item_id')
     item_sku = item_id.split("__")[0]
@@ -84,7 +82,6 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
                         self.current_user, 
                         self.current_role)
     #cf.add_event_to_item_history(item_id, 'Picked', self.current_user, self.current_role)
-    self.item_scan_input.enabled = True
     self.switch_to_scanned_view()
     self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)
 

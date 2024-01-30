@@ -259,6 +259,7 @@ class TestingModule(TestingModuleTemplate):
                                                        item_id=self.target_f['item_id'])
     self.move_to_holding_failed(item_id=self.target_f['item_id'], 
                                 fulfillment_id=self.target_f['fulfillment_id'])
+    print("here are the vals:", self.current_user, self.current_role, self.target_f)
     anvil.server.call('update_item_row', #note that update_item_row is a generic background process
                       user=self.current_user, 
                       role=self.current_role, 

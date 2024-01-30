@@ -60,14 +60,21 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
   
   #reverts the order to an open status and restocks linked items
   def clear_items_btn_click(self, **event_args):
-    n_1 = Notification(f"Resetting Order {self.current_order}. Please wait.", style='info')
-    n_1.show()
-    self.restock_linked_items()
-    anvil.server.call('reset_order', self.current_order)
-    self.raise_event("x-close-alert", value=42) #close modal
+    confirm = anvil.alert('CLEAR ITEMS: This resets the order and makes it available for repicking. Ok to proceed?', 
+                          role='warning', buttons=['CLEAR ORDER', 'CANCEL'],
+                          dismissible=False, large=True)
+    if confirm == 'CLEAR ORDER':
+      n_1 = Notification(f"Resetting Order {self.current_order}. Please wait.", style='info')
+      n_1.show()
+      self.restock_linked_items()
+      anvil.server.call('reset_order', self.current_order)
+      self.raise_event("x-close-alert", value=42) #close modal
 
   #removes the order and its fulfillments from the system and restocks linked items
   def cancel_order_btn_click(self, **event_args):
+    confirm = anvil.alert('CANCEL ORDER: This will remove the order entirely from the system. This order will NOT be fulfilled. Ok to proceed?', 
+                          role='warning', buttons=['CLEAR ORDER', 'CANCEL'],
+                          dismissible=False, large=True)
     n_1 = Notification(f"Deleting Order {self.current_order}. Please wait.", style='info')
     n_1.show()
     self.restock_linked_items()
@@ -108,6 +115,11 @@ class NeedsAttentionResolveModal(NeedsAttentionResolveModalTemplate):
 
   def replace_item(self, item_id, fulfillment_id, **event_args):
     #the actual action in this one happens in the modal
+    f_row = anvil.server.call('get_f_row_by_f_id', fulfillment_id)
+    if f_row['status'] == 'No Stock':
+      anvil.alert("You can't replace an item that doesn't exist. You must either reset the order, or delete this item.", 
+                  buttons=['OK'], large=True, role='danger')
+      pass
     replace_modal = anvil.alert(NeedsAttentionReplaceModal(item_id=item_id),
                                large=True, dismissible=False)
     if replace_modal == 'CANCELLED':

@@ -217,7 +217,7 @@ def get_product_row_by_sku(in_sku):
 def revert_order_to_new(order_no):
   order_row = app_tables.openorders.get(order_no=order_no)
   order_row.update(status='New', reserved_by='', reserved_status='Open', table_no='', section='')
-  section_row = app_tables.table_sections.get(order_no=str(order_no))
+  section_row = app_tables.table_sections.get(order=str(order_no))
   section_row.update(order='')
 
 @anvil.server.callable
@@ -323,3 +323,6 @@ def tray_complete(order_no):
 def get_all_fulfillments():
   return app_tables.openfulfillments.search()
 
+@anvil.server.callable
+def get_f_row_by_f_id(f_id):
+  return app_tables.openfulfillments.get(fulfillment_id=f_id)
