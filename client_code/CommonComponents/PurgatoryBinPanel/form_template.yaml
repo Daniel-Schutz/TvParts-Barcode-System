@@ -135,7 +135,7 @@ components:
         background: '#2eff31'}
       type: Button
       layout_properties: {grid_position: 'QMJLFB,YTRZXW'}
-      event_bindings: {click: toss_all_items_btn_click}
+      event_bindings: {click: move_all_to_bin_btn_click}
     - name: toss_all_items_btn
       properties: {text: toss all items, role: primary-color, icon: 'fa:trash', background: '#ff745c'}
       type: Button
