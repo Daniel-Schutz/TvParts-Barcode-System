@@ -173,6 +173,7 @@ def purg_all_items_to_new_bin(user, role, new_bin, primary_bin):
 
 @anvil.server.callable
 def purg_toss_all_items(user, role, primary_bin):
+  print(primary_bin)
   purg_row = app_tables.purgatory.get(bin=primary_bin)
   sku = purg_row['sku']
   purg_row.delete()
