@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import json
+import time
 from ..SingleProductListing import SingleProductListing
 
 class ItemLookup(ItemLookupTemplate):
@@ -90,6 +91,7 @@ class ItemLookup(ItemLookupTemplate):
 ########### EVENTS ###################################
   def scanned_item_input_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
+    time.sleep(1)
     self.lookup_by_id_input.enabled = False
     self.scanned_item_input.enabled = False
 

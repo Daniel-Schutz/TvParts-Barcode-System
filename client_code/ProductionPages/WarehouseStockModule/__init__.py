@@ -12,6 +12,7 @@ import uuid
 from ...CommonComponents import CommonFunctions as cf
 from ...CommonComponents.SelectBinModal import SelectBinModal
 from datetime import datetime
+import time
 
 class WarehouseStockModule(WarehouseStockModuleTemplate):
   def __init__(self, current_user, current_role, **properties):
@@ -90,6 +91,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
 ####### EVENTS - Verify Part ###################
   def item_code_input_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
+    time.sleep(1)
     self.item_code_input.enabled = False
     item_scan = json.loads(self.item_code_input.text)
     item_id = item_scan.get('item_id')
