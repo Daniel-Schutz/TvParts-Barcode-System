@@ -334,6 +334,7 @@ def set_admin_passcode(passcode):
 def update_cross_refs(prod_1_sku, prod_2_sku, prod_1_new_cross, prod_2_new_cross):
   prod_1_row = app_tables.products.get(sku=prod_1_sku)
   prod_2_row = app_tables.products.get(sku=prod_2_sku)
+  #TODO - Add row to the crossrefs table
   prod_1_row.update(cross_refs=prod_1_new_cross)
   prod_2_row.update(cross_refs=prod_2_new_cross)
 

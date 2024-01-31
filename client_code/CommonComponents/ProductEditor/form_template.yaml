@@ -88,7 +88,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'VQBRGT,ZHDDLZ'}
       - name: repeating_panel_1
-        properties: {item_template: CommonComponents.SingleProductListing}
+        properties: {item_template: CommonComponents.SingleProductEdit}
         type: RepeatingPanel
         layout_properties: {grid_position: 'QCAHDX,HUZMFM'}
       - name: product_results

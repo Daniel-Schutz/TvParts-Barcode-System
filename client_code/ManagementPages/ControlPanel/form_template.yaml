@@ -165,11 +165,6 @@ components:
       type: Button
       layout_properties: {grid_position: 'CUPAQG,CJDXYL'}
       event_bindings: {click: sync_inv_btn_click}
-    - name: sync_prods_to_shop_btn
-      properties: {text: SYnc Products to shopify, role: primary-color, align: center}
-      type: Button
-      layout_properties: {grid_position: 'CUPAQG,LFNLTE'}
-      event_bindings: {click: sync_inv_btn_click}
     - name: product_editor_btn
       properties: {text: product editor, role: primary-color, align: center}
       type: Button
