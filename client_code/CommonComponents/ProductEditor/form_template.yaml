@@ -20,7 +20,7 @@ components:
       layout_properties: {grid_position: 'DJYKGP,ABPYWA'}
       components:
       - name: name_label
-        properties: {text: 'Product Field:'}
+        properties: {text: 'Product Field:', bold: true}
         type: Label
         layout_properties: {}
       - name: product_field_dd
@@ -28,10 +28,10 @@ components:
         type: DropDown
         layout_properties: {width: 247.796875}
       - name: sku_label
-        properties: {text: 'Equal to:'}
+        properties: {text: 'Equal to:', background: '', border: '', bold: true}
         type: Label
         layout_properties: {}
-      - name: product_sku_txbx
+      - name: product_value
         properties: {}
         type: TextBox
         layout_properties: {width: 263.3359375}

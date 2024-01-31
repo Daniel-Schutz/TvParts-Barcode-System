@@ -169,7 +169,7 @@ components:
       properties: {text: product editor, role: primary-color, align: center}
       type: Button
       layout_properties: {grid_position: 'CUPAQG,PPVQZU'}
-      event_bindings: {click: sync_inv_btn_click}
+      event_bindings: {click: product_editor_btn_click}
   - name: spacer_1_copy_copy_copy
     properties: {height: 8.62109375, visible: false}
     type: Spacer

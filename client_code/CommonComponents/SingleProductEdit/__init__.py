@@ -26,6 +26,7 @@ class SingleProductEdit(SingleProductEditTemplate):
     n = Notification(f"The selected product is: {self.item['sku']}", style='info')
     n.show()
     self.parent.raise_event('x-product-selected', product=self.item)
+    print(product)
 
   def print_product_btn_click(self, **event_args):
     """This method is called when the button is clicked"""

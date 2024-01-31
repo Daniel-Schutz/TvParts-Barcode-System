@@ -5,7 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from ...CommonComponents.ProductEditor import ProductEditor
 from ...ProductionPages.EditDatatables import EditDatatables
 
 class ControlPanel(ControlPanelTemplate):
@@ -167,3 +167,10 @@ class ControlPanel(ControlPanelTemplate):
                       prod_1_new_cross=new_prod_1_cross, 
                       prod_2_new_cross=new_prod_2_cross)
     n = Notification("New Cross Reference Added!", style='success')
+
+  def product_editor_btn_click(self, **event_args):
+    """This method is called when the button is clicked""" 
+    product_editor = ProductEditor()
+    alert(product_editor, title="Update Product", 
+                            large=True)
+    

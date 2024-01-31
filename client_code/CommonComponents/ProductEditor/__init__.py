@@ -13,8 +13,7 @@ class ProductEditor(ProductEditorTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.type_dropdown.items = anvil.server.call('get_type_dropdown')
-    self.type_dropdown.selected_value = 'All Types'
+    self.product_field_dd.items = anvil.server.call('get_column_names')
     self.repeating_panel_1.set_event_handler('x-product-selected', self.select_product)
     self.page_size = 5
     self.current_page = 0
@@ -29,62 +28,24 @@ class ProductEditor(ProductEditorTemplate):
 
   def retrieve_prods_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    product_name = self.product_name_txbx.text
-    if self.name_contains_radio.selected:
-      product_name_search_type = self.name_contains_radio.value #which is "Contains"
-    elif self.name_exact_radio.selected:
-      product_name_search_type = self.name_exact_radio.value #which is "Contains"
+    field = self.product_field_dd.selected_value
+    value = self.product_value.text
 
-  #Issac - had to add these defaults to make the functions work
-    # desc_search_type = 'Contains'
-    # sku_search_type = 'Contains'
-    # product_name_search_type = 'Contains'
-
-    sku = self.product_sku_txbx.text
-    if self.sku_contains_radio.selected:
-      sku_search_type = self.sku_contains_radio.value
-    elif self.sku_exact_radio.selected:
-      sku_search_type = self.sku_exact_radio.value
-
-    product_description = self.product_desc_txbx.text
-    if self.desc_contains_radio_copy.selected:
-      desc_search_type = self.desc_contains_radio_copy.value
-    elif self.desc_exact_radio_copy.selected:
-      desc_search_type = self.desc_exact_radio_copy.value
-
-    if self.type_dropdown.selected_value:
-      type = self.type_dropdown.selected_value
-    else:
-      type = None
-
-    matching_products = anvil.server.call('run_product_explorer_query',
-                                          product_name,
-                                          product_name_search_type,
-                                          sku,
-                                          sku_search_type,
-                                          product_description,
-                                          desc_search_type,
-                                          type)
+    matching_products = anvil.server.call('run_product_editor_query',field,value)
 
 
     self.num_results_display.text = len(matching_products)
     self.matching_products = matching_products
-
-
     #Pagination variables
     self.max_pages = math.ceil(len(self.matching_products)/self.page_size)
     self.ttl_pg_lbl.text = self.max_pages
     self.load_page_data()
 
+
+  
   def reset_search(self, **event_args):
-    self.name_contains_radio.selected = True
-    self.sku_contains_radio.selected = True
-    self.desc_contains_radio_copy.selected = True
-    self.type_dropdown.selected_value = 'All Types'
-    self.product_name_txbx.text = None
-    self.product_sku_txbx.text = None
-    self.product_desc_txbx.text = None
-    self.num_results_display.text = None
+    self.product_field_dd.selected_value = None
+    self.product_value.text = ''
     self.matching_products = []
     self.ttl_pg_lbl.text = 0
     self.num_results_display.text = 0

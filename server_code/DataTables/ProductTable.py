@@ -21,6 +21,7 @@ def get_type_dropdown():
   types.sort()
   return types
 
+
 @anvil.server.callable
 def run_product_explorer_query(product_name_t, 
                                product_name_search_type, 
@@ -96,3 +97,21 @@ def add_shop_info_to_db(shop_info_json):
 def add_new_shop_products_to_db():
   pass
 
+
+@anvil.server.callable
+def get_column_names():
+  raw_columns = app_tables.products.list_columns()
+  columns = [item['name'] for item in raw_columns]
+  return columns
+
+
+@anvil.server.callable
+def run_product_editor_query(field,value):
+  print(field,value)
+
+  kwargs = {f"{field}": f"%{value}%"}
+  
+  results= app_tables.products.search(**kwargs)
+  for result in results:
+    print(result['sku'])
+  return results
