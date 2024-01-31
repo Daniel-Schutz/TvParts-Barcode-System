@@ -134,3 +134,36 @@ class ControlPanel(ControlPanelTemplate):
                           role='warning')
     if confirm == "SYNC INVENTORY":
       anvil.server.call('sync_all_inventory_qty')
+
+######## Add Cross Ref Button ###########
+  def add_cross_ref_btn(self):
+    if self.prod_sku_1.text is None:
+      anvil.alert("Product 1 must be a valid sku!")
+      return None
+    try:
+      product_1_sku = self.prod_sku_1.text
+      product_1_row = anvil.server.call('get_product_by_sku', product_1_sku)
+      product_1_cross_str = product_1_row['cross_refs']
+    except:
+      anvil.alert(f"Product 1: ({self.prod_sku_1.text}) is not a valid database sku. Contact Issac and send him the sku if this wasn't supposed to happen.")
+      return None
+    
+    if self.prod_sku_2.text is None:
+      anvil.alert("Product 2 must be a valid sku!")
+      return None
+    try:
+      product_2_sku = self.prod_sku_2.text
+      product_2_row = anvil.server.call('get_product_by_sku', product_2_sku)
+      product_2_cross_str = product_2_row['cross_refs']
+    except:
+      anvil.alert(f"Product 2: ({self.prod_sku_2.text}) is not a valid database sku. Contact Issac and send him the sku if this wasn't supposed to happen.")
+      return None
+
+    new_prod_1_cross = product_1_cross_str + f", {product_2_sku}"
+    new_prod_2_cross = product_2_cross_str + f", {product_1_sku}"
+    anvil.server.call('update_cross_refs', 
+                      prod_1_sku=product_1_sku, 
+                      prod_2_sku=product_2_sku, 
+                      prod_1_new_cross=new_prod_1_cross, 
+                      prod_2_new_cross=new_prod_2_cross)
+    n = Notification("New Cross Reference Added!", style='success')

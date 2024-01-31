@@ -112,10 +112,49 @@ components:
     type: Spacer
     layout_properties: {grid_position: 'UHCZBA,CSXMWT', row_background: 'theme:Secondary
         500'}
+  - name: card_2_copy_copy_copy_2_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'GGCSRL,AVXTBQ'}
+    components:
+    - name: add_cross_ref_label
+      properties: {text: Add New Cross Reference, align: center, bold: false, font_size: 17}
+      type: Label
+      layout_properties: {grid_position: 'CUPAQG,XNXJUS'}
+    - name: card_3
+      properties: {role: card}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'DBPARQ,ILOYDW'}
+      components:
+      - name: flow_panel_3
+        properties: {}
+        type: FlowPanel
+        layout_properties: {grid_position: 'INHCPA,LNLTJE'}
+        components:
+        - name: prod_sku_1
+          properties: {placeholder: product_sku_1}
+          type: TextBox
+          layout_properties: {width: 219.74609375}
+        - name: cross_with_lbl
+          properties: {align: center, text: 'Is Interchangable With:'}
+          type: Label
+        - name: prod_sku_2
+          properties: {placeholder: product_sku_2}
+          type: TextBox
+          layout_properties: {width: 221.65215625}
+      - name: add_cross_btn
+        properties: {text: Add Cross Reference, role: primary-color, align: center}
+        type: Button
+        layout_properties: {grid_position: 'INHCPA,FOANKX'}
+  - name: spacer_1_copy_copy_copy_2
+    properties: {height: 5.796875}
+    type: Spacer
+    layout_properties: {grid_position: 'CKRGNG,MZYNOD', row_background: 'theme:Secondary
+        700'}
   - name: card_2_copy_copy_copy_2
     properties: {role: card}
     type: ColumnPanel
-    layout_properties: {grid_position: 'XDJJHH,FFSBQF'}
+    layout_properties: {grid_position: 'AIHKRV,TZKTCO'}
     components:
     - name: synt_to_shopify_label
       properties: {text: 'Sync Inventory to Shopify:', align: center, bold: false,

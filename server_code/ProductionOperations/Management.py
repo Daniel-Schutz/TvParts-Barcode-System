@@ -329,6 +329,15 @@ def set_admin_passcode(passcode):
   settings_row = app_tables.management_settings.get(setting_title='Admin Passcode')
   settings_row.update(text_response=passcode)
 
+## Add Cross Reference Logic
+@anvil.server.callable
+def update_cross_refs(prod_1_sku, prod_2_sku, prod_1_new_cross, prod_2_new_cross):
+  prod_1_row = app_tables.products.get(sku=prod_1_sku)
+  prod_2_row = app_tables.products.get(sku=prod_2_sku)
+  prod_1_row = 
+
+
+
 ## Bin Mode Logic
 @anvil.server.callable
 def get_bin_stock_mode():
