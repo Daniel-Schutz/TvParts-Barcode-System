@@ -48,18 +48,21 @@ def import_new_products_bk():
   shop_key = anvil.secrets.get_secret('shopify_admin_key')
   shop = ShopifyInterface(shop_key)
   all_products = shop.get_all_products(True)
-  sum = 0
+  skus = []
   for product in all_products:
     product_id = str(product['id'])
     row = app_tables.products.search(product_id=product_id)
-    
     if len(row) == 0:
       kwargs = shop_to_db_convert(product)
       app_tables.products.add_row(**kwargs)
-      sum +=1
-  print(f"{sum} products added!")    
-
-
+      sku = product['variants'][0]['sku']
+      skus.append(sku)
+  anvil.server.call('create_message', 
+                        'New products Bot',
+                       'Management',
+                       'Management',
+                       f'The skus of the new products added are:{skus}',
+                       '')
 
 
 
