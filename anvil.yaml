@@ -1,4 +1,11 @@
 correct_dependency_ids: {}
+scheduled_tasks:
+- task_name: import_new_products_bk
+  time_spec:
+    n: 1
+    every: day
+    at: {minute: 0, hour: 8}
+  job_id: LIHDMVOF
 dependencies: []
 services:
 - source: /runtime/services/tables.yml
