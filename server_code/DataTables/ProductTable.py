@@ -87,6 +87,12 @@ def update_description_bk():
         if raw_description is not None:
           description = re.sub(r'<.*?>|\n', '', raw_description)
           row.update(description=description)  
-    
 
+
+def add_shop_info_to_db(shop_info_json):
+  pass
+
+@anvil.server.callable
+def add_new_shop_products_to_db():
+  pass
 

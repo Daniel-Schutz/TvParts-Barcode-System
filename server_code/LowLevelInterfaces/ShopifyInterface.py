@@ -49,6 +49,13 @@ def get_shopify_product_qty(product_id):
   shop = ShopifyInterface(shop_key)
   product_info = shop.get_product_details(product_id)
   return product_info['variants'][0]['inventory_quantity']
+
+@anvil.server.callable
+def get_product_metafields(product_id):
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  product_metafields = shop.get_product_metafields(product_id)
+  return product_metafields
   
 
 
