@@ -136,7 +136,7 @@ class ControlPanel(ControlPanelTemplate):
       anvil.server.call('sync_all_inventory_qty')
 
 ######## Add Cross Ref Button ###########
-  def add_cross_ref_btn(self):
+  def add_cross_btn_click(self, **event_args):
     if self.prod_sku_1.text is None:
       anvil.alert("Product 1 must be a valid sku!")
       return None
@@ -166,6 +166,7 @@ class ControlPanel(ControlPanelTemplate):
                       prod_2_sku=product_2_sku, 
                       prod_1_new_cross=new_prod_1_cross, 
                       prod_2_new_cross=new_prod_2_cross)
+    anvil.server.call('add_cross_ref',self.prod_sku_1.text,self.prod_sku_2.text)
     n = Notification("New Cross Reference Added!", style='success')
 
   def product_editor_btn_click(self, **event_args):
@@ -173,4 +174,4 @@ class ControlPanel(ControlPanelTemplate):
     product_editor = ProductEditor()
     alert(product_editor, title="Update Product", 
                             large=True)
-    
+

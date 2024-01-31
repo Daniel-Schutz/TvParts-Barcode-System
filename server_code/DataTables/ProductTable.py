@@ -109,9 +109,18 @@ def get_column_names():
 def run_product_editor_query(field,value):
   print(field,value)
 
-  kwargs = {f"{field}": f"%{value}%"}
+  kwargs = {field: value}
   
   results= app_tables.products.search(**kwargs)
   for result in results:
     print(result['sku'])
   return results
+
+@anvil.server.callable
+def update_product(product_id,name,sku,bin,
+                     type,inventory,vendor,
+                    os_bin,cross_refs):
+    row = app_tables.products.get(product_id=product_id)
+    inventory = int(inventory)                    
+    row.update(product_name=name,sku=sku,bin=bin,type=type,shopify_qty=inventory,vendor=vendor,os_bins=os_bin,cross_refs=cross_refs)                  
+                      

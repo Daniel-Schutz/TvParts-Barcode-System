@@ -44,7 +44,7 @@ class ProductEditor(ProductEditorTemplate):
 
   
   def reset_search(self, **event_args):
-    self.product_field_dd.selected_value = None
+    self.product_field_dd.selected_value = 'sku'
     self.product_value.text = ''
     self.matching_products = []
     self.ttl_pg_lbl.text = 0

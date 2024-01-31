@@ -37,9 +37,11 @@ components:
           type: Label
           layout_properties: {}
         - name: name_input
-          properties: {text: 'self.item[''product_name'']'}
+          properties: {text: ''}
           type: TextBox
           layout_properties: {width: 244.80859375}
+          data_bindings:
+          - {property: text, code: 'self.item[''product_name'']', writeback: false}
       - name: flow_panel_3_copy_1
         properties: {}
         type: FlowPanel
@@ -49,9 +51,11 @@ components:
           properties: {text: 'SKU:', underline: true}
           type: Label
         - name: sku_input
-          properties: {text: 'self.item[''sku'']'}
+          properties: {text: ''}
           type: TextBox
           layout_properties: {}
+          data_bindings:
+          - {property: text, code: 'self.item[''sku'']', writeback: false}
       - name: flow_panel_5
         properties: {}
         type: FlowPanel
@@ -61,9 +65,11 @@ components:
           properties: {text: 'Bin:', underline: true}
           type: Label
         - name: bin_input
-          properties: {text: 'self.item[''bin'']'}
+          properties: {text: ''}
           type: TextBox
           layout_properties: {}
+          data_bindings:
+          - {property: text, code: 'self.item[''bin'']', writeback: false}
       - name: flow_panel_3_copy_1_copy_1
         properties: {}
         type: FlowPanel
@@ -74,9 +80,11 @@ components:
           type: Label
           layout_properties: {}
         - name: text_box_1
-          properties: {text: 'self.item[''type'']'}
+          properties: {text: ''}
           type: TextBox
           layout_properties: {}
+          data_bindings:
+          - {property: text, code: 'self.item[''type'']', writeback: false}
       - name: flow_panel_3_copy_1_copy_1_copy
         properties: {}
         type: FlowPanel
@@ -87,34 +95,25 @@ components:
           type: Label
           layout_properties: {}
         - name: vendor_input
-          properties: {text: 'self.item[''vendor'']'}
+          properties: {text: ''}
           type: TextBox
           layout_properties: {}
+          data_bindings:
+          - {property: text, code: 'self.item[''vendor'']', writeback: false}
       - name: flow_panel_6
         properties: {}
         type: FlowPanel
-        layout_properties: {grid_position: 'EEKAVN,JTDRUG TGBRBP,ELMIHQ'}
+        layout_properties: {grid_position: 'EEKAVN,JTDRUG'}
         components:
         - name: inventory_label
           properties: {text: 'Inventory:', align: right, underline: true}
           type: Label
         - name: text_box_2
-          properties: {text: 'self.item[''shopify_qty'']'}
+          properties: {text: ''}
           type: TextBox
           layout_properties: {}
-      - name: flow_panel_3_copy_1_copy_1_copy_copy
-        properties: {}
-        type: FlowPanel
-        layout_properties: {grid_position: 'EEKAVN,JTDRUG OUVGIF,UGQLSP'}
-        components:
-        - name: vendor_label_copy
-          properties: {text: 'Vendor:', underline: true}
-          type: Label
-          layout_properties: {}
-        - name: vendor_input_copy
-          properties: {text: 'self.item[''vendor'']'}
-          type: TextBox
-          layout_properties: {}
+          data_bindings:
+          - {property: text, code: 'self.item[''shopify_qty'']', writeback: false}
     - name: print_js_logic_1
       properties: {}
       type: form:print_js_logic
@@ -137,9 +136,11 @@ components:
         type: Label
         layout_properties: {}
       - name: os_bin_input
-        properties: {text: 'self.item[''os_bins'']'}
+        properties: {text: ''}
         type: TextBox
         layout_properties: {}
+        data_bindings:
+        - {property: text, code: 'self.item[''os_bins'']', writeback: false}
     - name: flow_panel_4_copy_1
       properties: {}
       type: FlowPanel
@@ -149,12 +150,11 @@ components:
         properties: {text: 'Cross References:', underline: true}
         type: Label
         layout_properties: {}
-      - name: crs_output_bx
-        properties: {}
-        type: RichText
-        layout_properties: {expand: true}
+      - name: cross_refs
+        properties: {text: ''}
+        type: TextBox
         data_bindings:
-        - {property: content, code: 'self.item[''cross_refs'']', writeback: false}
+        - {property: text, code: 'self.item[''cross_refs'']', writeback: false}
       - name: card_3_copy_1
         properties: {role: null}
         type: ColumnPanel

@@ -11,8 +11,6 @@ import anvil.media
 class SingleProductEdit(SingleProductEditTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    self.print_product_btn.visible = False
-    self.image_1.visible = False
     self.init_components(**properties)
 
 
@@ -22,23 +20,12 @@ class SingleProductEdit(SingleProductEditTemplate):
   def update_product_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     print("read the button click")
-    print(self.item['sku'])
-    n = Notification(f"The selected product is: {self.item['sku']}", style='info')
+    print()
+    anvil.server.call('update_product',self.item['product_id'],
+                      self.name_input.text,self.sku_input.text,self.bin_input.text,
+                     self.text_box_1.text,self.text_box_2.text,self.vendor_input.text,
+                     self.os_bin_input.text,self.cross_refs.text)
+    n = Notification("Product updated!", 
+                       style='success', timeout=2)
     n.show()
-    self.parent.raise_event('x-product-selected', product=self.item)
-    print(product)
 
-  def print_product_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    print("Image URL:",self.img_url)
-    js.call('printPage', self.img_url)
-
-  def generate_label_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    row = anvil.server.call('get_product_row_by_sku',self.item['sku'])
-    s3_obj_key = row['s3_object_key']
-    img_url = anvil.server.call('get_s3_image_url',s3_obj_key)
-    self.image_1.source = img_url
-    self.img_url = img_url
-    self.print_product_btn.visible = True
-    self.image_1.visible = True
