@@ -165,7 +165,7 @@ components:
       properties: {text: Import New Products, role: primary-color, align: center}
       type: Button
       layout_properties: {grid_position: 'CUPAQG,CJDXYL'}
-      event_bindings: {click: sync_inv_btn_click}
+      event_bindings: {click: import_new_prods_btn_click}
     - name: product_editor_btn
       properties: {text: product editor, role: primary-color, align: center}
       type: Button

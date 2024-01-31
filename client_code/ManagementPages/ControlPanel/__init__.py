@@ -175,3 +175,14 @@ class ControlPanel(ControlPanelTemplate):
     alert(product_editor, title="Update Product", 
                             large=True)
 
+  def import_new_prods_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    confirm = anvil.alert("Proceed to import new products from Shopify?", 
+                          title="Import new products?", 
+                          buttons=["IMPORT PRODUCTS", "CANCEL"], 
+                          dismissible=False, 
+                          large=True, 
+                          role='warning')
+    if confirm == "IMPORT PRODUCTS":
+      anvil.server.call('import_new_products')
+

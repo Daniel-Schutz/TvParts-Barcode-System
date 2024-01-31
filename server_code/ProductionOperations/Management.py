@@ -512,3 +512,4 @@ def sync_all_inventory_qty_bk():
 @anvil.server.callable
 def add_cross_ref(sku1,sku2):
   app_tables.crossref.add_row(sku=sku1, cross_ref=sku2)
+

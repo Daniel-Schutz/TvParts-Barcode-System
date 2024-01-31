@@ -5,7 +5,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
-
+import re
 import os
 import json
 import pandas as pd
@@ -13,6 +13,52 @@ import boto3
 import requests
 import time
 from decimal import Decimal
+
+
+
+@anvil.server.callable
+def import_new_products():
+  anvil.server.launch_background_task('import_new_products_bk')
+
+@anvil.server.background_task
+def import_new_products_bk():
+  def html_to_raw(html_string):
+    html_string = str(html_string)
+    text = re.sub(r'<[^>]+>', '', html_string)
+    text = text.replace('&nbsp;', ' ').replace('&amp;', '&').replace('\xa0', ' ')
+    return text
+  def shop_to_db_convert(shop_record):
+    db_record = {
+        'bin': '0' if 'bin' in shop_record else None,
+        'cross_refs': '' if 'cross_refs' in shop_record else None,
+        'description': html_to_raw(shop_record['body_html']) if 'body_html' in shop_record else None,
+        'img_source_url': shop_record['images'][0]['src'] if 'images' in shop_record and shop_record['images'] else None,
+        'os_bins': '' if 'os_bins' in shop_record else None,
+        'price': shop_record['variants'][0]['price'] if 'variants' in shop_record and shop_record['variants'] else None,
+        'product_id': str(shop_record['id']) if 'id' in shop_record else None,
+        'product_name': shop_record['title'] if 'title' in shop_record else None,
+        's3_object_key': '' if 's3_object_key' in shop_record else None,
+        'shopify_qty': shop_record['variants'][0]['inventory_quantity'] if 'variants' in shop_record and shop_record['variants'] else None,
+        'sku': shop_record['variants'][0]['sku'] if 'variants' in shop_record and shop_record['variants'] else None,
+        'type': shop_record['product_type'] if 'product_type' in shop_record else None,
+        'vendor': shop_record['vendor'] if 'vendor' in shop_record else None
+    }
+    return db_record
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  all_products = shop.get_all_products(True)
+  sum = 0
+  for product in all_products:
+    product_id = str(product['id'])
+    row = app_tables.products.get(product_id=product_id)
+    if row == None:
+      kwargs = shop_to_db_convert(product)
+      app_tables.products.add_row(**kwargs)
+      sum +=1
+  print(f"{sum} products added!")    
+
+
+
 
 
 @anvil.server.callable
