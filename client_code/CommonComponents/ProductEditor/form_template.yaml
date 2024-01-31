@@ -1,0 +1,140 @@
+container: {type: ColumnPanel}
+components:
+- name: card_1
+  properties: {role: photo-background}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'WEADOV,NTIFFW'}
+  components:
+  - name: headline
+    properties: {role: headline, align: center, text: Product Editor}
+    type: Label
+    layout_properties: {grid_position: 'QREGDX,LNBLQL'}
+  - name: card_2
+    properties: {role: null}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'CPYGIQ,NXULNY'}
+    components:
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'DJYKGP,ABPYWA'}
+      components:
+      - name: name_label
+        properties: {text: 'Product Field:'}
+        type: Label
+        layout_properties: {}
+      - name: product_field_dd
+        properties: {}
+        type: DropDown
+        layout_properties: {width: 247.796875}
+      - name: sku_label
+        properties: {text: 'Equal to:'}
+        type: Label
+        layout_properties: {}
+      - name: product_sku_txbx
+        properties: {}
+        type: TextBox
+        layout_properties: {width: 263.3359375}
+        event_bindings: {}
+      - name: retrieve_prods_btn
+        properties: {text: Retrieve Products, role: primary-color}
+        type: Button
+        event_bindings: {click: retrieve_prods_btn_click}
+  - name: spacer_2
+    properties: {height: 2}
+    type: Spacer
+    layout_properties: {grid_position: 'GLQXCM,MIOLQM', full_width_row: true, row_background: 'theme:Secondary
+        700'}
+  - name: card_5
+    properties: {role: photo-background}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KCMXBB,BRERAE'}
+    components:
+    - name: flow_panel_4
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'EMHHVM,LJURUC'}
+      components:
+      - name: results_label
+        properties: {text: 'Results:', underline: false, font_size: 22}
+        type: Label
+        layout_properties: {}
+      - name: num_results_display
+        properties: {text: '', underline: false, font_size: 22}
+        type: Label
+        layout_properties: {}
+    - name: column_panel_1
+      properties: {}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'EMHHVM,KZUPMM'}
+      components:
+      - name: spacer_3
+        properties: {height: -2}
+        type: Spacer
+        layout_properties: {grid_position: 'ECCWOT,UPVFML'}
+      - name: reset_search_btn
+        properties: {text: reset search, role: primary-color}
+        type: Button
+        layout_properties: {grid_position: 'NNXKWQ,UJDDXK'}
+        event_bindings: {click: reset_search}
+    - name: card_3
+      properties: {role: photo-background}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'RHZKGQ,CKUTOV'}
+      components:
+      - name: pagination_header_label
+        properties: {text: Product Records, align: center, underline: true, bold: false,
+          font_size: 27}
+        type: Label
+        layout_properties: {grid_position: 'VQBRGT,ZHDDLZ'}
+      - name: repeating_panel_1
+        properties: {item_template: CommonComponents.SingleProductListing}
+        type: RepeatingPanel
+        layout_properties: {grid_position: 'QCAHDX,HUZMFM'}
+      - name: product_results
+        properties: {item_template: CommonComponents.ProductExplorer.ItemTemplate3}
+        type: RepeatingPanel
+        layout_properties: {grid_position: 'IVNIAR,MNYRBA INANQF,KKQMDB'}
+      - name: page_back_btn
+        properties: {text: Prev, role: primary-color, align: left}
+        type: Button
+        layout_properties: {grid_position: 'JNFYMU,TIYIKP'}
+        event_bindings: {click: page_back_btn_click}
+      - name: page_num_lbl
+        properties: {align: right, bold: true}
+        type: Label
+        layout_properties: {grid_position: 'JNFYMU,SOAKVY'}
+        data_bindings:
+        - {property: text, code: '', writeback: false}
+      - name: of_label
+        properties: {align: center, text: of}
+        type: Label
+        layout_properties: {grid_position: 'JNFYMU,UXMHXO'}
+      - name: ttl_pg_lbl
+        properties: {text: ''}
+        type: Label
+        layout_properties: {grid_position: 'JNFYMU,JVAVBS'}
+        data_bindings:
+        - {property: text, code: '', writeback: false}
+      - name: page_next_btn
+        properties: {text: Next, role: primary-color, align: right}
+        type: Button
+        layout_properties: {grid_position: 'JNFYMU,SJOZDK'}
+        event_bindings: {click: page_next_btn_click}
+    - name: flow_panel_5
+      properties: {}
+      type: FlowPanel
+      layout_properties: {grid_position: 'CVTKCS,SOBGOD'}
+      components:
+      - name: selected_val_label
+        properties: {text: 'Selected Value: ', underline: false, font_size: 22}
+        type: Label
+      - name: selected_sku
+        properties: {text: '', underline: false, font_size: 22}
+        type: Label
+    - name: column_panel_2
+      properties: {}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'CVTKCS,GCLWOT'}
+      components: []
+is_package: true
