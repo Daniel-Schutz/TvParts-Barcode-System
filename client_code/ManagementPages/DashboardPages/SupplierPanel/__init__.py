@@ -17,8 +17,6 @@ class SupplierPanel(SupplierPanelTemplate):
     
     end_date = datetime.now().strftime("%m/%d/%Y")
     start_date = '01/01/1900'
-
-    ###### UNCOMMENT HERE TO RUN AND ON CHANGE EVENTS TOO ########
     
     # revenue_by_supplier = anvil.server.call('revenue_by_supplier_and_date',start_date,end_date)
     # bar_chart_plot_2_copy_copy = go.Bar(
