@@ -86,7 +86,7 @@ class WarehouseFulfillmentPanel(WarehouseFulfillmentPanelTemplate):
     self.parent.raise_event('x-change-focus-to-next', sku=self.sku_output.content)
 
   def clear_item_btn_click(self, **event_args):
-    self.item_scan_input = self.name_content
+    self.item_scan_input.text = None
     self.switch_to_empty_view()
 
   def no_stock_btn_click(self, **event_args):
