@@ -160,9 +160,9 @@ class TestingModule(TestingModuleTemplate):
     #next_order = None
     if not self.current_order:
       next_order = self.fetch_new_order()
-    if not next_order:
-      self.finish_table_btn_click()
-      return None
+      if not next_order:
+        self.finish_table_btn_click()
+        return None
     self.current_section = self.current_order['section']
     self.update_fulfillments()
 
