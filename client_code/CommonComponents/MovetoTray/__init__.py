@@ -25,7 +25,7 @@ class MovetoTray(MovetoTrayTemplate):
       n_1 = Notification("You must select a proper tray.", style='danger')
       n_1.show()
       return None
-    order_status = anvil.server.call('get_order_status_from_order_num', str(self.order_no))
+    order_status = anvil.server.call('get_order_status_from_order_num', str(self.current_order))
     anvil.server.call('move_order_to_tray', self.current_order, tray, order_status)
     # n = Notification("Order has been moved into fulfillment in the system. Place the order on the Tray to await processing.",
     #                 title='Order Moved!', style='success')
