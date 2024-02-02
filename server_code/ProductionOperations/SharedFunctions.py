@@ -396,3 +396,9 @@ def update_item_row_bk(user, role, item_id, status):
 @anvil.server.callable
 def get_prod_row_by_sku(sku):
   return app_tables.products.get(sku=sku)
+
+@anvil.server.callable
+def get_order_status_from_order_num(order_no_str):
+  order_no = int(order_no_str)
+  order_row = app_tables.openorders.get(order_no=order_no)
+  return order_row['status']
