@@ -102,16 +102,17 @@ class TestingModule(TestingModuleTemplate):
 # ######### Update the Order Card #######################
   def init_order_card_content(self):
     # This is a "blank card", before scans
-    self.order_headline.text = f"Order: {self.current_order['order_no']}"
-    self.table_output.content = self.current_table
-    self.section_output.content = self.current_section
-    self.product_img_output.source = None
-    self.failed_btn.enabled = False
-    self.passed_btn.enabled = False
-    self.needs_attention_btn.enabled = False
-
-    # set focus
-    self.item_scan_input.focus()
+    if self.current_order != None:
+      self.order_headline.text = f"Order: {self.current_order['order_no']}"
+      self.table_output.content = self.current_table
+      self.section_output.content = self.current_section
+      self.product_img_output.source = None
+      self.failed_btn.enabled = False
+      self.passed_btn.enabled = False
+      self.needs_attention_btn.enabled = False
+  
+      # set focus
+      self.item_scan_input.focus()
 
 
 # ######### Lifecycle DB Helper Functions ########################
