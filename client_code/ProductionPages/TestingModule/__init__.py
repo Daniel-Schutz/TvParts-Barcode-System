@@ -157,6 +157,7 @@ class TestingModule(TestingModuleTemplate):
     n = Notification("Getting current session state, Just a moment please.", style='info', title="Preparing Session...", timeout=5)
     n.show()
     self.current_order = anvil.server.call_s('load_current_order', self.current_user, status='Testing')
+    #next_order = None
     if not self.current_order:
       next_order = self.fetch_new_order()
     if not next_order:
@@ -199,6 +200,7 @@ class TestingModule(TestingModuleTemplate):
     for f in self.current_fulfillments:
       if f['item_id'] == self.this_item_id:
         self.target_f = f
+        print("In item_scanned_enter, this is target_f", self.target_f)
         break
     if not self.target_f:
       n = Notification(f"Scanned item {self.this_item_id} is not a part of Order {self.current_order['order_no']}. Please try again.", 
