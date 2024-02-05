@@ -50,7 +50,7 @@ class HomePage(HomePageTemplate):
       self.recieved_msgs_btn.visible = True
       self.product_explorer_btn.visible = True
       self.lookup_by_scan_btn.visible = True
-      #self.current_user_output.content = anvil.server.call_s('get_user_full_name')
+      self.current_user_output.content = anvil.server.call_s('get_user_full_name')
 
   def role_navigation(self):
     try:
