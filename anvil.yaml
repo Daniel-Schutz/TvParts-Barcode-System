@@ -626,7 +626,7 @@ secrets:
     value: {63XO3BT74XRQPTMR: +cQyU/uHzx0UUgRVRzvyrGGhE9FaDaSO7SNpUau94AXlMFdy6d0ih6whxHUgEpxwmnBUqaY/Zv0oO8siESz/1QrvpzImVHOZnxygPN1poCQpR2yOFFlSygqbWpFfQ6Hyil+e47S9BgsfBXxmnWV6FaofxKbaXkAmev+SDnA9V9b2vDGVO9X8+g==}
     type: secret
   shopify_admin_key:
-    value: {63XO3BT74XRQPTMR: DG+x/FIT/B2iNupM32n2A/1eW9tD/mzUhNcKUlsoDjGNpOZqYLVRaoQswPdUmxAvxHc+vm5zPsTz9i95SouaAo/tUDC+rLnNGETr4Pszwt8DjVDTuHuRLYfEFiQqdvhMac3cSSNnF3qBZZlaXaII/OpyJri8NVGVU87e9aQfly+9d4CIiw==}
+    value: {63XO3BT74XRQPTMR: 1BbZh+GsrJhHXEkDdFaSPrUd+9o+rAy3PAC6ayR0iXGqhi7KOezISSxfkKlLipNOhwdYasOFPfg4YlsR8weG7yC/bFVqttGJPbWrWGFhJM858Wr+bvrBimcFy8GUWawtkSgJdiHdap20b8xQhZQul71LboaLz7IVt8q4qs9BXvLuJC9dsw==}
     type: secret
   shopify_admin_secret:
     value: {63XO3BT74XRQPTMR: RotnduKhU6XVY020TD2BObb98Xyk/AvQh1AzCPxHCAlueNdxE62kBRRQ5W6d1fFEfew5KLCOmNe4RjMB8lzirvmVCRxpN5rX1bLhSQ0pbIEDCtYaPwcSU2BrEN6UKdVFxo0VD9Mhb4SYeFvadp1hnPP8DczPfMyAa8IARRahZQ==}
