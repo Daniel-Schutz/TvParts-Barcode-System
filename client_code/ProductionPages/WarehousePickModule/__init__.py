@@ -178,7 +178,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
 
 #Fetching Current Order (gracefully handle refresh)
   def get_current_state(self):
-    n = Notification("Getting current session state, Just a moment please.", style='info', title="Preparing Session...", timeout=5)
+    n = Notification("Getting current session state, Just a moment please.", style='info', title="Preparing Session...", timeout=2)
     n.show()
     self.current_order = anvil.server.call_s('load_current_order', self.current_user, status='Picking')
     # print('in current state - Here is the current order')

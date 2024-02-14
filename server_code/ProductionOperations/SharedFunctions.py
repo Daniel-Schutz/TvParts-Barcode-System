@@ -59,7 +59,7 @@ def claim_table(user, status, new_status):
 
 @anvil.server.callable
 def load_current_order(user, status):
-  print(status,user)
+  print(f"Loading Current order: status: {status}, user: {user}")
   claimed_order = app_tables.openorders.get(reserved_by=user, status=status)
   return claimed_order
 

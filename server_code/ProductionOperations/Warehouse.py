@@ -187,8 +187,8 @@ def link_order_to_table_section(user, order, table):
   if not open_section:
     return None
   else:
-    current_order = app_tables.openorders.search(reserved_status='Reserved', reserved_by=user)
-    current_order = current_order[0]
+    current_order = app_tables.openorders.get(reserved_status='Reserved', reserved_by=user)
+    # current_order = current_order[0]
     open_section.update(order=order, current_user=user)
     current_order.update(table_no=table, section=open_section['section'])
     return open_section['section']
