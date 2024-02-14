@@ -215,7 +215,8 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                       role=self.current_role,
                       item_id=self.place_item_id, 
                       bin=bin)
-
+    n = Notification(f"{item_id} added to stock in bin {bin}. Inventory Updated!", style='success')
+    n.show()
     #Update inventory (additive)
     anvil.server.call('update_inv_qty_by_item', self.place_item_id)
   
