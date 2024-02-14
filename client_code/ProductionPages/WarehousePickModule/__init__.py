@@ -147,7 +147,8 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     n = Notification("Claiming new table...",style='success')
     self.current_table = anvil.server.call_s('claim_table', 
                                            self.current_user, 
-                                             "Open")
+                                             "Open", 
+                                             "Picking")
     self.fetch_new_order()
     # self.set_order_card_content()
     # self.active_visibility()
@@ -162,7 +163,7 @@ class WarehousePickModule(WarehousePickModuleTemplate):
       self.forced_finish_visibility()
       return None
     else:
-      n = Notification("Grabbing next order, just a moment.", style='info', timeout=10, title="New Order Loading")
+      n = Notification("Grabbing next order, just a moment.", style='info', timeout=2, title="New Order Loading")
       n.show()
       self.current_order = anvil.server.call_s('fetch_new_order', self.current_user)
       self.current_fulfillments = anvil.server.call_s('load_current_fulfillments', self.current_order['order_no'])

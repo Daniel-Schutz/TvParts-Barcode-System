@@ -48,11 +48,11 @@ def get_open_tables(status):
   return open_tables
 
 @anvil.server.callable
-def claim_table(user, status):
-  new_table_dict = app_tables.tables.search(status=status)[0] #might need to break this out if it doesn't return a dict
+def claim_table(user, status, new_status):
+  new_table_dict = app_tables.tables.search(status=status)[0] 
   row = app_tables.tables.get(table=new_table_dict['table'])
   row['current_user'] = user
-  row['status'] = status
+  row['status'] = new_status
   print('Assigned Table.')
   anvil.server.launch_background_task('update_user_on_section_rows', new_table_dict['table'], user)
   return row['table']
