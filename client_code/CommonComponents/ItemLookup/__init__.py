@@ -43,6 +43,10 @@ class ItemLookup(ItemLookupTemplate):
     self.tested_by_output.content = this_item['tested_by']
     self.packed_on_output.content = this_item['packed_on']
     self.tested_by_output.content = this_item['packed_by']
+    if not this_item['test_note']:
+      self.test_note_out.content = "(No Note Submitted)"
+    else:
+      self.test_note_out.content = this_item['test_note']
     self.item_history_output.content = this_item['history']
     self.qr_img_url = anvil.server.call('get_s3_image_url', 
                                         this_item['s3_object_key'])
