@@ -488,6 +488,19 @@ components:
         - name: packed_by_output
           properties: {}
           type: RichText
+  - name: personnel_label_copy
+    properties: {role: headline, text: Testing Notes, underline: true}
+    type: Label
+    layout_properties: {grid_position: 'YLIEKR,BYGOQZ'}
+  - name: card_7_copy
+    properties: {role: card}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'MBPELB,IORZQU'}
+    components:
+    - name: test_note_out
+      properties: {}
+      type: RichText
+      layout_properties: {grid_position: 'ZVTHAU,TFXYWZ'}
   - name: history_label
     properties: {role: headline, text: Item History, underline: true}
     type: Label

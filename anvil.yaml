@@ -382,6 +382,9 @@ db_schema:
     - name: img_source
       admin_ui: {width: 200, order: 32}
       type: string
+    - name: test_note
+      admin_ui: {width: 200, order: 33}
+      type: string
     title: items
   users:
     title: Users

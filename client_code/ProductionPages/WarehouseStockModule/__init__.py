@@ -170,12 +170,10 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
                      style='success', title='Part Verified', timeout=1)
       n.show()
     
-    product = anvil.server.call('get_product_by_sku',self.sku_output.content)
-    part_info = anvil.server.call('get_part_info_from_shopify', product['product_id'])
-    inventory_quantity = part_info['variants'][0]['inventory_quantity']
-    inventory_quantity = inventory_quantity + 1
-    anvil.server.call('update_product_inventory_quantity',product['product_id'],inventory_quantity)
-    anvil.server.call( 'update_rows', 'products', 'sku', self.sku_output.content, 'shopify_qty',inventory_quantity)
+    product = anvil.server.call('get_product_by_sku', self.sku_output.content)
+    inventory_return = anvil.server.call('adjust_inventory_by_product_id', product['product_id'], 1)
+    new_inventory_count = inventory_return['inventory_level']['available']
+    anvil.server.call('update_rows', 'products', 'sku', self.sku_output.content, 'shopify_qty', new_inventory_count)
     self.reset_selection()
 
 

@@ -13,6 +13,7 @@ unique_ids:
     CommonComponents.SelectBinModal: '1701539571938968090267388.1932'
     CommonComponents.RecallItemModal: '17018930487763116304974.023487'
     CommonComponents.NeedsAttentionReplaceModal: '170095458001415408997061.834517'
+    CommonComponents.TestFailedModal: '1708429936091749865445977.1957'
     ProductionPages.ManagementMasterModule: '170098079765362196087458.146866'
     CommonComponents.CreateTruckModal: '1706152502417830477575213.4324'
     CommonComponents.NeedsAttentionParent.ItemTemplate6: '1700454643171239570843548.17227'

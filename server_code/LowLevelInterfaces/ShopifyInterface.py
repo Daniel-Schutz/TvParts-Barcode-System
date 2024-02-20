@@ -15,6 +15,14 @@ import time
 from decimal import Decimal
 
 
+#This takes in 1 for increase, -1 for decrease
+@anvil.server.callable
+def adjust_inventory_by_product_id(product_id, adjustment):
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  response_json = shop.adjust_inventory_by_product_id(product_id, adjustment)
+  return response_json
+  
 
 @anvil.server.callable
 def import_new_products():
@@ -22,7 +30,6 @@ def import_new_products():
 
 @anvil.server.background_task
 def import_new_products_bk():
-
   def html_to_raw(html_string):
     html_string = str(html_string)
     text = re.sub(r'<[^>]+>', '', html_string)
@@ -113,9 +120,9 @@ def get_product_metafields(product_id):
 class ShopifyInterface:
     
     def __init__(self, shop_key):
-        self.shop_url = 'tvpartstoday.com'
+        self.shop_url = 'tv-parts-today.myshopify.com'
         self.access_key = shop_key
-        self.api_version = '2023-10'
+        self.api_version = '2024-01'
         self.base_url = f"https://{self.shop_url}/admin/api/{self.api_version}/"
         self.auth_headers = {
             "Content-Type": "application/json",
@@ -124,7 +131,7 @@ class ShopifyInterface:
         self.pagination_wait_time = 0.33 #Prevent rate limiting
 
        
-########### Pagination Helper function ########################
+ ########## Pagination Helper function ########################
     def paginate_through_shopify(self, url, headers):
         items = []
 
@@ -205,7 +212,55 @@ class ShopifyInterface:
             if metafield['key'] == 'bin_number':
                 return metafield['value']
         return "(No Bin Assigned)"
-
+    
+    def get_inventory_id_by_product_id(self, product_id):
+        product_json = self.get_product_details(product_id)
+        inventory_id = product_json['variants'][0]['inventory_item_id']
+        return inventory_id
+    
+    def get_location_id(self):
+        url = f"{self.base_url}locations.json"
+        headers = {"Content-Type": "application/json", **self.auth_headers}
+        response = requests.get(url, headers=headers)
+        return response.json()['locations'][0]['id']
+    
+    def set_inventory_by_product_id(self, product_id, available):
+        location_id = self.get_location_id()
+        inventory_item_id = self.get_inventory_id_by_product_id(product_id)
+        url = f"{self.base_url}inventory_levels/set.json"
+        payload={
+            "location_id": location_id,
+            "inventory_item_id": inventory_item_id,
+            'available': available
+        }
+        headers = {"Content-Type": "application/json", **self.auth_headers}
+        response = requests.post(url, json=payload, headers=headers)
+        return response.json()
+    
+    def adjust_inventory_by_product_id(self, product_id, adjustment_amount):
+        url = f"{self.base_url}inventory_levels/adjust.json"
+        headers = {"Content-Type": "application/json", **self.auth_headers}
+        inventory_id = self.get_inventory_id_by_product_id(product_id)
+        location_id = self.get_location_id()
+        payload = {
+            "location_id": location_id,
+            "inventory_item_id": inventory_id,
+            "available_adjustment": adjustment_amount
+        }
+        response = requests.post(url, json=payload, headers=headers)
+        return response.json()
+    
+    def get_inventory_by_product_id(self, product_id):
+        location_id = self.get_location_id()
+        inventory_item_id = self.get_inventory_id_by_product_id(product_id)
+        url = f"{self.base_url}inventory_levels.json"
+        params={
+            "location_ids": location_id,
+            "inventory_item_ids": inventory_item_id
+        }
+        headers = {"Content-Type": "application/json", **self.auth_headers}
+        response = requests.get(url, params=params, headers=headers)
+        return response.json()
 
     def update_product_inventory_quantity(self, product_id, new_inventory_quantity):
         url = f"{self.base_url}products/{product_id}.json"
@@ -239,4 +294,5 @@ class ShopifyInterface:
 
 
 ######################################################################
+
 

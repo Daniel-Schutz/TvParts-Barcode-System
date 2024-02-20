@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import json
+from ...CommonComponents.TestFailedModal import TestFailedModal
 
 class TestingModule(TestingModuleTemplate):
   def __init__(self, current_user, current_role, **properties):
@@ -267,13 +268,19 @@ class TestingModule(TestingModuleTemplate):
                                                        item_id=self.target_f['item_id'])
     self.move_to_holding_failed(item_id=self.target_f['item_id'], 
                                 fulfillment_id=self.target_f['fulfillment_id'])
-    #print("here are the vals:", self.current_user, self.current_role, self.target_f)
-    anvil.server.call('update_item_row', #note that update_item_row is a generic background process
-                      user=self.current_user, 
-                      role=self.current_role, 
-                      item_id=self.target_f['item_id'], 
-                      status='Failed QA')
-    self.clear_scan_btn_click()
+    failure_note = anvil.alert(TestFailedModal(self.target_f['item_id']), 
+                               large=True, 
+                               dismissible=False)
+    if failure_note == 'Cancelled':
+      return None
+    else:
+      anvil.server.call('update_item_row', #note that update_item_row is a generic background process
+                        user=self.current_user, 
+                        role=self.current_role, 
+                        item_id=self.target_f['item_id'], 
+                        test_note = failure_note,
+                        status='Failed QA')
+      self.clear_scan_btn_click()
 
   def finish_table_btn_click(self, **event_args):
     n = Notification("Closing Table, please wait...")

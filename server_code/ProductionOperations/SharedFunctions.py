@@ -329,7 +329,15 @@ def bin_and_update_item(user, role, item_id, bin_num):
 def toss_item(user, role, item_id):
   item_row = app_tables.items.get(item_id=item_id)
   item_row.update(status='Tossed', stored_bin='')
-  #TODO: Add the add the subtract from Shopify inventory command here
+  #Subtract from Shopify Inventory
+  item_sku = item_row['sku']
+  product_row = app_tables.products.get(sku=item_sku)
+  product_id = product_row['product_id']
+  inventory_return = anvil.server.call('adjust_inventory_by_product_id', product['product_id'], -1)
+  new_inventory_count = inventory_return['inventory_level']['available']
+  anvil.server.call('update_rows', 'products', 'sku', item_sku, 'shopify_qty', new_inventory_count)
+
+  #Add to history
   anvil.server.launch_background_task('add_history_to_item_bk', item_id, 'Tossed', user, role)
 
 @anvil.server.callable

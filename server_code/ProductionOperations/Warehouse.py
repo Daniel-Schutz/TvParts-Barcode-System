@@ -51,9 +51,9 @@ def update_inv_qty_by_item_bk(item_id):
   item_row = app_tables.items.get(item_id=item_id)
   #Update Inventory Quantity in Shopify
   product_row = app_tables.products.get(sku=item_row['sku'])
-  current_inv = anvil.server.call('get_shopify_product_qty', product_id=product_row['product_id'])
-  new_inv = int(current_inv) + 1
-  anvil.server.call('update_product_inventory_quantity', product_row['product_id'], new_inv)
+  inventory_return = anvil.server.call('adjust_inventory_by_product_id', product['product_id'], 1)
+  new_inventory_count = inventory_return['inventory_level']['available']
+  anvil.server.call('update_rows', 'products', 'sku', item_row['sku'], 'shopify_qty', new_inventory_count)
 
 @anvil.server.callable
 def update_item_on_misid(user, role, item_id):
