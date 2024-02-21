@@ -123,6 +123,12 @@ components:
       - name: no_items_output
         properties: {}
         type: RichText
+    - name: mark_finished_btn
+      properties: {text: This order is already packed, role: primary-color, icon: 'fa:check-square-o',
+        background: '#b0bb5d'}
+      type: Button
+      layout_properties: {grid_position: 'SDXCLH,HOFNIA'}
+      event_bindings: {click: mark_finished_btn_click}
   - name: spacer_1_copy_1
     properties: {height: 7}
     type: Spacer

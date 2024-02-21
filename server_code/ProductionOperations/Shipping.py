@@ -23,7 +23,7 @@ def remove_order_from_table_bk(order_no):
 def pack_order_and_fulfillments(user, role, order_no): #probably an opp to save time here with bk tasks
   #get order row, set status to packed
   order_row = app_tables.openorders.get(order_no=order_no)
-  order_row.update(status='Packed', reserved_by=user, reserved_status='Finished', table_no='', section='') #finished status used for deletion when table completes
+  order_row.update(status='Sold', reserved_by=user, reserved_status='Finished', table_no='', section='') #finished status used for deletion when table completes
   #get all fulfillment rows
   f_rows = app_tables.openfulfillments.search(order_no=order_no)
   #for each fulfillment row, set fulfillment to packed, and item status to packed

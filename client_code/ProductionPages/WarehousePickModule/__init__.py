@@ -339,4 +339,25 @@ class WarehousePickModule(WarehousePickModuleTemplate):
     get_open_form().content_panel.add_component(WarehouseStockModule(current_user=self.current_user, current_role=self.current_role),
                                         full_width_row=True)
     pass
-    
+
+
+########## Additional Functionality - Already Packed ##############
+  def mark_finished_btn_click(self, **event_args):
+    confirm = anvil.alert(f"Ok to mark order {self.current_order['order_no']} as already complete? This is not reversible.", 
+                large=True, buttons=['MARK PACKED', 'CANCEL'], dismissible=False)
+    if confirm == 'MARK PACKED':
+      order_no = self.current_order['order_no']
+      anvil.server.call('close_order_in_db', 
+                        self.current_user, 
+                        self.current_role, 
+                        self.current_order['order_no'], 
+                        status='Sold')
+      anvil.server.call('pack_order_and_fulfillments', #probably need to convert to bk
+                        user=self.current_user, 
+                        role=self.current_role, 
+                        order_no=order_no)
+      anvil.server.call('remove_order_from_table', 
+                        order_no=order_no)
+      n = Notification(f"Order {self.current_order} marked as complete!", style='success')
+      n.show()
+      self.fetch_new_order()

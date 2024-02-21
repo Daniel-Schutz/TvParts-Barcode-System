@@ -11,6 +11,7 @@ from ..CommonComponents.SendMessages import SendMessages
 from ..CommonComponents.RecieveMessages import RecieveMessages
 from ..CommonComponents.ProductExplorer import ProductExplorer
 from ..CommonComponents.ItemLookup import ItemLookup
+from ..CommonComponents.PlacePartModal import PlacePartModal
 
 
 # from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
@@ -50,6 +51,7 @@ class HomePage(HomePageTemplate):
       self.recieved_msgs_btn.visible = True
       self.product_explorer_btn.visible = True
       self.lookup_by_scan_btn.visible = True
+      self.place_item_btn.visible = True
       self.current_user_output.content = anvil.server.call_s('get_user_full_name')
 
   def role_navigation(self):
@@ -166,7 +168,11 @@ class HomePage(HomePageTemplate):
       item_lookup_modal,
       buttons=["CLOSE"],
       large=True
-    ) 
+    )
+
+  def place_item_btn_click(self, **event_args):
+    place_item_modal = PlacePartModal(self.current_user, self.user_role)
+    anvil.alert(place_item_modal, large=True)
 
   def mail_click(self, **event_args):
     recieve_msg_modal = RecieveMessages()

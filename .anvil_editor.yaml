@@ -17,6 +17,7 @@ unique_ids:
     ProductionPages.ManagementMasterModule: '170098079765362196087458.146866'
     CommonComponents.CreateTruckModal: '1706152502417830477575213.4324'
     CommonComponents.NeedsAttentionParent.ItemTemplate6: '1700454643171239570843548.17227'
+    CommonComponents.PlacePartModal: '1708517733136494372788958.65643'
     ManagementPages.Dashboarding: '1701014992174746936133016.6824'
     ProductionPages.WarehouseStockModule: '1700323413302239302538328.27985'
     ManagementPages.RoleNavigation.ItemTemplate9: '17010143149023929252204.5573096'

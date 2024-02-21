@@ -93,7 +93,9 @@ def close_order_in_db_sync(user, role, order_no, status):
     item_id = row['item_id']
     item_row = app_tables.items.get(item_id=item_id)
     if item_row is not None:
-      item_row.update(status='Tested', tested_by=user, tested_on=datetime.now())
+      item_row.update(status=status)
+      if status == 'Testing':
+        item_row.update(tested_by=user, tested_on=datetime.now())
       anvil.server.launch_background_task('add_history_to_item_bk', 
                                           item_id=item_id, 
                                           item_status=status, 
@@ -112,7 +114,9 @@ def close_order_in_db_bk(user, role, order_no, status):
   for row in f_rows:
     item_id = row['item_id']
     item_row = app_tables.items.get(item_id=item_id)
-    item_row.update(status=status, tested_by=user, tested_on=datetime.now())
+    item_row.update(status=status)
+    if status == 'Testing':
+      item_row.update(tested_by=user, tested_on=datetime.now())
     anvil.server.launch_background_task('add_history_to_item_bk', 
                                         item_id=item_id, 
                                         item_status=status, 
