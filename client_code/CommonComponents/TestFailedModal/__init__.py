@@ -10,7 +10,7 @@ class TestFailedModal(TestFailedModalTemplate):
   def __init__(self, item_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.test_note_header = f"Failed QA Notes: Item {item_id}"
+    self.test_note_header.text = f"Failed QA Notes: Item {item_id}"
 
   def mark_failed_btn_click(self, **event_args):
     if not self.note_input.text:
