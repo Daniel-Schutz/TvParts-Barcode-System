@@ -86,8 +86,8 @@ class ShippingModule(ShippingModuleTemplate):
     
 ########## Select Table Card Logic & Events ############
   def get_table_dropdown(self):
-    #picking_trays = anvil.server.call('get_pending_test_trays')
-    picking_trays = False
+    picking_trays = anvil.server.call('get_pending_trays', "Shipping")
+    #picking_trays = False
     if not picking_trays:
       testing_tables_list = anvil.server.call('get_open_tables', status='Shipping')
       self.table_dropdown.items = testing_tables_list
