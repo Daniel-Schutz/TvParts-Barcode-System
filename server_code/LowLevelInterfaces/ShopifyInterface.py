@@ -15,6 +15,15 @@ import time
 from decimal import Decimal
 
 
+@anvil.server.callable
+def clean_up_skus():
+  empty_rows = app_tables.products.search(sku=q.any_of('', None))
+  return empty_rows
+
+@anvil.server.background_task
+def clean_up_skus_bk():
+  empty_rows = app_tables.products.search(sku=q.any_of('', None))
+
 #This takes in 1 for increase, -1 for decrease
 @anvil.server.callable
 def adjust_inventory_by_product_id(product_id, adjustment):
