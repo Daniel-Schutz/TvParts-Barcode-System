@@ -61,7 +61,7 @@ db_schema:
     server: full
     columns:
     - name: product_name
-      admin_ui: {width: 200, order: 0}
+      admin_ui: {order: 0, width: 269}
       type: string
     - name: vendor
       admin_ui: {width: 200, order: 1}

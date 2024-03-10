@@ -9,7 +9,12 @@ components:
   properties: {col_widths: '{}'}
   name: content_panel
   layout_properties: {slot: default}
-  components: []
+  components:
+  - name: nightly_timer
+    properties: {interval: 3600}
+    type: Timer
+    layout_properties: {grid_position: 'RNYOLW,HNUBFV'}
+    event_bindings: {tick: weekday_maintenance}
 - type: FlowPanel
   properties: {}
   name: user_label

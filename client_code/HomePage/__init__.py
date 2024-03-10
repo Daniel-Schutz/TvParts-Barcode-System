@@ -13,6 +13,7 @@ from ..CommonComponents.ProductExplorer import ProductExplorer
 from ..CommonComponents.ItemLookup import ItemLookup
 from ..CommonComponents.PlacePartModal import PlacePartModal
 
+from datetime import datetime
 
 # from ..ProductionPages.ManagementMasterModule import ManagementMasterModule
 # from ..ProductionPages.TeardownModule import TeardownModule
@@ -222,3 +223,8 @@ class HomePage(HomePageTemplate):
     """This method is called when the link is clicked"""
     self.content_panel.clear()
     self.role_navigation()
+
+
+###### Nightly Maintenance (Weekdays Only) ###############
+  def weekday_maintenance(self, **event_args):
+    pass
