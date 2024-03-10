@@ -388,8 +388,24 @@ def get_open_bins_dropdown():
     return open_bin_rows
 
 @anvil.server.callable
+def update_item_on_test_failed(user, role, item_id, test_note, status):
+  anvil.server.launch_background_task('update_item_on_test_failed_bk', user, role, item_id, test_note, status)
+
+@anvil.server.background_task
+def update_item_on_test_failed_bk(user, role, item_id, test_note, status):
+  now = datetime.now()
+  item_row = app_tables.items.get(item_id=item_id)
+  item_row.update(status=status, tested_by=user, tested_on=datetime.now(), test_note=test_note)
+  anvil.server.launch_background_task('add_history_to_item_bk', 
+                                      item_id=item_id, 
+                                      item_status=status, 
+                                      user_full_name=user, 
+                                      user_role=role)
+
+@anvil.server.callable
 def update_item_row(user, role, item_id, status):
   anvil.server.launch_background_task('update_item_row_bk', user, role, item_id, status)
+  
 
 @anvil.server.background_task
 def update_item_row_bk(user, role, item_id, status):

@@ -274,7 +274,7 @@ class TestingModule(TestingModuleTemplate):
     if failure_note == 'Cancelled':
       return None
     else:
-      anvil.server.call('update_item_row', #note that update_item_row is a generic background process
+      anvil.server.call('update_item_on_test_failed', #note that update_item_row is a generic background process
                         user=self.current_user, 
                         role=self.current_role, 
                         item_id=self.target_f['item_id'], 
