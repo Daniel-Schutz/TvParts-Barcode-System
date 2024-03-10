@@ -17,12 +17,25 @@ from decimal import Decimal
 
 @anvil.server.callable
 def clean_up_skus():
-  empty_rows = app_tables.products.search(sku=q.any_of('', None))
-  return empty_rows
+  anvil.server.launch_background_task('clean_up_skus_bk')
 
 @anvil.server.background_task
 def clean_up_skus_bk():
   empty_rows = app_tables.products.search(sku=q.any_of('', None))
+  shop_key = anvil.secrets.get_secret('shopify_admin_key')
+  shop = ShopifyInterface(shop_key)
+  for row in test_rows:
+    this_product_id = row['product_id']
+    product_details = shop.get_product_details(this_product_id)
+    try:
+      this_sku = product_details['variants'][0]['sku']
+      row['sku'] = this_sku
+      print(f"sku updated successfully: {this_sku}")
+    except:
+      print("Product Sku not found for new product.")
+      print(json.dumps(product_details, indent=4))
+    finally:
+      time.sleep(.5)
 
 #This takes in 1 for increase, -1 for decrease
 @anvil.server.callable
@@ -79,6 +92,7 @@ def import_new_products_bk():
                        'Management',
                        f'The skus of the new products added are:{skus}',
                        '')
+  clean_up_skus() #Ensures all products have the skus associated like they should
 
 
 
