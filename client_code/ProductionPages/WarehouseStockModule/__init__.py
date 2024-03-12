@@ -216,7 +216,7 @@ class WarehouseStockModule(WarehouseStockModuleTemplate):
     n = Notification(f"{item_id} added to stock in bin {bin}. Inventory Updated!", style='success')
     n.show()
     #Update inventory (additive)
-    anvil.server.call('update_inv_qty_by_item', self.place_item_id)
+    #anvil.server.call('update_inv_qty_by_item', self.place_item_id)
   
   def item_code_place_input_pressed_enter(self, **event_args):
     time.sleep(1)

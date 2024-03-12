@@ -44,7 +44,6 @@ def update_item_on_binned_bk(user, role, item_id, bin):
 @anvil.server.callable
 def update_inv_qty_by_item(item_id):
   anvil.server.launch_background_task('update_inv_qty_by_item_bk', item_id)
-  pass
 
 @anvil.server.background_task
 def update_inv_qty_by_item_bk(item_id):
